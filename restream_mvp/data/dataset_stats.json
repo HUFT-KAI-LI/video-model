@@ -1,0 +1,13 @@
+{
+  "download_gb": 2.260596628,
+  "total_source_videos": 1068,
+  "usable_videos": 1068,
+  "train_sources": 961,
+  "val_sources": 107,
+  "mean_duration_sec": 28.243367665418226,
+  "median_duration_sec": 16.916666666666668,
+  "min_duration_sec": 4.166666666666667,
+  "max_duration_sec": 119.33333333333333,
+  "seed": 42,
+  "minimum_count_met": true
+}

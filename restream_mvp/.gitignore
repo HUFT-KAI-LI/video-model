@@ -1,0 +1,11 @@
+.venv/
+models/
+data/raw/
+data/sdk_cache/
+checkpoints/
+outputs/
+logs/
+wheelhouse/
+__pycache__/
+*.pyc
+code/longlive-v1.0.tar.gz

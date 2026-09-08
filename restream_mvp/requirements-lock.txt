@@ -1,0 +1,23 @@
+addict==2.4.0
+aliyun-python-sdk-core==2.16.1
+aliyun-python-sdk-kms==2.16.5
+crcmod==1.7
+cryptography==50.0.1
+datasets==2.21.0
+diffusers @ file:///workspace/restream_mvp/wheelhouse/diffusers-0.31.0-py3-none-any.whl#sha256=cbc498ae63f4abfc7c3a07649cdcbee229ef2f9a9a1f0d19c9bbaf22f8d30c1f
+easydict==1.13
+fsspec==2024.6.1
+ftfy==6.3.1
+huggingface-hub @ file:///workspace/restream_mvp/wheelhouse/huggingface_hub-0.30.2-py3-none-any.whl#sha256=68ff05969927058cfa41df4f2155d4bb48f5f54f719dd0390103eefa9b191e28
+importlib_metadata==8.7.1
+jmespath==1.1.0
+lpips==0.1.4
+opencv-python-headless @ file:///workspace/restream_mvp/wheelhouse/opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl#sha256=377d08a7e48a1405b5e84afcbe4798464ce7ee17081c1c23619c8b398ff18295
+oss2==2.19.1
+peft @ file:///workspace/restream_mvp/wheelhouse/peft-0.14.0-py3-none-any.whl#sha256=2f04f3a870c3baf30f15e7dcaa5dd70d3e54cfdd146d3c6c187735d3ae0a0700
+pycryptodome==3.23.0
+simplejson==4.1.2
+sortedcontainers==2.4.0
+tokenizers @ file:///workspace/restream_mvp/wheelhouse/tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl#sha256=51b7eabb104f46c1c50b486520555715457ae833d5aee9ff6ae853d1130506ff
+transformers @ file:///workspace/restream_mvp/wheelhouse/transformers-4.49.0-py3-none-any.whl#sha256=6b4fded1c5fee04d384b1014495b4235a2b53c87503d7d592423c06128cbbe03
+zipp==3.23.0
