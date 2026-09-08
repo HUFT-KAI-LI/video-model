@@ -22,7 +22,7 @@ def build(raw, output, seed=42):
             duration = float(row["duration"])
             if duration < 4:
                 continue
-            length = min(duration - .2, 8 if duration >= 8 else 6)
+            length = min(duration - .2, 3.5)
             split = "val" if source in val_ids else "train"
             splits[split].append({**row, "source_id": source, "split": split,
                                   "window_start": rng.uniform(0, duration - .2 - length),

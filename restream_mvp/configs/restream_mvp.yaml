@@ -3,6 +3,7 @@ data:
   train_manifest: data/train.jsonl
   val_manifest: data/val.jsonl
   frames: 57
+  fps: 16
   height: 256
   width: 432
   workers: 4
@@ -12,6 +13,7 @@ model:
   longlive: models/LongLive-1.3B
 reanchor:
   channels: 16
+  protected_sink_latents: 3
   gate_init_logit: -2.0
   drift_probability: 0.8
   delta_regularization: 0.0001

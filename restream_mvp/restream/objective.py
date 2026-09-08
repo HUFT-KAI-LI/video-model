@@ -24,6 +24,7 @@ def prepare(pipeline, batch, device, config, rng, force_drift=False):
 def future_loss(pipeline, adapter, gt, history, real, conditioning, index, rng, regularization):
     from utils.loss import get_denoising_loss
     corrected = adapter(history[:, -1:], real)
+    future_end = min(gt.shape[1], index + 1 + pipeline.num_frame_per_block)
     clean_context = torch.cat((history[:, :-1], corrected, gt[:, index + 1:]), dim=1)
     # Teacher forcing computes differentiable clean-context K/V in the same graph.
     # The real-image latent only affects FUTURE blocks; same-block losses excluded.
@@ -36,10 +37,13 @@ def future_loss(pipeline, adapter, gt, history, real, conditioning, index, rng, 
     transformer = pipeline.generator.model
     if hasattr(transformer, "get_base_model"):
         transformer = transformer.get_base_model()
-    transformer.block_mask = None
+    
+    if getattr(transformer, "_restream_mask_shape", None) != tuple(clean_context.shape[1:4]):
+        transformer.block_mask = None
+        transformer._restream_mask_shape = tuple(clean_context.shape[1:4])
     flow, prediction = pipeline.generator(noisy, conditioning, times, clean_x=clean_context)
     mask = torch.zeros_like(gt, dtype=torch.bool)
-    mask[:, index + 1:] = True
+    mask[:, index + 1:future_end] = True
     loss = get_denoising_loss("flow")()(x=gt.float(), x_pred=prediction.float(), noise=noise.float(),
                                       noise_pred=None, alphas_cumprod=None, timestep=times,
                                       flow_pred=flow.float(), gradient_mask=mask)

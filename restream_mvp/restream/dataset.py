@@ -26,7 +26,7 @@ class VideoDataset(Dataset):
     def __getitem__(self, index):
         row = self.rows[index]
         start = float(row["window_start"])
-        targets = np.linspace(start, start + row["window_sec"], self.frames)
+        targets = start + np.arange(self.frames, dtype=np.float64) / 16.0
         decoded, cursor = [], 0
         with av.open(row["video"]) as container:
             stream = container.streams.video[0]
