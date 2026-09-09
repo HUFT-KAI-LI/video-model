@@ -73,6 +73,7 @@ class RealityMemory(nn.Module):
                                          entropy / valid_tokens.float().clamp_min(2).log(),
                                          torch.zeros_like(entropy))
         return fused, {"gate": gate, "active": active,
+                       "relevance_score": similarity.float().flatten() * active,
                        "delta_square": raw_delta.float().square().mean(),
                        "attention_entropy": entropy, "attention_entropy_normalized": normalized_entropy,
                        "valid_memory_tokens": valid_tokens}

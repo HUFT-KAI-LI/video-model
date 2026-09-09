@@ -1,6 +1,6 @@
 # ReStream：准备与 GPU 验证复现
 
-新的主路径为 [Reality Memory 方案](REALITY_MEMORY_PLAN.md)。本轮 R0 的数据准备、模块设计和独立训练／评估命令见 [REALITY_MEMORY_R0.md](REALITY_MEMORY_R0.md)，短实验和审阅结论见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)；以下内容保留为旧 State Re-Anchoring baseline 的复现说明。
+新的主路径为 [Reality Memory 方案](REALITY_MEMORY_PLAN.md)。R0 数据准备与模块设计见 [REALITY_MEMORY_R0.md](REALITY_MEMORY_R0.md)，第二轮配对目标、有效更新预算与轻度退化实验见 [R0_PAIRED_EXPERIMENTS.md](R0_PAIRED_EXPERIMENTS.md)，第一轮短实验见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)；以下内容保留为旧 State Re-Anchoring baseline 的复现说明。
 
 本轮按审阅意见完成补丁、配置接线、真实 backward、短训练、四卡 NCCL 保存／恢复、Oracle 对照和 latent 对齐诊断，结果见 `STATUS.md`、`R0_SHORT_EXPERIMENTS.md` 与 `validation/`。没有扩展到 50/200/3000-step 效果训练。`scripts/prepare.sh` 和 `run_night.sh` 都只做准备。
 

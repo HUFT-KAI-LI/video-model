@@ -8,6 +8,8 @@
 
 本轮工程验证：23 项 CPU 单元／接口测试通过；冻结 DINO 编码与 projector 梯度、缓存精确重载通过；两进程 CPU/Gloo 混合空记忆和全空记忆的 DDP 梯度同步通过；真实 LongLive 的 R0 future backward、两步梯度传播和四卡 NCCL 保存／恢复通过。零初始化输出层首步先更新，第二步 projector/query/key/value/gate 均得到非零梯度；4 个 rank 的恢复后梯度范数一致，优化器步数为 **3 → 4**。这些工程证据仍不能替代 Reality Memory 效果结论。
 
+第二轮 paired 诊断见 [R0_PAIRED_EXPERIMENTS.md](R0_PAIRED_EXPERIMENTS.md)：单卡 30 次有效更新完成。训练集 relevance score 为 32/32 正确高于 wrong-source，但验证集仅 2/8；训练／验证 video loss 没有形成 Correct 专属优势，故不扩展到 50/200 updates。
+
 下文为上轮 State Re-Anchoring 诊断结果。
 
 上轮五项修改和真实 GPU 验证已完成。真实 teacher-forcing backward 可以运行；Oracle 的小样本改善有限，Hard Anchor 的平均误差反而增加，尚不满足 `Oracle < Hard < No Anchor` 的效果门槛。该段历史记录的 optimizer steps 为 **0**，没有启动 50/200/3000-step 训练。

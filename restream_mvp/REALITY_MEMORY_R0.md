@@ -1,8 +1,10 @@
 # Reality Memory R0：供审阅的实现
 
-本轮审阅后的修补、两步真实优化器与 10-step 结果见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)。以下准备记录中的“未训练”描述对应原始 `b75a6f7` 交付时点。
+当前第二轮训练目标、有效更新预算与轻度退化实验见 [R0_PAIRED_EXPERIMENTS.md](R0_PAIRED_EXPERIMENTS.md)。第一轮两步真实优化器与 10-step 结果见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)。以下准备记录中的“未训练”描述和单边 wrong-gate 目标对应原始 `b75a6f7` 交付时点；旧启动命令是历史流程，不是本轮扩训练计划。
 
 [新方案原文](REALITY_MEMORY_PLAN.md)定义新的研究路线。本轮交付其第一批 R0 代码、过滤后的参考数据和冻结视觉特征，保留全部 State Re-Anchoring baseline 及历史报告。用户要求先审阅，因此本轮不执行 10-step overfit 或 50/200/500-step 训练；无优化器检查不作为实验成功证据。
+
+在该历史准备记录之后，第一轮短实验和第二轮同目标 paired 诊断已经分别记录在上述两个报告中；第二轮完成了 30 次有效更新，但验证集没有形成 Correct 专属视频收益，因此没有继续扩大预算。
 
 ## 本轮范围
 

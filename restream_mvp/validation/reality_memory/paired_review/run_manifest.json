@@ -1,0 +1,119 @@
+{
+  "status": "completed",
+  "date": "2026-09-09",
+  "base_commit": "add54da797380315db289e6d04abb3b7929de6c",
+  "code_and_config": [
+    {
+      "path": "R0_PAIRED_EXPERIMENTS.md",
+      "sha256": "02710a1dfc4f028f90a28a9f51e562aaaa8c3a04d524adeffc6aadc559e35379",
+      "bytes": 7611
+    },
+    {
+      "path": "configs/reality_memory_paired.yaml",
+      "sha256": "9aa7e16b6196c411c6d88a5a1ca947ebc055350ef9d5e32a2c5d77eda33434ac",
+      "bytes": 1810
+    },
+    {
+      "path": "train_reality_memory.py",
+      "sha256": "8fa07785d182355f477b1ddc290be201c2b402432c9194b1c5f65ad6c7a37ab1",
+      "bytes": 14579
+    },
+    {
+      "path": "restream/reality_paired.py",
+      "sha256": "4013a0dfcf4845c8d7c2cc05a89d20e950aa727245256a7abf51c2c69428dde5",
+      "bytes": 7109
+    },
+    {
+      "path": "restream/reality_paired_diagnostics.py",
+      "sha256": "55e693dd4fefc13d72834e66a34ebe6991f42dce9d2fdc415b8bfe0fee50de1a",
+      "bytes": 5965
+    },
+    {
+      "path": "restream/training_budget.py",
+      "sha256": "0555cfb63176bdf70194f382965111ce9239d2a2e4f9f6e2d84db1e7850a0f53",
+      "bytes": 1099
+    },
+    {
+      "path": "scripts/summarize_reality_paired.py",
+      "sha256": "0c165c4cbfe6dc427d57aa5d5f475c4e1558545d7f17ba4142ec52cbf33281e0",
+      "bytes": 7979
+    },
+    {
+      "path": "tests/test_reality_paired.py",
+      "sha256": "4bc9a9e505370c85ac47a2bb47b9c9c561298a49746fc624d0ad7da0647d56ab",
+      "bytes": 7330
+    }
+  ],
+  "reports": [
+    {
+      "path": "validation/reality_memory/paired_review/gpu_utilization.csv",
+      "sha256": "db7876ddc3da95cb63a5573c9ebe0bcbbef368ad8178635fa5b8d6b243620352",
+      "bytes": 23321
+    },
+    {
+      "path": "validation/reality_memory/paired_review/paired_controls.png",
+      "sha256": "08016104f16ca03a0c33318c962f12bd5447cbbb9e00075e4a3b50d04b303126",
+      "bytes": 79960
+    },
+    {
+      "path": "validation/reality_memory/paired_review/resume_update_budget.json",
+      "sha256": "6e248e5851c815ac48f450c53e4233eb3543c0d525b82598890a8515f4b51ca8",
+      "bytes": 742
+    },
+    {
+      "path": "validation/reality_memory/paired_review/resume_update_steps.jsonl",
+      "sha256": "275efcc3c45560ce2609fddbf520a7467b59505c61856ec71cb7ec4f9450a241",
+      "bytes": 973
+    },
+    {
+      "path": "validation/reality_memory/paired_review/summary.json",
+      "sha256": "beb0a7cc3e495c897f6bc67bac86b68c685fab4fdf7c59956e2d2934c855b727",
+      "bytes": 18508
+    },
+    {
+      "path": "validation/reality_memory/paired_review/train_after.json",
+      "sha256": "e814ee6f5b7a7a629dfc88a7d353564dc22a72269f04968182e58ded5ee3ed2f",
+      "bytes": 237747
+    },
+    {
+      "path": "validation/reality_memory/paired_review/train_before.json",
+      "sha256": "b38d59445c7f456355c747b34532537f54c3d74c148e510395761bfd89a447f4",
+      "bytes": 238273
+    },
+    {
+      "path": "validation/reality_memory/paired_review/train_steps.jsonl",
+      "sha256": "5d6bb4114dbf0d1633f825a7d4c81b89f67234eb04af3686dc590dee615a58f8",
+      "bytes": 37935
+    },
+    {
+      "path": "validation/reality_memory/paired_review/unit_tests.log",
+      "sha256": "06d0e9bcc34a1e98fce7bbc6bdecaaa936b95752fff3a443be5839740f69168b",
+      "bytes": 5668
+    },
+    {
+      "path": "validation/reality_memory/paired_review/val_after.json",
+      "sha256": "8a054b665a7ceaef505b0e93e297a2ab65e18d26d4276351a8332b5671c95804",
+      "bytes": 63647
+    },
+    {
+      "path": "validation/reality_memory/paired_review/val_before.json",
+      "sha256": "1ac7b7d646f9bc5d299e23d5d7a957ca56d55e499bcbd5fc0d023e6737e33d8a",
+      "bytes": 63632
+    }
+  ],
+  "experiment": {
+    "world_size": 1,
+    "gpu": "NVIDIA A800-SXM4-80GB",
+    "effective_updates": 30,
+    "batch_steps": 30,
+    "train_targets": 16,
+    "validation_targets": 4,
+    "reference_count": 2,
+    "prefix_modes": [
+      "clean",
+      "mild"
+    ],
+    "noise_seeds_per_target": 2,
+    "next_stage": "not run; no validation video utility evidence"
+  }
+}

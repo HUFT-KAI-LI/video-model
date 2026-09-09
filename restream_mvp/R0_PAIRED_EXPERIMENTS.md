@@ -1,0 +1,80 @@
+# R0 第二轮：同目标配对与轻度退化 prefix
+
+本轮针对 `add54daa797380315db289e6d04abb3b7929de6c` 的审阅意见，修改小实验目标与训练预算。原单边 wrong-gate 配置和第一轮报告保留；新实验使用独立的 [reality_memory_paired.yaml](configs/reality_memory_paired.yaml)。不实现 R1，不运行 200-step。
+
+## 同一个 target 的配对目标
+
+每次更新只解码、编码一个 target，共享 caption、GT future、prefix corruption、diffusion timestep 和 noise。该 target 同时读取 K=2 的同 source 过去参考与 K=2 的 wrong-source 参考。pair 两边均预测同一段 GT future，训练不奖励 wrong-source 的视频变差。
+
+复用 R0 现有 attention，不增加参数。将 gate 输入中已有的余弦相似度明确输出为 relevance score：
+
+$$
+s_{rel}=\cos(\bar q,\bar r),\qquad
+\alpha=G(\bar q,\bar r,s_{rel}).
+$$
+
+对 score 施加二分类对比目标，temperature=0.1：
+
+$$
+L_{contrast}=\operatorname{softplus}((s_w-s_c)/0.1),
+$$
+
+$$
+L=\tfrac12(L_{video,c}+L_{video,w})+0.01L_{contrast}
+  +10^{-5}L_{\Delta}.
+$$
+
+新配置关闭 `wrong_gate_weight` 和 reference dropout，使两边始终具有相同参考数量；仍允许 `contrast_weight=0` 做无 ranking 消融。不直接要求 correct gate 打开，也没有把 source ID、正确性标签、timestamp 或 GT future 输入 memory 模型。ranking 梯度会训练共享的 query/projector/key/value，可能间接影响 gate；它不是完全独立的两套网络。
+
+R0 仍只按 prompt 查询，score 本身不能证明同世界识别，更不能识别当前视频 drift。correct 仍是 same-source past-only proxy，wrong-source 也不等于已认证的 wrong-world。被直接监督的 score 排序改善，需要与视频损失和验证目标分开判断。
+
+## 轻度退化与对照
+
+prefix 仍为 6 个 latent，保护前三个 GT latent；只向后三个添加标准差 0.05 的高斯噪声，固定强度、不做空间平移。GT 标签、prefix 后的未来和 reference 特征均不修改。照片始终只通过 soft context 影响生成。
+
+训练前后，对 16 个固定训练 target 与 4 个独立 val target 分别执行 clean/mild 两种 prefix 对照，每个 target 使用两个固定 noise seed。每组比较 Base、No Memory、Correct、Wrong Source，共用同一个 history 与同一份未来噪声。报告保留每个 target 的 reference 元数据、history seed、noise seed、后缀实际 MSE、video loss、gate、score、有效 token 数和归一化 entropy。
+
+No Memory 必须在两种 prefix 下严格等于对应 Base；前三个 latent 必须不变。两次 noise seed 是同一 target 的重复测量，不能算作两个独立样本。此轮是 first-future-block teacher-forcing 诊断，没有生成 AR 视频或长期 self-rollout。
+
+## 有效更新预算与显存
+
+`--max-steps` 保留历史 batch 语义；新增的 `--max-updates` 表示累计的有效 AdamW 更新数，两者必须且只能指定一个。恢复到 20 updates 后指定 `--max-updates 30`，只再更新 10 次。日志和 checkpoint 同时写 `batch_step` / `optimizer_step`，保留旧 `step` / `optimizer_steps` 字段供历史工具读取。update 模式下，warmup、定期保存与结束条件都按实际更新数推进；原混合训练的定期 AR 评估也按有效更新数触发。配对诊断只做训练首尾的固定探针。连续至少两轮且不少于 16 个 batch 没有更新则报错，避免全空记忆数据无限等待。日志的 `learning_rate` 是本次 scheduler 推进后的值，即下一次更新的学习率。
+
+配对实验把所选 16 个目标全部变成 correct/wrong pair，因此旧 manifest 中的 No Memory 目标也会拥有两组参考。空记忆不变性通过训练前后的逐目标对照检查；旧混合训练中的空记忆 batch 仍经过正常 loss/gradient 检查并跳过 AdamW／weight decay，不占 update 预算。
+
+两条 LongLive 反传图同时驻留可能超过单张 80 GB GPU。实现逐条计算 video loss 对 context 的梯度、释放冻结视频图，然后将平均梯度传回一次配对 memory 图，并加上 score 对比损失与 delta 正则。该一阶链式求导在零初始化和非零 output 两种情况下，与同时持有两条视频图的完整求导逐参数对照通过。没有使用近似 straight-through gradient。
+
+## 复现
+
+本机现有模型、视频和 3,124 个 DINO 特征已覆盖本轮配对池，无需新增下载。迁移机器先按原准备流程建立资产，再补齐 overfit 对照池：
+
+```bash
+cd /workspace/video-model/restream_mvp
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/cache_reality_features.py --overfit-samples 16
+OMP_NUM_THREADS=2 .venv/bin/python -m unittest discover -s tests -v
+CUDA_VISIBLE_DEVICES=0 RESTREAM_WORLD_SIZE=1 \
+  bash scripts/train_reality_memory.sh \
+  --config configs/reality_memory_paired.yaml --reviewed --max-updates 30 \
+  --overfit-samples 16 --probe-overfit --output checkpoints/reality_memory_paired_review
+MPLCONFIGDIR=/tmp/reality-paired-matplotlib \
+  .venv/bin/python scripts/summarize_reality_paired.py
+```
+
+复现时使用新的 output 目录，或显式 `--resume <checkpoint>`。改变 contrast、degradation、参考策略或数据划分时需新建实验；恢复签名拒绝语义不同的配置。新配对配置默认单卡，这次不重新声称它经过四卡 paired NCCL 验证；第一轮原目标的四卡保存／恢复证据仍在旧报告。
+
+## 本轮实测
+
+29 项 CPU 单元／接口测试通过。单卡 A800 完成 **30 次有效 AdamW 更新、30 个 batch step**，峰值显存 41.96 GiB，训练 batch 总耗时 92.19 秒，中位数 2.915 秒。所有 paired batch 都有有限梯度；首步 output/projector/query/key/value 非零，后续 gate 也获得视频损失梯度。`--max-updates` 的旧 checkpoint 恢复 smoke 另外确认了 `6 → 7` 的累计更新语义、AdamW state step=7 和 scheduler last_epoch=7。
+
+固定对照报告：[summary.json](validation/reality_memory/paired_review/summary.json)，训练前后逐目标 JSON、[paired_controls.png](validation/reality_memory/paired_review/paired_controls.png)、[逐步日志](validation/reality_memory/paired_review/train_steps.jsonl)、[恢复预算报告](validation/reality_memory/paired_review/resume_update_budget.json)。
+
+| split / prefix | Correct loss vs No Memory | Wrong Source loss vs No Memory | score correct > wrong | loss order `correct < none < wrong` |
+|---|---:|---:|---:|---:|
+| train / clean | −2.77% | −2.97% | 32/32 | 1/32 repeated-measure pairs |
+| train / mild | −3.13% | −3.03% | 32/32 | 0/32 |
+| val / clean | −0.86% | −0.85% | 2/8 | 1/8 |
+| val / mild | −0.89% | −0.69% | 2/8 | 0/8 |
+
+训练集的 relevance ranking 完全拟合，但验证集排序只为 2/8；训练集 Correct 和 Wrong 同时改善，说明视频目标没有把 score 的排序转化为正确参考专属收益。验证集两类参考也几乎同幅改善，不能宣称 `Correct < No Memory < Wrong`。轻度退化相对 clean 的 No Memory 变化为 train +0.12%、val −0.02%，验证集没有稳定的“救火”需求。
+
+本轮结论是：配对 objective 和按有效更新计数的工程实现可运行，并能学习训练目标上的 relevance separation；它还没有泛化的 video utility 证据。暂不跑 50/200 updates、不扩四卡 paired 训练、不实现 R1。下一步若继续，应先换独立 source／view 的正确 memory 和更强但有明确语义的 degraded-history，再检查 score 排序是否在验证集和 video loss 上同时成立。

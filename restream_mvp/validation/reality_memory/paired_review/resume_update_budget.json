@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "before": {
+    "batch_step": 10,
+    "optimizer_step": 6
+  },
+  "after": {
+    "batch_step": 11,
+    "optimizer_step": 7
+  },
+  "effective_updates_in_this_run": 1,
+  "requested_total_updates": 7,
+  "strict_legacy_checkpoint_compatible": true,
+  "optimizer_state_step": 7,
+  "scheduler_last_epoch": 7,
+  "checkpoints_sha256": {
+    "checkpoints/reality_memory_overfit_review/step_0010/state.pt": "e570e1d62b95474413ab795fc8124700e3fb846892e4b95e5fe7a647ee618317",
+    "checkpoints/reality_memory_update_budget_review/step_0011/state.pt": "e6f8441483d18baec92c7e6bf185f0e28f78139a34effecd9d6bdba676d8e394"
+  },
+  "note": "Independent legacy-objective resume smoke; not additional updates to the paired experiment."
+}

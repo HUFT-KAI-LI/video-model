@@ -26,6 +26,9 @@ def read_reality_config(path):
     prefix = memory["objective"]["prefix_latents"]
     if prefix < 3 or prefix % 3 or prefix + 3 > (config["data"]["frames"] - 1) // 4 + 1 or memory["objective"]["future_blocks"] != 1:
         raise ValueError("R0 supervises exactly one future AR block after a block-aligned prefix")
+    if "paired" in memory["objective"]:
+        from .reality_paired import validate_paired_config
+        validate_paired_config(config)
     return config
 
 
@@ -80,8 +83,8 @@ def reality_loss(pipeline, model, gt, conditioning, index, features, mask, wrong
 def resume_signature(config, cache):
     # Scheduling extensions are allowed; optimizer/data/model/dropout semantics must match.
     semantic = copy.deepcopy(config)
-    for name in ("max_steps", "save_every", "eval_every"):
-        semantic["train"].pop(name)
+    for name in ("max_steps", "max_updates", "save_every", "eval_every"):
+        semantic["train"].pop(name, None)
     return {"config": semantic, "encoder": cache.identity,
             "manifests": {split: hashlib.sha256((ROOT / config["data"][f"{split}_manifest"]).read_bytes()).hexdigest()
                           for split in ("train", "val")}}

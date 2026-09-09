@@ -1,0 +1,1618 @@
+{
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/reality_train.jsonl",
+      "val_manifest": "data/reality_val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reality_memory": {
+      "stage": "r0",
+      "encoder": {
+        "type": "dinov2",
+        "path": "models/dinov2-small",
+        "feature_dim": 384,
+        "image_size": 224,
+        "frozen": true
+      },
+      "feature_cache": "data/reality_features",
+      "references": {
+        "min_count": 1,
+        "max_count": 4,
+        "async_probability": 0.5,
+        "aligned_probability": 0.2,
+        "no_memory_probability": 0.15,
+        "wrong_memory_probability": 0.15,
+        "per_reference_dropout": 0.0,
+        "min_gap_sec": 1.5,
+        "async_direction": "past_only",
+        "near_radius_sec": 0.5,
+        "boundary_margin_sec": 0.2
+      },
+      "filter": {
+        "histogram_cut": 0.5,
+        "pixel_jump": 0.35,
+        "black_level": 16,
+        "black_fraction": 0.95,
+        "scene_similarity": 0.65,
+        "workers": 8
+      },
+      "projector": {
+        "num_memory_tokens": 8,
+        "memory_dim": 256
+      },
+      "guidance": {
+        "mode": "context",
+        "context_dim": 4096,
+        "heads": 4,
+        "gate_init_logit": -2.0,
+        "zero_init": true
+      },
+      "regularization": {
+        "delta_weight": 1e-05,
+        "wrong_gate_weight": 0.0
+      },
+      "objective": {
+        "prefix_latents": 6,
+        "future_blocks": 1,
+        "paired": {
+          "correct_kind": "async",
+          "reference_count": 2,
+          "contrast_weight": 0.01,
+          "temperature": 0.1,
+          "degradation": {
+            "mode": "mild",
+            "sigma": 0.05,
+            "protected_prefix": 3
+          },
+          "probe_noise_seeds": [
+            50000,
+            60000
+          ]
+        }
+      }
+    },
+    "train": {
+      "backbone_frozen": true,
+      "max_steps": 100,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 10,
+      "save_every": 10,
+      "eval_every": 50,
+      "grad_clip": 1.0,
+      "world_size": 1,
+      "max_updates": 50
+    },
+    "eval": {
+      "cases": 4,
+      "reference_counts": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  },
+  "split": "val",
+  "cases": [
+    {
+      "sample_id": "061dc6f2dd4ac9ff85216936",
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 1.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8017218708992004
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 0.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8612675070762634
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 3.625,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9772743582725525
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 23.833333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9775635004043579
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 60042,
+      "history_seed": 90042,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.3673892915248871
+        },
+        "none": {
+          "video_loss": 0.3673892915248871,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.3673892915248871,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": 0.08056640625,
+          "memory_attention_entropy": 2.7715799808502197,
+          "memory_attention_entropy_normalized": 0.999636173248291,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.3673892915248871,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12158203125,
+          "relevance_score": -0.09326171875,
+          "memory_attention_entropy": 2.7711637020111084,
+          "memory_attention_entropy_normalized": 0.9994860291481018,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "061dc6f2dd4ac9ff85216936",
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 1.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8017218708992004
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 0.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8612675070762634
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 3.625,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9772743582725525
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 23.833333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9775635004043579
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 60042,
+      "history_seed": 90042,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0025019096210598946,
+      "variants": {
+        "base": {
+          "video_loss": 0.36424165964126587
+        },
+        "none": {
+          "video_loss": 0.36424165964126587,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.36424165964126587,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": 0.08056640625,
+          "memory_attention_entropy": 2.7715799808502197,
+          "memory_attention_entropy_normalized": 0.999636173248291,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.36424165964126587,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12158203125,
+          "relevance_score": -0.09326171875,
+          "memory_attention_entropy": 2.7711637020111084,
+          "memory_attention_entropy_normalized": 0.9994860291481018,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "061dc6f2dd4ac9ff85216936",
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 1.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8017218708992004
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 0.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8612675070762634
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 3.625,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9772743582725525
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 23.833333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9775635004043579
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 70042,
+      "history_seed": 100042,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.23250684142112732
+        },
+        "none": {
+          "video_loss": 0.23250684142112732,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.23250684142112732,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": 0.08056640625,
+          "memory_attention_entropy": 2.7715799808502197,
+          "memory_attention_entropy_normalized": 0.999636173248291,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.23250684142112732,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12158203125,
+          "relevance_score": -0.09326171875,
+          "memory_attention_entropy": 2.7711637020111084,
+          "memory_attention_entropy_normalized": 0.9994860291481018,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "061dc6f2dd4ac9ff85216936",
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 1.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8017218708992004
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/bb5314f45e21ccd2be774c8c.mp4",
+          "video_sha256": "28b58629bb57209bd61d4a9ee65cb9471a07442080781c7e50a524958b20489f",
+          "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+          "split": "val",
+          "time": 0.75,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8612675070762634
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 3.625,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9772743582725525
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/6facd8050001d78144b668aa.mp4",
+          "video_sha256": "58d6b5a06aad0d7997e18e9d6a4b923e40c1ed7cf1b7c121ef68530e02cf11bb",
+          "source_id": "14111B121171BF8374b7AE71bJ4FJ31-324-8ba434Ya578CaCE3baC785-85E5Y3EaTdfofa112",
+          "split": "val",
+          "time": 23.833333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9775635004043579
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 70042,
+      "history_seed": 100042,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.002505711978301406,
+      "variants": {
+        "base": {
+          "video_loss": 0.23382775485515594
+        },
+        "none": {
+          "video_loss": 0.23382775485515594,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.23382775485515594,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": 0.08056640625,
+          "memory_attention_entropy": 2.7715799808502197,
+          "memory_attention_entropy_normalized": 0.999636173248291,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.23382775485515594,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12158203125,
+          "relevance_score": -0.09326171875,
+          "memory_attention_entropy": 2.7711637020111084,
+          "memory_attention_entropy_normalized": 0.9994860291481018,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "ba42c23bb4023d2fe360cbb7",
+      "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 5.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7363784313201904
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 6.333333,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7412638664245605
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 4.083333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9687983989715576
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 2.333333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9711829423904419
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 60043,
+      "history_seed": 90043,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.2111417055130005
+        },
+        "none": {
+          "video_loss": 0.2111417055130005,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.2111417055130005,
+          "memory_gate_mean": 0.11767578125,
+          "correct_memory_gate": 0.11767578125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.08203125,
+          "memory_attention_entropy": 2.7720913887023926,
+          "memory_attention_entropy_normalized": 0.9998206496238708,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2111417055130005,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.119140625,
+          "memory_attention_entropy": 2.7719647884368896,
+          "memory_attention_entropy_normalized": 0.9997749328613281,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "ba42c23bb4023d2fe360cbb7",
+      "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 5.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7363784313201904
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 6.333333,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7412638664245605
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 4.083333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9687983989715576
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 2.333333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9711829423904419
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 60043,
+      "history_seed": 90043,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.002485069213435054,
+      "variants": {
+        "base": {
+          "video_loss": 0.2112007886171341
+        },
+        "none": {
+          "video_loss": 0.2112007886171341,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.2112007886171341,
+          "memory_gate_mean": 0.11767578125,
+          "correct_memory_gate": 0.11767578125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.08203125,
+          "memory_attention_entropy": 2.7720913887023926,
+          "memory_attention_entropy_normalized": 0.9998206496238708,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2112007886171341,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.119140625,
+          "memory_attention_entropy": 2.7719647884368896,
+          "memory_attention_entropy_normalized": 0.9997749328613281,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "ba42c23bb4023d2fe360cbb7",
+      "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 5.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7363784313201904
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 6.333333,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7412638664245605
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 4.083333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9687983989715576
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 2.333333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9711829423904419
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 70043,
+      "history_seed": 100043,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.2440405935049057
+        },
+        "none": {
+          "video_loss": 0.2440405935049057,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.2440405935049057,
+          "memory_gate_mean": 0.11767578125,
+          "correct_memory_gate": 0.11767578125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.08203125,
+          "memory_attention_entropy": 2.7720913887023926,
+          "memory_attention_entropy_normalized": 0.9998206496238708,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2440405935049057,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.119140625,
+          "memory_attention_entropy": 2.7719647884368896,
+          "memory_attention_entropy_normalized": 0.9997749328613281,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "ba42c23bb4023d2fe360cbb7",
+      "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 5.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7363784313201904
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/b0de59abfc43907a0336d983.mp4",
+          "video_sha256": "6eb35bcd84595f73181fd02808fa89c35cef5e1f177ff1b2f8564d7a478357ca",
+          "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+          "split": "val",
+          "time": 6.333333,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.7412638664245605
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 4.083333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9687983989715576
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/733dd3f46dcdb7aa7fcd61e7.mp4",
+          "video_sha256": "478602ffb3da37b22b64bdfcff43dc4888ff5be76c53bb57d79d0da4805f1cf0",
+          "source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
+          "split": "val",
+          "time": 2.333333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9711829423904419
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 70043,
+      "history_seed": 100043,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0024933943059295416,
+      "variants": {
+        "base": {
+          "video_loss": 0.2440638393163681
+        },
+        "none": {
+          "video_loss": 0.2440638393163681,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.2440638393163681,
+          "memory_gate_mean": 0.11767578125,
+          "correct_memory_gate": 0.11767578125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.08203125,
+          "memory_attention_entropy": 2.7720913887023926,
+          "memory_attention_entropy_normalized": 0.9998206496238708,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2440638393163681,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.119140625,
+          "memory_attention_entropy": 2.7719647884368896,
+          "memory_attention_entropy_normalized": 0.9997749328613281,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "7306521737105fd9451e6876",
+      "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9620206356048584
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.125,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9480564594268799
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 2.708333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9831678867340088
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 1.666667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.7738664150238037
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 60044,
+      "history_seed": 90044,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.20785348117351532
+        },
+        "none": {
+          "video_loss": 0.20785348117351532,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.20785348117351532,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.041015625,
+          "memory_attention_entropy": 2.7716362476348877,
+          "memory_attention_entropy_normalized": 0.9996564388275146,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.20785348117351532,
+          "memory_gate_mean": 0.12109375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12109375,
+          "relevance_score": -0.046142578125,
+          "memory_attention_entropy": 2.7714595794677734,
+          "memory_attention_entropy_normalized": 0.9995927214622498,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "7306521737105fd9451e6876",
+      "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9620206356048584
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.125,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9480564594268799
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 2.708333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9831678867340088
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 1.666667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.7738664150238037
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 60044,
+      "history_seed": 90044,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0025038686580955982,
+      "variants": {
+        "base": {
+          "video_loss": 0.20712292194366455
+        },
+        "none": {
+          "video_loss": 0.20712292194366455,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.20712292194366455,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.041015625,
+          "memory_attention_entropy": 2.7716362476348877,
+          "memory_attention_entropy_normalized": 0.9996564388275146,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.20712292194366455,
+          "memory_gate_mean": 0.12109375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12109375,
+          "relevance_score": -0.046142578125,
+          "memory_attention_entropy": 2.7714595794677734,
+          "memory_attention_entropy_normalized": 0.9995927214622498,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "7306521737105fd9451e6876",
+      "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9620206356048584
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.125,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9480564594268799
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 2.708333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9831678867340088
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 1.666667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.7738664150238037
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 70044,
+      "history_seed": 100044,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.22334463894367218
+        },
+        "none": {
+          "video_loss": 0.22334463894367218,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.22334463894367218,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.041015625,
+          "memory_attention_entropy": 2.7716362476348877,
+          "memory_attention_entropy_normalized": 0.9996564388275146,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.22334463894367218,
+          "memory_gate_mean": 0.12109375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12109375,
+          "relevance_score": -0.046142578125,
+          "memory_attention_entropy": 2.7714595794677734,
+          "memory_attention_entropy_normalized": 0.9995927214622498,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "7306521737105fd9451e6876",
+      "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9620206356048584
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/debeca2e78f2db3e7af79a22.mp4",
+          "video_sha256": "f9f618b7be02c4b163c9e20673423fcb453e25ffb3c768c7678d3a3031ab221b",
+          "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+          "split": "val",
+          "time": 1.125,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.9480564594268799
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 2.708333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9831678867340088
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/1d7b1cd1706e3d91437f2bf3.mp4",
+          "video_sha256": "8afcd2d1a2d6a0b218d8a46bf16cb4fe1be9731921389de049b16382bdc7ba16",
+          "source_id": "14111B1211bFJ8BB1-2bC8JbY3b-3E121J3C3Ca5-EBa53JYa3b2Fa54Y5F-E55J84aTdfofa114",
+          "split": "val",
+          "time": 1.666667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.7738664150238037
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 70044,
+      "history_seed": 100044,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.002495970344170928,
+      "variants": {
+        "base": {
+          "video_loss": 0.22416463494300842
+        },
+        "none": {
+          "video_loss": 0.22416463494300842,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.22416463494300842,
+          "memory_gate_mean": 0.12158203125,
+          "correct_memory_gate": 0.12158203125,
+          "wrong_source_gate": null,
+          "relevance_score": -0.041015625,
+          "memory_attention_entropy": 2.7716362476348877,
+          "memory_attention_entropy_normalized": 0.9996564388275146,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.22416463494300842,
+          "memory_gate_mean": 0.12109375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.12109375,
+          "relevance_score": -0.046142578125,
+          "memory_attention_entropy": 2.7714595794677734,
+          "memory_attention_entropy_normalized": 0.9995927214622498,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "90571fa99779f3eac8ab86f1",
+      "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8069943785667419
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8196707963943481
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 3.291667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9364520311355591
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 2.208333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9780097603797913
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 60045,
+      "history_seed": 90045,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.21724098920822144
+        },
+        "none": {
+          "video_loss": 0.21724098920822144,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.21724098920822144,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": 0.119140625,
+          "wrong_source_gate": null,
+          "relevance_score": -0.05029296875,
+          "memory_attention_entropy": 2.7716755867004395,
+          "memory_attention_entropy_normalized": 0.9996706247329712,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.21724098920822144,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.02099609375,
+          "memory_attention_entropy": 2.7718238830566406,
+          "memory_attention_entropy_normalized": 0.9997241497039795,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "90571fa99779f3eac8ab86f1",
+      "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8069943785667419
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8196707963943481
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 3.291667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9364520311355591
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 2.208333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9780097603797913
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 60045,
+      "history_seed": 90045,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0025100731290876865,
+      "variants": {
+        "base": {
+          "video_loss": 0.21828286349773407
+        },
+        "none": {
+          "video_loss": 0.21828286349773407,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.21828286349773407,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": 0.119140625,
+          "wrong_source_gate": null,
+          "relevance_score": -0.05029296875,
+          "memory_attention_entropy": 2.7716755867004395,
+          "memory_attention_entropy_normalized": 0.9996706247329712,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.21828286349773407,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.02099609375,
+          "memory_attention_entropy": 2.7718238830566406,
+          "memory_attention_entropy_normalized": 0.9997241497039795,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "90571fa99779f3eac8ab86f1",
+      "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8069943785667419
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8196707963943481
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 3.291667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9364520311355591
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 2.208333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9780097603797913
+        }
+      ],
+      "prefix_mode": "clean",
+      "noise_seed": 70045,
+      "history_seed": 100045,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0,
+      "variants": {
+        "base": {
+          "video_loss": 0.17969273030757904
+        },
+        "none": {
+          "video_loss": 0.17969273030757904,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.17969273030757904,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": 0.119140625,
+          "wrong_source_gate": null,
+          "relevance_score": -0.05029296875,
+          "memory_attention_entropy": 2.7716755867004395,
+          "memory_attention_entropy_normalized": 0.9996706247329712,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.17969273030757904,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.02099609375,
+          "memory_attention_entropy": 2.7718238830566406,
+          "memory_attention_entropy_normalized": 0.9997241497039795,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "90571fa99779f3eac8ab86f1",
+      "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+      "split": "val",
+      "correct_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.5,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8069943785667419
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/aae0975d260a9116d05206e3.mp4",
+          "video_sha256": "b9f3a6f6203a321fb05252832e54a98109f2586f925c6da21fb3787c626dcbb1",
+          "source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
+          "split": "val",
+          "time": 0.875,
+          "role": "same_source_async",
+          "shot_id": 0,
+          "scene_similarity": 0.8196707963943481
+        }
+      ],
+      "wrong_source_references": [
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 3.291667,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9364520311355591
+        },
+        {
+          "video": "/workspace/restream_mvp/data/raw/youku/videos/5a55b5c0c861ed5af0173323.mp4",
+          "video_sha256": "21333c930c015de6ba2e84c1a60ab96257936d18304c8f8e9a2356430cb2db9f",
+          "source_id": "14111B1211bEA3Bbbb2-A4F4-3B58JAECAJ387a374Fa5433aC7-CaAB5C4C-7C81YaTdfofa112",
+          "split": "val",
+          "time": 2.208333,
+          "role": "wrong_source",
+          "shot_id": 0,
+          "scene_similarity": 0.9780097603797913
+        }
+      ],
+      "prefix_mode": "mild",
+      "noise_seed": 70045,
+      "history_seed": 100045,
+      "protected_prefix_exact": true,
+      "prefix_suffix_mse": 0.0025150517467409372,
+      "variants": {
+        "base": {
+          "video_loss": 0.17996013164520264
+        },
+        "none": {
+          "video_loss": 0.17996013164520264,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "relevance_score": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.17996013164520264,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": 0.119140625,
+          "wrong_source_gate": null,
+          "relevance_score": -0.05029296875,
+          "memory_attention_entropy": 2.7716755867004395,
+          "memory_attention_entropy_normalized": 0.9996706247329712,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.17996013164520264,
+          "memory_gate_mean": 0.119140625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.119140625,
+          "relevance_score": -0.02099609375,
+          "memory_attention_entropy": 2.7718238830566406,
+          "memory_attention_entropy_normalized": 0.9997241497039795,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "clean": {
+      "variants": {
+        "base": {
+          "video_loss": 0.23540128394961357
+        },
+        "none": {
+          "video_loss": 0.23540128394961357,
+          "memory_gate_mean": 0.0,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.23540128394961357,
+          "memory_gate_mean": 0.1199951171875,
+          "correct_memory_gate": 0.1199951171875,
+          "relevance_score": -0.023193359375,
+          "memory_attention_entropy": 2.771745800971985,
+          "memory_attention_entropy_normalized": 0.9996959716081619,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.23540128394961357,
+          "memory_gate_mean": 0.1202392578125,
+          "wrong_source_gate": 0.1202392578125,
+          "relevance_score": -0.06988525390625,
+          "memory_attention_entropy": 2.771602988243103,
+          "memory_attention_entropy_normalized": 0.9996444582939148,
+          "valid_memory_tokens": 16.0
+        }
+      },
+      "target_noise_pairs": 8,
+      "unique_targets": 4,
+      "score_correct_gt_wrong": 6,
+      "loss_correct_lt_none_lt_wrong": 0,
+      "correct_minus_none": 0.0,
+      "wrong_minus_none": 0.0
+    },
+    "mild": {
+      "variants": {
+        "base": {
+          "video_loss": 0.2353580743074417
+        },
+        "none": {
+          "video_loss": 0.2353580743074417,
+          "memory_gate_mean": 0.0,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "correct": {
+          "video_loss": 0.2353580743074417,
+          "memory_gate_mean": 0.1199951171875,
+          "correct_memory_gate": 0.1199951171875,
+          "relevance_score": -0.023193359375,
+          "memory_attention_entropy": 2.771745800971985,
+          "memory_attention_entropy_normalized": 0.9996959716081619,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2353580743074417,
+          "memory_gate_mean": 0.1202392578125,
+          "wrong_source_gate": 0.1202392578125,
+          "relevance_score": -0.06988525390625,
+          "memory_attention_entropy": 2.771602988243103,
+          "memory_attention_entropy_normalized": 0.9996444582939148,
+          "valid_memory_tokens": 16.0
+        }
+      },
+      "target_noise_pairs": 8,
+      "unique_targets": 4,
+      "score_correct_gt_wrong": 6,
+      "loss_correct_lt_none_lt_wrong": 0,
+      "correct_minus_none": 0.0,
+      "wrong_minus_none": 0.0
+    }
+  },
+  "scope": "Fixed first-future-block teacher-forcing controls, not AR or long-horizon evidence. Noise seeds are repeated measures, not independent targets.",
+  "notes": [
+    "Correct is same-source past-only proxy; wrong-source is not certified wrong-world.",
+    "Relevance is prompt/retrieved-feature cosine before the gate; ranking is directly supervised and is not by itself video efficacy.",
+    "Only the suffix of GT history is degraded; reference images never replace a latent."
+  ]
+}

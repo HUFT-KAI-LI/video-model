@@ -1,0 +1,72 @@
+test_adapter_gradient_bf16_and_reload (test_components.Components.test_adapter_gradient_bf16_and_reload) ... /usr/local/lib/python3.11/site-packages/torch/autograd/graph.py:825: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+ok
+test_corruption_reproducible_and_no_mutation (test_components.Components.test_corruption_reproducible_and_no_mutation) ... ok
+test_dataset_split_decode_and_normalization (test_components.Components.test_dataset_split_decode_and_normalization) ... ok
+test_future_metrics_exclude_anchor_and_prefix (test_components.Components.test_future_metrics_exclude_anchor_and_prefix) ... ok
+test_future_objective_gradient_through_frozen_backbone (test_components.Components.test_future_objective_gradient_through_frozen_backbone) ... ok
+test_injector_rebuild_and_immutable_input (test_components.Components.test_injector_rebuild_and_immutable_input) ... ok
+test_parallel_download_budget_and_oversized_response (test_components.Components.test_parallel_download_budget_and_oversized_response) ... ok
+test_prepare_uses_configured_sink_prefix (test_components.Components.test_prepare_uses_configured_sink_prefix) ... ok
+test_time_mapping_is_causal (test_components.Components.test_time_mapping_is_causal) ... ok
+test_collation_no_reference_and_variable_k (test_reality_memory.RealityTests.test_collation_no_reference_and_variable_k) ... ok
+test_evaluation_controls_preserve_base_and_restore_training_mode (test_reality_memory.RealityTests.test_evaluation_controls_preserve_base_and_restore_training_mode) ... {
+  "download_gb": 5.254e-06,
+  "total_source_videos": 20,
+  "usable_videos": 40,
+  "train_sources": 18,
+  "val_sources": 2,
+  "mean_duration_sec": 5.0,
+  "median_duration_sec": 5.0,
+  "min_duration_sec": 5.0,
+  "max_duration_sec": 5.0,
+  "seed": 42,
+  "minimum_count_met": false
+}
+{
+  "download_gb": 5.254e-06,
+  "total_source_videos": 20,
+  "usable_videos": 40,
+  "train_sources": 18,
+  "val_sources": 2,
+  "mean_duration_sec": 5.0,
+  "median_duration_sec": 5.0,
+  "min_duration_sec": 5.0,
+  "max_duration_sec": 5.0,
+  "seed": 42,
+  "minimum_count_met": false
+}
+case=0 variant=base future_mse=2.219829
+/usr/local/lib/python3.11/site-packages/torch/amp/autocast_mode.py:266: UserWarning: User provided device_type of 'cuda', but CUDA is not available. Disabling
+  warnings.warn(
+case=0 variant=no_memory future_mse=2.219829
+case=0 variant=hard_anchor future_mse=2.219829
+case=0 variant=oracle_gt_state future_mse=2.219829
+case=0 variant=aligned_k1 future_mse=2.219829
+case=0 variant=async_k1 future_mse=2.219829
+case=0 variant=wrong_source_k1 future_mse=2.219829
+case=0 variant=shuffled_k1 future_mse=2.219829
+ok
+test_feature_cache_reload_and_stale_identity (test_reality_memory.RealityTests.test_feature_cache_reload_and_stale_identity) ... ok
+test_manifest_async_gap_split_and_mixture (test_reality_memory.RealityTests.test_manifest_async_gap_split_and_mixture) ... ok
+test_no_memory_exact_even_after_output_learns (test_reality_memory.RealityTests.test_no_memory_exact_even_after_output_learns) ... ok
+test_normalized_entropy_uses_valid_tokens_and_handles_empty (test_reality_memory.RealityTests.test_normalized_entropy_uses_valid_tokens_and_handles_empty) ... ok
+test_r1_config_is_rejected (test_reality_memory.RealityTests.test_r1_config_is_rejected) ... ok
+test_reference_dropout_reproducible_and_does_not_restore_padding (test_reality_memory.RealityTests.test_reference_dropout_reproducible_and_does_not_restore_padding) ... ok
+test_reference_metrics_empty_and_matching (test_reality_memory.RealityTests.test_reference_metrics_empty_and_matching) ... ok
+test_reference_order_invariance_but_donor_changes_context (test_reality_memory.RealityTests.test_reference_order_invariance_but_donor_changes_context) ... ok
+test_shot_filter_rejects_black_and_splits_cuts (test_reality_memory.RealityTests.test_shot_filter_rejects_black_and_splits_cuts) ... ok
+test_target_seek_matches_sequential_decode (test_reality_memory.RealityTests.test_target_seek_matches_sequential_decode) ... ok
+test_wrong_gate_supervision_uses_labels_only_in_loss (test_reality_memory.RealityTests.test_wrong_gate_supervision_uses_labels_only_in_loss) ... ok
+test_zero_init_variable_reference_count_and_future_gradient (test_reality_memory.RealityTests.test_zero_init_variable_reference_count_and_future_gradient) ... ok
+test_paired_pools_enforce_count_split_and_source (test_reality_paired.PairedTests.test_paired_pools_enforce_count_split_and_source) ... ok
+test_prefix_is_shared_mild_and_gt_remains_immutable (test_reality_paired.PairedTests.test_prefix_is_shared_mild_and_gt_remains_immutable) ... ok
+test_reject_one_sided_gate_penalty_or_empty_probe (test_reality_paired.PairedTests.test_reject_one_sided_gate_penalty_or_empty_probe) ... ok
+test_score_supervision_does_not_directly_force_final_gate (test_reality_paired.PairedTests.test_score_supervision_does_not_directly_force_final_gate) ... ok
+test_sequential_video_gradients_equal_joint_objective (test_reality_paired.PairedTests.test_sequential_video_gradients_equal_joint_objective) ... ok
+test_update_budget_counts_empty_batches_and_resumed_updates (test_reality_paired.PairedTests.test_update_budget_counts_empty_batches_and_resumed_updates) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.320s
+
+OK
