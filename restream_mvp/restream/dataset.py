@@ -13,7 +13,7 @@ def read_manifest(path):
 
 
 class VideoDataset(Dataset):
-    def __init__(self, manifest, frames=57, height=256, width=432, fps=16):
+    def __init__(self, manifest, frames=57, height=256, width=432, fps=16, seek=True):
         self.rows = read_manifest(manifest)
         if not self.rows:
             raise ValueError("Empty dataset")
@@ -22,6 +22,7 @@ class VideoDataset(Dataset):
         if not math.isfinite(fps) or fps <= 0:
             raise ValueError("fps must be positive")
         self.frames, self.height, self.width, self.fps = frames, height, width, float(fps)
+        self.seek = seek
         window_sec = (frames - 1) / self.fps
         if any(not math.isclose(float(row["window_sec"]), window_sec, abs_tol=1e-6) for row in self.rows):
             raise ValueError("Manifest window_sec differs from (frames - 1) / fps; rebuild the manifest with the current config")
@@ -37,6 +38,8 @@ class VideoDataset(Dataset):
         with av.open(row["video"]) as container:
             stream = container.streams.video[0]
             origin = float((stream.start_time or 0) * stream.time_base)
+            if self.seek and start > 0:
+                container.seek(int((start + origin) / stream.time_base), stream=stream, backward=True)
             for frame in container.decode(stream):
                 if frame.time is None:
                     continue

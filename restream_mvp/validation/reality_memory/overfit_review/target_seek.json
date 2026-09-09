@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "sample_id": "cba72122fbbc8ba97560b920",
+      "target_start": 2.2006170794601196,
+      "sequential_seconds": 0.19629645720124245,
+      "seek_seconds": 0.20063795521855354,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "b76e1a8479089df0e5189326",
+      "target_start": 5.182631422422384,
+      "sequential_seconds": 0.3235488794744015,
+      "seek_seconds": 0.3233230859041214,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "3719d84f238dfc046d0e1e99",
+      "target_start": 9.393662039562361,
+      "sequential_seconds": 0.5239819400012493,
+      "seek_seconds": 0.53313123062253,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "caf9a173a645fcd36e3e20ba",
+      "target_start": 19.76217842432778,
+      "sequential_seconds": 0.3806035742163658,
+      "seek_seconds": 0.19881537184119225,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "0f90688283f80cdc098da162",
+      "target_start": 37.029182979666764,
+      "sequential_seconds": 1.3899975083768368,
+      "seek_seconds": 0.35432255268096924,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "66b752d614d26b9b8769f122",
+      "target_start": 50.886519872883056,
+      "sequential_seconds": 0.7858403325080872,
+      "seek_seconds": 0.2097421996295452,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "f9c7f9b06e31ee0ea24774f9",
+      "target_start": 82.38764249799587,
+      "sequential_seconds": 2.1611389629542828,
+      "seek_seconds": 0.35509735718369484,
+      "pixels_exact": true
+    },
+    {
+      "sample_id": "24c34e2d370446c11586fb8d",
+      "target_start": 100.63742599436864,
+      "sequential_seconds": 3.6252584531903267,
+      "seek_seconds": 0.5021972693502903,
+      "pixels_exact": true
+    }
+  ],
+  "note": "Sequential decode runs first; timings include filesystem-cache effects, not a randomized benchmark."
+}

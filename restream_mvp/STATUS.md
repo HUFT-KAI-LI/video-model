@@ -4,13 +4,13 @@
 
 [新方案](REALITY_MEMORY_PLAN.md)与 [R0 实现说明](REALITY_MEMORY_R0.md)已加入仓库。新主路径将参考照片编码为外部记忆，再通过 gated residual 融合到文本 context；不替换生成 latent。新增独立训练／评估入口，复用原数据和 LongLive 组件。R1 按方案留待 R0 有正向实验信号后实现。
 
-已准备 frozen DINOv2-S、730 train / 83 val 的镜头过滤与弱参考 manifest，以及 2,798 份缓存特征。R0 的 optimizer 更新数为 **0**；尚无 10-step overfit、正式生成评估或 Reality Memory 效果结论。新检查报告单独存放在 [validation/reality_memory](validation/reality_memory)，旧报告保留。
+已准备 frozen DINOv2-S、730 train / 83 val 的镜头过滤与弱参考 manifest，以及 3,124 份缓存特征（含本轮 326 个固定对照参考）。短实验结果见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)：两步真实 AdamW 检查通过；单卡执行 10 个 batch step、其中 6 次有效 optimizer update；4×A800 NCCL 执行 3 步后重启恢复并完成第 4 步。固定噪声和单样本 AR 对照没有显示 correct-reference 优势，因此没有扩展到 50/200-step 效果实验。
 
-本轮工程验证：21 项 CPU 单元／接口测试通过；冻结 DINO 编码与 projector 梯度、缓存精确重载通过；两进程 CPU/Gloo 混合空记忆和全空记忆的 DDP 梯度同步通过。真实 LongLive 的 R0 future backward 通过：loss **0.32075986**，与初始 base loss 完全一致；memory 梯度范数 **0.90910071**，主干梯度全为 None，峰值显存 **41.91 GiB**。这些均无 optimizer 更新，不能替代实际训练或效果评估。
+本轮工程验证：23 项 CPU 单元／接口测试通过；冻结 DINO 编码与 projector 梯度、缓存精确重载通过；两进程 CPU/Gloo 混合空记忆和全空记忆的 DDP 梯度同步通过；真实 LongLive 的 R0 future backward、两步梯度传播和四卡 NCCL 保存／恢复通过。零初始化输出层首步先更新，第二步 projector/query/key/value/gate 均得到非零梯度；4 个 rank 的恢复后梯度范数一致，优化器步数为 **3 → 4**。这些工程证据仍不能替代 Reality Memory 效果结论。
 
 下文为上轮 State Re-Anchoring 诊断结果。
 
-本轮五项修改和真实 GPU 验证已完成。真实 teacher-forcing backward 可以运行；Oracle 的小样本改善有限，Hard Anchor 的平均误差反而增加，尚不满足 `Oracle < Hard < No Anchor` 的效果门槛。训练 optimizer steps 保持为 **0**，没有启动 50/200/3000-step 训练。
+上轮五项修改和真实 GPU 验证已完成。真实 teacher-forcing backward 可以运行；Oracle 的小样本改善有限，Hard Anchor 的平均误差反而增加，尚不满足 `Oracle < Hard < No Anchor` 的效果门槛。该段历史记录的 optimizer steps 为 **0**，没有启动 50/200/3000-step 训练。
 
 ## 已修改
 
@@ -77,4 +77,4 @@ Oracle 完整未来误差降低约 1.81%，首块降低约 6.73%；Hard 的误�
 
 ## 后续研究限制
 
-人工视觉审核、shot-cut 过滤、每个长视频的多窗口采样尚未完成；保留现有 `visual_review: pending`，不把该数据集称为已清洗数据。当前仍是人工漂移 GT 历史、单个中途 anchor 的短窗口实验，没有长期 self-rollout、多 anchor 或四卡训练实测。先审阅本轮结果，再决定后续短训练及数据清洗范围。
+R0 的 heuristic shot-cut 与场景相似度过滤已完成；人工视觉审核、每个长视频的多窗口采样尚未完成。旧 ReAnchor manifest 未按 R0 规则重新清洗，保留 `visual_review: pending`。此处的旧实验仍是人工漂移 GT 历史、单个中途 anchor 的短窗口诊断，没有长期 self-rollout 或多 anchor 实测。

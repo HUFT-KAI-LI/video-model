@@ -8,8 +8,10 @@ def memory_usage(stats, wrong=False):
     gate = stats["gate"][active].float().mean().item() if active.any() else None
     return {"memory_gate_mean": stats["gate"].float().mean().item(),
             "correct_memory_gate": gate if not wrong else None,
-            "wrong_memory_gate": gate if wrong else None,
-            "memory_attention_entropy": stats["attention_entropy"].float().mean().item()}
+            "wrong_source_gate": gate if wrong else None,
+            "memory_attention_entropy": stats["attention_entropy"].float().mean().item(),
+            "memory_attention_entropy_normalized": stats["attention_entropy_normalized"].float().mean().item(),
+            "valid_memory_tokens": stats["valid_memory_tokens"].float().mean().item()}
 
 
 def visual_reference_metrics(generated_features, reference_features):
@@ -29,13 +31,14 @@ def summarize_cases(cases):
         entries = [case["variants"][name] for case in cases if name in case["variants"]]
         aggregate[name] = {}
         for metric in ("future_latent_mse", "next_block_latent_mse", "memory_gate_mean", "correct_memory_gate",
-                       "wrong_memory_gate", "reference_copy_score", "dino_world_similarity", "memory_attention_entropy", "pixel_motion_magnitude"):
+                       "wrong_source_gate", "reference_copy_score", "dino_world_similarity", "memory_attention_entropy",
+                       "memory_attention_entropy_normalized", "valid_memory_tokens", "pixel_motion_magnitude"):
             values = [entry[metric] for entry in entries if entry.get(metric) is not None]
             aggregate[name][metric] = sum(values) / len(values) if values else None
     gaps = {}
     for name, entry in aggregate.items():
         if name.startswith("async_k"):
-            wrong = aggregate.get(name.replace("async_", "wrong_"))
+            wrong = aggregate.get(name.replace("async_", "wrong_source_")) or aggregate.get(name.replace("async_", "wrong_"))
             if wrong:
                 gaps[name] = wrong["future_latent_mse"] - entry["future_latent_mse"]
     return {"variants": aggregate, "correct_vs_wrong_gap": gaps, "base_quality": None}

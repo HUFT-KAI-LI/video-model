@@ -1,8 +1,8 @@
 # ReStream：准备与 GPU 验证复现
 
-新的主路径为 [Reality Memory 方案](REALITY_MEMORY_PLAN.md)。本轮 R0 的数据准备、模块设计和独立训练／评估命令见 [REALITY_MEMORY_R0.md](REALITY_MEMORY_R0.md)；以下内容保留为旧 State Re-Anchoring baseline 的复现说明。
+新的主路径为 [Reality Memory 方案](REALITY_MEMORY_PLAN.md)。本轮 R0 的数据准备、模块设计和独立训练／评估命令见 [REALITY_MEMORY_R0.md](REALITY_MEMORY_R0.md)，短实验和审阅结论见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)；以下内容保留为旧 State Re-Anchoring baseline 的复现说明。
 
-本轮按审阅意见完成补丁、配置接线、真实 backward、Oracle 对照和 latent 对齐诊断，结果见 `STATUS.md` 与 `validation/`。不执行 optimizer，不启动 50/200/3000-step 训练。`scripts/prepare.sh` 和 `run_night.sh` 都只做准备。
+本轮按审阅意见完成补丁、配置接线、真实 backward、短训练、四卡 NCCL 保存／恢复、Oracle 对照和 latent 对齐诊断，结果见 `STATUS.md`、`R0_SHORT_EXPERIMENTS.md` 与 `validation/`。没有扩展到 50/200/3000-step 效果训练。`scripts/prepare.sh` 和 `run_night.sh` 都只做准备。
 
 仓库目录：`/workspace/video-model/restream_mvp`。本机 `.venv` 与 `models` 使用指向 `/workspace/restream_mvp` 已下载资产的符号链接，manifest 的视频路径也位于该资产目录；这些大文件不进入 Git。当前机器是 4 × A800-SXM4-80GB，驱动可在沙箱外访问。项目环境继承机器已有 PyTorch 2.5.1+cu124 / torchvision 0.20.1+cu124 / flash-attn 2.8.3.post1。
 
@@ -92,7 +92,7 @@ bash scripts/06_train_mvp.sh --reviewed --max-steps 200 --resume checkpoints/ste
 
 ## 工程检查与研究限制
 
-CPU 单元测试可检查 tensor shape、BF16、未来梯度、替换与重建回调、同源隔离和解码；真实 GPU 单步与短 rollout 的结果以 `STATUS.md` 为准，四卡训练和恢复仍未验证。
+CPU 单元测试可检查 tensor shape、BF16、未来梯度、替换与重建回调、同源隔离和解码；真实 GPU 单步、短 rollout 与四卡 NCCL 保存／恢复的结果以 `STATUS.md` 和 `R0_SHORT_EXPERIMENTS.md` 为准。
 
 原生 teacher-forcing 能让冻结 backbone 保留关于输入的梯度；上游 recache 的 `no_grad` 路径仅用于推理。15 latent 帧的短窗口足以容纳一个中途 anchor 和未来块，未扩展多 anchor、RL、geometry、5B 或全参训练。
 

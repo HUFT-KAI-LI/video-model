@@ -1,0 +1,361 @@
+{
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/reality_train.jsonl",
+      "val_manifest": "data/reality_val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reality_memory": {
+      "stage": "r0",
+      "encoder": {
+        "type": "dinov2",
+        "path": "models/dinov2-small",
+        "feature_dim": 384,
+        "image_size": 224,
+        "frozen": true
+      },
+      "feature_cache": "data/reality_features",
+      "references": {
+        "min_count": 1,
+        "max_count": 4,
+        "async_probability": 0.5,
+        "aligned_probability": 0.2,
+        "no_memory_probability": 0.15,
+        "wrong_memory_probability": 0.15,
+        "per_reference_dropout": 0.2,
+        "min_gap_sec": 1.5,
+        "async_direction": "past_only",
+        "near_radius_sec": 0.5,
+        "boundary_margin_sec": 0.2
+      },
+      "filter": {
+        "histogram_cut": 0.5,
+        "pixel_jump": 0.35,
+        "black_level": 16,
+        "black_fraction": 0.95,
+        "scene_similarity": 0.65,
+        "workers": 8
+      },
+      "projector": {
+        "num_memory_tokens": 8,
+        "memory_dim": 256
+      },
+      "guidance": {
+        "mode": "context",
+        "context_dim": 4096,
+        "heads": 4,
+        "gate_init_logit": -2.0,
+        "zero_init": true
+      },
+      "regularization": {
+        "delta_weight": 1e-05,
+        "wrong_gate_weight": 0.01
+      },
+      "objective": {
+        "prefix_latents": 6,
+        "future_blocks": 1
+      }
+    },
+    "train": {
+      "backbone_frozen": true,
+      "max_steps": 500,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 10,
+      "save_every": 50,
+      "eval_every": 50,
+      "grad_clip": 1.0,
+      "world_size": 4
+    },
+    "eval": {
+      "cases": 4,
+      "reference_counts": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  },
+  "cases": [
+    {
+      "sample_id": "061dc6f2dd4ac9ff85216936",
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "seed": 42,
+      "anchor_latent_index": 5,
+      "target_start": 6.050476254028885,
+      "variants": {
+        "base": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": null,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": null,
+          "memory_attention_entropy_normalized": null,
+          "valid_memory_tokens": 0,
+          "future_latent_mse_0.5s": 0.4183160662651062,
+          "future_latent_mse_1s": 0.5856555700302124,
+          "future_latent_mse_2s": 0.7759650349617004,
+          "future_latent_mse": 0.8231402039527893,
+          "next_block_latent_mse": 0.5113774538040161,
+          "pixel_motion_magnitude": 0.14073270559310913
+        },
+        "no_memory": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0,
+          "max_abs_difference_from_base": 0.0,
+          "future_latent_mse_0.5s": 0.4183160662651062,
+          "future_latent_mse_1s": 0.5856555700302124,
+          "future_latent_mse_2s": 0.7759650349617004,
+          "future_latent_mse": 0.8231402039527893,
+          "next_block_latent_mse": 0.5113774538040161,
+          "pixel_motion_magnitude": 0.14073270559310913
+        },
+        "hard_anchor": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": null,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": null,
+          "memory_attention_entropy_normalized": null,
+          "valid_memory_tokens": 0,
+          "future_latent_mse_0.5s": 0.49929994344711304,
+          "future_latent_mse_1s": 0.6160582304000854,
+          "future_latent_mse_2s": 0.7773701548576355,
+          "future_latent_mse": 0.8114923238754272,
+          "next_block_latent_mse": 0.5595136880874634,
+          "pixel_motion_magnitude": 0.1070709079504013
+        },
+        "oracle_gt_state": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": null,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": null,
+          "memory_attention_entropy_normalized": null,
+          "valid_memory_tokens": 0,
+          "future_latent_mse_0.5s": 0.4183160662651062,
+          "future_latent_mse_1s": 0.5856555700302124,
+          "future_latent_mse_2s": 0.7759650349617004,
+          "future_latent_mse": 0.8231402039527893,
+          "next_block_latent_mse": 0.5113774538040161,
+          "pixel_motion_magnitude": 0.14073270559310913
+        },
+        "aligned_k4": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 3.4646899700164795,
+          "memory_attention_entropy_normalized": 0.9996982216835022,
+          "valid_memory_tokens": 32.0,
+          "future_latent_mse_0.5s": 0.4174392819404602,
+          "future_latent_mse_1s": 0.5769369602203369,
+          "future_latent_mse_2s": 0.7453879117965698,
+          "future_latent_mse": 0.7954533100128174,
+          "next_block_latent_mse": 0.5073480606079102,
+          "pixel_motion_magnitude": 0.14965970814228058
+        },
+        "async_k4": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": 0.10498046875,
+          "correct_memory_gate": 0.10498046875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 3.464658498764038,
+          "memory_attention_entropy_normalized": 0.9996891021728516,
+          "valid_memory_tokens": 32.0,
+          "future_latent_mse_0.5s": 0.4202144145965576,
+          "future_latent_mse_1s": 0.5816203355789185,
+          "future_latent_mse_2s": 0.7826372385025024,
+          "future_latent_mse": 0.8394625782966614,
+          "next_block_latent_mse": 0.5122274160385132,
+          "pixel_motion_magnitude": 0.1630980372428894
+        },
+        "wrong_source_k4": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": 0.10498046875,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10498046875,
+          "memory_attention_entropy": 3.4640731811523438,
+          "memory_attention_entropy_normalized": 0.9995202422142029,
+          "valid_memory_tokens": 32.0,
+          "future_latent_mse_0.5s": 0.42073625326156616,
+          "future_latent_mse_1s": 0.5774577260017395,
+          "future_latent_mse_2s": 0.7484145164489746,
+          "future_latent_mse": 0.800780713558197,
+          "next_block_latent_mse": 0.5120134949684143,
+          "pixel_motion_magnitude": 0.16178931295871735
+        },
+        "shuffled_k4": {
+          "base_quality": null,
+          "reference_copy_score": null,
+          "dino_world_similarity": null,
+          "memory_gate_mean": 0.103515625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.103515625,
+          "memory_attention_entropy": 3.4650442600250244,
+          "memory_attention_entropy_normalized": 0.999800443649292,
+          "valid_memory_tokens": 32.0,
+          "future_latent_mse_0.5s": 0.4188912510871887,
+          "future_latent_mse_1s": 0.5754767060279846,
+          "future_latent_mse_2s": 0.7534191012382507,
+          "future_latent_mse": 0.7862228155136108,
+          "next_block_latent_mse": 0.5076004862785339,
+          "pixel_motion_magnitude": 0.1520209014415741
+        }
+      },
+      "correct_vs_wrong_gap": {
+        "k4": -0.038681864738464355
+      }
+    }
+  ],
+  "aggregate": {
+    "variants": {
+      "aligned_k4": {
+        "future_latent_mse": 0.7954533100128174,
+        "next_block_latent_mse": 0.5073480606079102,
+        "memory_gate_mean": 0.10693359375,
+        "correct_memory_gate": 0.10693359375,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4646899700164795,
+        "memory_attention_entropy_normalized": 0.9996982216835022,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.14965970814228058
+      },
+      "async_k4": {
+        "future_latent_mse": 0.8394625782966614,
+        "next_block_latent_mse": 0.5122274160385132,
+        "memory_gate_mean": 0.10498046875,
+        "correct_memory_gate": 0.10498046875,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.464658498764038,
+        "memory_attention_entropy_normalized": 0.9996891021728516,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.1630980372428894
+      },
+      "base": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "hard_anchor": {
+        "future_latent_mse": 0.8114923238754272,
+        "next_block_latent_mse": 0.5595136880874634,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.1070709079504013
+      },
+      "no_memory": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": 0.0,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 0.0,
+        "memory_attention_entropy_normalized": 0.0,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "oracle_gt_state": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "shuffled_k4": {
+        "future_latent_mse": 0.7862228155136108,
+        "next_block_latent_mse": 0.5076004862785339,
+        "memory_gate_mean": 0.103515625,
+        "correct_memory_gate": null,
+        "wrong_source_gate": 0.103515625,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4650442600250244,
+        "memory_attention_entropy_normalized": 0.999800443649292,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.1520209014415741
+      },
+      "wrong_source_k4": {
+        "future_latent_mse": 0.800780713558197,
+        "next_block_latent_mse": 0.5120134949684143,
+        "memory_gate_mean": 0.10498046875,
+        "correct_memory_gate": null,
+        "wrong_source_gate": 0.10498046875,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4640731811523438,
+        "memory_attention_entropy_normalized": 0.9995202422142029,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.16178931295871735
+      }
+    },
+    "correct_vs_wrong_gap": {
+      "async_k4": -0.038681864738464355
+    },
+    "base_quality": null
+  },
+  "visual_metrics": "not requested; null",
+  "notes": [
+    "R0 uses prompt context, not state-conditioned retrieval.",
+    "Oracle equals Base here because continuation starts from clean GT; use eval_reanchor.py for corrupted-history Oracle recovery.",
+    "Shuffled memory swaps reference sets across sources; permuting order inside a set should not change this model.",
+    "Histogram scene filtering and same-source sampling are only asynchronous-world proxies."
+  ]
+}

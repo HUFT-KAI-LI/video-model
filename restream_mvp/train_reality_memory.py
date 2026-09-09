@@ -11,13 +11,15 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader, DistributedSampler, Subset
 from restream.reality_dataset import collate_reality
+from restream.reality_diagnostics import gradient_norms, probe_subset
+from restream.reality_metrics import memory_usage
 from restream.reality_runtime import (read_reality_config, make_memory, make_cache, make_dataset,
                                       prepare_reality, reality_loss, resume_signature)
 from restream.runtime import ROOT, load_pipeline
 
 
 def overfit_indices(dataset, count):
-    if count < 4 or count > len(dataset):
+    if count < 4 or count > len(dataset.rows):
         raise ValueError("Overfit set must contain 4..len(dataset) samples")
     groups = {kind: [i for i, row in enumerate(dataset.rows) if row["reference_kind"] == kind]
               for kind in ("async", "aligned", "none", "wrong")}
@@ -39,9 +41,13 @@ def main():
     parser.add_argument("--overfit-samples", type=int, default=0, help="Use a balanced fixed 8–16 sample subset")
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--output", type=Path, default=ROOT / "checkpoints/reality_memory_r0")
+    parser.add_argument("--probe-overfit", action="store_true", help="Record fixed-noise controls on the full overfit subset before/after training")
+    parser.add_argument("--skip-eval", action="store_true", help="Skip final AR evaluation for bounded NCCL/checkpoint smoke only")
     args = parser.parse_args()
     if not args.reviewed:
         parser.error("Review the new R0 code/data first; --reviewed explicitly starts training")
+    if args.probe_overfit and not args.overfit_samples:
+        parser.error("--probe-overfit requires --overfit-samples")
     config = read_reality_config(args.config)
     if not 1 <= args.max_steps <= config["train"]["max_steps"]:
         parser.error("--max-steps must be positive and within the configured 500-step R0 limit")
@@ -98,11 +104,17 @@ def main():
     log_path = args.output / f"train_rank_{rank}.jsonl"
     print(json.dumps({"rank": rank, "trainable_parameters": sum(p.numel() for p in memory.parameters()),
                       "backbone_frozen": all(not p.requires_grad for p in pipeline.parameters()), "stage": "r0"}), flush=True)
+    if args.probe_overfit:
+        probe_subset(pipeline, memory, dataset, selected, config, device,
+                     args.output / f"probe_before_step_{step:04d}_rank_{rank}.json")
     while step < args.max_steps:
         sampler.set_epoch(epoch)
+        data_started = time.perf_counter()
         for batch_index, batch in enumerate(loader):
             if batch_index < offset:
+                data_started = time.perf_counter()
                 continue
+            data_time = time.perf_counter() - data_started
             started = time.perf_counter()
             opt.zero_grad(set_to_none=True)
             gt, cond, index = prepare_reality(pipeline, batch, device, config)
@@ -116,6 +128,7 @@ def main():
                 dist.all_reduce(valid, op=dist.ReduceOp.MIN)
             if not valid.item():
                 raise RuntimeError("Missing/nonfinite memory gradients or unfrozen backbone")
+            grouped_grads = gradient_norms(memory)
             norm = torch.nn.utils.clip_grad_norm_(memory.parameters(), config["train"]["grad_clip"])
             if not torch.isfinite(norm):
                 raise RuntimeError("Nonfinite global gradient norm")
@@ -128,10 +141,12 @@ def main():
             step, offset = step + 1, batch_index + 1
             record = {"rank": rank, "step": step, "optimizer_steps": updates, "loss": loss.item(),
                       "video_loss": stats["video_loss"].item(), "grad_norm": norm.item(),
-                      "memory_gate_mean": stats["gate"].mean().item(), "wrong_gate_loss": stats["wrong_loss"].item(),
-                      "memory_attention_entropy": stats["attention_entropy"].mean().item(),
-                      "reference_kind": batch["reference_kind"][0], "active_memory": stats["active"].any().item(),
-                      "step_time": time.perf_counter() - started, "peak_vram_bytes": torch.cuda.max_memory_allocated()}
+                      **memory_usage(stats, bool(batch["wrong_reference"][0])),
+                      "wrong_source_gate_loss": stats["wrong_loss"].item(), "gradient_norms": grouped_grads,
+                      "reference_kind": "wrong_source" if batch["wrong_reference"][0] else batch["reference_kind"][0],
+                      "sample_id": batch["sample_id"][0], "active_memory": stats["active"].any().item(),
+                      "data_time": data_time, "compute_time": time.perf_counter() - started,
+                      "step_time": time.perf_counter() - started + data_time, "peak_vram_bytes": torch.cuda.max_memory_allocated()}
             with log_path.open("a") as log:
                 log.write(json.dumps(record, allow_nan=False) + "\n")
             print(json.dumps(record), flush=True)
@@ -152,14 +167,18 @@ def main():
                     (folder / "state.tmp").replace(folder / "state.pt")
                     (args.output / "latest.tmp").write_text(str(folder.resolve()) + "\n")
                     (args.output / "latest.tmp").replace(args.output / "latest.txt")
-            if step % config["train"]["eval_every"] == 0 or step == args.max_steps:
+            if not args.skip_eval and (step % config["train"]["eval_every"] == 0 or step == args.max_steps):
                 # Every rank evaluates one identical fixed case, avoiding a long idle NCCL wait.
                 from eval_reality_memory import evaluate
                 evaluate(pipeline, memory, config, device,
-                         ROOT / f"outputs/reality_memory/step_{step}/rank_{rank}", cases=1, counts=[min(4, config['reality_memory']['references']['max_count'])])
+                         ROOT / f"outputs/reality_memory/{args.output.name}/step_{step}/rank_{rank}", cases=1, counts=[min(4, config['reality_memory']['references']['max_count'])])
+            data_started = time.perf_counter()
             if step >= args.max_steps:
                 break
         epoch, offset = epoch + 1, 0
+    if args.probe_overfit:
+        probe_subset(pipeline, memory, dataset, selected, config, device,
+                     args.output / f"probe_after_step_{step:04d}_rank_{rank}.json")
     if world > 1:
         dist.destroy_process_group()
 

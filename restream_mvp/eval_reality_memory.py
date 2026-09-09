@@ -59,7 +59,8 @@ def evaluate(pipeline, memory, config, device, output, cases=None, counts=None, 
                     if len(pool) < k:
                         raise ValueError(f"Only {len(pool)} cached {kind} references for K={k}; rebuild pools/cache")
                     features = dataset.reference_features(pool[:k])[None].to(device)
-                    variants.append((f"{kind}_k{k}", features, prefix, kind in ("wrong", "shuffled")))
+                    label = "wrong_source" if kind == "wrong" else kind
+                    variants.append((f"{label}_k{k}", features, prefix, kind in ("wrong", "shuffled")))
             record = {"sample_id": row["sample_id"], "source_id": row["source_id"], "seed": seed,
                       "anchor_latent_index": anchor, "target_start": row["target_start"], "variants": {}}
             folder = output / f"case_{case:03d}"
@@ -68,8 +69,9 @@ def evaluate(pipeline, memory, config, device, output, cases=None, counts=None, 
             for name, features, history, wrong in variants:
                 cond = conditioning
                 scores = {"base_quality": None, "reference_copy_score": None, "dino_world_similarity": None,
-                          "memory_gate_mean": None, "correct_memory_gate": None, "wrong_memory_gate": None,
-                          "memory_attention_entropy": None}
+                          "memory_gate_mean": None, "correct_memory_gate": None, "wrong_source_gate": None,
+                          "memory_attention_entropy": None, "memory_attention_entropy_normalized": None,
+                          "valid_memory_tokens": 0}
                 if features is not None:
                     mask = torch.ones(features.shape[:2], device=device, dtype=torch.bool)
                     with torch.autocast("cuda", dtype=torch.bfloat16):
@@ -101,7 +103,7 @@ def evaluate(pipeline, memory, config, device, output, cases=None, counts=None, 
                 write_video(folder / f"{name}.mp4", frames, config["data"]["fps"], [name], -100)
                 record["variants"][name] = scores
                 print(f"case={case} variant={name} future_mse={scores['future_latent_mse']:.6f}", flush=True)
-            record["correct_vs_wrong_gap"] = {f"k{k}": record["variants"][f"wrong_k{k}"]["future_latent_mse"] - record["variants"][f"async_k{k}"]["future_latent_mse"] for k in counts if k}
+            record["correct_vs_wrong_gap"] = {f"k{k}": record["variants"][f"wrong_source_k{k}"]["future_latent_mse"] - record["variants"][f"async_k{k}"]["future_latent_mse"] for k in counts if k}
             write_json(folder / "metrics.json", record)
             results.append(record)
         summary = {"config": config, "cases": results, "aggregate": summarize_cases(results),

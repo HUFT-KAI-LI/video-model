@@ -1,0 +1,108 @@
+{
+  "status": "completed",
+  "date": "2026-09-09",
+  "commit_base": "b75a6f7438d17b660450d1c3297a18554351a3a4",
+  "code_and_config": [
+    {
+      "path": "R0_SHORT_EXPERIMENTS.md",
+      "sha256": "ae04bab4bc83ac62917d4fea0432b464f99598bfdb8ce0d4081b19392dd80ae9",
+      "bytes": 7962
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "5d182ce5cdaae9c2da0e847fa94496783f4fb2a2d5bd5a79f4cced41a3eabbab",
+      "bytes": 7857
+    },
+    {
+      "path": "train_reality_memory.py",
+      "sha256": "b3a0fb5b278e4def3ef5850ea1c4f6c83f052c8fc2cf6cec334722d9f57c73b6",
+      "bytes": 11233
+    },
+    {
+      "path": "restream/reality_memory.py",
+      "sha256": "a225ddd0fce3f114eaaaf26641f37d7015e597538d75c3d44ae1eca502fb6f9c",
+      "bytes": 5041
+    },
+    {
+      "path": "restream/reality_diagnostics.py",
+      "sha256": "34fafa539cf4a70fa84d9c25bb402425637e55636b01f62d28ca359618985423",
+      "bytes": 4245
+    },
+    {
+      "path": "scripts/check_reality_optimizer.py",
+      "sha256": "4303728271f75549f9738a4997136314be9820a61a6738b71553a4fe2d356bf4",
+      "bytes": 4310
+    },
+    {
+      "path": "scripts/check_reality_checkpoint.py",
+      "sha256": "8b073f6b81818370dc1211a45a962decd2b128d0633076c063913a94569e7877",
+      "bytes": 3201
+    },
+    {
+      "path": "configs/reality_memory_r0.yaml",
+      "sha256": "5a719c409b3c2cf11f66eef7e52f9c361bb753677e3bbeb0ab7c8ca917837a78",
+      "bytes": 1525
+    }
+  ],
+  "reports": [
+    {
+      "path": "validation/reality_memory/overfit_review/ar_validation.json",
+      "sha256": "09d9f37200d57b8d8348c85fe8d9e1eec55e07731365f7eda77755d0a4e37654",
+      "bytes": 13297
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/gpu_utilization.csv",
+      "sha256": "3395650555f1b5af6bce4d1f8dd1a3fbd5fd29b91bc51b137a8e0191339a7ad0",
+      "bytes": 10324
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/nccl_resume.json",
+      "sha256": "8e06e849268324149910b0f5dda1a6dc245ad40bcb823cc740e267061dc769bb",
+      "bytes": 1155
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/optimizer_sanity.json",
+      "sha256": "8919e49ebe77d3d21e4fd7d012c982a25f201f14c1a7fec5d6484e35e64ea4ce",
+      "bytes": 3187
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/probe_after.json",
+      "sha256": "ebaa9f5e6d20ae720c6d9d649bdf0d2d75088c261cd3e34d8e0ebe1a776300e7",
+      "bytes": 30208
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/probe_before.json",
+      "sha256": "d8b4e897d824b4f677bbebfc60bce80c5e890a230122e01938a3b7da95743d40",
+      "bytes": 30181
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/summary.json",
+      "sha256": "b70907eb186d1e4f958126ceaccc1e0a693b77fec11b12d82a2d2da33a4f50c3",
+      "bytes": 8084
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/target_seek.json",
+      "sha256": "475f1c2d8678f264c8d1774514272725a37b0213625d9868acb6962ea8f1135f",
+      "bytes": 1906
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/train_steps.jsonl",
+      "sha256": "99c0d44f766996d5c11693f02de42e46a1731b698f8b100e172c13c80be95016",
+      "bytes": 7878
+    },
+    {
+      "path": "validation/reality_memory/overfit_review/unit_tests.log",
+      "sha256": "5a3ddf61fa65e30a41d72e54d9db4a6a0cdbe45484f195eee725a3a4991821ad",
+      "bytes": 4776
+    }
+  ],
+  "experiments": {
+    "optimizer_sanity_steps": 2,
+    "single_gpu_batch_steps": 10,
+    "single_gpu_optimizer_updates": 6,
+    "nccl_steps_before_resume": 3,
+    "nccl_steps_after_resume": 4,
+    "nccl_world_size": 4,
+    "effect_expansion": "not run; no positive correct-reference signal"
+  }
+}

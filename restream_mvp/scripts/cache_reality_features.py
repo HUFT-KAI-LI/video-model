@@ -16,14 +16,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=ROOT / "configs/reality_memory_r0.yaml")
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--overfit-samples", type=int, default=0, help="Also cache all control pools for a balanced training subset")
     args = parser.parse_args()
     config = read_reality_config(args.config)
     memory = config["reality_memory"]
     cache = make_cache(config)
     refs = {}
     for split in ("train", "val"):
-        for row in read_manifest(ROOT / config["data"][f"{split}_manifest"]):
-            selected = row["references"] if split == "train" else [ref for pool in row["reference_sets"].values() for ref in pool]
+        rows = read_manifest(ROOT / config["data"][f"{split}_manifest"])
+        overfit = set()
+        if split == "train" and args.overfit_samples:
+            from types import SimpleNamespace
+            from train_reality_memory import overfit_indices
+            overfit = set(overfit_indices(SimpleNamespace(rows=rows), args.overfit_samples))
+        for index, row in enumerate(rows):
+            selected = row["references"] if split == "train" and index not in overfit else [ref for pool in row["reference_sets"].values() for ref in pool]
             for ref in selected:
                 refs[cache.key(ref)] = ref
     encoder = RealityEncoder(ROOT / memory["encoder"]["path"], memory["projector"]["memory_dim"],
@@ -42,7 +49,9 @@ def main():
             print(f"Features {i + 1}/{len(refs)}", flush=True)
     report = {"unique_references": len(refs), "written": written, "reused": reused, "encoder": cache.identity,
               "shape_per_reference": [cache.tokens, cache.channels], "optimizer_steps": 0}
-    write_json(ROOT / "data/reality_feature_stats.json", report)
+    if args.overfit_samples:
+        report["overfit_samples"] = args.overfit_samples
+    write_json(ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)
     print(report)
 
 

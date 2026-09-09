@@ -89,6 +89,39 @@ class RealityTests(unittest.TestCase):
         self.assertTrue(torch.equal(reference_dropout(mask, torch.Generator(), 1, False), mask))
         self.assertFalse(reference_dropout(mask, torch.Generator(), 1).any())
 
+    def test_normalized_entropy_uses_valid_tokens_and_handles_empty(self):
+        for parameter in self.model.query.parameters():
+            torch.nn.init.zeros_(parameter)
+        for count in (1, 2, 4, 8):
+            mask = torch.zeros(2, 8, dtype=torch.bool)
+            mask[1, :count] = True
+            _, stats = self.model(self.context, torch.randn(2, 8, 3, 6), mask)
+            self.assertEqual(stats["valid_memory_tokens"].tolist(), [0, count * 3])
+            torch.testing.assert_close(stats["attention_entropy_normalized"], torch.tensor([0., 1.]))
+        _, stats = self.model(self.context, torch.randn(2, 1, 1, 6), torch.ones(2, 1, dtype=torch.bool))
+        self.assertEqual(stats["attention_entropy_normalized"].tolist(), [0., 0.])
+
+    def test_target_seek_matches_sequential_decode(self):
+        from restream.dataset import VideoDataset
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "seek.mp4"
+            with av.open(str(path), "w") as container:
+                stream = container.add_stream("mpeg4", rate=8)
+                stream.width, stream.height, stream.pix_fmt = 64, 48, "yuv420p"
+                stream.codec_context.gop_size = 12
+                for i in range(96):
+                    pixels = np.full((48, 64, 3), (i * 2, 64, 255 - i * 2), dtype=np.uint8)
+                    for packet in stream.encode(av.VideoFrame.from_ndarray(pixels, format="rgb24")):
+                        container.mux(packet)
+                for packet in stream.encode():
+                    container.mux(packet)
+            manifest = Path(folder) / "samples.jsonl"
+            manifest.write_text(json.dumps({"video": str(path), "window_start": 7.3, "window_sec": 2.,
+                                            "caption": "fixture", "source_id": "fixture", "anchor_sec": [1.]}) + "\n")
+            seek = VideoDataset(manifest, 33, 32, 48, 16, seek=True)[0]
+            sequential = VideoDataset(manifest, 33, 32, 48, 16, seek=False)[0]
+            self.assertTrue(torch.equal(seek["pixels"], sequential["pixels"]))
+
     def test_feature_cache_reload_and_stale_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             cache = FeatureCache(folder, {"weights": "v1"}, 3, 6)

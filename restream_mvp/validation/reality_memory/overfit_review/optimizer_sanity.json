@@ -1,0 +1,133 @@
+{
+  "status": "passed",
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/reality_train.jsonl",
+      "val_manifest": "data/reality_val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reality_memory": {
+      "stage": "r0",
+      "encoder": {
+        "type": "dinov2",
+        "path": "models/dinov2-small",
+        "feature_dim": 384,
+        "image_size": 224,
+        "frozen": true
+      },
+      "feature_cache": "data/reality_features",
+      "references": {
+        "min_count": 1,
+        "max_count": 4,
+        "async_probability": 0.5,
+        "aligned_probability": 0.2,
+        "no_memory_probability": 0.15,
+        "wrong_memory_probability": 0.15,
+        "per_reference_dropout": 0.2,
+        "min_gap_sec": 1.5,
+        "async_direction": "past_only",
+        "near_radius_sec": 0.5,
+        "boundary_margin_sec": 0.2
+      },
+      "filter": {
+        "histogram_cut": 0.5,
+        "pixel_jump": 0.35,
+        "black_level": 16,
+        "black_fraction": 0.95,
+        "scene_similarity": 0.65,
+        "workers": 8
+      },
+      "projector": {
+        "num_memory_tokens": 8,
+        "memory_dim": 256
+      },
+      "guidance": {
+        "mode": "context",
+        "context_dim": 4096,
+        "heads": 4,
+        "gate_init_logit": -2.0,
+        "zero_init": true
+      },
+      "regularization": {
+        "delta_weight": 1e-05,
+        "wrong_gate_weight": 0.01
+      },
+      "objective": {
+        "prefix_latents": 6,
+        "future_blocks": 1
+      }
+    },
+    "train": {
+      "backbone_frozen": true,
+      "max_steps": 500,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 10,
+      "save_every": 50,
+      "eval_every": 50,
+      "grad_clip": 1.0,
+      "world_size": 4
+    },
+    "eval": {
+      "cases": 4,
+      "reference_counts": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  },
+  "sample_id": "d68aece999b6a13f66b2598c",
+  "steps": [
+    {
+      "step": 1,
+      "video_loss": 0.3207598626613617,
+      "gradient_norms": {
+        "output": 0.9117311835289001,
+        "projector": 0.0,
+        "query": 0.0,
+        "key": 0.0,
+        "value": 0.0,
+        "gate": 0.0
+      },
+      "gate": 0.12353515625,
+      "no_memory_exact_base": true
+    },
+    {
+      "step": 2,
+      "video_loss": 0.31351566314697266,
+      "gradient_norms": {
+        "output": 0.5159286260604858,
+        "projector": 0.002864474430680275,
+        "query": 0.0016650756588205695,
+        "key": 9.914716065395623e-05,
+        "value": 0.0014657201245427132,
+        "gate": 0.0009439722052775323
+      },
+      "gate": 0.12353515625,
+      "no_memory_exact_base": true
+    }
+  ],
+  "optimizer_steps": 2,
+  "regularization_weights": [
+    0,
+    0
+  ],
+  "dropout": false,
+  "noise_seed": 123,
+  "backbone_gradients_none": true,
+  "peak_vram_bytes": 45015090688,
+  "note": "Separate sanity model; weights discarded before the fresh 10-step run."
+}

@@ -67,9 +67,15 @@ class RealityMemory(nn.Module):
         fused = torch.where(active[:, None, None], context + delta.to(context.dtype), context)
         entropy = -(weights * weights.clamp_min(1e-8).log()).sum(-1).mean(1)
         entropy = (entropy * prompt_mask).sum(1) / denom.flatten()
+        valid_tokens = token_mask.sum(1)
+        # N=0/1 has no retrieval uncertainty; define normalized entropy as zero.
+        normalized_entropy = torch.where(valid_tokens > 1,
+                                         entropy / valid_tokens.float().clamp_min(2).log(),
+                                         torch.zeros_like(entropy))
         return fused, {"gate": gate, "active": active,
                        "delta_square": raw_delta.float().square().mean(),
-                       "attention_entropy": entropy}
+                       "attention_entropy": entropy, "attention_entropy_normalized": normalized_entropy,
+                       "valid_memory_tokens": valid_tokens}
 
 
 def memory_regularization(stats, wrong_reference, delta_weight, wrong_weight):

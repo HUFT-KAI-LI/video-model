@@ -4,6 +4,7 @@ Reality Memory：基于冻结 Wan / LongLive，用稀疏真实图像作为外部
 
 - [Reality Memory 新方案](restream_mvp/REALITY_MEMORY_PLAN.md)
 - [R0 实现、数据和审阅后训练命令](restream_mvp/REALITY_MEMORY_R0.md)
+- [R0 修补与短实验结果](restream_mvp/R0_SHORT_EXPERIMENTS.md)
 
 - [当前审阅状态与实测结果](restream_mvp/STATUS.md)
 - [环境、模型、数据与复现命令](restream_mvp/README_REPRODUCE.md)

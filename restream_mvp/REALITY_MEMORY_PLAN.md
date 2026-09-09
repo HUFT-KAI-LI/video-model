@@ -14,12 +14,12 @@
 > **新的核心研究问题：**
 >
 > \[
-> oxed{
-> 	ext{Sparse asynchronous real-world observations}
-> ightarrow
-> 	ext{persistent world prior}
-> ightarrow
-> 	ext{reduce long-horizon drift}
+> \boxed{
+> \text{Sparse asynchronous real-world observations}
+> \rightarrow
+> \text{persistent world prior}
+> \rightarrow
+> \text{reduce long-horizon drift}
 > }
 > \]
 >
@@ -162,11 +162,11 @@ r_t = Retrieve(h_t,\mathcal M)
 \]
 
 \[
-lpha_t = Gate(h_t,r_t)
+\alpha_t = Gate(h_t,r_t)
 \]
 
 \[
-h_t' = h_t + lpha_t \Delta h_t
+h_t' = h_t + \alpha_t \Delta h_t
 \]
 
 其中：
@@ -174,7 +174,7 @@ h_t' = h_t + lpha_t \Delta h_t
 - \(h_t\)：当前生成模型状态；
 - \(\mathcal M\)：外部真实世界记忆；
 - \(r_t\)：和当前状态相关的真实世界 evidence；
-- \(lpha_t\)：是否以及多大程度使用现实信息；
+- \(\alpha_t\)：是否以及多大程度使用现实信息；
 - \(\Delta h_t\)：soft reality guidance。
 
 关键原则：
@@ -194,8 +194,8 @@ h_t' = h_t + lpha_t \Delta h_t
 我们真正要验证：
 
 \[
-oxed{
-	extbf{Real observations can function as world-level priors rather than frame-level targets.}
+\boxed{
+\textbf{Real observations can function as world-level priors rather than frame-level targets.}
 }
 \]
 
@@ -476,7 +476,7 @@ K = 1 / 2 / 4 / 8
 直接保存：
 
 \[
-M\in\mathbb R^{B	imes N_m	imes D}
+M\in\mathbb R^{B\times N_m\times D}
 \]
 
 即可。
@@ -578,7 +578,7 @@ q_t=Q(Pool(h_t))
 \[
 s_{t,k}
 =
-rac{q_t^	op k_k}
+\frac{q_t^\top k_k}
 {\sqrt d}
 \]
 
@@ -603,7 +603,7 @@ r_t=\sum_k w_{t,k}m_k
 先做：
 
 \[
-lpha_t
+\alpha_t
 =
 \sigma(
 MLP[
@@ -663,7 +663,7 @@ CrossAttn(h_t,r_t)
 \[
 h_t'
 =
-h_t+lpha_t\Delta h_t
+h_t+\alpha_t\Delta h_t
 \]
 
 建议只插入少量 Transformer block。
@@ -806,9 +806,9 @@ Base LongLive
 期望：
 
 \[
-lpha_{wrong}
+\alpha_{wrong}
 <
-lpha_{correct}
+\alpha_{correct}
 \]
 
 ---
@@ -927,7 +927,7 @@ per_reference_dropout = 0.2
 对于 wrong reference：
 
 \[
-lpha_t^{wrong}ightarrow0
+\alpha_t^{wrong}\rightarrow0
 \]
 
 可以用：
@@ -935,7 +935,7 @@ per_reference_dropout = 0.2
 \[
 \mathcal L_{wrong}
 =
-lpha_t^2
+\alpha_t^2
 \]
 
 只对明确 wrong-source samples 使用。
@@ -963,7 +963,7 @@ per_reference_dropout = 0.2
 第一版总 loss：
 
 \[
-oxed{
+\boxed{
 \mathcal L
 =
 \mathcal L_{video}
@@ -1074,9 +1074,9 @@ selected-layer cross attention
 重点验证：
 
 \[
-	ext{current generated state}
-ightarrow
-	ext{select relevant reality evidence}
+\text{current generated state}
+\rightarrow
+\text{select relevant reality evidence}
 \]
 
 ---
@@ -1833,28 +1833,27 @@ RL
 而是：
 
 \[
-oxed{
-	ext{Sparse Reality Memory}
-ightarrow
-	ext{less long-term world drift}
+\boxed{
+\text{Sparse Reality Memory}
+\rightarrow
+\text{less long-term world drift}
 }
 \]
 
 同时：
 
 \[
-oxed{
-	ext{Trajectory Freedom}
-
-ot\downarrow
+\boxed{
+\text{Trajectory Freedom}
+\not\downarrow
 }
 \]
 
 以及：
 
 \[
-oxed{
-	ext{Exact temporal alignment is not required}
+\boxed{
+\text{Exact temporal alignment is not required}
 }
 \]
 

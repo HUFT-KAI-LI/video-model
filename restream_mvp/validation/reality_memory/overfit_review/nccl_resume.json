@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "world_size": 4,
+  "backend": "nccl",
+  "saved_step": 3,
+  "resumed_step": 4,
+  "optimizer_steps_before": 3,
+  "optimizer_steps_after": 4,
+  "all_rank_gradient_norms_identical": true,
+  "changed_parameter_tensors_after_resume": [
+    "projector.net.0.weight",
+    "projector.net.0.bias",
+    "projector.net.1.weight",
+    "projector.net.1.bias",
+    "projector.net.3.weight",
+    "projector.net.3.bias",
+    "query.0.weight",
+    "query.0.bias",
+    "query.1.weight",
+    "query.1.bias",
+    "key.weight",
+    "key.bias",
+    "value.weight",
+    "value.bias",
+    "output.weight",
+    "output.bias",
+    "gate.0.weight",
+    "gate.0.bias",
+    "gate.2.weight",
+    "gate.2.bias"
+  ],
+  "rng_states": 4,
+  "checkpoint_sha256": {
+    "checkpoints/reality_memory_nccl_review/step_0003/state.pt": "e7c95bf4818722e70ac6f3a3ac43c98251edd6ff75a7a205b534e61b2ff33dc6",
+    "checkpoints/reality_memory_nccl_review/step_0004/state.pt": "b9bc6edc999444e5f7a41e3331d02ff396ea2e0082f4afb8c79e4030538cdf24"
+  },
+  "note": "Confirms real save/restart/resume and rank synchronization; not a bitwise comparison against uninterrupted training."
+}

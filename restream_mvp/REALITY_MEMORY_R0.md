@@ -1,5 +1,7 @@
 # Reality Memory R0：供审阅的实现
 
+本轮审阅后的修补、两步真实优化器与 10-step 结果见 [R0_SHORT_EXPERIMENTS.md](R0_SHORT_EXPERIMENTS.md)。以下准备记录中的“未训练”描述对应原始 `b75a6f7` 交付时点。
+
 [新方案原文](REALITY_MEMORY_PLAN.md)定义新的研究路线。本轮交付其第一批 R0 代码、过滤后的参考数据和冻结视觉特征，保留全部 State Re-Anchoring baseline 及历史报告。用户要求先审阅，因此本轮不执行 10-step overfit 或 50/200/500-step 训练；无优化器检查不作为实验成功证据。
 
 ## 本轮范围
@@ -112,6 +114,6 @@ bash scripts/train_reality_memory.sh --reviewed --max-steps 200 \
 
 No Memory 同时检查 context 和整段 rollout 与 Base 完全相同。Shuffled Memory 指跨 source 交换 reference sets；R0 对同一集合内部的参考顺序应当不敏感，不能把顺序打乱当作有意义的性能消融。
 
-输出 future/next-block latent MSE、correct/wrong gate、attention entropy、correct-vs-wrong gap、视频，以及逐帧像素变化的 motion proxy。启用 `--visual-metrics` 后以每隔 4 帧的未来帧计算 DINO reference-copy max similarity 和同世界相似度 proxy；未启用记为 null。`base_quality` 无统一质量评估器，明确为 null。这些指标不等于复制检测结论、相机轨迹自由度、物体持续性或长时世界一致性。
+输出 future/next-block latent MSE、correct/wrong-source gate、原始及按有效 token 数归一化的 attention entropy、correct-vs-wrong gap、视频，以及逐帧像素变化的 motion proxy。Wrong Source 仅表示来自不同 source，不保证是无关 world。启用 `--visual-metrics` 后以每隔 4 帧的未来帧计算 DINO reference-copy max similarity 和同世界相似度 proxy；未启用记为 null。`base_quality` 无统一质量评估器，明确为 null。这些指标不等于复制检测结论、相机轨迹自由度、物体持续性或长时世界一致性。
 
 R0 的训练和正式生成评估尚未执行；没有 Reality Memory 效果结论。R1、不同偏移量的完整 asynchrony sweep、跨视角数据、深度／物体指标及 30/60/100 秒评估属于后续阶段。

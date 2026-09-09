@@ -1,0 +1,869 @@
+{
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/reality_train.jsonl",
+      "val_manifest": "data/reality_val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reality_memory": {
+      "stage": "r0",
+      "encoder": {
+        "type": "dinov2",
+        "path": "models/dinov2-small",
+        "feature_dim": 384,
+        "image_size": 224,
+        "frozen": true
+      },
+      "feature_cache": "data/reality_features",
+      "references": {
+        "min_count": 1,
+        "max_count": 4,
+        "async_probability": 0.5,
+        "aligned_probability": 0.2,
+        "no_memory_probability": 0.15,
+        "wrong_memory_probability": 0.15,
+        "per_reference_dropout": 0.2,
+        "min_gap_sec": 1.5,
+        "async_direction": "past_only",
+        "near_radius_sec": 0.5,
+        "boundary_margin_sec": 0.2
+      },
+      "filter": {
+        "histogram_cut": 0.5,
+        "pixel_jump": 0.35,
+        "black_level": 16,
+        "black_fraction": 0.95,
+        "scene_similarity": 0.65,
+        "workers": 8
+      },
+      "projector": {
+        "num_memory_tokens": 8,
+        "memory_dim": 256
+      },
+      "guidance": {
+        "mode": "context",
+        "context_dim": 4096,
+        "heads": 4,
+        "gate_init_logit": -2.0,
+        "zero_init": true
+      },
+      "regularization": {
+        "delta_weight": 1e-05,
+        "wrong_gate_weight": 0.01
+      },
+      "objective": {
+        "prefix_latents": 6,
+        "future_blocks": 1
+      }
+    },
+    "train": {
+      "backbone_frozen": true,
+      "max_steps": 500,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 10,
+      "save_every": 50,
+      "eval_every": 50,
+      "grad_clip": 1.0,
+      "world_size": 4
+    },
+    "eval": {
+      "cases": 4,
+      "reference_counts": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  },
+  "cases": [
+    {
+      "sample_id": "d68aece999b6a13f66b2598c",
+      "training_reference_kind": "async",
+      "noise_seed": 50042,
+      "variants": {
+        "base": {
+          "video_loss": 0.20309609174728394
+        },
+        "none": {
+          "video_loss": 0.20309609174728394,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.20343950390815735,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771514415740967,
+          "memory_attention_entropy_normalized": 0.9996125102043152,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.2033708542585373,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7721736431121826,
+          "memory_attention_entropy_normalized": 0.9998502731323242,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.2031312882900238,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.1025390625,
+          "memory_attention_entropy": 2.771712064743042,
+          "memory_attention_entropy_normalized": 0.9996837973594666,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "de441bf93563eb8858aa5aa4",
+      "training_reference_kind": "aligned",
+      "noise_seed": 50048,
+      "variants": {
+        "base": {
+          "video_loss": 0.04257449880242348
+        },
+        "none": {
+          "video_loss": 0.04257449880242348,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.042512089014053345,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.772212505340576,
+          "memory_attention_entropy_normalized": 0.9998642802238464,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.0424785278737545,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7722179889678955,
+          "memory_attention_entropy_normalized": 0.9998663067817688,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.0425783172249794,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.1025390625,
+          "memory_attention_entropy": 2.7723004817962646,
+          "memory_attention_entropy_normalized": 0.9998960494995117,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "fd7073ae640848c8aa8ee389",
+      "training_reference_kind": "none",
+      "noise_seed": 50043,
+      "variants": {
+        "base": {
+          "video_loss": 0.263673335313797
+        },
+        "none": {
+          "video_loss": 0.263673335313797,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.2644246816635132,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771864414215088,
+          "memory_attention_entropy_normalized": 0.9997387528419495,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.2637122869491577,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7716877460479736,
+          "memory_attention_entropy_normalized": 0.9996750354766846,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.26520654559135437,
+          "memory_gate_mean": 0.103515625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.103515625,
+          "memory_attention_entropy": 2.771566867828369,
+          "memory_attention_entropy_normalized": 0.9996314644813538,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "24c34e2d370446c11586fb8d",
+      "training_reference_kind": "wrong",
+      "noise_seed": 50047,
+      "variants": {
+        "base": {
+          "video_loss": 0.48506391048431396
+        },
+        "none": {
+          "video_loss": 0.48506391048431396,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.48534855246543884,
+          "memory_gate_mean": 0.09814453125,
+          "correct_memory_gate": 0.09814453125,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7722225189208984,
+          "memory_attention_entropy_normalized": 0.9998679161071777,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.48570695519447327,
+          "memory_gate_mean": 0.09814453125,
+          "correct_memory_gate": 0.09814453125,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7718636989593506,
+          "memory_attention_entropy_normalized": 0.9997385144233704,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.4849455654621124,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.099609375,
+          "memory_attention_entropy": 2.771484136581421,
+          "memory_attention_entropy_normalized": 0.9996016025543213,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "528e9d09905e58c9d22c013f",
+      "training_reference_kind": "async",
+      "noise_seed": 50045,
+      "variants": {
+        "base": {
+          "video_loss": 0.04174822196364403
+        },
+        "none": {
+          "video_loss": 0.04174822196364403,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.04173748195171356,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7720260620117188,
+          "memory_attention_entropy_normalized": 0.9997970461845398,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.04173111543059349,
+          "memory_gate_mean": 0.103515625,
+          "correct_memory_gate": 0.103515625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771960973739624,
+          "memory_attention_entropy_normalized": 0.9997735619544983,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.04187682271003723,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10693359375,
+          "memory_attention_entropy": 2.7721362113952637,
+          "memory_attention_entropy_normalized": 0.999836802482605,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "8eee783291d326f9817dc3ff",
+      "training_reference_kind": "aligned",
+      "noise_seed": 50049,
+      "variants": {
+        "base": {
+          "video_loss": 0.24014082551002502
+        },
+        "none": {
+          "video_loss": 0.24014082551002502,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.24004128575325012,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7717723846435547,
+          "memory_attention_entropy_normalized": 0.9997055530548096,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.23986223340034485,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7717747688293457,
+          "memory_attention_entropy_normalized": 0.9997064471244812,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.23992620408535004,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10693359375,
+          "memory_attention_entropy": 2.771620988845825,
+          "memory_attention_entropy_normalized": 0.9996509552001953,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "b39a145e792e2567d63a20c1",
+      "training_reference_kind": "none",
+      "noise_seed": 50044,
+      "variants": {
+        "base": {
+          "video_loss": 0.5076019167900085
+        },
+        "none": {
+          "video_loss": 0.5076019167900085,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.5075397491455078,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": 0.099609375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771512269973755,
+          "memory_attention_entropy_normalized": 0.9996117353439331,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.5076269507408142,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": 0.099609375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771740674972534,
+          "memory_attention_entropy_normalized": 0.9996941089630127,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.5074040293693542,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.099609375,
+          "memory_attention_entropy": 2.7714033126831055,
+          "memory_attention_entropy_normalized": 0.9995724558830261,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "516a950f4bd633672b8a10c3",
+      "training_reference_kind": "wrong",
+      "noise_seed": 50059,
+      "variants": {
+        "base": {
+          "video_loss": 0.5098256468772888
+        },
+        "none": {
+          "video_loss": 0.5098256468772888,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.5099507570266724,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": 0.099609375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7721073627471924,
+          "memory_attention_entropy_normalized": 0.9998263716697693,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.5098057985305786,
+          "memory_gate_mean": 0.09814453125,
+          "correct_memory_gate": 0.09814453125,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.772118330001831,
+          "memory_attention_entropy_normalized": 0.9998303651809692,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.5098382234573364,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.099609375,
+          "memory_attention_entropy": 2.7715630531311035,
+          "memory_attention_entropy_normalized": 0.9996300935745239,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "1138a325b9acc527b4d125b2",
+      "training_reference_kind": "async",
+      "noise_seed": 50046,
+      "variants": {
+        "base": {
+          "video_loss": 0.18050488829612732
+        },
+        "none": {
+          "video_loss": 0.18050488829612732,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.18122084438800812,
+          "memory_gate_mean": 0.0966796875,
+          "correct_memory_gate": 0.0966796875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7717278003692627,
+          "memory_attention_entropy_normalized": 0.9996894598007202,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.18088467419147491,
+          "memory_gate_mean": 0.09814453125,
+          "correct_memory_gate": 0.09814453125,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771768093109131,
+          "memory_attention_entropy_normalized": 0.9997040033340454,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.1803436279296875,
+          "memory_gate_mean": 0.099609375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.099609375,
+          "memory_attention_entropy": 2.7713491916656494,
+          "memory_attention_entropy_normalized": 0.9995529055595398,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "26969ff4a53a8833d01bc1f6",
+      "training_reference_kind": "aligned",
+      "noise_seed": 50050,
+      "variants": {
+        "base": {
+          "video_loss": 0.22161872684955597
+        },
+        "none": {
+          "video_loss": 0.22161872684955597,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.22179509699344635,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7714946269989014,
+          "memory_attention_entropy_normalized": 0.9996053576469421,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.22175610065460205,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7714664936065674,
+          "memory_attention_entropy_normalized": 0.9995952248573303,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.22133328020572662,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.1025390625,
+          "memory_attention_entropy": 2.7715694904327393,
+          "memory_attention_entropy_normalized": 0.9996323585510254,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "57f5d756f5dbe35f3bf8d042",
+      "training_reference_kind": "none",
+      "noise_seed": 50052,
+      "variants": {
+        "base": {
+          "video_loss": 0.19245906174182892
+        },
+        "none": {
+          "video_loss": 0.19245906174182892,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.1922292709350586,
+          "memory_gate_mean": 0.10498046875,
+          "correct_memory_gate": 0.10498046875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771812915802002,
+          "memory_attention_entropy_normalized": 0.9997201561927795,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.19222044944763184,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7720305919647217,
+          "memory_attention_entropy_normalized": 0.9997987151145935,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.19191542267799377,
+          "memory_gate_mean": 0.10498046875,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10498046875,
+          "memory_attention_entropy": 2.771784782409668,
+          "memory_attention_entropy_normalized": 0.9997100234031677,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "53303a6295a11fe3bca93ed8",
+      "training_reference_kind": "wrong",
+      "noise_seed": 50061,
+      "variants": {
+        "base": {
+          "video_loss": 0.13189567625522614
+        },
+        "none": {
+          "video_loss": 0.13189567625522614,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.1315973997116089,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771409749984741,
+          "memory_attention_entropy_normalized": 0.9995747804641724,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.13197194039821625,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": 0.10107421875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771221876144409,
+          "memory_attention_entropy_normalized": 0.9995070099830627,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.13154743611812592,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10107421875,
+          "memory_attention_entropy": 2.7714641094207764,
+          "memory_attention_entropy_normalized": 0.9995943903923035,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "df8f32b0e35b87e099a652ac",
+      "training_reference_kind": "async",
+      "noise_seed": 50053,
+      "variants": {
+        "base": {
+          "video_loss": 0.06732805073261261
+        },
+        "none": {
+          "video_loss": 0.06732805073261261,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.06729830801486969,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771545886993408,
+          "memory_attention_entropy_normalized": 0.9996238946914673,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.06715012341737747,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7715275287628174,
+          "memory_attention_entropy_normalized": 0.9996172785758972,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.06716229766607285,
+          "memory_gate_mean": 0.10498046875,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10498046875,
+          "memory_attention_entropy": 2.7717080116271973,
+          "memory_attention_entropy_normalized": 0.9996823668479919,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "de7526bd0e85b032840589f1",
+      "training_reference_kind": "aligned",
+      "noise_seed": 50051,
+      "variants": {
+        "base": {
+          "video_loss": 0.1798289269208908
+        },
+        "none": {
+          "video_loss": 0.1798289269208908,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.17990660667419434,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7717769145965576,
+          "memory_attention_entropy_normalized": 0.9997072219848633,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.17951810359954834,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": 0.10693359375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771374464035034,
+          "memory_attention_entropy_normalized": 0.9995620250701904,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.17944903671741486,
+          "memory_gate_mean": 0.10693359375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10693359375,
+          "memory_attention_entropy": 2.771697521209717,
+          "memory_attention_entropy_normalized": 0.9996785521507263,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "75dfa56eacdd2a31813b55df",
+      "training_reference_kind": "none",
+      "noise_seed": 50056,
+      "variants": {
+        "base": {
+          "video_loss": 0.11467764526605606
+        },
+        "none": {
+          "video_loss": 0.11467764526605606,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.11478910595178604,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.7717361450195312,
+          "memory_attention_entropy_normalized": 0.9996924996376038,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.11461590230464935,
+          "memory_gate_mean": 0.1025390625,
+          "correct_memory_gate": 0.1025390625,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771596670150757,
+          "memory_attention_entropy_normalized": 0.9996421933174133,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.11473032832145691,
+          "memory_gate_mean": 0.10107421875,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.10107421875,
+          "memory_attention_entropy": 2.7716310024261475,
+          "memory_attention_entropy_normalized": 0.9996545910835266,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    },
+    {
+      "sample_id": "5587801972385279bc951d47",
+      "training_reference_kind": "wrong",
+      "noise_seed": 50069,
+      "variants": {
+        "base": {
+          "video_loss": 0.03877648338675499
+        },
+        "none": {
+          "video_loss": 0.03877648338675499,
+          "memory_gate_mean": 0.0,
+          "correct_memory_gate": null,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 0.0,
+          "memory_attention_entropy_normalized": 0.0,
+          "valid_memory_tokens": 0.0
+        },
+        "async": {
+          "video_loss": 0.038817040622234344,
+          "memory_gate_mean": 0.0966796875,
+          "correct_memory_gate": 0.0966796875,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771152973175049,
+          "memory_attention_entropy_normalized": 0.9994821548461914,
+          "valid_memory_tokens": 16.0
+        },
+        "aligned": {
+          "video_loss": 0.038810454308986664,
+          "memory_gate_mean": 0.09521484375,
+          "correct_memory_gate": 0.09521484375,
+          "wrong_source_gate": null,
+          "memory_attention_entropy": 2.771505832672119,
+          "memory_attention_entropy_normalized": 0.9996094107627869,
+          "valid_memory_tokens": 16.0
+        },
+        "wrong_source": {
+          "video_loss": 0.0387788824737072,
+          "memory_gate_mean": 0.09521484375,
+          "correct_memory_gate": null,
+          "wrong_source_gate": 0.09521484375,
+          "memory_attention_entropy": 2.7717201709747314,
+          "memory_attention_entropy_normalized": 0.9996867179870605,
+          "valid_memory_tokens": 16.0
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "base": {
+      "video_loss": 0.21380086918361485
+    },
+    "none": {
+      "video_loss": 0.21380086918361485,
+      "memory_gate_mean": 0.0,
+      "memory_attention_entropy": 0.0,
+      "memory_attention_entropy_normalized": 0.0,
+      "valid_memory_tokens": 0.0
+    },
+    "async": {
+      "video_loss": 0.21391548588871956,
+      "memory_gate_mean": 0.101776123046875,
+      "correct_memory_gate": 0.101776123046875,
+      "memory_attention_entropy": 2.771743059158325,
+      "memory_attention_entropy_normalized": 0.9996949806809425,
+      "valid_memory_tokens": 16.0
+    },
+    "aligned": {
+      "video_loss": 0.2138264044187963,
+      "memory_gate_mean": 0.10205078125,
+      "correct_memory_gate": 0.10205078125,
+      "memory_attention_entropy": 2.7717518359422684,
+      "memory_attention_entropy_normalized": 0.9996981546282768,
+      "valid_memory_tokens": 16.0
+    },
+    "wrong_source": {
+      "video_loss": 0.21376045676879585,
+      "memory_gate_mean": 0.10235595703125,
+      "wrong_source_gate": 0.10235595703125,
+      "memory_attention_entropy": 2.771669462323189,
+      "memory_attention_entropy_normalized": 0.9996684454381466,
+      "valid_memory_tokens": 16.0
+    }
+  },
+  "references_per_variant": 2,
+  "scope": "fixed-noise first-future-block teacher-forcing; clean GT prefix; same-source past-frame proxy",
+  "wrong_source_note": "Different source is not necessarily irrelevant world evidence",
+  "correct_vs_wrong_video_loss_gap": -0.00015502911992371082
+}

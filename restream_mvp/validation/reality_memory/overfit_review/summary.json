@@ -1,0 +1,207 @@
+{
+  "batch_steps": 10,
+  "optimizer_steps": 6,
+  "sample_types_seen": {
+    "none": 4,
+    "wrong_source": 3,
+    "async": 2,
+    "aligned": 1
+  },
+  "fixed_noise_probe_samples": 16,
+  "paired_controls": {
+    "async": {
+      "before_video_loss": 0.21380086918361485,
+      "after_video_loss": 0.21391548588871956,
+      "relative_change_vs_base_percent": 0.05360909220919474,
+      "wins_vs_base": 7,
+      "gate_before": 0.119293212890625,
+      "gate_after": 0.101776123046875,
+      "normalized_entropy_after": 0.9996949806809425
+    },
+    "aligned": {
+      "before_video_loss": 0.21380086918361485,
+      "after_video_loss": 0.2138264044187963,
+      "relative_change_vs_base_percent": 0.01194346649708855,
+      "wins_vs_base": 8,
+      "gate_before": 0.11932373046875,
+      "gate_after": 0.10205078125,
+      "normalized_entropy_after": 0.9996981546282768
+    },
+    "wrong_source": {
+      "before_video_loss": 0.21380086918361485,
+      "after_video_loss": 0.21376045676879585,
+      "relative_change_vs_base_percent": -0.018901894540146458,
+      "wins_vs_base": 9,
+      "gate_before": 0.120208740234375,
+      "gate_after": 0.10235595703125,
+      "normalized_entropy_after": 0.9996684454381466
+    }
+  },
+  "no_memory_exact_base": true,
+  "correct_vs_wrong_video_loss_gap": -0.00015502911992371082,
+  "ar_validation_cases": 1,
+  "ar_validation": {
+    "variants": {
+      "aligned_k4": {
+        "future_latent_mse": 0.7954533100128174,
+        "next_block_latent_mse": 0.5073480606079102,
+        "memory_gate_mean": 0.10693359375,
+        "correct_memory_gate": 0.10693359375,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4646899700164795,
+        "memory_attention_entropy_normalized": 0.9996982216835022,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.14965970814228058
+      },
+      "async_k4": {
+        "future_latent_mse": 0.8394625782966614,
+        "next_block_latent_mse": 0.5122274160385132,
+        "memory_gate_mean": 0.10498046875,
+        "correct_memory_gate": 0.10498046875,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.464658498764038,
+        "memory_attention_entropy_normalized": 0.9996891021728516,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.1630980372428894
+      },
+      "base": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "hard_anchor": {
+        "future_latent_mse": 0.8114923238754272,
+        "next_block_latent_mse": 0.5595136880874634,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.1070709079504013
+      },
+      "no_memory": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": 0.0,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 0.0,
+        "memory_attention_entropy_normalized": 0.0,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "oracle_gt_state": {
+        "future_latent_mse": 0.8231402039527893,
+        "next_block_latent_mse": 0.5113774538040161,
+        "memory_gate_mean": null,
+        "correct_memory_gate": null,
+        "wrong_source_gate": null,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": null,
+        "memory_attention_entropy_normalized": null,
+        "valid_memory_tokens": 0.0,
+        "pixel_motion_magnitude": 0.14073270559310913
+      },
+      "shuffled_k4": {
+        "future_latent_mse": 0.7862228155136108,
+        "next_block_latent_mse": 0.5076004862785339,
+        "memory_gate_mean": 0.103515625,
+        "correct_memory_gate": null,
+        "wrong_source_gate": 0.103515625,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4650442600250244,
+        "memory_attention_entropy_normalized": 0.999800443649292,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.1520209014415741
+      },
+      "wrong_source_k4": {
+        "future_latent_mse": 0.800780713558197,
+        "next_block_latent_mse": 0.5120134949684143,
+        "memory_gate_mean": 0.10498046875,
+        "correct_memory_gate": null,
+        "wrong_source_gate": 0.10498046875,
+        "reference_copy_score": null,
+        "dino_world_similarity": null,
+        "memory_attention_entropy": 3.4640731811523438,
+        "memory_attention_entropy_normalized": 0.9995202422142029,
+        "valid_memory_tokens": 32.0,
+        "pixel_motion_magnitude": 0.16178931295871735
+      }
+    },
+    "correct_vs_wrong_gap": {
+      "async_k4": -0.038681864738464355
+    },
+    "base_quality": null
+  },
+  "performance": {
+    "sum_training_step_seconds": 20.763028983026743,
+    "median_step_seconds": 1.7026275135576725,
+    "data_fraction": 0.07255243611179431,
+    "peak_vram_bytes": 45008858624,
+    "gpu_utilization_process_mean_percent": 52.29875518672199,
+    "gpu_utilization_samples": 241,
+    "gpu_scope": "1Hz trace of entire process including model loading, before/after probes, training and AR evaluation"
+  },
+  "decision": "Do not expand to 50/200 steps: no correct-reference advantage yet; this short clean-prefix proxy does not reject the long-horizon hypothesis.",
+  "videos": [
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/aligned_k4.mp4",
+      "frames": 57,
+      "sha256": "8a93e367c8cda7a5069dfcd569616b81b5f693d325accbcefb8ef988d2af3145"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/async_k4.mp4",
+      "frames": 57,
+      "sha256": "4eb213f4671607b085ccb57f6107f8c4c85c065784f3a69eb92005c50da28451"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/base.mp4",
+      "frames": 57,
+      "sha256": "321ded17b324147f7ceddf50d79c570ec2d3225ab33205441490392a450f9242"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/hard_anchor.mp4",
+      "frames": 57,
+      "sha256": "cba101198b4487c9725633e0951226dce54f979558fefef2ece4c87c8627a26e"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/no_memory.mp4",
+      "frames": 57,
+      "sha256": "c82e4dbdf48905ad0ff70773461c390543fbe1cd2f26db38620579894fdd55b4"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/oracle_gt_state.mp4",
+      "frames": 57,
+      "sha256": "758e56f050f9fbfbf2a4e7f3281e0e5e6fb47ea2279699c957eca1e4cd20979b"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/shuffled_k4.mp4",
+      "frames": 57,
+      "sha256": "cf9c7fe80ec123e1e32dc231437fac4edc8e96414eb8ddc93b73b2aca726fc5f"
+    },
+    {
+      "path": "outputs/reality_memory/reality_memory_overfit_review/step_10/rank_0/case_000/wrong_source_k4.mp4",
+      "frames": 57,
+      "sha256": "01156ce0e3f6d3b0681b4e43be1833c23f77a0bda466fcb7f1ba4d8277f2bbe6"
+    }
+  ]
+}
