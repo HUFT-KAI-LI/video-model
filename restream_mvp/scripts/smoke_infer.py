@@ -24,4 +24,4 @@ if not torch.isfinite(pixels).all():
 out = ROOT / "outputs/baseline"
 out.mkdir(parents=True, exist_ok=True)
 write_video(out / "smoke.mp4", (pixels[0] * 255).byte().permute(0, 2, 3, 1).cpu().numpy(),
-            16, ["Official LongLive baseline"], -100)
+            float(c["data"]["fps"]), ["Official LongLive baseline"], -100)

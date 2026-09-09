@@ -2,7 +2,9 @@ import torch
 
 
 def corrupt_history(history, generator, probability=0.8, sigma_min=0.02, sigma_max=0.12, protected_prefix=3):
-    """Explicit generator makes corruption identical across A/B/C variants."""
+    """Explicit generator makes corruption identical across evaluation variants."""
+    if type(protected_prefix) is not int or protected_prefix < 0:
+        raise ValueError("protected_prefix must be a nonnegative integer")
     result = history.clone()
     if history.shape[1] <= protected_prefix:
         return result

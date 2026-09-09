@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 import av
 import numpy as np
@@ -12,13 +13,18 @@ def read_manifest(path):
 
 
 class VideoDataset(Dataset):
-    def __init__(self, manifest, frames=57, height=256, width=432):
+    def __init__(self, manifest, frames=57, height=256, width=432, fps=16):
         self.rows = read_manifest(manifest)
         if not self.rows:
             raise ValueError("Empty dataset")
-        if (frames - 1) % 4 or ((frames - 1) // 4 + 1) % 3 or height % 16 or width % 16:
+        if frames < 9 or min(height, width) <= 0 or (frames - 1) % 4 or ((frames - 1) // 4 + 1) % 3 or height % 16 or width % 16:
             raise ValueError("Expected 4k+1 pixels, latent frames multiple of 3, spatial multiple of 16")
-        self.frames, self.height, self.width = frames, height, width
+        if not math.isfinite(fps) or fps <= 0:
+            raise ValueError("fps must be positive")
+        self.frames, self.height, self.width, self.fps = frames, height, width, float(fps)
+        window_sec = (frames - 1) / self.fps
+        if any(not math.isclose(float(row["window_sec"]), window_sec, abs_tol=1e-6) for row in self.rows):
+            raise ValueError("Manifest window_sec differs from (frames - 1) / fps; rebuild the manifest with the current config")
 
     def __len__(self):
         return len(self.rows)
@@ -26,7 +32,7 @@ class VideoDataset(Dataset):
     def __getitem__(self, index):
         row = self.rows[index]
         start = float(row["window_start"])
-        targets = start + np.arange(self.frames, dtype=np.float64) / 16.0
+        targets = start + np.arange(self.frames, dtype=np.float64) / self.fps
         decoded, cursor = [], 0
         with av.open(row["video"]) as container:
             stream = container.streams.video[0]

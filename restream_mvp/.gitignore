@@ -1,5 +1,5 @@
-.venv/
-models/
+.venv
+models
 data/raw/
 data/sdk_cache/
 checkpoints/

@@ -1,11 +1,16 @@
 import argparse
 import json
+import math
 import random
 import statistics
 from pathlib import Path
+import yaml
 
 
-def build(raw, output, seed=42):
+def build(raw, output, seed=42, frames=57, fps=16):
+    if frames < 9 or (frames - 1) % 4 or ((frames - 1) // 4 + 1) % 3 or not math.isfinite(fps) or fps <= 0:
+        raise ValueError("Invalid frames/fps for Wan block-aligned sampling")
+    length = (frames - 1) / fps
     rows = [json.loads(x) for x in raw.read_text().splitlines() if x.strip()]
     groups = {}
     for row in rows:
@@ -20,9 +25,8 @@ def build(raw, output, seed=42):
         rng = random.Random(f"{seed}:{source}")
         for row in groups[source]:
             duration = float(row["duration"])
-            if duration < 4:
+            if duration < max(4, length + .2):
                 continue
-            length = min(duration - .2, 3.5)
             split = "val" if source in val_ids else "train"
             splits[split].append({**row, "source_id": source, "split": split,
                                   "window_start": rng.uniform(0, duration - .2 - length),
@@ -51,5 +55,7 @@ if __name__ == "__main__":
     p.add_argument("--raw", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--config", type=Path, default=Path(__file__).resolve().parents[1] / "configs/restream_mvp.yaml")
     a = p.parse_args()
-    build(a.raw, a.output, a.seed)
+    data = yaml.safe_load(a.config.read_text())["data"]
+    build(a.raw, a.output, a.seed, data["frames"], data["fps"])

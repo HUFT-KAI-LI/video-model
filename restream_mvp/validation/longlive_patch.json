@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "archive_sha256": "114f4f2edc1dc1c7725a42d676986f4ea07a869397013d36a047f28f30e56c4d",
+  "upstream_commit": "e52d9ef6865d843282a6b5e9d46d03b35f88929d",
+  "patch_sha256": "d03e69ac9c8cdb09592f06150cd6c90e2c5c8dfe2d23283cbe1cb5e89d64ddc8",
+  "reconstructed_sha256": {
+    "utils/wan_wrapper.py": "39c9ae56f0652a8128495b8d3d97e2119fd2a833d662234c2ec9d43fded1558f",
+    "wan/modules/causal_model.py": "cbcc5a31b03a0697876a74669fef40bd63cd990b38dc0b8c646819da20b47f5c",
+    "wan/modules/causal_model_infinity.py": "e5004e73756bb666044fe7031865c2e403a090018cfa325b5174fbe375789426"
+  }
+}

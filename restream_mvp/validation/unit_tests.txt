@@ -1,0 +1,42 @@
+test_adapter_gradient_bf16_and_reload (test_components.Components.test_adapter_gradient_bf16_and_reload) ... /usr/local/lib/python3.11/site-packages/torch/autograd/graph.py:825: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 304: OS call failed or operation not supported on this OS (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+ok
+test_corruption_reproducible_and_no_mutation (test_components.Components.test_corruption_reproducible_and_no_mutation) ... ok
+test_dataset_split_decode_and_normalization (test_components.Components.test_dataset_split_decode_and_normalization) ... ok
+test_future_metrics_exclude_anchor_and_prefix (test_components.Components.test_future_metrics_exclude_anchor_and_prefix) ... ok
+test_future_objective_gradient_through_frozen_backbone (test_components.Components.test_future_objective_gradient_through_frozen_backbone) ... ok
+test_injector_rebuild_and_immutable_input (test_components.Components.test_injector_rebuild_and_immutable_input) ... ok
+test_parallel_download_budget_and_oversized_response (test_components.Components.test_parallel_download_budget_and_oversized_response) ... ok
+test_prepare_uses_configured_sink_prefix (test_components.Components.test_prepare_uses_configured_sink_prefix) ... ok
+test_time_mapping_is_causal (test_components.Components.test_time_mapping_is_causal) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.081s
+
+OK
+{
+  "download_gb": 5.254e-06,
+  "total_source_videos": 20,
+  "usable_videos": 40,
+  "train_sources": 18,
+  "val_sources": 2,
+  "mean_duration_sec": 5.0,
+  "median_duration_sec": 5.0,
+  "min_duration_sec": 5.0,
+  "max_duration_sec": 5.0,
+  "seed": 42,
+  "minimum_count_met": false
+}
+{
+  "download_gb": 5.254e-06,
+  "total_source_videos": 20,
+  "usable_videos": 40,
+  "train_sources": 18,
+  "val_sources": 2,
+  "mean_duration_sec": 5.0,
+  "median_duration_sec": 5.0,
+  "min_duration_sec": 5.0,
+  "max_duration_sec": 5.0,
+  "seed": 42,
+  "minimum_count_met": false
+}

@@ -9,15 +9,19 @@ def prepare(pipeline, batch, device, config, rng, force_drift=False):
     if pixels.shape[0] != 1:
         raise ValueError("MVP expects per-GPU batch size 1")
     index, actual_time = timestamp_to_latent_index(float(batch["anchor_sec"][0]),
-                                                  float(batch["window_sec"][0]), pixels.shape[2])
+                                                  float(batch["window_sec"][0]), pixels.shape[2],
+                                                  pipeline.num_frame_per_block)
     with torch.no_grad():
         gt = pipeline.vae.encode_to_latent(pixels).to(dtype=torch.bfloat16)
         if gt.shape[1] != (pixels.shape[2] - 1) // 4 + 1:
             raise ValueError("VAE temporal compression does not match the verified mapping")
         real = HardAnchorInjector(pipeline.vae).encode_anchor(pixels[:, :, 4 * index]).to(gt.dtype)
         conditioning = pipeline.text_encoder(batch["caption"])
-        history = corrupt_history(gt[:, :index + 1], rng,
-                                  probability=1 if force_drift else config["reanchor"]["drift_probability"])
+        history = corrupt_history(
+            gt[:, :index + 1], rng,
+            probability=1 if force_drift else config["reanchor"]["drift_probability"],
+            protected_prefix=config["reanchor"]["protected_sink_latents"],
+        )
     return gt, history, real, conditioning, index, actual_time
 
 
@@ -33,14 +37,19 @@ def future_loss(pipeline, adapter, gt, history, real, conditioning, index, rng, 
     times = pipeline.scheduler.timesteps.to(gt.device)[ids].repeat_interleave(pipeline.num_frame_per_block, dim=1)
     noise = torch.randn(gt.shape, device=gt.device, dtype=gt.dtype, generator=rng)
     noisy = pipeline.scheduler.add_noise(gt.flatten(0, 1), noise.flatten(0, 1), times.flatten()).unflatten(0, gt.shape[:2])
-    # Clear shape/mode-specific cached mask before each TF forward.
+    # Reuse the TF mask only for the same complete shape and block layout.
     transformer = pipeline.generator.model
     if hasattr(transformer, "get_base_model"):
         transformer = transformer.get_base_model()
-    
-    if getattr(transformer, "_restream_mask_shape", None) != tuple(clean_context.shape[1:4]):
+    mask_key = (
+        "teacher_forcing", str(clean_context.device),
+        tuple(clean_context.shape[1:]),
+        pipeline.num_frame_per_block,
+        pipeline.frame_seq_length,
+    )
+    if getattr(transformer, "_restream_mask_key", None) != mask_key:
         transformer.block_mask = None
-        transformer._restream_mask_shape = tuple(clean_context.shape[1:4])
+        transformer._restream_mask_key = mask_key
     flow, prediction = pipeline.generator(noisy, conditioning, times, clean_x=clean_context)
     mask = torch.zeros_like(gt, dtype=torch.bool)
     mask[:, index + 1:future_end] = True

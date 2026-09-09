@@ -36,20 +36,28 @@ def write_video(path, frames, fps, labels, anchor_frame):
 
 @torch.no_grad()
 def evaluate(pipeline, adapter, config, device, output, cases=None, lpips_model=None):
+    cases = config["eval"]["cases"] if cases is None else cases
+    if cases <= 0:
+        raise ValueError("Evaluation requires at least one case")
     output.mkdir(parents=True, exist_ok=True)
     dataset = VideoDataset(ROOT / config["data"]["val_manifest"], config["data"]["frames"],
-                           config["data"]["height"], config["data"]["width"])
+                           config["data"]["height"], config["data"]["width"], config["data"]["fps"])
     loader = DataLoader(dataset, batch_size=1)
     results = []
     for case, batch in enumerate(loader):
-        if case >= (cases or config["eval"]["cases"]):
+        if case >= cases:
             break
         seed = config["seed"] + case
         gt, history, real, cond, anchor, arrival = prepare(pipeline, batch, device, config,
                                                          torch.Generator(device=device).manual_seed(seed), force_drift=True)
         noise = torch.randn(gt[:, anchor + 1:].shape, dtype=gt.dtype, device=device,
                             generator=torch.Generator(device=device).manual_seed(seed + 10000))
-        variants = {"no_anchor": history, "hard_anchor": torch.cat((history[:, :-1], real), dim=1)}
+        variants = {
+            "no_anchor": history,
+            "hard_anchor": torch.cat((history[:, :-1], real), dim=1),
+            # Diagnostic upper bound for representation, unavailable at deployment.
+            "oracle_gt_anchor": torch.cat((history[:, :-1], gt[:, anchor:anchor + 1]), dim=1),
+        }
         if adapter is not None:
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 corrected = adapter(history[:, -1:], real)
@@ -63,11 +71,14 @@ def evaluate(pipeline, adapter, config, device, output, cases=None, lpips_model=
                   "requested_anchor_sec": float(batch["anchor_sec"][0]), "variants": {}}
         window = float(batch["window_sec"][0])
         for name, prefix in variants.items():
+            print(f"Case {case + 1}/{min(cases, len(dataset))}: {name}", flush=True)
             generated = rollout(pipeline, prefix, cond, noise.clone(),
                                 torch.Generator(device=device).manual_seed(seed + 20000))
             if not torch.isfinite(generated).all():
                 raise RuntimeError(f"Nonfinite rollout: {name}")
             scores = future_errors(generated, gt, anchor, window)
+            end = anchor + 1 + pipeline.num_frame_per_block
+            scores["next_block_latent_mse"] = (generated[:, anchor + 1:end].float() - gt[:, anchor + 1:end].float()).square().mean().item()
             decoded = pipeline.vae.decode_to_pixel(generated)[0]
             images[name] = decoded
             scores["future_lpips"] = None
@@ -79,22 +90,26 @@ def evaluate(pipeline, adapter, config, device, output, cases=None, lpips_model=
             record["variants"][name] = scores
         arrays = {name: ((video.float().clamp(-1, 1) + 1) * 127.5).byte().permute(0, 2, 3, 1).cpu().numpy()
                   for name, video in images.items()}
-        fps = (config["data"]["frames"] - 1) / window
+        fps = float(config["data"]["fps"])
         for name, array in arrays.items():
             write_video(folder / f"{name}.mp4", array, fps, [name], 4 * anchor)
         write_video(folder / "comparison.mp4", np.concatenate(list(arrays.values()), axis=2), fps,
                     list(arrays), 4 * anchor)
         (folder / "metrics.json").write_text(json.dumps(record, indent=2))
         results.append(record)
-    summary = {"cases": results, "lpips_status": "computed" if lpips_model is not None else "not requested", "aggregate": {}}
-    for name in ("no_anchor", "hard_anchor", "learned_anchor"):
+    summary = {"cases": results, "config": config,
+               "oracle_note": "Replaces only the last anchor latent with GT; other corrupted history stays identical. Diagnostic only, not a deployable observation.",
+               "lpips_status": "computed" if lpips_model is not None else "not requested", "aggregate": {}}
+    for name in ("no_anchor", "hard_anchor", "oracle_gt_anchor", "learned_anchor"):
         entries = [r["variants"][name] for r in results if name in r["variants"]]
         if entries:
             summary["aggregate"][f"future_latent_mse_{name}"] = sum(e["future_latent_mse"] for e in entries) / len(entries)
+            summary["aggregate"][f"next_block_latent_mse_{name}"] = sum(e["next_block_latent_mse"] for e in entries) / len(entries)
             summary["aggregate"][f"future_lpips_{name}"] = (sum(e["future_lpips"] for e in entries) / len(entries)) if lpips_model else None
             if name != "no_anchor":
                 summary["aggregate"][f"recovery_win_rate_{name}"] = sum(r["variants"][name]["future_latent_mse"] < r["variants"]["no_anchor"]["future_latent_mse"] for r in results) / len(results)
-    (output / "metrics.json").write_text(json.dumps(summary, indent=2))
+    (output / "metrics.json").write_text(json.dumps(summary, indent=2, allow_nan=False) + "\n")
+    print(json.dumps(summary["aggregate"], indent=2), flush=True)
     return summary
 
 
@@ -110,6 +125,7 @@ def main():
     if not a.reviewed:
         p.error("Evaluation is a post-review experiment; pass --reviewed after review")
     config = read_config(a.config)
+    torch.manual_seed(config["seed"])
     device = torch.device("cuda")
     pipeline = load_pipeline(config, device)
     adapter = None

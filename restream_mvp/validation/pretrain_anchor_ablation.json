@@ -1,0 +1,192 @@
+{
+  "cases": [
+    {
+      "source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
+      "seed": 42,
+      "anchor_latent_index": 5,
+      "anchor_pixel_index": 20,
+      "actual_anchor_sec": 1.25,
+      "requested_anchor_sec": 1.061298519182012,
+      "variants": {
+        "no_anchor": {
+          "future_latent_mse_0.5s": 0.4041372239589691,
+          "future_latent_mse_1s": 0.513549268245697,
+          "future_latent_mse_2s": 0.6659480333328247,
+          "future_latent_mse": 0.6943116784095764,
+          "next_block_latent_mse": 0.46198976039886475,
+          "future_lpips": null
+        },
+        "hard_anchor": {
+          "future_latent_mse_0.5s": 0.45065930485725403,
+          "future_latent_mse_1s": 0.5490050315856934,
+          "future_latent_mse_2s": 0.6567034125328064,
+          "future_latent_mse": 0.6730157136917114,
+          "next_block_latent_mse": 0.5061380863189697,
+          "future_lpips": null
+        },
+        "oracle_gt_anchor": {
+          "future_latent_mse_0.5s": 0.3936641812324524,
+          "future_latent_mse_1s": 0.49546292424201965,
+          "future_latent_mse_2s": 0.6303869485855103,
+          "future_latent_mse": 0.6603686213493347,
+          "next_block_latent_mse": 0.45244109630584717,
+          "future_lpips": null
+        }
+      }
+    },
+    {
+      "source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
+      "seed": 43,
+      "anchor_latent_index": 5,
+      "anchor_pixel_index": 20,
+      "actual_anchor_sec": 1.25,
+      "requested_anchor_sec": 1.0901677390390734,
+      "variants": {
+        "no_anchor": {
+          "future_latent_mse_0.5s": 0.41356468200683594,
+          "future_latent_mse_1s": 0.652731716632843,
+          "future_latent_mse_2s": 0.9383029341697693,
+          "future_latent_mse": 0.954724133014679,
+          "next_block_latent_mse": 0.49129608273506165,
+          "future_lpips": null
+        },
+        "hard_anchor": {
+          "future_latent_mse_0.5s": 0.4782070219516754,
+          "future_latent_mse_1s": 0.7669870853424072,
+          "future_latent_mse_2s": 0.9458380937576294,
+          "future_latent_mse": 0.9794834852218628,
+          "next_block_latent_mse": 0.5957881808280945,
+          "future_lpips": null
+        },
+        "oracle_gt_anchor": {
+          "future_latent_mse_0.5s": 0.42095375061035156,
+          "future_latent_mse_1s": 0.6524197459220886,
+          "future_latent_mse_2s": 0.9755863547325134,
+          "future_latent_mse": 0.9952117204666138,
+          "next_block_latent_mse": 0.5022321343421936,
+          "future_lpips": null
+        }
+      }
+    },
+    {
+      "source_id": "14111B1211bE4BABY2F357FbJ-74YACEBEB42Aa1BC2a571Aa338Fa24A7Yb2B85A-aTdfofa115",
+      "seed": 44,
+      "anchor_latent_index": 5,
+      "anchor_pixel_index": 20,
+      "actual_anchor_sec": 1.25,
+      "requested_anchor_sec": 1.1508683992015571,
+      "variants": {
+        "no_anchor": {
+          "future_latent_mse_0.5s": 0.23251564800739288,
+          "future_latent_mse_1s": 0.2601082921028137,
+          "future_latent_mse_2s": 0.3014620840549469,
+          "future_latent_mse": 0.343172162771225,
+          "next_block_latent_mse": 0.24847817420959473,
+          "future_lpips": null
+        },
+        "hard_anchor": {
+          "future_latent_mse_0.5s": 0.29467615485191345,
+          "future_latent_mse_1s": 0.3328036963939667,
+          "future_latent_mse_2s": 0.3717338442802429,
+          "future_latent_mse": 0.40421777963638306,
+          "next_block_latent_mse": 0.31911176443099976,
+          "future_lpips": null
+        },
+        "oracle_gt_anchor": {
+          "future_latent_mse_0.5s": 0.15846899151802063,
+          "future_latent_mse_1s": 0.21593470871448517,
+          "future_latent_mse_2s": 0.2777016758918762,
+          "future_latent_mse": 0.3261423110961914,
+          "next_block_latent_mse": 0.1914174109697342,
+          "future_lpips": null
+        }
+      }
+    },
+    {
+      "source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
+      "seed": 45,
+      "anchor_latent_index": 8,
+      "anchor_pixel_index": 32,
+      "actual_anchor_sec": 2.0,
+      "requested_anchor_sec": 1.3992113245585116,
+      "variants": {
+        "no_anchor": {
+          "future_latent_mse_0.5s": 0.3550313115119934,
+          "future_latent_mse_1s": 0.43936607241630554,
+          "future_latent_mse_2s": 0.625137984752655,
+          "future_latent_mse": 0.625137984752655,
+          "next_block_latent_mse": 0.40111249685287476,
+          "future_lpips": null
+        },
+        "hard_anchor": {
+          "future_latent_mse_0.5s": 0.4110339879989624,
+          "future_latent_mse_1s": 0.4519302546977997,
+          "future_latent_mse_2s": 0.6005409955978394,
+          "future_latent_mse": 0.6005409955978394,
+          "next_block_latent_mse": 0.43822744488716125,
+          "future_lpips": null
+        },
+        "oracle_gt_anchor": {
+          "future_latent_mse_0.5s": 0.29803386330604553,
+          "future_latent_mse_1s": 0.39903995394706726,
+          "future_latent_mse_2s": 0.5882311463356018,
+          "future_latent_mse": 0.5882311463356018,
+          "next_block_latent_mse": 0.34890833497047424,
+          "future_lpips": null
+        }
+      }
+    }
+  ],
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/train.jsonl",
+      "val_manifest": "data/val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reanchor": {
+      "channels": 16,
+      "protected_sink_latents": 3,
+      "gate_init_logit": -2.0,
+      "drift_probability": 0.8,
+      "delta_regularization": 0.0001
+    },
+    "train": {
+      "max_steps": 3000,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 100,
+      "save_every": 500,
+      "eval_every": 500,
+      "grad_clip": 1.0,
+      "world_size": 4
+    },
+    "eval": {
+      "cases": 8
+    }
+  },
+  "oracle_note": "Replaces only the last anchor latent with GT; other corrupted history stays identical. Diagnostic only, not a deployable observation.",
+  "lpips_status": "not requested",
+  "aggregate": {
+    "future_latent_mse_no_anchor": 0.6543364897370338,
+    "next_block_latent_mse_no_anchor": 0.40071912854909897,
+    "future_lpips_no_anchor": null,
+    "future_latent_mse_hard_anchor": 0.6643144935369492,
+    "next_block_latent_mse_hard_anchor": 0.4648163691163063,
+    "future_lpips_hard_anchor": null,
+    "recovery_win_rate_hard_anchor": 0.5,
+    "future_latent_mse_oracle_gt_anchor": 0.6424884498119354,
+    "next_block_latent_mse_oracle_gt_anchor": 0.3737497441470623,
+    "future_lpips_oracle_gt_anchor": null,
+    "recovery_win_rate_oracle_gt_anchor": 0.75
+  }
+}

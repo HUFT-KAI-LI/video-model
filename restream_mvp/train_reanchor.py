@@ -41,7 +41,7 @@ def main():
     np.random.seed(seed + rank)
     torch.manual_seed(seed)  # identical initial adapter on all ranks
     rng = torch.Generator(device=device).manual_seed(seed + rank)
-    dataset = VideoDataset(ROOT / c["data"]["train_manifest"], c["data"]["frames"], c["data"]["height"], c["data"]["width"])
+    dataset = VideoDataset(ROOT / c["data"]["train_manifest"], c["data"]["frames"], c["data"]["height"], c["data"]["width"], c["data"]["fps"])
     manifest_sha256 = hashlib.sha256((ROOT / c["data"]["train_manifest"]).read_bytes()).hexdigest()
     sampler = DistributedSampler(dataset, world, rank, shuffle=True, seed=seed, drop_last=True)
     workers = c["data"]["workers"]

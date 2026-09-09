@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/train.jsonl",
+      "val_manifest": "data/val.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reanchor": {
+      "channels": 16,
+      "protected_sink_latents": 3,
+      "gate_init_logit": -2.0,
+      "drift_probability": 0.8,
+      "delta_regularization": 0.0001
+    },
+    "train": {
+      "max_steps": 3000,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 100,
+      "save_every": 500,
+      "eval_every": 500,
+      "grad_clip": 1.0,
+      "world_size": 4
+    },
+    "eval": {
+      "cases": 8
+    }
+  },
+  "source_id": "14111B1211bA4A4AA3bJYFE43JBb12157B77Yba45F5a5JJ5aCY38aE87Fb3855F47aTdfofa112",
+  "seed": 42,
+  "optimizer_steps": 0,
+  "delta_regularization": 0,
+  "adapter_identity_at_init": true,
+  "adapter_parameters": 801,
+  "loss": 0.1885918825864792,
+  "anchor_latent_index": 5,
+  "actual_anchor_sec": 1.25,
+  "adapter_grad_norm": 0.0017541552660986781,
+  "parameter_grad_norms": {
+    "gate_logit": 0.0,
+    "net.0.weight": 0.0,
+    "net.0.bias": 0.0,
+    "net.2.weight": 0.0010277609108015895,
+    "net.2.bias": 0.0014215372502803802
+  },
+  "backbone_grads_clear": true,
+  "backbone_frozen": true,
+  "torch_version": "2.5.1+cu124",
+  "gpu": "NVIDIA A800-SXM4-80GB",
+  "peak_vram_bytes": 45431299072
+}

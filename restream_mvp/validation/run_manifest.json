@@ -1,0 +1,203 @@
+{
+  "recorded_at_utc": "2026-09-09T02:31:30.767577+00:00",
+  "base_commit": "a1580354fb14bbec2b1e52796330a9194e4e4437",
+  "optimizer_steps": 0,
+  "cpu_unit_tests": 9,
+  "gpu_backward_passes": 1,
+  "oracle_evaluation_cases": 4,
+  "vae_alignment_cases": 8,
+  "vae_midstream_comparisons": 32,
+  "source_sha256": {
+    "configs/restream_mvp.yaml": "f47cd09343b89e4e77bcfbb1f28cb1ce621b46d59b8af7f8c1c46a13f7c56470",
+    "data/train.jsonl": "eef8e970f939952e8fa824ed13b33fe3370477ec51679ec37491eabe57b4b78f",
+    "data/val.jsonl": "4f0938e7163c65320ef97ba2ffa7c260589183dddaa365c04e0bd483e943f3e7",
+    "eval_reanchor.py": "f11ee36ad96ef5293846c801d87077c3d36922df535afdc72689156cec84baa7",
+    "longlive.patch": "d03e69ac9c8cdb09592f06150cd6c90e2c5c8dfe2d23283cbe1cb5e89d64ddc8",
+    "restream/__init__.py": "06791d687090de0d4204e7e382c0bcddfb1b13e5a39e12656e049498482bf7da",
+    "restream/anchor_adapter.py": "f3704ae11df36490cd89e661a3f3abb59e353c49648faeecd280f38a691cc034",
+    "restream/anchor_injector.py": "ccb1f8e6f0ed36e9effc02e637e84304004884bd1202a899b4fa264cd33f5543",
+    "restream/corruption.py": "c246fdd56f2f25d6f1b5fde09f049dd214fa47ad276737f61a5cf924ebe08991",
+    "restream/dataset.py": "916b2f1fdf36d9cdd7ca05b04ba3abb146c16c7ca8b115652f9a8f9ce589205d",
+    "restream/metrics.py": "fc5effa781c87ec536c41aa1b8941be32b8e50e507a84d9da4f23823f5620694",
+    "restream/objective.py": "3c261c0f043b8398ec4b38bf38fdd1e1903f01524350e156920fb948647972dd",
+    "restream/runtime.py": "7ee64b028fe3c2d4c6ac0632aac81268087a16a6fcfb8cb89cf96dc2cf04d2d9",
+    "scripts/04_build_manifest.py": "024d7f7f25694ff5662fb35fa4faaaeaa190d9e6083f7aa684629a34b852e2a1",
+    "scripts/check_anchor_latent_alignment.py": "bcd2eac6dd888115b39312f8559ff5b4440f79a480b829e59f788e7f4671bf8b",
+    "scripts/check_longlive_patch.py": "6a43f3997ab1f8a9ddf65158837c24ad4e2b68fad3562231b58b33151bf68b88",
+    "scripts/check_model_load.py": "d9fed05e15d01818b67338e7a5aea785654d2d26348c8ae3eb80c591a1f5a20f",
+    "scripts/check_ready.py": "91f9d17705fbed680d23d49d3b48af39c880b7d3b9a1b0f8d0b6a252cf0532f5",
+    "scripts/check_real_backward.py": "1eb5c8b2444da8791d4410d2c0ddddc4ef82b30d00dc9e1eb0457ead252340a3",
+    "tests/test_components.py": "92a0c70aef91abcfec1fa0c67cad43a033a46f74c27fd0b12e207b9fb50a921d",
+    "train_reanchor.py": "7b98b18fa409798ffc39913242bfdeb30da50cfa91306273f64024af80ee49c0"
+  },
+  "reports_sha256": {
+    "validation/anchor_latent_alignment.json": "5ae817e109d5f939273ee4ec41e39a7c7388158ff8ae7acf5b85994d482a9052",
+    "validation/longlive_patch.json": "aa42f7cd9530f1f6b9fa8de7c3fc4d6865acb23dcda0c72ebe37b1910c03e4aa",
+    "validation/pretrain_anchor_ablation.json": "e7dd33f925d7bf90b0eb9afc58e2f1e3e61a426e417d4df254d8467b4974ccf2",
+    "validation/readiness.json": "3f847a9d50b215336e35fff877608bdcc73307eb4fc37478e24dda567c90ced0",
+    "validation/real_backward.json": "db0ca1163cad85d4788dff44e0498b34802300a87ca355c1a9cd2319554b5ce9",
+    "validation/unit_tests.txt": "7ba52664d26d78e28472e65c4f94ae9d253328e12fbb034ba68a9092e9864540"
+  },
+  "videos": [
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_000/GT.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "b2fe054b52dfe7ca7a68bbb0bb48de1e3a420cad3227e0a146e0fa35da379269"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_000/comparison.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 1728,
+      "height": 256,
+      "sha256": "6473342816a95f4db5fb8ee42becda0d40734c31c531c0a1b7f153709ec06187"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_000/hard_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "77966f5e6abdaf89023e35c21d965aa3e224eb9d17d7da932929e219478f60af"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_000/no_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "643f40172c3873ee4e2d71167c6b672786d6663766c4c45240a9e6a86132f980"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_000/oracle_gt_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "c8f75bd3e5c8beb328d5181037787f6389fb83681459dbec9c0d7f187988f7be"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_001/GT.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "f4298e6d8d3ce817ac697b3cf15da716dba3f777ba0a3649aed994b7d344bad8"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_001/comparison.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 1728,
+      "height": 256,
+      "sha256": "b7e81fd0aa6331f5426702962e85e75619188957d6a9c078c90bcfe438bfd371"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_001/hard_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "5e15a0b71c084f48681a25a9fa692c92dbcaaee93c467969c4df01cd8c4bc565"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_001/no_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "239d472e8115cf98457f36ddc9cdee66027a74bbbfbcc2f2f808e21a68471dd7"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_001/oracle_gt_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "4164669d6971612a052aeac90be407b78d00e454bdefe6dfeae30118f8e6152b"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_002/GT.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "92edf3b4700cbdbd55ea9dacbdaf18443c76aeffc578ed7dcfde474d176b33f7"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_002/comparison.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 1728,
+      "height": 256,
+      "sha256": "ab981987cc5afc79fcbae6fe053093b7a7676821940c6fd41c147396ede87b87"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_002/hard_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "6c5e60d33365d147e6b18240a9ad6841437c4f9033f022200e40b16fbce604c7"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_002/no_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "589c419d57cc65c1a3a1bca5c792bed48d8a653300c5fabd6491a2fc14f7b798"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_002/oracle_gt_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "387159855d316af08bbbd20027bc65fe71c67ab02dcd473de45433bdf8b26955"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_003/GT.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "98b4300911276f692dea4dcb96b5b7618ba88c18aa1a980f8b7a3fe114606433"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_003/comparison.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 1728,
+      "height": 256,
+      "sha256": "3d6e09a61b7ece0d70ea984db61dd3408c1e0391872de5d1c40839ea28679d93"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_003/hard_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "d0587e3b032c66bec1107a28aa5981d25e217de3a8d7c57796ced96b979da42c"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_003/no_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "28a286ec95d068f756143f64db12642624c620b6c155728d7ed9069474b3c92d"
+    },
+    {
+      "path": "outputs/pretrain_anchor_ablation/case_003/oracle_gt_anchor.mp4",
+      "frames": 57,
+      "fps": 16.0,
+      "width": 432,
+      "height": 256,
+      "sha256": "554a2980b99e6ee1186914f0b99b34a59420c89adffee601cdd8d633b6fb888a"
+    }
+  ]
+}

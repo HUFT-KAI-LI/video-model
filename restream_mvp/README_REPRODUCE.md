@@ -1,8 +1,8 @@
-# ReStream：审核前准备
+# ReStream：准备与 GPU 验证复现
 
-本次交付范围由用户最新要求决定：尽快完成模型、数据和代码准备；没有 12 小时硬截止；审核后再启动推理、训练与正式评估。`scripts/prepare.sh` 和 `run_night.sh` 都只做准备。
+本轮按审阅意见完成补丁、配置接线、真实 backward、Oracle 对照和 latent 对齐诊断，结果见 `STATUS.md` 与 `validation/`。不执行 optimizer，不启动 50/200/3000-step 训练。`scripts/prepare.sh` 和 `run_night.sh` 都只做准备。
 
-任务目录：`/workspace/restream_mvp`。当前机器是 4 × A800-SXM4-80GB，驱动可在沙箱外访问。项目使用独立 `.venv`，继承机器已有 PyTorch 2.5.1+cu124 / torchvision 0.20.1+cu124 / flash-attn 2.8.3.post1。环境准备不会更改驱动。模型和数据不会写入附件原先的 `/data/restream_mvp`。
+仓库目录：`/workspace/video-model/restream_mvp`。本机 `.venv` 与 `models` 使用指向 `/workspace/restream_mvp` 已下载资产的符号链接，manifest 的视频路径也位于该资产目录；这些大文件不进入 Git。当前机器是 4 × A800-SXM4-80GB，驱动可在沙箱外访问。项目环境继承机器已有 PyTorch 2.5.1+cu124 / torchvision 0.20.1+cu124 / flash-attn 2.8.3.post1。
 
 ## 先审核这些文件
 
@@ -12,7 +12,9 @@
 - `restream/runtime.py`：加载官方基座与冻结的配套 LoRA；推理时重新分配缓存并重放修正后的历史。
 - `restream/anchor_injector.py`：时间映射、独立真实图像编码和强制状态重建接口。
 - `data/train.jsonl`、`data/val.jsonl`：按完整 source ID 分组划分，固定 seed 42。
-- `longlive.patch`：上游只有两处 padding 截断修复；原始源码归档完整保留。
+- `longlive.patch`：两种 causal model 的 padding 截断与训练入口解锁，以及 wrapper 的训练参数修复；原始源码归档完整保留。
+- `scripts/check_real_backward.py`：真实模型图检查，正则项为零，断言梯度有限且非零、主干没有梯度。
+- `scripts/check_anchor_latent_alignment.py`：在实际 AR 块尾比较 single/prefix/full 的 MSE、cosine、全局与逐通道 mean/std。
 
 ## 模型来源与核验
 
@@ -27,7 +29,7 @@ LongLive 下载源：<https://modelscope.cn/models/Efficient-Large-Model/LongLiv
 
 核验依据：[官方基座页面](https://huggingface.co/Efficient-Large-Model/LongLive-1.3B/blob/main/models/longlive_base.pt)、[官方 LoRA 固定版本页面](https://huggingface.co/Efficient-Large-Model/LongLive-1.3B/blob/17516b597d2675e53a056eb7e8f66160e2714103/models/lora.pt)。配套 LoRA 是基线模型已有的 rank 256 模块，加载后冻结；本实验不添加或训练新的 backbone LoRA。
 
-上游源码为 NVlabs/LongLive `v1.0`，归档记录的提交为 `e52d9ef6865d843282a6b5e9d46d03b35f88929d`。因 Git 协议网络失败，通过 GitHub 官方 codeload 取得归档。`code/longlive-v1.0.tar.gz` 是原始副本，`code/LongLive` 是适配工作目录。
+上游源码为 NVlabs/LongLive `v1.0`，归档记录的提交为 `e52d9ef6865d843282a6b5e9d46d03b35f88929d`。通过 GitHub 官方 codeload 取得的原始归档当前位于 `/workspace/restream_mvp/code/longlive-v1.0.tar.gz`，SHA-256 记录在 `code/source_provenance.json`。仓库已包含适配后的 `code/LongLive`，无需对它重复打补丁；只有从原始归档重建时才在解压目录执行 `patch -p1 < /workspace/video-model/restream_mvp/longlive.patch`。
 
 ## 数据下载策略
 
@@ -35,12 +37,12 @@ LongLive 下载源：<https://modelscope.cn/models/Efficient-Large-Model/LongLiv
 
 下载器只保留至少 4 秒、能完整解码的片段。明显动画描述会被排除，并筛选含人物描述的样本；这只是弱过滤，不能保证全为真实拍摄。manifest 的 `visual_review: pending` 明确保留人工审核状态。不能把这些数据直接当作已经人工清洗的真实视频集。
 
-每个源视频只选一个 3.8–8 秒窗口，统一 resize、中心裁切和 RGB `[-1,1]`。使用 PyAV 解码，训练时不调用外部 ffmpeg。真实图片直接取同一处理后视频帧，独立进行单帧 Wan VAE 编码，不使用包含未来图像的 GT 视频 latent 冒充真实观测。
+每个源视频选一个 3.5 秒窗口，57 帧按 16 FPS 采样，统一 resize、中心裁切和 RGB `[-1,1]`。manifest 构造与 Dataset 均读取配置中的 frames/fps；修改后须重新构造 manifest，窗口长度不匹配会报错。使用 PyAV 解码，训练时不调用外部 ffmpeg。真实图片直接取同一处理后视频帧并独立编码；GT 视频 latent 只用于监督和明确标注的 Oracle 诊断。
 
 ## 可复现的准备命令
 
 ```bash
-cd /workspace/restream_mvp
+cd /workspace/video-model/restream_mvp
 bash scripts/prepare.sh
 ```
 
@@ -49,35 +51,46 @@ bash scripts/prepare.sh
 单独检查，无需 GPU：
 
 ```bash
-cd /workspace/restream_mvp
+cd /workspace/video-model/restream_mvp
 .venv/bin/python -m unittest discover -s tests -v
 .venv/bin/python scripts/check_ready.py
+.venv/bin/python scripts/check_longlive_patch.py \
+  --archive /workspace/restream_mvp/code/longlive-v1.0.tar.gz
 ```
 
-## 审核后才执行的实验命令
+更换机器时执行准备脚本下载模型与视频、重建包含新绝对路径的 manifest；不要直接复用本机的绝对视频路径。修改上游源码后用 `check_longlive_patch.py --archive ... --write` 自动更新补丁，再做重建核验。
 
-这些命令写在这里供审核，本次准备不执行。
+## 本轮已执行的 GPU 验证
 
 ```bash
-cd /workspace/restream_mvp
-bash scripts/05_smoke_infer.sh --reviewed
-bash scripts/07_eval_mvp.sh --reviewed --cases 1 --output outputs/hard_anchor_smoke
+cd /workspace/video-model/restream_mvp
+export OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false CUDA_VISIBLE_DEVICES=0
+.venv/bin/python scripts/check_real_backward.py --output validation/real_backward.json
+.venv/bin/python scripts/check_anchor_latent_alignment.py \
+  --cases 8 --output validation/anchor_latent_alignment.json
+bash scripts/07_eval_mvp.sh --reviewed --cases 4 --output outputs/pretrain_anchor_ablation
+```
+
+单步检查仅在 57×256×432、BF16、单卡 A800、官方基座与冻结 LoRA 上运行一次反向传播，没有 optimizer。Adapter 输出层零初始化，step 0 与 no-anchor 的输入完全一致；首步只有最后一层梯度非零，gate 与前一层梯度为零是预期行为。CPU 回归检查同时覆盖改变 FPS、sink 保护范围、仅首个 future block 的损失和宽度变化时的 mask 失效。
+
+## 后续训练命令（本轮不执行）
+
+先审阅 Oracle 与 Hard Anchor 的实测结果，再决定是否进入短训练阶段。
+
+```bash
 bash scripts/06_train_mvp.sh --reviewed --max-steps 50
 bash scripts/06_train_mvp.sh --reviewed --max-steps 200 --resume checkpoints/step_0050
-# 查看 step_time / 显存 / validation 后，再决定主训练长度
-bash scripts/06_train_mvp.sh --reviewed --resume checkpoints/step_0200
-bash scripts/07_eval_mvp.sh --reviewed --checkpoint checkpoints/step_3000 --lpips
 ```
 
 恢复保存 Adapter、optimizer、scheduler、step、epoch、数据位置、配置、训练 manifest 的 SHA-256 和各 rank RNG；不重复存储 backbone。`checkpoints/latest.txt` 指向最新目录。当前实现固定每卡 batch=1；精确恢复要求相同 world size、数据配置和 manifest 内容。不要在运行或恢复过程中修改 manifest。
 
-评估使用同一 GT、prompt、anchor、corruption seed、初始噪声及后续重加噪随机流，比较 no/hard/learned。推理始终使用新缓存重放历史（方案 Fallback B）。这是人为漂移历史的 recovery 实验；它不是已验证的长期 self-rollout 训练。
+评估使用同一 GT、prompt、anchor、corruption seed、初始噪声及后续重加噪随机流，比较 no/hard/oracle/learned（learned 需要 checkpoint）。Oracle 只把末尾 anchor 替换为对应 GT latent，其他受损历史保持一致；它用于诊断表示与状态修正，不是可部署的观测，也不能保证所有样本都最优。推理始终使用新缓存重放历史（方案 Fallback B）。这是人为漂移历史的 recovery 实验；它不是已验证的长期 self-rollout 训练。
 
-输出包含三组视频、GT 对比视频、实际 anchor 时间和未来 latent MSE。LPIPS 通过 `--lpips` 开启，首次运行可能需要下载其 AlexNet 权重；没开启时记录 `null`，不会伪造为零。0.5/1/2 秒指标在采样间隔内没有未来 latent 时也记录 `null`。
+输出包含各变体视频、GT 横向对比视频、实际 anchor 时间、完整未来与第一个 future block 的 latent MSE。视频保存在本机 `outputs/pretrain_anchor_ablation/case_000` 至 `case_003`；对应 JSON 收录到 `validation/pretrain_anchor_ablation.json`。LPIPS 通过 `--lpips` 开启，首次运行可能需要下载其 AlexNet 权重；没开启时记录 `null`。0.5/1/2 秒指标在采样间隔内没有未来 latent 时也记录 `null`。
 
 ## 工程检查与研究限制
 
-CPU 单元测试可检查 tensor shape、BF16、未来梯度、替换与重建回调、同源隔离和解码；这些检查不证明正式 LongLive rollout 或四卡训练已成功。GPU 完整验证以 `STATUS.md` 的实际记录为准。
+CPU 单元测试可检查 tensor shape、BF16、未来梯度、替换与重建回调、同源隔离和解码；真实 GPU 单步与短 rollout 的结果以 `STATUS.md` 为准，四卡训练和恢复仍未验证。
 
 原生 teacher-forcing 能让冻结 backbone 保留关于输入的梯度；上游 recache 的 `no_grad` 路径仅用于推理。15 latent 帧的短窗口足以容纳一个中途 anchor 和未来块，未扩展多 anchor、RL、geometry、5B 或全参训练。
 

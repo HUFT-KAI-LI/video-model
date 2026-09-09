@@ -1,0 +1,14 @@
+{
+  "longlive_official_hash_record": true,
+  "models/longlive_base.pt": true,
+  "models/lora.pt": true,
+  "wan/Wan2.1_VAE.pth": true,
+  "wan/diffusion_pytorch_model.safetensors": true,
+  "wan/models_t5_umt5-xxl-enc-bf16.pth": true,
+  "wan/google/umt5-xxl/tokenizer.json": true,
+  "train_files_exist": true,
+  "val_files_exist": true,
+  "minimum_train_count": true,
+  "minimum_val_count": true,
+  "no_source_leakage": true
+}

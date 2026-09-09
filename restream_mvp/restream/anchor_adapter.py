@@ -10,6 +10,8 @@ class GatedAnchorAdapter(nn.Module):
         self.channels = channels
         self.net = nn.Sequential(nn.Conv3d(2 * channels, channels, 1), nn.SiLU(),
                                  nn.Conv3d(channels, channels, 1))
+        nn.init.zeros_(self.net[-1].weight)
+        nn.init.zeros_(self.net[-1].bias)
         self.gate_logit = nn.Parameter(torch.tensor(float(gate_init_logit)))
 
     def forward(self, predicted, anchor):

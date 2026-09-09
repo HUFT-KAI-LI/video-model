@@ -1,0 +1,2 @@
+# Unified patches must preserve whitespace in upstream context/removal lines.
+longlive.patch -whitespace

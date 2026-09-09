@@ -320,7 +320,6 @@ class WanDiffusionWrapper(torch.nn.Module):
                     seq_len=self.seq_len,
                     clean_x=clean_x.permute(0, 2, 1, 3, 4),
                     aug_t=aug_t,
-                    sink_recache_after_switch=sink_recache_after_switch
                 ).permute(0, 2, 1, 3, 4)
             else:
                 if classify_mode:
@@ -333,7 +332,6 @@ class WanDiffusionWrapper(torch.nn.Module):
                         cls_pred_branch=self._cls_pred_branch,
                         gan_ca_blocks=self._gan_ca_blocks,
                         concat_time_embeddings=concat_time_embeddings,
-                        sink_recache_after_switch=sink_recache_after_switch
                     )
                     flow_pred = flow_pred.permute(0, 2, 1, 3, 4)
                 else:
@@ -341,7 +339,6 @@ class WanDiffusionWrapper(torch.nn.Module):
                         noisy_image_or_video.permute(0, 2, 1, 3, 4),
                         t=input_timestep, context=prompt_embeds,
                         seq_len=self.seq_len,
-                        sink_recache_after_switch=sink_recache_after_switch
                     ).permute(0, 2, 1, 3, 4)
 
         pred_x0 = self._convert_flow_pred_to_x0(
