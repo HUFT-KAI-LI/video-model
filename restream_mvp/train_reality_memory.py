@@ -35,15 +35,19 @@ def overfit_indices(dataset, count):
     return selected
 
 
-def paired_diagnostics_enabled(paired_cfg, step):
-    """Sample the per-term gradient decomposition only on steps 1-2 and every
-    ``diagnostic_interval`` steps; a long/four-card run should disable it via
+def paired_diagnostics_enabled(paired_cfg, upcoming_update):
+    """Sample the per-term gradient decomposition on updates 1, 2 and every
+    ``diagnostic_interval`` updates after that (interval=5 -> 1,2,5,10,...).
+
+    ``upcoming_update`` is the 1-based update number this batch will perform
+    (``step + 1`` for a run starting at step 0), not the zero-based step that
+    has already completed. A long/four-card run should disable the flag via
     ``diagnostic_gradients: false`` because the extra autograd.grad passes over
     the memory graph are not required for the optimizer."""
     if not paired_cfg.get("diagnostic_gradients", True):
         return False
     interval = paired_cfg.get("diagnostic_interval", 10)
-    return step in (1, 2) or step % interval == 0
+    return upcoming_update in (1, 2) or upcoming_update % interval == 0
 
 
 def main():
@@ -154,7 +158,7 @@ def main():
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 if paired:
                     loss, stats = paired_loss(pipeline, model, gt, cond, index, batch, rng, config,
-                                              diagnostics=paired_diagnostics_enabled(paired, step))
+                                              diagnostics=paired_diagnostics_enabled(paired, step + 1))
                 else:
                     loss, stats = reality_loss(pipeline, model, gt, cond, index, batch["features"].to(device),
                                                batch["reference_mask"].to(device), batch["wrong_reference"].to(device), rng, config)

@@ -113,3 +113,15 @@ $$
 - **梯度诊断可关闭**：`diagnostic_gradients`/`diagnostic_interval` 控制分解梯度记录（step 1/2 与间隔步）；多卡/长程训练应关闭，不改变优化器数值。
 - **旧 checkpoint 探测**：`scripts/probe_existing_memory_checkpoint.py` 只恢复 memory state_dict，校验 stage、encoder、manifest 摘要与语义（仅允许 evaluation 字段差异），对已有 30-update checkpoint 直接跑全部反事实 probe；恢复签名仍拒绝把旧 checkpoint 当新语义配置的正式 resume。
 - 未来若真正测试 strict-online，应新建 `reality_memory_paired_online.yaml` 与独立的 `reality_*_online.jsonl`，不覆盖现有 offline manifest；当前报告继续按 `offline_target_filtered` 解释。
+
+## 第二轮溯源修补（ee73b8e 之后，含无更新反事实 probe）
+
+针对 `ee73b8e` 的审阅，本提交继续收紧 strict-online 与选择身份，并在**不训练**的前提下用现有 30-update checkpoint 跑了 Active Zero / Global Mean / Correct 对照（结果见 [R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)）。
+
+- **取帧语义统一**：`data.temporal_sampling` 把 offline（`first_at_or_after`）与 strict-online（`causal_previous`）分开并写进选择身份；Dataset、target histogram 和 reference 采样使用同一策略，Dataset 返回 `sampled_times`，strict 的 `visible_until` 等于 prefix 实际最后一帧并受 `[target_start, target_start+arrival]` 约束。低帧率端到端测试用真实 4 fps 视频验证 Dataset 的 prefix 末帧与 manifest 完全一致。
+- **strict 行强制身份**：`selection_schema` 必须等于当前 schema，`selection_config_hash` 必须存在且匹配；async/aligned 正参考的 split/source/shot 与时间上界都校验。legacy 无身份行仅在 `allow_legacy_offline_manifest: true` 下加载。
+- **选择身份补全**：`data.selection_seed` 与训练 `seed` 分离；`shot_filter_hash` 与显式 `pool_size` 进入 hash（schema 3）。
+- **Global mean 训练集校验**：`unique_train_reference_pool` 强制 row/ref 的 split、source、shot 一致后才允许写入 `source_split=train`。
+- **诊断与汇总**：梯度分解采样修正为 update 1,2,5,10…；global-constant 一致性三态化；新增 target-level bootstrap CI 汇总器。
+
+strict-online 仍**没有**构建数据、也没有 GPU 结果；现有报告继续按 `offline_target_filtered` 解释。若下一步要验证严格因果协议，必须新建 `reality_memory_paired_online.yaml` 与独立的 `reality_*_online.jsonl`，不覆盖现有 offline manifest。

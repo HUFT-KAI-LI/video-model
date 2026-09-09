@@ -83,6 +83,8 @@ def global_constant_provenance(config, cache, device):
             "cache_identity": payload["cache_identity"], "tokens": payload["tokens"],
             "channels": payload["channels"], "shape": [payload["tokens"], payload["channels"]],
             "selection_protocol": payload.get("selection_protocol"),
+            "temporal_sampling": payload.get("temporal_sampling"),
+            "selection_seed": payload.get("selection_seed"),
             "train_manifest_sha256": payload["train_manifest_sha256"],
             "reference_keys_sha256": payload["reference_keys_sha256"],
             "selection_config_hash": payload["selection_config_hash"],

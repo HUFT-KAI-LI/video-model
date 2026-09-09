@@ -1,0 +1,60 @@
+{
+  "checkpoint": {
+    "path": "/workspace/video-model/restream_mvp/checkpoints/reality_memory_paired_review/step_0030/state.pt",
+    "sha256": "2137f50c92895e0a3b8aa238dc337282371a2a13f1ab94fa441c239646bd22fd"
+  },
+  "memory_only_load": true,
+  "optimizer_scheduler_rng_restored": false,
+  "stage": "r0",
+  "batch_step": 30,
+  "optimizer_step": 30,
+  "signature_self_consistent": true,
+  "encoder_identity_matches": true,
+  "manifests_match": true,
+  "semantics_equal_beyond_eval_only": true,
+  "split": "val",
+  "probe_noise_seeds": [
+    50000,
+    60000,
+    70000
+  ],
+  "legacy_defaults_normalized": true,
+  "targets_probed": 16,
+  "no_parameter_update": true,
+  "global_constant": {
+    "schema": 1,
+    "source_split": "train",
+    "unique_reference_count": 11680,
+    "cache_identity": {
+      "schema": 1,
+      "weights": {
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1",
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "preprocessor_config.json": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828"
+      },
+      "image_size": 224,
+      "num_tokens": 8,
+      "preprocess": "AutoImageProcessor/PIL-RGB/transformers-4.49.0",
+      "pool": "spatial-adaptive-average-patch-tokens/no-cls"
+    },
+    "tokens": 8,
+    "channels": 384,
+    "shape": [
+      8,
+      384
+    ],
+    "selection_protocol": "offline_target_filtered",
+    "temporal_sampling": "first_at_or_after",
+    "selection_seed": 42,
+    "train_manifest_sha256": "5ef1bab68a8707ed2fb9b353dfa797e60fef8f0d05106c4ffa8871f0370a1501",
+    "reference_keys_sha256": "a5050b2e6171dd6fa8cffcc441997a0b8375f3fbb99f0ee4ccc0bdbfbb52ab58",
+    "selection_config_hash": "1c7b08269065472fe310c8242dfcb5a0585fbbb3a2b1656f7cf28bc2a6b92a7c",
+    "expected_train_manifest_sha256": "5ef1bab68a8707ed2fb9b353dfa797e60fef8f0d05106c4ffa8871f0370a1501",
+    "file_sha256": "23f56752bb73dc95415cd2843e7ce50ae44a780c497946297fcdfa9993b01579"
+  },
+  "notes": [
+    "Probes load the memory state only; optimizer/scheduler/RNG/training offset are not restored.",
+    "Controls: No Memory, Active Zero, Global Mean, Pair Mean, Correct, Wrong Source; no backward is executed.",
+    "Configs are compared after filling pre-identity defaults, so a checkpoint that predates selection_seed/temporal_sampling/pool_size is checked on its effective semantics."
+  ]
+}

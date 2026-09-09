@@ -1,6 +1,19 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
-## 上一提交审阅修补（d134557 → 本提交）：控制变量与数据溯源收紧
+## 第二轮审阅修补（ee73b8e → 本提交）
+
+本提交针对 `ee73b8eaa061e0bbdaee462fee9fbf2cd4a00310` 的审阅意见继续收紧 strict-online 语义与溯源，并按审阅批准的下一步执行了**无参数更新的反事实 probe**（只加载 memory state_dict，不训练、不改模型）。probe 结论与数字见 [R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)。
+
+- **统一取帧语义**：新增 `data.temporal_sampling`；`offline_target_filtered` 固定 `first_at_or_after`，`strict_online` 固定 `causal_previous`（last frame at-or-before）。manifest builder、`VideoDataset`、target histogram 与 reference 采样共用同一策略；Dataset 额外返回 `sampled_times`。strict 行的 `visible_until` 必须等于 prefix 实际最后一帧，且落在 `[target_start, target_start + arrival]`。
+- **strict 行强制身份**：strict 行必须带 `selection_schema == 3` 与匹配的 `selection_config_hash`（缺失不再按 legacy 放过），并校验 async+aligned 正参考的 split/source/shot 与时间上界。无身份字段的 legacy 行只有在 `references.allow_legacy_offline_manifest: true` 时才可加载（现有 offline 配置显式开启；新实验默认关闭）。
+- **选择身份补全**：`data.selection_seed` 与训练 `seed` 分离（换训练 seed 不再隐式改变数据身份，换数据 seed 必然改变 hash）；`shot_filter_hash`（histogram_cut/pixel_jump/black_level/black_fraction）与显式 `references.pool_size` 进入 `selection_config_hash`（schema 3）。
+- **Global mean 训练集证明**：`unique_train_reference_pool` 主动校验每行与每个正参考的 split、source_id、shot_id 一致，再写入 `source_split = train`，不再仅依赖输入文件可信。
+- **诊断修正**：梯度分解采样改为 update 1,2,5,10…（修复 off-by-one）；global-constant 资产一致性改为三态 true/false/null，旧报告不再被误报为一致；`summarize_reality_paired.py` 相对路径 checkpoint 修复。
+- **新工具**：`scripts/summarize_existing_probe.py` 以**唯一 target**为单位计算 `U_correct/G_branch/G_generic/G_content/S_reference/H_wrong` 与 target-level bootstrap 95% CI。
+
+**本轮 probe 结果（2026-09-10，A800，无参数更新）**：特征缓存按新脚本重建（13,008 个唯一参考，9,884 新编码、3,124 复用），schema-1 global mean 覆盖 11,680 个去重训练正参考（digest 记录在 `data/reality_overfit_feature_stats.json`）。对 30-update checkpoint 的 16 个独立 val target × 3 seeds × clean/mild 做反事实 probe：`U_correct` 在 16/16 个 target 上为正（约 +0.0036/+0.0040，CI 不含 0），`G_generic` 为正（CI 不含 0），但 **`G_content ≤ 0`（clean 显著为负，mild 不显著）**、`S_reference ≈ 0`、`H_wrong < 0`。这落在事先约定的**情况 B**：收益主要来自通用真实图像统计，正确照片内容没有可证明的额外价值，wrong-source 同样优于 No Memory。详见 [R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)。该结论仅针对这一个 checkpoint 与离线协议；不构成 Reality Memory 有效性结论，也不改变“strict-online 尚未闭合、暂不扩训练预算”的判断。
+
+## 上一提交审阅修补（d134557 → ee73b8e）：控制变量与数据溯源收紧
 
 本提交针对 `d134557bee7708370c37220417b516ca01812f80` 的审阅意见做代码级修补，**没有运行任何 GPU/训练**，因此本段不新增任何实测数字，也绝不用旧结果冒充新对照。
 

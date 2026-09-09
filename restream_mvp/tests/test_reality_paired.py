@@ -1,4 +1,5 @@
 import copy
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -6,10 +7,12 @@ import sys
 from types import SimpleNamespace
 import unittest
 import tempfile
+import av
 import numpy as np
 import torch
 from restream.objective import future_loss
 from restream.reality_memory import RealityMemory
+from restream.dataset import VideoDataset
 from restream.reality_dataset import RealityDataset
 from restream.reality_paired import (paired_loss, paired_history, paired_references,
                                     contrast_loss, validate_paired_config, load_global_constant,
@@ -17,28 +20,51 @@ from restream.reality_paired import (paired_loss, paired_history, paired_referen
 from restream.reality_paired_diagnostics import aggregate_pairs
 from restream.reality_runtime import PreserveHistory, read_reality_config
 from restream.training_budget import TrainingBudget
-from restream.reality_selection import GLOBAL_MEAN_SCHEMA, selection_config_hash
+from restream.reality_selection import (GLOBAL_MEAN_SCHEMA, SELECTION_IDENTITY_SCHEMA,
+                                        selection_config_hash, selection_identity,
+                                        unique_train_reference_pool, validate_temporal_sampling)
 from restream.reality_data import canonical_hash
+from train_reality_memory import paired_diagnostics_enabled
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def minimal_paired_config(train_manifest=None, protocol="offline_target_filtered", global_path=None):
+def script(name):
+    spec = importlib.util.spec_from_file_location(name, ROOT / "scripts" / f"{name}.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def minimal_paired_config(train_manifest=None, protocol="offline_target_filtered", global_path=None,
+                          pool_size=2, selection_seed=7, temporal_sampling=None):
     """Complete config for selection identity and global-mean provenance checks."""
     return {
         "seed": 7,
         "data": {"frames": 57, "fps": 16.0,
-                 "train_manifest": str(train_manifest or (ROOT / "data/reality_train.jsonl"))},
+                 "train_manifest": str(train_manifest or (ROOT / "data/reality_train.jsonl")),
+                 "selection_seed": selection_seed,
+                 "temporal_sampling": temporal_sampling or ("causal_previous" if protocol == "strict_online" else "first_at_or_after")},
         "eval": {"reference_counts": [1, 2]},
         "reality_memory": {
             "references": {"selection_protocol": protocol, "async_direction": "past_only",
                            "min_gap_sec": 1.5, "boundary_margin_sec": 0.2,
                            "near_radius_sec": 0.5, "max_count": 2, "min_count": 1,
+                           "pool_size": pool_size,
                            **({"global_constant_features": str(global_path)} if global_path else {})},
-            "filter": {"scene_similarity": 0.65},
+            "filter": {"scene_similarity": 0.65, "histogram_cut": 0.5, "pixel_jump": 0.35,
+                       "black_level": 16, "black_fraction": 0.95},
             "objective": {"prefix_latents": 6},
         },
     }
+
+
+def manifest_row(row, video="/tmp/fake.mp4", caption="c"):
+    return {"video": video, "sha256": "x", "caption": caption, "source_id": "a", "split": "train",
+            "window_start": 0.0, "window_sec": 3.5, "anchor_sec": [1.25], "target_start": 0.0,
+            "target_sec": 3.5, "shot_id": 0, "shot": {"start": 0, "end": 5}, "reference_kind": "async",
+            "references": [], "sample_id": "s", "filter_status": "pass", "visual_review": "pending",
+            **row}
 
 
 class PairedTests(unittest.TestCase):
@@ -102,28 +128,82 @@ class PairedTests(unittest.TestCase):
                     "correct": {"video_loss": .6 * value_scale, "relevance_score": 0.5, "memory_gate_mean": .2},
                     "wrong_source": {"video_loss": .95 * value_scale, "relevance_score": 0.4, "memory_gate_mean": .2}}
         cases = []
-        for sample_id, scale in (("a", 1.0), ("b", 1.0)):
+        for sample_id in ("a", "b"):
             for mode in ("clean", "mild"):
                 for seed in (1, 2):
                     cases.append({"sample_id": sample_id, "prefix_mode": mode, "noise_seed": seed,
-                                  "variants": variants_for(scale)})
+                                  "variants": variants_for(1.0)})
         aggregate = aggregate_pairs(cases)["clean"]["core_deltas"]
         for name, expected in (("U_correct", .4), ("G_branch", .1), ("G_generic", .1),
                                ("G_content", .2), ("S_reference", .35)):
             self.assertAlmostEqual(aggregate[name], expected, places=6)
         self.assertEqual(aggregate_pairs(cases)["clean"]["core_delta_targets"]["U_correct"], 2)
 
+    def test_selection_identity_separates_seed_sampling_and_shot_filter(self):
+        base = minimal_paired_config()
+        reference = selection_config_hash(base)
+        for path, value in ((("data", "selection_seed"), 99),
+                            (("reality_memory", "references", "pool_size"), 4),
+                            (("reality_memory", "filter", "histogram_cut"), 0.4)):
+            changed = copy.deepcopy(base)
+            target = changed
+            for key in path[:-1]:
+                target = target[key]
+            target[path[-1]] = value
+            self.assertNotEqual(selection_config_hash(changed), reference, msg=str(path))
+        # Training-seed, mixture probabilities and compute knobs must not change it.
+        for path, value in ((("seed",), 1234),
+                            (("reality_memory", "references", "async_probability"), 0.9),
+                            (("reality_memory", "filter", "workers"), 64),
+                            (("data", "workers"), 8)):
+            changed = copy.deepcopy(base)
+            target = changed
+            for key in path[:-1]:
+                target = target[key]
+            target[path[-1]] = value
+            self.assertEqual(selection_config_hash(changed), reference, msg=str(path))
+        # The sampling policy is protocol-bound but still part of the identity.
+        strict = minimal_paired_config(protocol="strict_online")
+        self.assertEqual(selection_identity(strict)["temporal_sampling"], "causal_previous")
+        self.assertNotEqual(selection_config_hash(strict), reference)
+        self.assertEqual(selection_identity(base)["shot_filter_hash"],
+                         canonical_hash({"histogram_cut": 0.5, "pixel_jump": 0.35, "black_level": 16, "black_fraction": 0.95}))
+
+    def test_temporal_sampling_policy_is_fixed_by_protocol(self):
+        validate_temporal_sampling("offline_target_filtered", "first_at_or_after")
+        validate_temporal_sampling("strict_online", "causal_previous")
+        with self.assertRaises(ValueError):
+            validate_temporal_sampling("offline_target_filtered", "causal_previous")
+        with self.assertRaises(ValueError):
+            validate_temporal_sampling("strict_online", "first_at_or_after")
+        with self.assertRaises(ValueError):
+            validate_temporal_sampling("strict_online", "bad")
+
+    def test_train_positive_pool_validation_rejects_leaks(self):
+        identity = {"encoder": "fixture"}
+        cache = SimpleNamespace(key=lambda ref: canonical_hash({"video_sha256": ref["video_sha256"], "time": ref["time"], "encoder": identity}))
+        good = {"split": "train", "sample_id": "s", "source_id": "a", "shot_id": 0,
+                "reference_sets": {"async": [{"split": "train", "source_id": "a", "shot_id": 0, "video_sha256": "v", "time": 1.0}], "aligned": []}}
+        self.assertEqual(len(unique_train_reference_pool([good], cache)), 1)
+        for path, value in (("split", "val"), ("source_id", "b"), ("shot_id", 1)):
+            bad = copy.deepcopy(good)
+            bad["reference_sets"]["async"][0][path] = value
+            with self.assertRaises(ValueError):
+                unique_train_reference_pool([bad], cache)
+        with self.assertRaises(ValueError):
+            unique_train_reference_pool([{**good, "split": "val"}], cache)
+
     def test_global_constant_is_fixed_and_provenance_bound_to_manifest(self):
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
             manifest = folder / "train.jsonl"
             identity = {"encoder": "fixture", "version": 1}
-            shared = {"video_sha256": "v1", "time": 1.0, "split": "train", "source_id": "a", "role": "async"}
-            rows = [{"source_id": "a", "split": "train", "sample_id": "s1",
+            shared = {"video_sha256": "v1", "split": "train", "source_id": "a", "shot_id": 0}
+            rows = [{"source_id": "a", "split": "train", "shot_id": 0, "sample_id": "s1",
                      "reference_sets": {"async": [{**shared, "time": 1.0}], "aligned": []}},
-                    {"source_id": "a", "split": "train", "sample_id": "s2",
+                    {"source_id": "a", "split": "train", "shot_id": 0, "sample_id": "s2",
                      "reference_sets": {"async": [{**shared, "time": 1.0}, {**shared, "time": 2.0}], "aligned": []}}]
-            manifest.write_text("".join(__import__("json").dumps(row) + "\n" for row in rows))
+            manifest.write_text("".join(json.dumps(row) + "\n" for row in rows))
             cache = SimpleNamespace(identity=identity, tokens=3, channels=4,
                                     key=lambda ref: canonical_hash({"video_sha256": ref["video_sha256"],
                                                                     "time": ref["time"], "encoder": identity}),
@@ -131,11 +211,12 @@ class PairedTests(unittest.TestCase):
             path = folder / "mean.pt"
             config = minimal_paired_config(train_manifest=manifest, global_path=path)
             mean_value = torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5
-            torch.save({"schema": GLOBAL_MEAN_SCHEMA,
-                        "features": mean_value,
+            torch.save({"schema": GLOBAL_MEAN_SCHEMA, "features": mean_value,
                         "source_split": "train", "unique_reference_count": 2,
                         "cache_identity": identity, "tokens": 3, "channels": 4,
                         "selection_protocol": "offline_target_filtered",
+                        "temporal_sampling": config["data"]["temporal_sampling"],
+                        "selection_seed": config["data"]["selection_seed"],
                         "train_manifest_sha256": __import__("hashlib").sha256(manifest.read_bytes()).hexdigest(),
                         "reference_keys_sha256": canonical_hash(sorted({cache.key(r) for row in rows for r in row["reference_sets"]["async"]})),
                         "selection_config_hash": selection_config_hash(config)}, path)
@@ -149,9 +230,8 @@ class PairedTests(unittest.TestCase):
                 load_global_constant(config, cache, "cpu")
             cache.identity = identity
             # Regenerating the train manifest must invalidate the stored control.
-            manifest.write_text("".join(__import__("json").dumps({**rows[0],
-                                                                  "reference_sets": {"async": [{**shared, "time": 9.0}], "aligned": []}}) + "\n"
-                                 for _ in range(1)))
+            manifest.write_text(json.dumps({"source_id": "a", "split": "train", "shot_id": 0, "sample_id": "s1",
+                                            "reference_sets": {"async": [{**shared, "time": 9.0}], "aligned": []}}) + "\n")
             with self.assertRaises(ValueError):
                 load_global_constant(config, cache, "cpu")
 
@@ -164,9 +244,7 @@ class PairedTests(unittest.TestCase):
         torch.testing.assert_close(stats["applied_delta_norm"], torch.zeros_like(stats["applied_delta_norm"]))
 
     def test_strict_online_selection_never_reads_target_future(self):
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("build_reality_manifest", ROOT / "scripts/build_reality_manifest.py")
-        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        module = script("build_reality_manifest")
         strict = module.selection_times(10., 3.5, .75, "strict_online")
         offline = module.selection_times(10., 3.5, .75, "offline_target_filtered")
         self.assertLessEqual(max(strict), 10.75)
@@ -180,28 +258,24 @@ class PairedTests(unittest.TestCase):
     def test_candidate_strict_online_full_path_is_causal_and_hash_bound(self):
         """Run the real candidate() under a recording decoder and verify that every
         analysis frame and every returned positive reference stays inside the
-        visible prefix, that visible_until is the actual boundary frame, and that
-        the row carries the shared selection hash."""
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("build_reality_manifest", ROOT / "scripts/build_reality_manifest.py")
-        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        visible prefix, that all analysis reads use causal_previous, and that the
+        row carries the shared selection hash."""
+        module = script("build_reality_manifest")
         step = 1 / 16.0
         calls = []
 
         def recording_decoder(reference, size=None, return_time=False, latest=False):
-            # Real videos quantize frame starts to a grid; requested times are
-            # arbitrary, so the first at/after frame can start after the request.
             index = math.floor(reference["time"] / step + 1e-9) if latest else math.ceil(reference["time"] / step - 1e-9)
             actual = float(index * step)
             calls.append({"time": reference["time"], "actual": actual, "latest": latest, "role": reference.get("role")})
-            rgb = np.full((64, 64, 3), 200, dtype=np.uint8)  # Same histogram for every frame.
+            rgb = np.full((64, 64, 3), 200, dtype=np.uint8)
             return (rgb, actual) if return_time else rgb
 
         module.read_reference = recording_decoder
         row = {"source_id": "s1", "video": "/tmp/fake.mp4", "sha256": "deadbeef", "split": "train"}
         shots = [{"start": 0.0, "end": 40.0}]
         prefix_latents, fps = 6, 16.0
-        config = minimal_paired_config(protocol="strict_online")
+        config = minimal_paired_config(protocol="strict_online", pool_size=4)
         config["reality_memory"]["references"]["max_count"] = 4
         config["eval"]["reference_counts"] = [1, 2, 4]
         item = module.candidate(row, shots, config)
@@ -210,113 +284,212 @@ class PairedTests(unittest.TestCase):
         visible = item["visible_until"]
         self.assertIsNotNone(visible)
         self.assertLessEqual(visible, nominal + 1e-6)
-        boundary_calls = [c for c in calls if c["role"] == "analysis" and abs(c["time"] - nominal) < 1e-6]
-        self.assertTrue(boundary_calls)
-        self.assertTrue(all(c["latest"] for c in boundary_calls), "Boundary analysis must read at-or-before")
+        self.assertGreaterEqual(visible, item["target_start"] - 1e-6)
+        analysis = [c for c in calls if c["role"] == "analysis"]
+        self.assertTrue(analysis)
+        self.assertTrue(all(c["latest"] for c in analysis), "Every strict analysis frame must be read at-or-before")
+        self.assertTrue(all(c["actual"] <= nominal + 1e-6 for c in analysis))
         for kind in ("async", "aligned"):
             self.assertTrue(item["reference_sets"][kind], f"Expected {kind} references")
             for ref in item["reference_sets"][kind]:
-                self.assertLessEqual(ref["time"], visible + 1e-6,
-                                     f"strict_online {kind} reference exceeds visible_until")
+                self.assertLessEqual(ref["time"], visible + 1e-6)
         self.assertEqual(item["selection_protocol"], "strict_online")
+        self.assertEqual(item["temporal_sampling"], "causal_previous")
         self.assertEqual(item["selection_config_hash"], selection_config_hash(config))
-        self.assertEqual(item["selection_schema"], module.SELECTION_IDENTITY_SCHEMA)
+        self.assertEqual(item["selection_schema"], SELECTION_IDENTITY_SCHEMA)
 
     def test_candidate_offline_still_filters_with_full_target_histogram(self):
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("build_reality_manifest", ROOT / "scripts/build_reality_manifest.py")
-        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        module = script("build_reality_manifest")
         calls = []
 
         def recording_decoder(reference, size=None, return_time=False, latest=False):
-            actual = float(reference["time"])
             calls.append({"time": reference["time"], "latest": latest, "role": reference.get("role")})
             rgb = np.full((64, 64, 3), 200, dtype=np.uint8)
-            return (rgb, actual) if return_time else rgb
+            return (rgb, float(reference["time"])) if return_time else rgb
 
         module.read_reference = recording_decoder
         row = {"source_id": "s1", "video": "/tmp/fake.mp4", "sha256": "deadbeef", "split": "train"}
         shots = [{"start": 0.0, "end": 40.0}]
-        config = minimal_paired_config(protocol="offline_target_filtered")
+        config = minimal_paired_config(protocol="offline_target_filtered", pool_size=4)
         config["reality_memory"]["references"]["max_count"] = 4
         config["eval"]["reference_counts"] = [1, 2, 4]
         item = module.candidate(row, shots, config)
         self.assertIsNotNone(item)
         self.assertIsNone(item["visible_until"])
-        self.assertEqual(item["selection_protocol"], "offline_target_filtered")
+        self.assertEqual(item["temporal_sampling"], "first_at_or_after")
         arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
         analysis = [c for c in calls if c["role"] == "analysis"]
         self.assertGreater(max(c["time"] for c in analysis), item["target_start"] + arrival,
                            "offline filtering legitimately reads the full target histogram")
+        self.assertFalse(any(c["latest"] for c in analysis))
         self.assertEqual(item["selection_config_hash"], selection_config_hash(config))
 
+    def test_low_framerate_strict_dataset_matches_manifest_visible_until(self):
+        """The Dataset's causal_previous prefix must consume exactly the frame the
+        manifest declared as visible_until, even on a low-fps source."""
+        module = script("build_reality_manifest")
+        with tempfile.TemporaryDirectory() as folder:
+            folder = Path(folder)
+            video = folder / "lowfps.mp4"
+            with av.open(str(video), "w") as container:
+                stream = container.add_stream("mpeg4", rate=4)
+                stream.width, stream.height, stream.pix_fmt = 64, 64, "yuv420p"
+                for _ in range(160):
+                    pixels = np.full((64, 64, 3), 128, dtype=np.uint8)
+                    for packet in stream.encode(av.VideoFrame.from_ndarray(pixels, format="rgb24")):
+                        container.mux(packet)
+                for packet in stream.encode():
+                    container.mux(packet)
+            row = {"source_id": "s1", "video": str(video), "sha256": "x", "split": "train"}
+            config = minimal_paired_config(protocol="strict_online", pool_size=1)
+            config["reality_memory"]["references"]["max_count"] = 1
+            config["eval"]["reference_counts"] = [1]
+            item = module.candidate(row, [{"start": 0.0, "end": 40.0}], config)
+            self.assertIsNotNone(item)
+            manifest = folder / "m.jsonl"
+            manifest.write_text(json.dumps(manifest_row(item)) + "\n")
+            dataset = VideoDataset(manifest, 57, 256, 432, 16, temporal_sampling="causal_previous")
+            times = dataset[0]["sampled_times"]
+            boundary = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1)
+            self.assertAlmostEqual(times[boundary].item(), item["visible_until"], places=5)
+            # Frames after the boundary are the supervised future, not the prefix.
+            self.assertLessEqual(times[:boundary + 1].max().item(), item["visible_until"] + 1e-6)
+            self.assertGreaterEqual(times.min().item(), 0.0)
+
     def test_global_mean_pool_is_deduplicated_and_mixture_independent(self):
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("cache_reality_features", ROOT / "scripts/cache_reality_features.py")
-        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        module = script("cache_reality_features")
         identity = {"encoder": "fixture", "version": 1}
         with tempfile.TemporaryDirectory() as folder:
             manifest = Path(folder) / "train.jsonl"
-            rows = [{"source_id": "a", "split": "train", "sample_id": "s1",
-                     "reference_sets": {"async": [{"video_sha256": "v", "time": 1.0}, {"video_sha256": "v", "time": 2.0}],
-                                        "aligned": []}},
-                    {"source_id": "a", "split": "train", "sample_id": "s2",
-                     "reference_sets": {"async": [{"video_sha256": "v", "time": 1.0}],
-                                        "aligned": [{"video_sha256": "v", "time": 2.0}]}}]
+            ref = lambda time: {"video_sha256": "v", "time": time, "split": "train", "source_id": "a", "shot_id": 0}
+            rows = [{"source_id": "a", "split": "train", "shot_id": 0, "sample_id": "s1",
+                     "reference_sets": {"async": [ref(1.0), ref(2.0)], "aligned": []}},
+                    {"source_id": "a", "split": "train", "shot_id": 0, "sample_id": "s2",
+                     "reference_sets": {"async": [ref(1.0)], "aligned": [ref(2.0)]}}]
             manifest.write_text("".join(json.dumps(row) + "\n" for row in rows))
             cache = SimpleNamespace(identity=identity, tokens=3, channels=4,
-                                    key=lambda ref: canonical_hash({"video_sha256": ref["video_sha256"],
-                                                                    "time": ref["time"], "encoder": identity}),
-                                    read=lambda ref: torch.arange(12, dtype=torch.float32).reshape(3, 4) * ref["time"])
+                                    key=lambda reference: canonical_hash({"video_sha256": reference["video_sha256"],
+                                                                          "time": reference["time"], "encoder": identity}),
+                                    read=lambda reference: torch.arange(12, dtype=torch.float32).reshape(3, 4) * reference["time"])
             config = minimal_paired_config(train_manifest=manifest)
             payload = module.global_mean_payload(rows, cache, config)
-            # Two distinct frames (t=1, t=2), despite appearing four times across rows.
             self.assertEqual(payload["unique_reference_count"], 2)
             torch.testing.assert_close(payload["features"], torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5)
             self.assertEqual(payload["schema"], GLOBAL_MEAN_SCHEMA)
             self.assertEqual(payload["source_split"], "train")
+            self.assertEqual(payload["temporal_sampling"], config["data"]["temporal_sampling"])
             self.assertEqual(payload["train_manifest_sha256"], __import__("hashlib").sha256(manifest.read_bytes()).hexdigest())
             self.assertEqual(payload["selection_config_hash"], selection_config_hash(config))
+            with self.assertRaises(ValueError):
+                module.global_mean_payload([{**rows[0], "split": "val"}], cache, config)
 
     def test_reality_dataset_enforces_strict_online_bounds_and_selection_hash(self):
-        base = {"window_start": 0.0, "window_sec": 3.5, "target_start": 0.0, "target_sec": 3.5,
-                "split": "train", "source_id": "a", "reference_kind": "async",
-                "references": [{"split": "train", "source_id": "a", "time": .5}],
-                "caption": "c", "anchor_sec": [1.25], "video": "/tmp/fake.mp4", "sha256": "x",
-                "visual_review": "pending", "filter_status": "pass", "shot": {"start": 0, "end": 5},
-                "shot_id": 0, "window_start_sec": 0.0}
-
         def refs(*times):
-            return {"async": [{"split": "train", "source_id": "a", "time": t} for t in times], "aligned": []}
+            return {"async": [{"split": "train", "source_id": "a", "shot_id": 0, "time": t} for t in times], "aligned": []}
 
         cache = SimpleNamespace(identity="x", tokens=1, channels=1, path=lambda ref: Path("/nonexistent"))
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
             path = folder / "m.jsonl"
 
-            def load(rows, protocol=None, selection_hash=None):
-                path.write_text("".join(json.dumps(row) + "\n" for row in rows))
-                return RealityDataset(path, cache, preflight=False,
-                                      selection_protocol=protocol, selection_config_hash=selection_hash)
+            def load(rows, protocol=None, selection_hash=None, temporal=None, legacy=False):
+                path.write_text("".join(json.dumps(manifest_row(row)) + "\n" for row in rows))
+                return RealityDataset(path, cache, preflight=False, selection_protocol=protocol,
+                                      selection_config_hash=selection_hash, prefix_latents=6,
+                                      temporal_sampling=temporal, allow_legacy_offline_manifest=legacy)
 
-            good = {**base, "sample_id": "good", "selection_protocol": "strict_online",
-                    "selection_schema": 2, "visible_until": 2.0, "reference_sets": refs(.5, 1.5),
-                    "selection_config_hash": "expected-hash"}
-            load([good], protocol="strict_online", selection_hash="expected-hash")
+            good = {"selection_protocol": "strict_online", "selection_schema": SELECTION_IDENTITY_SCHEMA,
+                    "temporal_sampling": "causal_previous", "visible_until": 1.0,
+                    "reference_sets": refs(.5, .9), "selection_config_hash": "expected-hash"}
+            load([good], protocol="strict_online", selection_hash="expected-hash", temporal="causal_previous")
+            for broken in ({**good, "selection_schema": 999},
+                           {**good, "selection_config_hash": "stale"},
+                           {**good, "selection_config_hash": None},
+                           {**good, "visible_until": None},
+                           {**good, "visible_until": 2.0},
+                           {**good, "temporal_sampling": "first_at_or_after"},
+                           {**good, "reference_sets": refs(.5, 1.5)},
+                           {**good, "reference_sets": {"async": [{"split": "val", "source_id": "a", "shot_id": 0, "time": .5}], "aligned": []}},
+                           {**good, "reference_sets": {"async": [{"split": "train", "source_id": "b", "shot_id": 0, "time": .5}], "aligned": []}},
+                           {**good, "reference_sets": {"async": [{"split": "train", "source_id": "a", "shot_id": 3, "time": .5}], "aligned": []}}):
+                with self.assertRaises(ValueError, msg=str(broken.get("visible_until"))):
+                    load([broken], protocol="strict_online", selection_hash="expected-hash", temporal="causal_previous")
             with self.assertRaises(ValueError):
-                load([{**good, "sample_id": "late", "reference_sets": refs(.5, 2.5)}],
-                     protocol="strict_online", selection_hash="expected-hash")
+                load([good], protocol="strict_online", selection_hash=None, temporal="causal_previous")
+            # Legacy offline rows need the explicit opt-in; new-format offline rows are hashed.
+            legacy_row = {"reference_sets": refs(.5)}
             with self.assertRaises(ValueError):
-                load([{**good, "sample_id": "no-visible", "visible_until": None}],
-                     protocol="strict_online", selection_hash="expected-hash")
+                load([legacy_row], protocol="offline_target_filtered")
+            load([legacy_row], protocol="offline_target_filtered", legacy=True)
+            new_offline = {"selection_protocol": "offline_target_filtered", "selection_schema": SELECTION_IDENTITY_SCHEMA,
+                           "temporal_sampling": "first_at_or_after", "visible_until": None,
+                           "reference_sets": refs(.5), "selection_config_hash": "expected-hash"}
+            load([new_offline], protocol="offline_target_filtered", selection_hash="expected-hash", temporal="first_at_or_after")
             with self.assertRaises(ValueError):
-                load([{**good, "sample_id": "stale-hash", "selection_config_hash": "stale"}],
-                     protocol="strict_online", selection_hash="expected-hash")
-            with self.assertRaises(ValueError):
-                load([{**base, "sample_id": "wrong-protocol", "reference_sets": refs(.5)}],
-                     protocol="strict_online", selection_hash="expected-hash")
-            # Legacy rows predate the protocol/hash fields and load under the default.
-            load([{**base, "sample_id": "legacy", "reference_sets": refs(.5)}], protocol="offline_target_filtered")
+                load([{**new_offline, "selection_config_hash": "stale"}], protocol="offline_target_filtered",
+                     selection_hash="expected-hash", temporal="first_at_or_after")
+
+    def test_paired_gradient_diagnostics_schedule_is_off_by_one_free(self):
+        cfg = {"diagnostic_gradients": True, "diagnostic_interval": 5}
+        enabled = [step for step in range(1, 12) if paired_diagnostics_enabled(cfg, step)]
+        self.assertEqual(enabled, [1, 2, 5, 10])
+        self.assertFalse(paired_diagnostics_enabled({"diagnostic_gradients": False, "diagnostic_interval": 5}, 1))
+        self.assertFalse(paired_diagnostics_enabled({"diagnostic_gradients": False, "diagnostic_interval": 5}, 5))
+
+    def test_global_constant_asset_consistency_is_tri_state(self):
+        module = script("summarize_reality_paired")
+        consistent = {"train": {"clean": {"global_constant_consistent": True}, "mild": {"global_constant_consistent": True}}}
+        legacy = {"train": {"clean": {"global_constant_consistent": None}, "mild": {"global_constant_consistent": None}}}
+        mixed = {"train": {"clean": {"global_constant_consistent": True}, "mild": {"global_constant_consistent": False}}}
+        self.assertEqual(module.asset_consistency(consistent), {"train": True})
+        self.assertEqual(module.asset_consistency(legacy), {"train": None})
+        self.assertEqual(module.asset_consistency(mixed), {"train": False})
+
+    def test_existing_probe_summary_uses_unique_targets_and_bootstrap(self):
+        module = script("summarize_existing_probe")
+        def case(sample_id, mode, seed, losses):
+            variants = {kind: {"video_loss": value} for kind, value in losses.items()}
+            variants["base"] = {"video_loss": losses["none"]}
+            return {"sample_id": sample_id, "source_id": sample_id, "prefix_mode": mode, "noise_seed": seed,
+                    "variants": variants}
+        losses = {"none": 1.0, "active_zero": .95, "pair_mean": .9, "global_constant": .85,
+                  "correct": .7, "wrong_source": 1.05}
+        report = {"split": "val", "cases": [case("t1", mode, seed, losses) for mode in ("clean", "mild") for seed in (1, 2)]}
+        summary = module.summarize(report, samples=200, seed=3)
+        self.assertEqual(summary["modes"]["clean"]["unique_targets"], 1)
+        deltas = summary["modes"]["clean"]["core_deltas"]
+        self.assertAlmostEqual(deltas["U_correct"]["mean"], .3, places=6)
+        self.assertAlmostEqual(deltas["G_content"]["mean"], .15, places=6)
+        self.assertEqual(deltas["U_correct"]["n"], 1)
+        self.assertLessEqual(deltas["U_correct"]["low"], deltas["U_correct"]["mean"])
+        self.assertGreaterEqual(deltas["U_correct"]["high"], deltas["U_correct"]["mean"])
+
+    def test_probe_checkpoint_verification_handles_stored_extra_fields(self):
+        """Regression: the stored signature carries selected_indices/world_size, so
+        only the semantic fields may be compared; evaluation-only config changes
+        are allowed, semantic ones are not."""
+        probe = script("probe_existing_memory_checkpoint")
+        from restream.reality_runtime import resume_signature
+        config = read_reality_config(ROOT / "configs/reality_memory_paired.yaml")
+        cache = SimpleNamespace(identity={"encoder": "fixture", "weights": {}})
+        saved = {"stage": "r0", "config": copy.deepcopy(config),
+                 "signature": {**resume_signature(config, cache), "selected_indices": [1, 2], "world_size": 1}}
+        self.assertTrue(probe.verify_checkpoint(saved, config, cache))
+        eval_only = copy.deepcopy(config)
+        eval_only["reality_memory"]["objective"]["paired"]["probe_noise_seeds"] = [1, 2, 3]
+        eval_only["reality_memory"]["objective"]["paired"]["diagnostic_interval"] = 99
+        eval_only["reality_memory"]["references"]["allow_legacy_offline_manifest"] = False
+        self.assertTrue(probe.verify_checkpoint(saved, eval_only, cache))
+        semantic = copy.deepcopy(config)
+        semantic["reality_memory"]["objective"]["paired"]["contrast_weight"] = 0.5
+        with self.assertRaises(ValueError):
+            probe.verify_checkpoint(saved, semantic, cache)
+        broken = copy.deepcopy(saved)
+        broken["signature"]["encoder"] = {"encoder": "other"}
+        with self.assertRaises(ValueError):
+            probe.verify_checkpoint(broken, config, cache)
+        with self.assertRaises(ValueError):
+            probe.verify_checkpoint({**saved, "stage": "r1"}, config, cache)
 
     def test_sequential_video_gradients_equal_joint_objective(self):
         sys.path.insert(0, str(ROOT / "code/LongLive"))

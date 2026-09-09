@@ -1,5 +1,6 @@
 """Precompute frozen reference features. Never runs the video generator or an optimizer."""
 import argparse
+import hashlib
 from pathlib import Path
 import sys
 import torch
@@ -38,6 +39,8 @@ def global_mean_payload(rows, cache, config):
         "tokens": cache.tokens,
         "channels": cache.channels,
         "selection_protocol": references.get("selection_protocol", "offline_target_filtered"),
+        "temporal_sampling": config["data"]["temporal_sampling"],
+        "selection_seed": config["data"]["selection_seed"],
         "train_manifest_sha256": manifest_digest(manifest),
         "reference_keys_sha256": reference_keys_digest(unique),
         "selection_config_hash": selection_config_hash(config),
@@ -98,9 +101,12 @@ def main():
                                  "schema": payload["schema"], "unique_reference_count": payload["unique_reference_count"],
                                  "tokens": payload["tokens"], "channels": payload["channels"],
                                  "selection_protocol": payload["selection_protocol"],
+                                 "temporal_sampling": payload["temporal_sampling"],
+                                 "selection_seed": payload["selection_seed"],
                                  "train_manifest_sha256": payload["train_manifest_sha256"],
                                  "reference_keys_sha256": payload["reference_keys_sha256"],
-                                 "selection_config_hash": payload["selection_config_hash"]}
+                                 "selection_config_hash": payload["selection_config_hash"],
+                                 "file_sha256": hashlib.sha256(global_mean_path.read_bytes()).hexdigest()}
     if args.overfit_samples:
         report["overfit_samples"] = args.overfit_samples
     write_json(ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)

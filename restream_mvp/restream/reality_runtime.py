@@ -9,7 +9,8 @@ from .reality_cache import FeatureCache
 from .reality_dataset import RealityDataset
 from .reality_encoder import encoder_identity
 from .reality_memory import RealityMemory, reference_dropout, memory_regularization
-from .reality_selection import selection_config_hash
+from .reality_selection import (selection_config_hash, validate_selection_protocol,
+                                validate_temporal_sampling)
 from .runtime import ROOT, read_config
 
 
@@ -23,9 +24,18 @@ def read_reality_config(path):
     if memory["encoder"]["type"] != "dinov2":
         raise ValueError("R0 uses one frozen DINOv2 encoder")
     references = memory["references"]
-    if references.get("selection_protocol", "offline_target_filtered") == "strict_online" and references.get("async_direction") != "past_only":
-        raise ValueError("strict_online requires past_only references")
-    if config["data"]["frames"] < 21 or not 0 <= memory["references"]["per_reference_dropout"] <= 1:
+    protocol = references.get("selection_protocol", "offline_target_filtered")
+    validate_selection_protocol(protocol, references.get("async_direction", "past_only"))
+    validate_temporal_sampling(protocol, config["data"].get("temporal_sampling"))
+    if type(config["data"].get("selection_seed")) is not int or config["data"]["selection_seed"] < 0:
+        raise ValueError("data.selection_seed must be a nonnegative integer, separate from the training seed")
+    pool_size = references.get("pool_size")
+    counts = (config.get("eval") or {}).get("reference_counts") or [0]
+    if type(pool_size) is not int or pool_size < references["max_count"] or pool_size < max(int(count) for count in counts):
+        raise ValueError("references.pool_size must be an explicit integer covering max_count and the evaluation sweep")
+    if type(references.get("allow_legacy_offline_manifest", False)) is not bool:
+        raise ValueError("references.allow_legacy_offline_manifest must be boolean")
+    if config["data"]["frames"] < 21 or not 0 <= references["per_reference_dropout"] <= 1:
         raise ValueError("Invalid R0 temporal window/dropout")
     prefix = memory["objective"]["prefix_latents"]
     if prefix < 3 or prefix % 3 or prefix + 3 > (config["data"]["frames"] - 1) // 4 + 1 or memory["objective"]["future_blocks"] != 1:
@@ -51,11 +61,16 @@ def make_cache(config):
 
 def make_dataset(config, split, cache=None):
     data = config["data"]
-    protocol = config["reality_memory"]["references"].get("selection_protocol", "offline_target_filtered")
+    memory = config["reality_memory"]
+    references = memory["references"]
+    protocol = references.get("selection_protocol", "offline_target_filtered")
     return RealityDataset(ROOT / data[f"{split}_manifest"], cache or make_cache(config),
                           data["frames"], data["height"], data["width"], data["fps"],
                           selection_protocol=protocol,
-                          selection_config_hash=selection_config_hash(config))
+                          selection_config_hash=selection_config_hash(config),
+                          prefix_latents=memory["objective"]["prefix_latents"],
+                          temporal_sampling=data["temporal_sampling"],
+                          allow_legacy_offline_manifest=references.get("allow_legacy_offline_manifest", False))
 
 
 @torch.no_grad()

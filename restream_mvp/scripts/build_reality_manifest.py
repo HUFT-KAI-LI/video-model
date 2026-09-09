@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 from restream.dataset import read_manifest
 from restream.reality_data import canonical_hash, histogram, read_reference, scene_similarity, write_json
 from restream.reality_selection import (SELECTION_IDENTITY_SCHEMA, selection_config_hash,
-                                        validate_selection_protocol)
+                                        validate_selection_protocol, validate_temporal_sampling)
 from restream.runtime import read_config
 
 
@@ -35,34 +35,37 @@ def candidate(row, shots, config):
     refs = config["reality_memory"]["references"]
     length = (config["data"]["frames"] - 1) / config["data"]["fps"]
     margin, gap = refs["boundary_margin_sec"], refs["min_gap_sec"]
-    rng = random.Random(f"{config['seed']}:{row['source_id']}")
+    rng = random.Random(f"{config['data']['selection_seed']}:{row['source_id']}")
     # Require room for past observations, even when 'both' is enabled.
     eligible = [(i, shot) for i, shot in enumerate(shots)
                 if shot["end"] - shot["start"] >= length + 2 * margin + gap + .5]
     rng.shuffle(eligible)
-    max_k = max(refs["max_count"], max(config["eval"]["reference_counts"]))
+    max_k = refs["pool_size"]
     for shot_id, shot in eligible:
         start = rng.uniform(shot["start"] + margin + gap + .5, shot["end"] - margin - length)
         arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
         protocol = refs.get("selection_protocol", "offline_target_filtered")
         validate_selection_protocol(protocol, refs["async_direction"])
+        temporal_sampling = config["data"]["temporal_sampling"]
+        validate_temporal_sampling(protocol, temporal_sampling)
         visible_until = None
         if protocol == "strict_online":
-            # visible_until is the actual pixel frame consumed at the prefix
-            # boundary, read at-or-before so the last analysis frame can never
-            # start after the theoretical visible cutoff.
+            # Every target-prefix analysis frame uses the same causal_previous
+            # policy as the Dataset (last frame at/before the requested time), so
+            # a sparse or irregular source cannot push an analysis frame past the
+            # visible cutoff.
             times = selection_times(start, length, arrival, protocol)
-            histograms = []
-            for position, at in enumerate(times):
+            histograms, sampled = [], []
+            for at in times:
                 request = reference(row, at, "analysis", shot_id)
-                if position == len(times) - 1:
-                    rgb, actual = read_reference(request, 64, return_time=True, latest=True)
-                    if not start - 1e-6 <= actual <= at + 1e-6:
-                        raise ValueError("strict_online analysis frame escapes the visible prefix window")
-                    visible_until = actual
-                else:
-                    rgb = read_reference(request, 64)
+                rgb, actual = read_reference(request, 64, return_time=True, latest=True)
+                if actual > start + arrival + 1e-6:
+                    raise ValueError("strict_online analysis frame exceeds the theoretical visible cutoff")
                 histograms.append(histogram(rgb))
+                sampled.append(actual)
+            visible_until = sampled[-1]
+            if visible_until < start - 1e-6:
+                continue  # No frame inside the prefix window at this frame rate.
             target_hist = np.mean(histograms, axis=0)
         else:
             target_hist = np.mean([histogram(read_reference(reference(row, at, "analysis", shot_id), 64))
@@ -116,6 +119,7 @@ def candidate(row, shots, config):
                 "target_start": start, "target_sec": length, "shot_id": shot_id, "shot": shot,
                 "reference_sets": {"async": async_refs, "aligned": aligned},
                 "selection_protocol": protocol, "selection_schema": SELECTION_IDENTITY_SCHEMA,
+                "temporal_sampling": temporal_sampling,
                 "visible_until": round(visible_until, 6) if strict else None,
                 "selection_config_hash": protocol_hash,
                 "filter_status": "heuristic_pass", "visual_review": "pending",
@@ -136,9 +140,10 @@ def attach_references(rows, config):
     for i in np.argsort([-(len(rows) * p - n) for p, n in zip(probabilities, counts)])[:len(rows) - sum(counts)]:
         counts[i] += 1
     kinds = [name for name, count in zip(names, counts) for _ in range(count)]
-    random.Random(config["seed"]).shuffle(kinds)
+    selection_seed = config["data"]["selection_seed"]
+    random.Random(selection_seed).shuffle(kinds)
     for row, kind in zip(rows, kinds):
-        rng = random.Random(f"{config['seed']}:refs:{row['source_id']}")
+        rng = random.Random(f"{selection_seed}:refs:{row['source_id']}")
         donors = [item for item in rows if item["source_id"] != row["source_id"]]
         donor = rng.choice(donors)
         row["reference_sets"]["wrong"] = [{**ref, "role": "wrong_source"} for ref in donor["reference_sets"]["async"]]
@@ -156,7 +161,15 @@ def main():
     args = parser.parse_args()
     config = read_config(args.config)
     references = config["reality_memory"]["references"]
-    validate_selection_protocol(references.get("selection_protocol", "offline_target_filtered"), references.get("async_direction"))
+    protocol = references.get("selection_protocol", "offline_target_filtered")
+    validate_selection_protocol(protocol, references.get("async_direction"))
+    validate_temporal_sampling(protocol, config["data"].get("temporal_sampling"))
+    if type(config["data"].get("selection_seed")) is not int or config["data"]["selection_seed"] < 0:
+        raise ValueError("data.selection_seed must be a nonnegative integer, separate from the training seed")
+    pool_size = references.get("pool_size")
+    counts = config["eval"]["reference_counts"]
+    if type(pool_size) is not int or pool_size < references["max_count"] or pool_size < max(int(count) for count in counts):
+        raise ValueError("references.pool_size must be explicit and cover max_count and the evaluation sweep")
     if references["async_direction"] not in ("past_only", "both") or references["min_count"] < 1 or references["max_count"] < references["min_count"]:
         raise ValueError("Invalid reference sampling configuration")
     shots = {r["source_id"]: r for r in read_manifest(args.shots)}

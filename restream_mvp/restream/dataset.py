@@ -6,6 +6,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.utils.data import Dataset
+from .reality_selection import TEMPORAL_SAMPLING
 
 
 def read_manifest(path):
@@ -13,7 +14,8 @@ def read_manifest(path):
 
 
 class VideoDataset(Dataset):
-    def __init__(self, manifest, frames=57, height=256, width=432, fps=16, seek=True):
+    def __init__(self, manifest, frames=57, height=256, width=432, fps=16, seek=True,
+                 temporal_sampling="first_at_or_after"):
         self.rows = read_manifest(manifest)
         if not self.rows:
             raise ValueError("Empty dataset")
@@ -21,8 +23,11 @@ class VideoDataset(Dataset):
             raise ValueError("Expected 4k+1 pixels, latent frames multiple of 3, spatial multiple of 16")
         if not math.isfinite(fps) or fps <= 0:
             raise ValueError("fps must be positive")
+        if temporal_sampling not in TEMPORAL_SAMPLING:
+            raise ValueError(f"Invalid temporal_sampling {temporal_sampling!r}")
         self.frames, self.height, self.width, self.fps = frames, height, width, float(fps)
         self.seek = seek
+        self.temporal_sampling = temporal_sampling
         window_sec = (frames - 1) / self.fps
         if any(not math.isclose(float(row["window_sec"]), window_sec, abs_tol=1e-6) for row in self.rows):
             raise ValueError("Manifest window_sec differs from (frames - 1) / fps; rebuild the manifest with the current config")
@@ -30,34 +35,59 @@ class VideoDataset(Dataset):
     def __len__(self):
         return len(self.rows)
 
+    def _preprocess(self, rgb):
+        tensor = torch.from_numpy(rgb).permute(2, 0, 1).float()
+        scale = max(self.height / tensor.shape[1], self.width / tensor.shape[2])
+        h, w = max(self.height, round(tensor.shape[1] * scale)), max(self.width, round(tensor.shape[2] * scale))
+        tensor = F.interpolate(tensor[None], (h, w), mode="bilinear", align_corners=False)[0]
+        y, x = (h - self.height) // 2, (w - self.width) // 2
+        return tensor[:, y:y + self.height, x:x + self.width] / 127.5 - 1
+
     def __getitem__(self, index):
         row = self.rows[index]
         start = float(row["window_start"])
         targets = start + np.arange(self.frames, dtype=np.float64) / self.fps
-        decoded, cursor = [], 0
+        decoded, sampled_times, cursor = [], [], 0
         with av.open(row["video"]) as container:
             stream = container.streams.video[0]
             origin = float((stream.start_time or 0) * stream.time_base)
             if self.seek and start > 0:
                 container.seek(int((start + origin) / stream.time_base), stream=stream, backward=True)
+            previous = None  # (rgb, time) of the last decoded frame, for causal_previous
             for frame in container.decode(stream):
                 if frame.time is None:
                     continue
                 at = frame.time - origin
-                if cursor < self.frames and at + 1e-6 >= targets[cursor]:
-                    tensor = torch.from_numpy(frame.to_ndarray(format="rgb24")).permute(2, 0, 1).float()
-                    scale = max(self.height / tensor.shape[1], self.width / tensor.shape[2])
-                    h, w = max(self.height, round(tensor.shape[1] * scale)), max(self.width, round(tensor.shape[2] * scale))
-                    tensor = F.interpolate(tensor[None], (h, w), mode="bilinear", align_corners=False)[0]
-                    y, x = (h - self.height) // 2, (w - self.width) // 2
-                    tensor = tensor[:, y:y + self.height, x:x + self.width] / 127.5 - 1
+                if self.temporal_sampling == "causal_previous":
+                    # Assign the last frame at/before each requested timestamp; the
+                    # same frame may serve several timestamps on low-fps sources.
+                    while cursor < self.frames and at > targets[cursor] + 1e-6:
+                        if previous is None:
+                            raise ValueError(f"Video has no frame at or before the first causal target: {row['video']}")
+                        decoded.append(self._preprocess(previous[0]))
+                        sampled_times.append(previous[1])
+                        cursor += 1
+                    previous = (frame.to_ndarray(format="rgb24"), float(at))
+                    if cursor == self.frames:
+                        break
+                elif cursor < self.frames and at + 1e-6 >= targets[cursor]:
+                    tensor = self._preprocess(frame.to_ndarray(format="rgb24"))
                     while cursor < self.frames and at + 1e-6 >= targets[cursor]:
                         decoded.append(tensor)
+                        sampled_times.append(float(at))
                         cursor += 1
                 if cursor == self.frames:
                     break
+            if self.temporal_sampling == "causal_previous":
+                while cursor < self.frames:
+                    if previous is None:
+                        raise ValueError(f"Video has no frame at or before a causal target: {row['video']}")
+                    decoded.append(self._preprocess(previous[0]))
+                    sampled_times.append(previous[1])
+                    cursor += 1
         if cursor != self.frames:
             raise ValueError(f"Video too short for manifest window: {row['video']}")
         return {"pixels": torch.stack(decoded, dim=1), "caption": row["caption"],
                 "source_id": row["source_id"], "window_sec": row["window_sec"],
-                "anchor_sec": row["anchor_sec"][0]}
+                "anchor_sec": row["anchor_sec"][0], "temporal_sampling": self.temporal_sampling,
+                "sampled_times": torch.tensor(sampled_times, dtype=torch.float64)}

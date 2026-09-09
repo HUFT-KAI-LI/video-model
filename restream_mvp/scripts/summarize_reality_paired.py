@@ -41,6 +41,22 @@ def target_level_deltas(rows):
     return entries
 
 
+def asset_consistency(comparisons):
+    """Tri-state per split: True if every mode confirmed the same global-constant
+    asset, False if any mode detected a mismatch, None if the reports predate the
+    provenance record (cannot be judged, must not be reported as consistent)."""
+    result = {}
+    for split, modes in comparisons.items():
+        states = {modes[mode]["global_constant_consistent"] for mode in ("clean", "mild") if mode in modes}
+        if False in states:
+            result[split] = False
+        elif states == {True}:
+            result[split] = True
+        else:
+            result[split] = None
+    return result
+
+
 def comparison(before, after):
     def identity(case):
         return {key: case[key] for key in ("sample_id", "source_id", "prefix_mode", "noise_seed", "history_seed",
@@ -106,6 +122,7 @@ def main():
     parser.add_argument("--run", type=Path, default=ROOT / "checkpoints/reality_memory_paired_review")
     parser.add_argument("--output", type=Path, default=ROOT / "validation/reality_memory/paired_review")
     args = parser.parse_args()
+    args.run, args.output = args.run.resolve(), args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=True)
     rows = [json.loads(line) for line in (args.run / "train_rank_0.jsonl").read_text().splitlines()]
     step, updates = rows[-1]["batch_step"], rows[-1]["optimizer_step"]
@@ -130,8 +147,7 @@ def main():
     if sources["train"] & sources["val"]:
         raise ValueError("Train/val target or reference source overlap")
     shutil.copyfile(args.run / "train_rank_0.jsonl", args.output / "train_steps.jsonl")
-    constant_consistent = {split: all(m["global_constant_consistent"] is not False for m in comparisons[split].values())
-                           for split in comparisons}
+    constant_consistent = asset_consistency(comparisons)
     report = {"batch_step": step, "optimizer_step": updates, "optimizer_state_step_verified": True,
               "sample_visits": dict(Counter(r["sample_id"] for r in rows)), "config": state["config"],
               "comparisons": comparisons, "train_val_sources_disjoint": True,

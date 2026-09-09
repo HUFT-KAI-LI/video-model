@@ -7,6 +7,9 @@ data:
   height: 256
   width: 432
   workers: 4
+  # Manifest construction RNG, separate from the training/probing seed.
+  selection_seed: 42
+  temporal_sampling: first_at_or_after
 model:
   upstream_config: code/LongLive/configs/longlive_inference.yaml
   wan: models/Wan2.1-T2V-1.3B
@@ -21,6 +24,8 @@ reality_memory:
     frozen: true
   feature_cache: data/reality_features
   references:
+    pool_size: 8
+    allow_legacy_offline_manifest: true
     min_count: 1
     max_count: 4
     async_probability: 0.50

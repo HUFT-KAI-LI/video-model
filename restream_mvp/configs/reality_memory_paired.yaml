@@ -8,6 +8,11 @@ data:
   height: 256
   width: 432
   workers: 4
+  # Manifest construction RNG, separate from the training/probing seed.
+  selection_seed: 42
+  # Offline manifests filter with the full target histogram (first frame at/after
+  # each timestamp); strict-online would require causal_previous instead.
+  temporal_sampling: first_at_or_after
 model:
   upstream_config: code/LongLive/configs/longlive_inference.yaml
   wan: models/Wan2.1-T2V-1.3B
@@ -24,6 +29,11 @@ reality_memory:
   references:
     selection_protocol: offline_target_filtered
     global_constant_features: data/reality_global_mean_features.pt
+    # Explicit pool size (no longer inferred from the evaluation sweep).
+    pool_size: 8
+    # The committed offline manifest predates the selection identity fields.
+    # New strict-online experiments must rebuild the manifest instead.
+    allow_legacy_offline_manifest: true
     min_count: 1
     max_count: 4
     async_probability: 0.5
@@ -66,8 +76,9 @@ reality_memory:
         mode: mild
         sigma: 0.05
         protected_prefix: 3
-      # Decomposed video/contrast gradient norms are logged on steps 1-2 and
-      # every diagnostic_interval steps; disable for long/four-card runs.
+      # Decomposed video/contrast gradient norms are logged on updates 1, 2 and
+      # every diagnostic_interval updates (1,2,5,10,...); disable for
+      # long/four-card runs.
       diagnostic_gradients: true
       diagnostic_interval: 5
       probe_noise_seeds:
