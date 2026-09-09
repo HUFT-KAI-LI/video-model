@@ -66,6 +66,10 @@ reality_memory:
         mode: mild
         sigma: 0.05
         protected_prefix: 3
+      # Decomposed video/contrast gradient norms are logged on steps 1-2 and
+      # every diagnostic_interval steps; disable for long/four-card runs.
+      diagnostic_gradients: true
+      diagnostic_interval: 5
       probe_noise_seeds:
       - 50000
       - 60000

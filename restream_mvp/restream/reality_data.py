@@ -10,21 +10,39 @@ def canonical_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def read_reference(reference, size=None, return_time=False):
-    """Use the first decoded frame at/after a metadata timestamp; never feed time to the model."""
+def read_reference(reference, size=None, return_time=False, latest=False):
+    """Decode one video frame near a metadata timestamp; never feed time to the model.
+
+    Default: first frame at/after ``reference["time"]``. With ``latest=True``
+    return the last frame whose time is at/before the timestamp (plus a small
+    decode tolerance), which strict-online analysis uses so that the final
+    histogram frame cannot start after the visible cutoff.
+    """
     with av.open(reference["video"]) as container:
         stream = container.streams.video[0]
         origin = float((stream.start_time or 0) * stream.time_base)
         # Seeking keeps feature preparation practical for long sources.
         container.seek(int((reference["time"] + origin) / stream.time_base), stream=stream, backward=True)
+        match = None
         for frame in container.decode(stream):
-            if frame.time is not None and frame.time - origin + 1e-6 >= reference["time"]:
-                sampled_time = float(frame.time - origin)
-                if size:
-                    frame = frame.reformat(width=size, height=size, format="rgb24")
-                rgb = frame.to_ndarray(format="rgb24")
-                return (rgb, sampled_time) if return_time else rgb
-    raise ValueError(f"Reference timestamp cannot be decoded: {reference['video']} @ {reference['time']}")
+            if frame.time is None:
+                continue
+            sampled_time = float(frame.time - origin)
+            if latest:
+                if sampled_time <= reference["time"] + 1e-6:
+                    match = (frame, sampled_time)
+                else:
+                    break
+            elif sampled_time + 1e-6 >= reference["time"]:
+                match = (frame, sampled_time)
+                break
+        if match is None:
+            raise ValueError(f"Reference timestamp cannot be decoded: {reference['video']} @ {reference['time']}")
+        frame, sampled_time = match
+        if size:
+            frame = frame.reformat(width=size, height=size, format="rgb24")
+        rgb = frame.to_ndarray(format="rgb24")
+        return (rgb, sampled_time) if return_time else rgb
 
 
 def histogram(rgb):

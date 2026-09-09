@@ -3,6 +3,7 @@
 Labels select pairs and define a loss only. R0 still queries memory from prompt
 context; neither source IDs nor video-state features enter the memory model.
 """
+import hashlib
 import math
 from pathlib import Path
 import torch
@@ -11,18 +12,86 @@ from torch.utils.data import Dataset
 from .corruption import corrupt_history
 from .objective import future_loss
 from .reality_runtime import PreserveHistory
+from .reality_selection import (GLOBAL_MEAN_SCHEMA, manifest_digest, reference_keys_digest,
+                                selection_config_hash, unique_train_reference_pool)
 
 
-def load_global_constant(config, cache, device):
+def global_constant_path(config):
     path = Path(config["reality_memory"]["references"]["global_constant_features"])
     if not path.is_absolute():
         from .runtime import ROOT
         path = ROOT / path
+    return path
+
+
+def expected_global_constant_provenance(config, cache):
+    """Digests that a valid global mean must match to belong to this manifest.
+
+    The global-constant control is a derived asset of the current train manifest
+    and selection policy: the mean must come from the deduplicated async+aligned
+    pools of the very manifest the loader will pair it with.
+    """
+    from .dataset import read_manifest
+    manifest = Path(config["data"]["train_manifest"])
+    if not manifest.is_absolute():
+        from .runtime import ROOT
+        manifest = ROOT / manifest
+    unique = unique_train_reference_pool(read_manifest(manifest), cache)
+    return {"train_manifest": str(manifest), "train_manifest_sha256": manifest_digest(manifest),
+            "unique_reference_count": len(unique), "reference_keys_sha256": reference_keys_digest(unique),
+            "selection_config_hash": selection_config_hash(config)}
+
+
+def _load_global_constant_payload(config, cache, device):
+    path = global_constant_path(config)
+    if not path.is_file():
+        raise FileNotFoundError(f"Missing global-constant control; run scripts/cache_reality_features.py: {path}")
     payload = torch.load(path, map_location=device, weights_only=False)
+    if not isinstance(payload, dict) or payload.get("schema") != GLOBAL_MEAN_SCHEMA:
+        raise ValueError(f"Unsupported global-constant payload schema at {path}; regenerate it with scripts/cache_reality_features.py")
     if payload.get("cache_identity") != cache.identity or payload.get("tokens") != cache.tokens or payload.get("channels") != cache.channels:
-        raise ValueError("Global constant feature cache identity/shape mismatch")
-    if payload.get("source_split") != "train" or not torch.isfinite(payload["features"]).all():
-        raise ValueError("Global constant must be finite and computed from train references")
+        raise ValueError("Global constant feature cache identity/shape metadata mismatch")
+    features = payload.get("features")
+    if not isinstance(features, torch.Tensor) or tuple(features.shape) != (cache.tokens, cache.channels) or not torch.isfinite(features).all():
+        raise ValueError("Global constant features must be finite and shaped (tokens, channels)")
+    if payload.get("source_split") != "train":
+        raise ValueError("Global constant must be computed from train references")
+    missing = [key for key in ("train_manifest_sha256", "reference_keys_sha256",
+                               "unique_reference_count", "selection_config_hash") if payload.get(key) is None]
+    if missing:
+        raise ValueError(f"Global constant lacks required provenance fields {missing}; regenerate it with scripts/cache_reality_features.py")
+    expected = expected_global_constant_provenance(config, cache)
+    if payload["train_manifest_sha256"] != expected["train_manifest_sha256"]:
+        raise ValueError("Global constant was computed from a different train manifest; regenerate it")
+    if (payload["reference_keys_sha256"] != expected["reference_keys_sha256"]
+            or payload["unique_reference_count"] != expected["unique_reference_count"]):
+        raise ValueError("Global constant reference pool does not match the current train manifest; regenerate it")
+    if payload["selection_config_hash"] != expected["selection_config_hash"]:
+        raise ValueError("Global constant selection configuration differs from the current config; regenerate it")
+    return payload, expected
+
+
+def global_constant_provenance(config, cache, device):
+    """Verified provenance record written into paired probe reports.
+
+    Summaries compare this record before/after a run so that a regenerated mean
+    can never silently change the reference asset between two probes.
+    """
+    payload, expected = _load_global_constant_payload(config, cache, device)
+    return {"schema": payload["schema"], "source_split": payload["source_split"],
+            "unique_reference_count": payload["unique_reference_count"],
+            "cache_identity": payload["cache_identity"], "tokens": payload["tokens"],
+            "channels": payload["channels"], "shape": [payload["tokens"], payload["channels"]],
+            "selection_protocol": payload.get("selection_protocol"),
+            "train_manifest_sha256": payload["train_manifest_sha256"],
+            "reference_keys_sha256": payload["reference_keys_sha256"],
+            "selection_config_hash": payload["selection_config_hash"],
+            "expected_train_manifest_sha256": expected["train_manifest_sha256"],
+            "file_sha256": hashlib.sha256(global_constant_path(config).read_bytes()).hexdigest()}
+
+
+def load_global_constant(config, cache, device):
+    payload, _ = _load_global_constant_payload(config, cache, device)
     return payload["features"].to(device)
 
 
@@ -45,6 +114,8 @@ def validate_paired_config(config):
     seeds = cfg["probe_noise_seeds"]
     if not seeds or any(type(seed) is not int or seed < 0 for seed in seeds) or len(set(seeds)) != len(seeds):
         raise ValueError("Paired probes require distinct nonnegative integer noise seeds")
+    if type(cfg.get("diagnostic_gradients", True)) is not bool or type(cfg.get("diagnostic_interval", 10)) is not int or cfg.get("diagnostic_interval", 10) < 1:
+        raise ValueError("diagnostic_gradients must be bool and diagnostic_interval a positive integer")
 
 
 def paired_references(row, cfg):
@@ -111,7 +182,11 @@ def video_context_gradient(loss_fn, context):
     return loss.detach(), gradient.detach()
 
 
-def paired_loss(pipeline, model, gt, conditioning, index, batch, rng, config):
+def paired_loss(pipeline, model, gt, conditioning, index, batch, rng, config, diagnostics=True):
+    """One paired update. ``diagnostics=False`` skips the per-term gradient-norm
+    decomposition (video vs contrast, raw vs weighted) that is not needed for the
+    optimizer; long/four-card runs should disable it and sample gradients rarely.
+    """
     cfg = config["reality_memory"]["objective"]["paired"]
     device = gt.device
     # Independent seeds; both references get exactly the same history/times/noise.
@@ -137,17 +212,20 @@ def paired_loss(pipeline, model, gt, conditioning, index, batch, rng, config):
     contrast = contrast_loss(stats["relevance_score"][0], stats["relevance_score"][1], cfg["temperature"])
     regularization = config["reality_memory"]["regularization"]["delta_weight"] * stats["delta_square"]
     loss = video_with_grad + cfg["contrast_weight"] * contrast + regularization
-    parameters = tuple(model.parameters())
-    video_grads = torch.autograd.grad(video_with_grad, parameters, retain_graph=True, allow_unused=True)
-    contrast_grads = torch.autograd.grad(contrast, parameters, retain_graph=True, allow_unused=True)
-    def grad_norm(grads):
-        values = [g.float().square().sum() for g in grads if g is not None]
-        return torch.stack(values).sum().sqrt() if values else loss.new_zeros(())
-    weighted_contrast = cfg["contrast_weight"] * grad_norm(contrast_grads)
+    gradient_diagnostics = {}
+    if diagnostics:
+        parameters = tuple(model.parameters())
+        video_grads = torch.autograd.grad(video_with_grad, parameters, retain_graph=True, allow_unused=True)
+        contrast_grads = torch.autograd.grad(contrast, parameters, retain_graph=True, allow_unused=True)
+        def grad_norm(grads):
+            values = [g.float().square().sum() for g in grads if g is not None]
+            return torch.stack(values).sum().sqrt() if values else loss.new_zeros(())
+        weighted_contrast = cfg["contrast_weight"] * grad_norm(contrast_grads)
+        gradient_diagnostics = {"video_gradient_norm": grad_norm(video_grads).detach(),
+                                "contrast_gradient_norm_raw": grad_norm(contrast_grads).detach(),
+                                "contrast_gradient_norm_weighted": weighted_contrast.detach()}
     return loss, {**stats, "video_loss": video, "wrong_loss": video.new_zeros(()),
                   "correct_video_loss": values[0], "wrong_source_video_loss": values[1],
                   "contrast_loss": contrast.detach(), "history_seed": seeds[0], "noise_seed": seeds[1],
-                  "video_gradient_norm": grad_norm(video_grads).detach(),
-                  "contrast_gradient_norm_raw": grad_norm(contrast_grads).detach(),
-                  "contrast_gradient_norm_weighted": weighted_contrast.detach(),
+                  **gradient_diagnostics,
                   "prefix_suffix_mse": (history[:, 3:].float() - gt[:, 3:index + 1].float()).square().mean()}

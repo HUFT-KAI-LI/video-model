@@ -35,6 +35,17 @@ def overfit_indices(dataset, count):
     return selected
 
 
+def paired_diagnostics_enabled(paired_cfg, step):
+    """Sample the per-term gradient decomposition only on steps 1-2 and every
+    ``diagnostic_interval`` steps; a long/four-card run should disable it via
+    ``diagnostic_gradients: false`` because the extra autograd.grad passes over
+    the memory graph are not required for the optimizer."""
+    if not paired_cfg.get("diagnostic_gradients", True):
+        return False
+    interval = paired_cfg.get("diagnostic_interval", 10)
+    return step in (1, 2) or step % interval == 0
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=ROOT / "configs/reality_memory_r0.yaml")
@@ -142,7 +153,8 @@ def main():
             gt, cond, index = prepare_reality(pipeline, batch, device, config)
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 if paired:
-                    loss, stats = paired_loss(pipeline, model, gt, cond, index, batch, rng, config)
+                    loss, stats = paired_loss(pipeline, model, gt, cond, index, batch, rng, config,
+                                              diagnostics=paired_diagnostics_enabled(paired, step))
                 else:
                     loss, stats = reality_loss(pipeline, model, gt, cond, index, batch["features"].to(device),
                                                batch["reference_mask"].to(device), batch["wrong_reference"].to(device), rng, config)
@@ -179,22 +191,23 @@ def main():
                       "data_time": data_time, "compute_time": time.perf_counter() - started,
                       "step_time": time.perf_counter() - started + data_time, "peak_vram_bytes": torch.cuda.max_memory_allocated()}
             if paired:
-                record.update({"correct_video_loss": stats["correct_video_loss"].item(),
-                               "wrong_source_video_loss": stats["wrong_source_video_loss"].item(),
-                               "contrast_loss": stats["contrast_loss"].item(),
-                               "video_gradient_norm": stats["video_gradient_norm"].item(),
-                               "contrast_gradient_norm_raw": stats["contrast_gradient_norm_raw"].item(),
-                               "contrast_gradient_norm_weighted": stats["contrast_gradient_norm_weighted"].item(),
-                               "correct_memory_gate": stats["gate"][0].item(), "wrong_source_gate": stats["gate"][1].item(),
-                               "correct_relevance_score": stats["relevance_score"][0].item(),
-                               "wrong_source_relevance_score": stats["relevance_score"][1].item(),
-                               "memory_attention_entropy_normalized": stats["attention_entropy_normalized"].tolist(),
-                               "memory_attention_entropy": stats["attention_entropy"].tolist(),
-                               "valid_memory_tokens": stats["valid_memory_tokens"].tolist(),
-                               "prefix_suffix_mse": stats["prefix_suffix_mse"].item(),
-                               "raw_delta_norm": stats["raw_delta_norm"].tolist(),
-                               "applied_delta_norm": stats["applied_delta_norm"].tolist(),
-                               "history_seed": stats["history_seed"], "noise_seed": stats["noise_seed"]})
+                paired_fields = {"correct_video_loss": stats["correct_video_loss"].item(),
+                                 "wrong_source_video_loss": stats["wrong_source_video_loss"].item(),
+                                 "contrast_loss": stats["contrast_loss"].item(),
+                                 "correct_memory_gate": stats["gate"][0].item(), "wrong_source_gate": stats["gate"][1].item(),
+                                 "correct_relevance_score": stats["relevance_score"][0].item(),
+                                 "wrong_source_relevance_score": stats["relevance_score"][1].item(),
+                                 "memory_attention_entropy_normalized": stats["attention_entropy_normalized"].tolist(),
+                                 "memory_attention_entropy": stats["attention_entropy"].tolist(),
+                                 "valid_memory_tokens": stats["valid_memory_tokens"].tolist(),
+                                 "prefix_suffix_mse": stats["prefix_suffix_mse"].item(),
+                                 "raw_delta_norm": stats["raw_delta_norm"].tolist(),
+                                 "applied_delta_norm": stats["applied_delta_norm"].tolist(),
+                                 "history_seed": stats["history_seed"], "noise_seed": stats["noise_seed"]}
+                for key in ("video_gradient_norm", "contrast_gradient_norm_raw", "contrast_gradient_norm_weighted"):
+                    if key in stats:
+                        paired_fields[key] = stats[key].item()
+                record.update(paired_fields)
             with log_path.open("a") as log:
                 log.write(json.dumps(record, allow_nan=False) + "\n")
             print(json.dumps(record), flush=True)

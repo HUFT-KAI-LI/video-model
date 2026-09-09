@@ -10,6 +10,38 @@ from restream.dataset import read_manifest
 from restream.reality_data import read_reference, write_json
 from restream.reality_encoder import RealityEncoder
 from restream.reality_runtime import read_reality_config, make_cache
+from restream.reality_selection import (GLOBAL_MEAN_SCHEMA, manifest_digest, reference_keys_digest,
+                                        selection_config_hash, unique_train_reference_pool)
+
+
+def global_mean_payload(rows, cache, config):
+    """Fixed train-split mean over the deduplicated positive reference pools.
+
+    The pool is the union of every row's ``reference_sets.async`` and
+    ``reference_sets.aligned``, deduplicated by content key. It is therefore
+    independent of the training mixture (no-memory/wrong probabilities, sampled
+    K per row, donor references re-used across rows).
+    """
+    unique = unique_train_reference_pool(rows, cache)
+    keys = sorted(unique)
+    manifest = ROOT / config["data"]["train_manifest"]
+    references = config["reality_memory"]["references"]
+    if not keys:
+        raise ValueError("Train manifest has no async/aligned reference pool for a global mean")
+    features = torch.stack([cache.read(unique[key]) for key in keys]).mean(0).float()
+    return {
+        "schema": GLOBAL_MEAN_SCHEMA,
+        "features": features,
+        "source_split": "train",
+        "unique_reference_count": len(keys),
+        "cache_identity": cache.identity,
+        "tokens": cache.tokens,
+        "channels": cache.channels,
+        "selection_protocol": references.get("selection_protocol", "offline_target_filtered"),
+        "train_manifest_sha256": manifest_digest(manifest),
+        "reference_keys_sha256": reference_keys_digest(unique),
+        "selection_config_hash": selection_config_hash(config),
+    }
 
 
 def main():
@@ -30,9 +62,15 @@ def main():
             from train_reality_memory import overfit_indices
             overfit = set(overfit_indices(SimpleNamespace(rows=rows), args.overfit_samples))
         for index, row in enumerate(rows):
-            selected = row["references"] if split == "train" and index not in overfit else [ref for pool in row["reference_sets"].values() for ref in pool]
-            for ref in selected:
+            # Cache the mixture-selected slice plus every async/aligned pool frame
+            # (the deduplicated global mean reads the full pools), and keep the
+            # wrong-source pools for val and for the balanced overfit subset.
+            extra = ("wrong",) if (split == "val" or index in overfit) else ()
+            for ref in row.get("references", ()):
                 refs[cache.key(ref)] = ref
+            for kind in ("async", "aligned") + extra:
+                for ref in row.get("reference_sets", {}).get(kind, ()):
+                    refs[cache.key(ref)] = ref
     encoder = RealityEncoder(ROOT / memory["encoder"]["path"], memory["projector"]["memory_dim"],
                              memory["projector"]["num_memory_tokens"], memory["encoder"]["image_size"]).to(args.device).eval()
     written, reused = 0, 0
@@ -49,19 +87,20 @@ def main():
             print(f"Features {i + 1}/{len(refs)}", flush=True)
     report = {"unique_references": len(refs), "written": written, "reused": reused, "encoder": cache.identity,
               "shape_per_reference": [cache.tokens, cache.channels], "optimizer_steps": 0}
-    # One fixed control for every target: only train-split references contribute.
-    train_features = []
-    for row in read_manifest(ROOT / config["data"]["train_manifest"]):
-        for ref in row["references"]:
-            train_features.append(cache.read(ref))
-    if train_features:
-        global_mean_path = ROOT / memory["references"].get("global_constant_features", "data/reality_global_mean_features.pt")
-        global_mean_path.parent.mkdir(parents=True, exist_ok=True)
-        torch.save({"features": torch.stack(train_features).mean(0).float(), "source_split": "train",
-                    "reference_count": len(train_features), "cache_identity": cache.identity,
-                    "tokens": cache.tokens, "channels": cache.channels}, global_mean_path)
-        report["global_constant"] = {"path": str(global_mean_path.relative_to(ROOT)), "source_split": "train",
-                                      "reference_count": len(train_features)}
+    train_rows = read_manifest(ROOT / config["data"]["train_manifest"])
+    global_mean_path = ROOT / memory["references"].get("global_constant_features", "data/reality_global_mean_features.pt")
+    payload = global_mean_payload(train_rows, cache, config)
+    global_mean_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = global_mean_path.with_suffix(".pt.tmp")
+    torch.save(payload, temporary)
+    temporary.replace(global_mean_path)
+    report["global_constant"] = {"path": str(global_mean_path.relative_to(ROOT)), "source_split": "train",
+                                 "schema": payload["schema"], "unique_reference_count": payload["unique_reference_count"],
+                                 "tokens": payload["tokens"], "channels": payload["channels"],
+                                 "selection_protocol": payload["selection_protocol"],
+                                 "train_manifest_sha256": payload["train_manifest_sha256"],
+                                 "reference_keys_sha256": payload["reference_keys_sha256"],
+                                 "selection_config_hash": payload["selection_config_hash"]}
     if args.overfit_samples:
         report["overfit_samples"] = args.overfit_samples
     write_json(ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)

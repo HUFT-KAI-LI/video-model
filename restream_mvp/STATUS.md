@@ -1,5 +1,19 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## 上一提交审阅修补（d134557 → 本提交）：控制变量与数据溯源收紧
+
+本提交针对 `d134557bee7708370c37220417b516ca01812f80` 的审阅意见做代码级修补，**没有运行任何 GPU/训练**，因此本段不新增任何实测数字，也绝不用旧结果冒充新对照。
+
+- **Global constant 数据来源**：均值改为**去重后的训练 split `reference_sets.async + aligned` 并集**（按 FeatureCache key 去重、按排序 key 计算），不再使用经过 mixture 随机选择的 `row["references"]`。因此它不再受 `no_memory/wrong` 概率、逐样本随机 K、donor 重复出现次数影响。构造逻辑位于 `scripts/cache_reality_features.py::global_mean_payload`；缓存脚本会一次性补齐训练/验证行的 async+aligned 全池编码（比上一轮只缓存 mixture 切片更重），否则 loader 会因为均值读取的池帧未缓存而报错。
+- **Global mean 溯源**：`.pt` payload 增加 schema、`unique_reference_count`、`train_manifest_sha256`、`reference_keys_sha256`、`selection_config_hash`、`selection_protocol`，并按 tmp→replace 原子保存。`load_global_constant` 现在校验 cache identity、shape、finite、train split，并与**当前 manifest/选择策略的摘要比对**；旧格式或过期文件会被明确拒绝并要求重新生成。probe 报告写入 `global_constant` 溯源记录（含文件 sha256），`summarize_reality_paired.py` 校验 before/after 使用同一份 constant 资产。
+- **strict-online 最后一帧**：候选 reference 构造时，target histogram 的边界采样改为 at-or-before 语义读取，`visible_until` 记录**实际消费的 pixel frame 起始时间**（≤ 理论边界），near-aligned 参考上限使用该实际值。`RealityDataset` 对 strict-online 行校验全部正参考池（async+aligned）时间 ≤ `visible_until`、schema 与 selection hash 一致。新增带 recording-decoder 的完整 `candidate()` 因果测试与 offline 对照测试。
+- **共享选择身份**：新增 `restream/reality_selection.py`，manifest builder、Dataset、global-mean loader 共用同一 `selection_config_hash`（schema 2，覆盖 protocol/async_direction/min_gap/near_radius/boundary_margin/prefix_latents/frames/fps/scene_similarity/pool_size/min_count），不再各自手写。
+- **Active-Zero 对照**：paired probe 增加 `active_zero`（K 个有效 mask + 全零 DINO 特征），与控制阶梯（No Memory / Active Zero / Global Mean / Pair Mean / Correct / Wrong Source）一起报告。
+- **汇总统计**：`aggregate_pairs`/`summarize_reality_paired.py` 现在先在同一 target+noise 上做 paired 差值，再以唯一 target 聚合四个核心差值与 `S_reference`（`U_correct`、`G_branch`、`G_generic`、`G_content`），`target_means` 与主图覆盖全部变体。
+- **梯度诊断开关**：`reality_memory_paired.yaml` 增加 `diagnostic_gradients: true` 与 `diagnostic_interval: 5`；训练循环只在 step 1/2 及间隔步记录分解梯度，长程/多卡运行可关闭，避免每步多余 `autograd.grad`。
+- **旧 checkpoint 探测**：新增 `scripts/probe_existing_memory_checkpoint.py`，只加载 memory state_dict（不恢复 optimizer/scheduler/RNG/训练偏移），严格校验 stage、encoder identity、train/val manifest digest 与“仅 evaluation 字段差异”，随后跑全部反事实 probe。直接对新旧 checkpoint 跑新诊断前，需先用 `cache_reality_features.py` 重新生成 global-mean 文件（旧格式会被 loader 拒绝）。
+- **数据与协议诚实性**：现有 offline manifest 未重建、未改名；未构造 strict-online 实验数据（真正测试 strict 时应新建 `reality_memory_paired_online.yaml` 与独立 `reality_*_online.jsonl`，不覆盖现有文件）；旧 30-update 配对 GPU 结果保持原样。本机 **38 项 CPU 单元／接口测试通过**。下一步值钱的是把 Active Zero + Global Mean + Correct 三层对照在 GPU 上跑干净，而不是继续改模型或扩训练预算。
+
 ## 新主路径：Reality Memory R0（等待审阅）
 
 [新方案](REALITY_MEMORY_PLAN.md)与 [R0 实现说明](REALITY_MEMORY_R0.md)已加入仓库。新主路径将参考照片编码为外部记忆，再通过 gated residual 融合到文本 context；不替换生成 latent。新增独立训练／评估入口，复用原数据和 LongLive 组件。R1 按方案留待 R0 有正向实验信号后实现。

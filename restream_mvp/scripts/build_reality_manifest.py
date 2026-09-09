@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from restream.dataset import read_manifest
 from restream.reality_data import canonical_hash, histogram, read_reference, scene_similarity, write_json
+from restream.reality_selection import (SELECTION_IDENTITY_SCHEMA, selection_config_hash,
+                                        validate_selection_protocol)
 from restream.runtime import read_config
 
 
@@ -29,13 +31,6 @@ def selection_times(start, length, arrival, protocol):
     raise ValueError("Unknown reference selection protocol")
 
 
-def validate_selection_protocol(protocol, async_direction):
-    if protocol not in ("offline_target_filtered", "strict_online"):
-        raise ValueError("Invalid reference selection protocol")
-    if protocol == "strict_online" and async_direction != "past_only":
-        raise ValueError("strict_online requires past_only references")
-
-
 def candidate(row, shots, config):
     refs = config["reality_memory"]["references"]
     length = (config["data"]["frames"] - 1) / config["data"]["fps"]
@@ -51,8 +46,27 @@ def candidate(row, shots, config):
         arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
         protocol = refs.get("selection_protocol", "offline_target_filtered")
         validate_selection_protocol(protocol, refs["async_direction"])
-        target_hist = np.mean([histogram(read_reference(reference(row, at, "analysis", shot_id), 64))
-                               for at in selection_times(start, length, arrival, protocol)], axis=0)
+        visible_until = None
+        if protocol == "strict_online":
+            # visible_until is the actual pixel frame consumed at the prefix
+            # boundary, read at-or-before so the last analysis frame can never
+            # start after the theoretical visible cutoff.
+            times = selection_times(start, length, arrival, protocol)
+            histograms = []
+            for position, at in enumerate(times):
+                request = reference(row, at, "analysis", shot_id)
+                if position == len(times) - 1:
+                    rgb, actual = read_reference(request, 64, return_time=True, latest=True)
+                    if not start - 1e-6 <= actual <= at + 1e-6:
+                        raise ValueError("strict_online analysis frame escapes the visible prefix window")
+                    visible_until = actual
+                else:
+                    rgb = read_reference(request, 64)
+                histograms.append(histogram(rgb))
+            target_hist = np.mean(histograms, axis=0)
+        else:
+            target_hist = np.mean([histogram(read_reference(reference(row, at, "analysis", shot_id), 64))
+                                   for at in selection_times(start, length, arrival, protocol)], axis=0)
         async_refs = []
         for _ in range(max_k * 8):
             intervals = [(shot["start"] + margin, start - gap)]
@@ -73,12 +87,16 @@ def candidate(row, shots, config):
         if len(async_refs) != max_k:
             continue
         radius = refs["near_radius_sec"]
+        strict = protocol == "strict_online"
+        upper = visible_until if strict else min(start + length, start + arrival + radius)
+        low = max(start, start + arrival - radius)
+        if upper < low:
+            continue  # Coarse or missing frames leave no room for a near-aligned reference.
         aligned = []
         for _ in range(max_k * 8):
-            upper = min(start + arrival, start + length) if protocol == "strict_online" else min(start + length, start + arrival + radius)
-            at = rng.uniform(max(start, start + arrival - radius), upper)
+            at = rng.uniform(low, upper)
             ref = reference(row, at, "near_aligned_soft", shot_id)
-            rgb, actual = read_reference(ref, 64, return_time=True)
+            rgb, actual = read_reference(ref, 64, return_time=True, latest=strict)
             ref["time"] = round(actual, 6)
             if actual > upper or any(item["time"] == ref["time"] for item in aligned):
                 continue
@@ -90,17 +108,15 @@ def candidate(row, shots, config):
                 break
         if len(aligned) != max_k:
             continue
-        if protocol == "strict_online":
-            if any(ref["time"] > start + arrival + 1e-6 for ref in async_refs + aligned):
+        if strict:
+            if any(ref["time"] > visible_until + 1e-6 for ref in async_refs + aligned):
                 raise ValueError("strict_online selected a reference after visible_until")
-        protocol_hash = canonical_hash({"protocol": protocol, "async_direction": refs["async_direction"],
-                                       "min_gap_sec": gap, "boundary_margin_sec": margin,
-                                       "prefix_latents": config["reality_memory"]["objective"]["prefix_latents"]})
-        visible_until = round(start + arrival, 6) if protocol == "strict_online" else None
+        protocol_hash = selection_config_hash(config)
         return {**row, "window_start": start, "window_sec": length, "anchor_sec": [arrival],
                 "target_start": start, "target_sec": length, "shot_id": shot_id, "shot": shot,
                 "reference_sets": {"async": async_refs, "aligned": aligned},
-                "selection_protocol": protocol, "visible_until": visible_until,
+                "selection_protocol": protocol, "selection_schema": SELECTION_IDENTITY_SCHEMA,
+                "visible_until": round(visible_until, 6) if strict else None,
                 "selection_config_hash": protocol_hash,
                 "filter_status": "heuristic_pass", "visual_review": "pending",
                 "reference_semantics": "same-source continuous-shot proxy; not certified same-world"}

@@ -9,6 +9,7 @@ from .reality_cache import FeatureCache
 from .reality_dataset import RealityDataset
 from .reality_encoder import encoder_identity
 from .reality_memory import RealityMemory, reference_dropout, memory_regularization
+from .reality_selection import selection_config_hash
 from .runtime import ROOT, read_config
 
 
@@ -52,7 +53,9 @@ def make_dataset(config, split, cache=None):
     data = config["data"]
     protocol = config["reality_memory"]["references"].get("selection_protocol", "offline_target_filtered")
     return RealityDataset(ROOT / data[f"{split}_manifest"], cache or make_cache(config),
-                          data["frames"], data["height"], data["width"], data["fps"], selection_protocol=protocol)
+                          data["frames"], data["height"], data["width"], data["fps"],
+                          selection_protocol=protocol,
+                          selection_config_hash=selection_config_hash(config))
 
 
 @torch.no_grad()

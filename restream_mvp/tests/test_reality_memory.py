@@ -152,7 +152,7 @@ class RealityTests(unittest.TestCase):
         config = read_reality_config(ROOT / "configs/reality_memory_r0.yaml")
         row = {"source_id": "source", "video": "fixture.mp4", "sha256": "a", "split": "train", "caption": "fixture"}
         rgb = np.full((64, 64, 3), 128, dtype=np.uint8)
-        def decode(ref, size, return_time=False):
+        def decode(ref, size, return_time=False, latest=False):
             return (rgb, ref["time"]) if return_time else rgb
         with patch.object(module, "read_reference", side_effect=decode):
             item = module.candidate(row, [{"start": 0, "end": 30}], config)
