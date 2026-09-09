@@ -1,0 +1,13 @@
+{
+  "sources": 1068,
+  "errors": 0,
+  "config": {
+    "histogram_cut": 0.5,
+    "pixel_jump": 0.35,
+    "black_level": 16,
+    "black_fraction": 0.95,
+    "scene_similarity": 0.65,
+    "workers": 8
+  },
+  "note": "All decoded frames checked. Histogram heuristics do not certify same-world identity or human visual quality."
+}

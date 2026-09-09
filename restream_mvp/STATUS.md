@@ -1,5 +1,15 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## 新主路径：Reality Memory R0（等待审阅）
+
+[新方案](REALITY_MEMORY_PLAN.md)与 [R0 实现说明](REALITY_MEMORY_R0.md)已加入仓库。新主路径将参考照片编码为外部记忆，再通过 gated residual 融合到文本 context；不替换生成 latent。新增独立训练／评估入口，复用原数据和 LongLive 组件。R1 按方案留待 R0 有正向实验信号后实现。
+
+已准备 frozen DINOv2-S、730 train / 83 val 的镜头过滤与弱参考 manifest，以及 2,798 份缓存特征。R0 的 optimizer 更新数为 **0**；尚无 10-step overfit、正式生成评估或 Reality Memory 效果结论。新检查报告单独存放在 [validation/reality_memory](validation/reality_memory)，旧报告保留。
+
+本轮工程验证：21 项 CPU 单元／接口测试通过；冻结 DINO 编码与 projector 梯度、缓存精确重载通过；两进程 CPU/Gloo 混合空记忆和全空记忆的 DDP 梯度同步通过。真实 LongLive 的 R0 future backward 通过：loss **0.32075986**，与初始 base loss 完全一致；memory 梯度范数 **0.90910071**，主干梯度全为 None，峰值显存 **41.91 GiB**。这些均无 optimizer 更新，不能替代实际训练或效果评估。
+
+下文为上轮 State Re-Anchoring 诊断结果。
+
 本轮五项修改和真实 GPU 验证已完成。真实 teacher-forcing backward 可以运行；Oracle 的小样本改善有限，Hard Anchor 的平均误差反而增加，尚不满足 `Oracle < Hard < No Anchor` 的效果门槛。训练 optimizer steps 保持为 **0**，没有启动 50/200/3000-step 训练。
 
 ## 已修改

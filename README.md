@@ -1,6 +1,9 @@
 # video-model
 
-ReStream MVP：基于冻结 Wan / LongLive 的中途视频 Anchor 修正实验。
+Reality Memory：基于冻结 Wan / LongLive，用稀疏真实图像作为外部记忆的实验。原有 State Re-Anchoring 保留为 baseline 与诊断。
+
+- [Reality Memory 新方案](restream_mvp/REALITY_MEMORY_PLAN.md)
+- [R0 实现、数据和审阅后训练命令](restream_mvp/REALITY_MEMORY_R0.md)
 
 - [当前审阅状态与实测结果](restream_mvp/STATUS.md)
 - [环境、模型、数据与复现命令](restream_mvp/README_REPRODUCE.md)

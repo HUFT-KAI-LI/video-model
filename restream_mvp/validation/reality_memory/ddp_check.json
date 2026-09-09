@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "world_size": 2,
+  "backend": "gloo",
+  "batch_per_rank": 1,
+  "gradient_norms": [
+    0.025770096108317375,
+    0.0
+  ],
+  "optimizer_steps": 0,
+  "scenarios": [
+    "rank0 no-memory; rank1 correct-memory",
+    "all ranks no-memory"
+  ]
+}

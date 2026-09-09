@@ -2,6 +2,7 @@
 models
 data/raw/
 data/sdk_cache/
+data/reality_features/
 checkpoints/
 outputs/
 logs/
