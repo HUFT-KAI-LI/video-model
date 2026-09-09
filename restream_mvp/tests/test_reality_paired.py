@@ -21,8 +21,9 @@ from restream.reality_paired_diagnostics import aggregate_pairs
 from restream.reality_runtime import PreserveHistory, read_reality_config
 from restream.training_budget import TrainingBudget
 from restream.reality_selection import (GLOBAL_MEAN_SCHEMA, SELECTION_IDENTITY_SCHEMA,
-                                        selection_config_hash, selection_identity,
+                                        select_targets, selection_config_hash, selection_identity,
                                         unique_train_reference_pool, validate_temporal_sampling)
+from restream.reality_stats import auroc, bootstrap_ci
 from restream.reality_data import canonical_hash
 from train_reality_memory import paired_diagnostics_enabled
 
@@ -65,6 +66,22 @@ def manifest_row(row, video="/tmp/fake.mp4", caption="c"):
             "target_sec": 3.5, "shot_id": 0, "shot": {"start": 0, "end": 5}, "reference_kind": "async",
             "references": [], "sample_id": "s", "filter_status": "pass", "visual_review": "pending",
             **row}
+
+
+def low_fps_video(folder, seconds=40, rate=4, size=64):
+    """Tiny constant-colour video whose frame spacing (1/rate) exceeds the target
+    sampling step (1/16), so causal_previous must repeat frames."""
+    path = Path(folder) / f"lowfps_{rate}.mp4"
+    with av.open(str(path), "w") as container:
+        stream = container.add_stream("mpeg4", rate=rate)
+        stream.width, stream.height, stream.pix_fmt = size, size, "yuv420p"
+        for _ in range(seconds * rate):
+            pixels = np.full((size, size, 3), 128, dtype=np.uint8)
+            for packet in stream.encode(av.VideoFrame.from_ndarray(pixels, format="rgb24")):
+                container.mux(packet)
+        for packet in stream.encode():
+            container.mux(packet)
+    return path
 
 
 class PairedTests(unittest.TestCase):
@@ -125,6 +142,8 @@ class PairedTests(unittest.TestCase):
                     "active_zero": {"video_loss": .9 * value_scale, "relevance_score": 0.3, "memory_gate_mean": .2},
                     "pair_mean": {"video_loss": .85 * value_scale, "relevance_score": 0.3, "memory_gate_mean": .2},
                     "global_constant": {"video_loss": .8 * value_scale, "relevance_score": 0.3, "memory_gate_mean": .2},
+                    "global_async": {"video_loss": .82 * value_scale, "relevance_score": 0.3, "memory_gate_mean": .2},
+                    "global_aligned": {"video_loss": .84 * value_scale, "relevance_score": 0.3, "memory_gate_mean": .2},
                     "correct": {"video_loss": .6 * value_scale, "relevance_score": 0.5, "memory_gate_mean": .2},
                     "wrong_source": {"video_loss": .95 * value_scale, "relevance_score": 0.4, "memory_gate_mean": .2}}
         cases = []
@@ -135,7 +154,7 @@ class PairedTests(unittest.TestCase):
                                   "variants": variants_for(1.0)})
         aggregate = aggregate_pairs(cases)["clean"]["core_deltas"]
         for name, expected in (("U_correct", .4), ("G_branch", .1), ("G_generic", .1),
-                               ("G_content", .2), ("S_reference", .35)):
+                               ("G_content", .2), ("G_content_matched", .22), ("S_reference", .35)):
             self.assertAlmostEqual(aggregate[name], expected, places=6)
         self.assertEqual(aggregate_pairs(cases)["clean"]["core_delta_targets"]["U_correct"], 2)
 
@@ -210,21 +229,33 @@ class PairedTests(unittest.TestCase):
                                     read=lambda ref: torch.arange(12, dtype=torch.float32).reshape(3, 4) * (ref["time"] / 3 + 1))
             path = folder / "mean.pt"
             config = minimal_paired_config(train_manifest=manifest, global_path=path)
-            mean_value = torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5
-            torch.save({"schema": GLOBAL_MEAN_SCHEMA, "features": mean_value,
-                        "source_split": "train", "unique_reference_count": 2,
+            positive = torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5
+            async_mean = torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5
+            aligned_mean = torch.full((3, 4), -1.0)
+            async_keys = sorted({cache.key(r) for row in rows for r in row["reference_sets"]["async"]})
+            torch.save({"schema": GLOBAL_MEAN_SCHEMA, "features": positive,
+                        "means": {"async": async_mean, "aligned": aligned_mean, "positive": positive},
+                        "roles": {"async": {"unique_reference_count": 2, "reference_keys_sha256": canonical_hash(async_keys)},
+                                  "aligned": {"unique_reference_count": 0, "reference_keys_sha256": canonical_hash([])},
+                                  "positive": {"unique_reference_count": 2, "reference_keys_sha256": canonical_hash(async_keys)}},
+                        "default_role": "positive",
+                        "source_split": "train",
                         "cache_identity": identity, "tokens": 3, "channels": 4,
                         "selection_protocol": "offline_target_filtered",
                         "temporal_sampling": config["data"]["temporal_sampling"],
                         "selection_seed": config["data"]["selection_seed"],
                         "train_manifest_sha256": __import__("hashlib").sha256(manifest.read_bytes()).hexdigest(),
-                        "reference_keys_sha256": canonical_hash(sorted({cache.key(r) for row in rows for r in row["reference_sets"]["async"]})),
                         "selection_config_hash": selection_config_hash(config)}, path)
             first = load_global_constant(config, cache, "cpu")
-            second = load_global_constant(config, cache, "cpu")
+            second = load_global_constant(config, cache, "cpu", "async")
             self.assertTrue(torch.equal(first, second))
-            self.assertTrue(torch.equal(first, mean_value))
-            self.assertEqual(global_constant_provenance(config, cache, "cpu")["unique_reference_count"], 2)
+            self.assertTrue(torch.equal(first, positive))
+            self.assertTrue(torch.equal(load_global_constant(config, cache, "cpu", "aligned"), aligned_mean))
+            record = global_constant_provenance(config, cache, "cpu")
+            self.assertEqual(record["roles"]["positive"]["unique_reference_count"], 2)
+            self.assertEqual(record["roles"]["async"]["unique_reference_count"], 2)
+            with self.assertRaises(ValueError):
+                load_global_constant(config, cache, "cpu", "missing_role")
             cache.identity = {"encoder": "other"}
             with self.assertRaises(ValueError):
                 load_global_constant(config, cache, "cpu")
@@ -330,16 +361,7 @@ class PairedTests(unittest.TestCase):
         module = script("build_reality_manifest")
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
-            video = folder / "lowfps.mp4"
-            with av.open(str(video), "w") as container:
-                stream = container.add_stream("mpeg4", rate=4)
-                stream.width, stream.height, stream.pix_fmt = 64, 64, "yuv420p"
-                for _ in range(160):
-                    pixels = np.full((64, 64, 3), 128, dtype=np.uint8)
-                    for packet in stream.encode(av.VideoFrame.from_ndarray(pixels, format="rgb24")):
-                        container.mux(packet)
-                for packet in stream.encode():
-                    container.mux(packet)
+            video = low_fps_video(folder)
             row = {"source_id": "s1", "video": str(video), "sha256": "x", "split": "train"}
             config = minimal_paired_config(protocol="strict_online", pool_size=1)
             config["reality_memory"]["references"]["max_count"] = 1
@@ -355,6 +377,37 @@ class PairedTests(unittest.TestCase):
             # Frames after the boundary are the supervised future, not the prefix.
             self.assertLessEqual(times[:boundary + 1].max().item(), item["visible_until"] + 1e-6)
             self.assertGreaterEqual(times.min().item(), 0.0)
+
+    def test_strict_runtime_prefix_assertion_rejects_tampered_visible_until(self):
+        """RealityDataset must verify at decode time that the prefix end equals the
+        manifest visible_until, not merely that the manifest is internally bounded."""
+        module = script("build_reality_manifest")
+        with tempfile.TemporaryDirectory() as folder:
+            folder = Path(folder)
+            video = low_fps_video(folder)
+            row = {"source_id": "s1", "video": str(video), "sha256": "x", "split": "train"}
+            config = minimal_paired_config(protocol="strict_online", pool_size=1)
+            config["reality_memory"]["references"]["max_count"] = 1
+            config["eval"]["reference_counts"] = [1]
+            item = module.candidate(row, [{"start": 0.0, "end": 40.0}], config)
+            self.assertIsNotNone(item)
+            cache = SimpleNamespace(identity="x", tokens=1, channels=1, path=lambda ref: Path("/nonexistent"))
+            manifest = folder / "m.jsonl"
+            good = manifest_row(item, video=str(video))
+            manifest.write_text(json.dumps(good) + "\n")
+
+            def load():
+                return RealityDataset(manifest, cache, preflight=False, selection_protocol="strict_online",
+                                      selection_config_hash=item["selection_config_hash"], prefix_latents=6,
+                                      temporal_sampling="causal_previous")
+
+            load()[0]  # Consistent manifest and decode.
+            arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
+            tampered = min(good["visible_until"] + 0.01, item["target_start"] + arrival - 1e-3)
+            self.assertNotAlmostEqual(tampered, good["visible_until"], places=6)
+            manifest.write_text(json.dumps({**good, "visible_until": round(tampered, 6)}) + "\n")
+            with self.assertRaises(ValueError):
+                load()[0]
 
     def test_global_mean_pool_is_deduplicated_and_mixture_independent(self):
         module = script("cache_reality_features")
@@ -373,8 +426,11 @@ class PairedTests(unittest.TestCase):
                                     read=lambda reference: torch.arange(12, dtype=torch.float32).reshape(3, 4) * reference["time"])
             config = minimal_paired_config(train_manifest=manifest)
             payload = module.global_mean_payload(rows, cache, config)
-            self.assertEqual(payload["unique_reference_count"], 2)
-            torch.testing.assert_close(payload["features"], torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5)
+            self.assertEqual(payload["roles"]["positive"]["unique_reference_count"], 2)
+            self.assertEqual(payload["roles"]["async"]["unique_reference_count"], 2)
+            self.assertEqual(payload["roles"]["aligned"]["unique_reference_count"], 1)
+            torch.testing.assert_close(payload["means"]["positive"], torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5)
+            torch.testing.assert_close(payload["means"]["async"], torch.arange(12, dtype=torch.float32).reshape(3, 4) * 1.5)
             self.assertEqual(payload["schema"], GLOBAL_MEAN_SCHEMA)
             self.assertEqual(payload["source_split"], "train")
             self.assertEqual(payload["temporal_sampling"], config["data"]["temporal_sampling"])
@@ -445,6 +501,42 @@ class PairedTests(unittest.TestCase):
         self.assertEqual(module.asset_consistency(legacy), {"train": None})
         self.assertEqual(module.asset_consistency(mixed), {"train": False})
 
+    def test_seeded_target_selection_is_deterministic(self):
+        rows = [{"sample_id": str(index)} for index in range(10)]
+        self.assertEqual(select_targets(rows, 4, 5), select_targets(rows, 4, 5))
+        self.assertEqual(len(select_targets(rows, 4, 5)), 4)
+        self.assertNotEqual(select_targets(rows, 4, 5), select_targets(rows, 4, 6))
+        self.assertEqual(select_targets(rows, 0, 5), list(range(10)))
+        self.assertEqual(select_targets(rows, 99, 5), list(range(10)))
+
+    def test_prefix_retrieval_helpers(self):
+        module = script("check_prefix_reference_retrieval")
+        self.assertEqual(module.prefix_frame_indices(24, 3), [0, 12, 23])
+        self.assertEqual(module.prefix_frame_indices(24, 1), [23])
+        with self.assertRaises(ValueError):
+            module.prefix_frame_indices(24, 0)
+        recall = module.gallery_recall([0.9, 0.8, 0.2, 0.1], [1, 1, 0, 0], (1, 2))
+        self.assertAlmostEqual(recall["recall@1"], .5)
+        self.assertAlmostEqual(recall["recall@2"], 1.0)
+        self.assertTrue(recall["top1_correct"])
+        stats = None
+        self.assertAlmostEqual(auroc([3, 2, 1, 0], [1, 1, 0, 0]), 1.0)
+        self.assertAlmostEqual(auroc([0, 1, 2, 3], [1, 1, 0, 0]), 0.0)
+        self.assertAlmostEqual(auroc([1, 1, 1, 1], [1, 1, 0, 0]), 0.5)
+        self.assertIsNone(auroc([1, 2], [1, 1]))
+        ci = bootstrap_ci([1.0, 2.0, 3.0], samples=200, seed=0)
+        self.assertEqual(ci["n"], 3)
+        self.assertLessEqual(ci["low"], ci["mean"])
+        self.assertGreaterEqual(ci["high"], ci["mean"])
+
+    def test_hard_negative_is_cross_source_and_feature_selected(self):
+        module = script("check_prefix_reference_retrieval")
+        rows = [{"sample_id": "t", "source_id": "A"}, {"sample_id": "near", "source_id": "B"},
+                {"sample_id": "far", "source_id": "C"}, {"sample_id": "same", "source_id": "A"}]
+        row_means = torch.tensor([[1.0, 0.0], [0.99, 0.1], [0.0, 1.0], [1.0, 0.0]])
+        chosen = module.choose_hard_negative(0, rows, row_means, torch.tensor([1.0, 0.0]), "cpu")
+        self.assertEqual(chosen, 1)  # Most similar cross-source row, never the same source.
+
     def test_existing_probe_summary_uses_unique_targets_and_bootstrap(self):
         module = script("summarize_existing_probe")
         def case(sample_id, mode, seed, losses):
@@ -453,13 +545,16 @@ class PairedTests(unittest.TestCase):
             return {"sample_id": sample_id, "source_id": sample_id, "prefix_mode": mode, "noise_seed": seed,
                     "variants": variants}
         losses = {"none": 1.0, "active_zero": .95, "pair_mean": .9, "global_constant": .85,
-                  "correct": .7, "wrong_source": 1.05}
-        report = {"split": "val", "cases": [case("t1", mode, seed, losses) for mode in ("clean", "mild") for seed in (1, 2)]}
+                  "global_async": .83, "global_aligned": .87, "correct": .7, "wrong_source": 1.05}
+        report = {"split": "val", "config": {"reality_memory": {"objective": {"paired": {"correct_kind": "async"}}}},
+                  "cases": [case("t1", mode, seed, losses) for mode in ("clean", "mild") for seed in (1, 2)]}
         summary = module.summarize(report, samples=200, seed=3)
         self.assertEqual(summary["modes"]["clean"]["unique_targets"], 1)
+        self.assertEqual(summary["correct_kind"], "async")
         deltas = summary["modes"]["clean"]["core_deltas"]
         self.assertAlmostEqual(deltas["U_correct"]["mean"], .3, places=6)
         self.assertAlmostEqual(deltas["G_content"]["mean"], .15, places=6)
+        self.assertAlmostEqual(deltas["G_content_matched"]["mean"], .13, places=6)
         self.assertEqual(deltas["U_correct"]["n"], 1)
         self.assertLessEqual(deltas["U_correct"]["low"], deltas["U_correct"]["mean"])
         self.assertGreaterEqual(deltas["U_correct"]["high"], deltas["U_correct"]["mean"])

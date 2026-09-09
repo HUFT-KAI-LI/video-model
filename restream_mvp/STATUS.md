@@ -1,5 +1,18 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## 第三轮：prefix-aware 检索 gate 与 matched control（R0 冻结为基线）
+
+本轮**不训练任何视频模型、不改 paired objective、不扩训练预算**；按审阅把 R0 冻结为基线，只补诊断、控制变量与取证，并跑通 R1 第一阶段的 gate。
+
+- **Prefix 检索 gate（新增）**：`scripts/check_prefix_reference_retrieval.py` 用冻结 DINO 编码可见 prefix（3 帧：0/12/23），在**完整 83 个 val target** 上比较 correct / easy-wrong / DINO-hard 跨 source 负例。结果：accuracy vs easy = **1.000**，vs hard = **0.940**；margin +0.547（CI [0.505, 0.589]，83/83 为正）；hard margin +0.278（CI [0.241, 0.315]，78/83 为正）；AUROC 0.947；Recall@1 0.488、Recall@2 0.922、top-1 correct 0.976；shuffled-query 对照 0.566。**gate 通过**：可见 prefix 本身能识别同源现实参考，R1-A 有信息基础。详见 [R1_PREFIX_AWARE_PLAN.md](R1_PREFIX_AWARE_PLAN.md) 与 [prefix_retrieval/summary.json](validation/reality_memory/prefix_retrieval/summary.json)。
+- **Role-matched 控制**：global mean 升级为 schema 2，包含 `global_async` / `global_aligned` / `global_positive` 三个去重训练池均值（11,680 = 5,840 async + 5,840 aligned）；probe 增加对应变体与 `G_content_matched`（与 `correct_kind` 同角色）。加载器逐角色校验 manifest/keys/selection 摘要。
+- **strict-online 运行时断言**：`RealityDataset` 在解码时断言 prefix 末帧 `sampled_time == visible_until`（不再只信 manifest 自洽），并检查 prefix 所有帧不越界。
+- **目标选择**：probe 支持 `--cases 0`（全部 target）与 `--target-seed` 确定性抽样，并把选中的 sample_id 写入验证报告；`--noise-seeds` 可覆盖。
+- **统计**：`summarize_existing_probe` 以唯一 target 计算 `G_content_matched` 与 target-level bootstrap CI；通用统计函数抽到 `restream/reality_stats.py`。
+- **文案修正**：R0 probe 的“直接否证”降级为“单 checkpoint / 16 target 的反方向证据”，并明确其局限。
+
+CPU 测试 **50 项全部通过**。同一 checkpoint 的 **full-val matched-control 视频 probe**（83 个唯一 val target × 2 seeds）也已完成：`U_correct` +0.00595（CI [0.0037, 0.0088]，77/83）、`G_branch` +0.00228（CI [0.0016, 0.0031]）、`G_generic` +0.00469（CI [0.0028, 0.0071]），但 role-matched 的 **`G_content_matched` = −0.00117（CI [−0.0017, −0.0007]，19/83）**、`S_reference` CI 跨 0。也就是说：**可见 prefix 已经能识别正确参考（检索 gate 通过），但 R0 的生成路径仍未利用它**——瓶颈在 query，而不是参考数据。逐 target 统计见 `validation/reality_memory/full_val_controls/`。
+
 ## 第二轮审阅修补（ee73b8e → 本提交）
 
 本提交针对 `ee73b8eaa061e0bbdaee462fee9fbf2cd4a00310` 的审阅意见继续收紧 strict-online 语义与溯源，并按审阅批准的下一步执行了**无参数更新的反事实 probe**（只加载 memory state_dict，不训练、不改模型）。probe 结论与数字见 [R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)。

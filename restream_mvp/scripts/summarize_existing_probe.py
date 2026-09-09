@@ -16,7 +16,6 @@ independent samples. The bootstrap resamples targets, not target-noise pairs.
 """
 import argparse
 import json
-import random
 import statistics
 from pathlib import Path
 import sys
@@ -24,16 +23,15 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from restream.reality_data import write_json
+from restream.reality_paired_diagnostics import CONTROL_KINDS, core_delta_spec
+from restream.reality_stats import bootstrap_ci
 
-CONTROL_KINDS = ("base", "none", "active_zero", "pair_mean", "global_constant", "correct", "wrong_source")
-CORE_DELTAS = {"U_correct": ("none", "correct"), "G_branch": ("none", "active_zero"),
-               "G_generic": ("active_zero", "global_constant"), "G_content": ("global_constant", "correct"),
-               "S_reference": ("wrong_source", "correct"), "H_wrong": ("wrong_source", "none")}
 BOOTSTRAP_SAMPLES = 10000
 
 
-def target_entries(cases, mode):
+def target_entries(cases, mode, correct_kind="async"):
     """One entry per unique target: per-kind mean over its noise seeds and deltas."""
+    spec = core_delta_spec(correct_kind)
     rows = [case for case in cases if case["prefix_mode"] == mode]
     entries = []
     for sample_id in dict.fromkeys(case["sample_id"] for case in rows):
@@ -45,34 +43,22 @@ def target_entries(cases, mode):
             if values:
                 means[kind] = statistics.mean(values)
         deltas = {name: (means[a] - means[b]) if a in means and b in means else None
-                  for name, (a, b) in CORE_DELTAS.items()}
+                  for name, (a, b) in spec.items()}
         entries.append({"sample_id": sample_id, "source_id": selected[0].get("source_id"),
                         "noise_seeds": sorted({case.get("noise_seed") for case in selected}),
                         **means, "core_deltas": deltas})
     return entries
 
 
-def bootstrap_ci(values, samples=BOOTSTRAP_SAMPLES, seed=0):
-    """Percentile bootstrap over the supplied per-target values."""
-    if not values:
-        return {"mean": None, "low": None, "high": None, "n": 0, "positive": 0}
-    rng = random.Random(seed)
-    count = len(values)
-    means = []
-    for _ in range(samples):
-        means.append(sum(values[rng.randrange(count)] for _ in range(count)) / count)
-    means.sort()
-    low = means[max(0, int(.025 * samples))]
-    high = means[min(samples - 1, int(.975 * samples))]
-    return {"mean": statistics.mean(values), "low": low, "high": high, "n": count,
-            "positive": sum(value > 0 for value in values)}
-
-
 def summarize(report, samples=BOOTSTRAP_SAMPLES, seed=0):
-    result = {"split": report.get("split"), "global_constant": report.get("global_constant"),
+    config = report.get("config") or {}
+    correct_kind = ((config.get("reality_memory", {}).get("objective", {}) or {}).get("paired") or {}).get("correct_kind", "async")
+    spec = core_delta_spec(correct_kind)
+    result = {"split": report.get("split"), "correct_kind": correct_kind,
+              "global_constant": report.get("global_constant"),
               "scope": report.get("scope"), "bootstrap_samples": samples, "modes": {}}
     for mode in ("clean", "mild"):
-        entries = target_entries(report["cases"], mode)
+        entries = target_entries(report["cases"], mode, correct_kind)
         variants = {}
         for kind in CONTROL_KINDS:
             values = [entry[kind] for entry in entries if kind in entry]
@@ -80,7 +66,7 @@ def summarize(report, samples=BOOTSTRAP_SAMPLES, seed=0):
                 variants[kind] = {"mean": statistics.mean(values), "n": len(values)}
         deltas = {name: bootstrap_ci([entry["core_deltas"][name] for entry in entries
                                       if entry["core_deltas"][name] is not None], samples, seed)
-                  for name in CORE_DELTAS}
+                  for name in spec}
         result["modes"][mode] = {"unique_targets": len(entries), "variants": variants,
                                  "core_deltas": deltas, "targets": entries}
     return result

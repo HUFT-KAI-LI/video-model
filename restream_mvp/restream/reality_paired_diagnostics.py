@@ -4,14 +4,26 @@ from .objective import future_loss
 from .reality_data import write_json
 from .reality_dataset import collate_reality
 from .reality_metrics import memory_usage
-from .reality_paired import (paired_references, paired_history, load_global_constant,
+from .reality_paired import (paired_references, paired_history, load_global_constant_roles,
                              global_constant_provenance)
 from .reality_runtime import PreserveHistory, prepare_reality
 
 # Ordered control ladder used by every paired probe and by the summaries.
 # base == none is an invariant; active_zero keeps the branch active with zero
-# image content; global_constant is the fixed deduplicated train-pool mean.
-CONTROL_KINDS = ("base", "none", "active_zero", "pair_mean", "global_constant", "correct", "wrong_source")
+# image content; global_* are fixed role-matched train-pool means (async /
+# aligned / positive) so a content baseline can be matched to correct_kind.
+CONTROL_KINDS = ("base", "none", "active_zero", "pair_mean", "global_constant", "global_async",
+                 "global_aligned", "correct", "wrong_source")
+CORE_DELTAS = {"U_correct": ("none", "correct"), "G_branch": ("none", "active_zero"),
+               "G_generic": ("active_zero", "global_constant"), "G_content": ("global_constant", "correct"),
+               "S_reference": ("wrong_source", "correct"), "H_wrong": ("wrong_source", "none")}
+
+
+def core_delta_spec(correct_kind="async"):
+    """Core deltas plus the role-matched content baseline for this correct kind."""
+    spec = dict(CORE_DELTAS)
+    spec["G_content_matched"] = (f"global_{correct_kind}", "correct")
+    return spec
 
 
 def _mean(entries, key):
@@ -19,13 +31,14 @@ def _mean(entries, key):
     return sum(values) / len(values) if values else None
 
 
-def aggregate_pairs(cases):
+def aggregate_pairs(cases, correct_kind="async"):
     """Aggregate one prefix mode; repeated noise seeds stay inside a target.
 
     Reported deltas are first computed per case (same target, same noise seed,
     same history) and then averaged over the noise seeds of each unique target,
     so every unique target counts once regardless of its number of seeds.
     """
+    spec = core_delta_spec(correct_kind)
     result = {}
     for mode in ("clean", "mild"):
         rows = [case for case in cases if case["prefix_mode"] == mode]
@@ -61,6 +74,7 @@ def aggregate_pairs(cases):
             "G_branch": delta_means("none", "active_zero"),
             "G_generic": delta_means("active_zero", "global_constant"),
             "G_content": delta_means("global_constant", "correct"),
+            "G_content_matched": delta_means(f"global_{correct_kind}", "correct"),
             "S_reference": delta_means("wrong_source", "correct"),
             "H_wrong": delta_means("wrong_source", "none"),
         }
@@ -88,7 +102,7 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
     mode = memory.training
     memory.eval()
     cases = []
-    global_mean = load_global_constant(config, dataset.cache, device)
+    role_means = load_global_constant_roles(config, dataset.cache, device)
     constant_record = global_constant_provenance(config, dataset.cache, device)
     try:
         for position, index in enumerate(indices):
@@ -105,12 +119,17 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
             # Pair mean = current target's correct+wrong feature mean: a mixed
             # reference ablation, not a scene-independent constant.
             pair_mean_features = torch.cat((correct_features, wrong_features), 0).mean(0, keepdim=True).repeat(cfg["reference_count"], 1, 1)
-            # Global constant = fixed mean over the deduplicated train-split
-            # async+aligned pools (identity checked by load_global_constant).
-            constant_features = global_mean.unsqueeze(0).repeat(cfg["reference_count"], 1, 1)
+
+            def role_features(role):
+                # Fixed role-matched train-pool means: async is matched to
+                # correct_kind=async, aligned to aligned, positive is their union.
+                return role_means[role].unsqueeze(0).repeat(cfg["reference_count"], 1, 1)[None]
+
             references = {"base": None, "none": empty, "active_zero": zero_features[None],
                           "pair_mean": pair_mean_features[None].to(device),
-                          "global_constant": constant_features[None],
+                          "global_constant": role_features("positive"),
+                          "global_async": role_features("async"),
+                          "global_aligned": role_features("aligned"),
                           "correct": correct_features[None].to(device),
                           "wrong_source": wrong_features[None].to(device)}
             for seed_offset in cfg["probe_noise_seeds"]:
@@ -143,11 +162,13 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
                                   "prefix_suffix_mse": (history[:, protected:].float() - gt[:, protected:anchor + 1].float()).square().mean().item(),
                                   "variants": variants})
             print(f"Paired probe {split} {position + 1}/{len(indices)}", flush=True)
-        report = {"config": config, "split": split, "cases": cases, "aggregate": aggregate_pairs(cases),
+        report = {"config": config, "split": split, "cases": cases,
+                  "aggregate": aggregate_pairs(cases, cfg["correct_kind"]),
                   "global_constant": constant_record,
                   "scope": "Fixed first-future-block teacher-forcing controls, not AR or long-horizon evidence. Noise seeds are repeated measures, not independent targets.",
                   "notes": ["Correct is same-source past-only proxy; wrong-source is not certified wrong-world.",
-                            "Global constant repeats the deduplicated train-split async+aligned pool mean; its provenance (manifest/keys/selection digests) is checked at load and recorded in this report.",
+                            "Global controls repeat fixed train-pool means: global_async is role-matched to correct_kind=async, global_aligned to aligned, global_constant is the async+aligned union. Provenance (manifest/role-key/selection digests) is checked at load and recorded in this report.",
+                            "G_content_matched uses the role-matched mean; G_content uses the union mean.",
                             "Active zero keeps K valid slots and the full trainable branch with raw DINO features set to zero; it isolates the learned context residual from any image statistics.",
                             "Pair mean is a mixed correct+wrong reference ablation, not a scene-independent constant.",
                             "Relevance is prompt/retrieved-feature cosine before the gate; ranking is directly supervised and is not by itself video efficacy.",

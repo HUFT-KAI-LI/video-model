@@ -12,8 +12,8 @@ from torch.utils.data import Dataset
 from .corruption import corrupt_history
 from .objective import future_loss
 from .reality_runtime import PreserveHistory
-from .reality_selection import (GLOBAL_MEAN_SCHEMA, manifest_digest, reference_keys_digest,
-                                selection_config_hash, unique_train_reference_pool)
+from .reality_selection import (GLOBAL_MEAN_ROLES, GLOBAL_MEAN_SCHEMA, manifest_digest,
+                                reference_keys_digest, role_reference_pool, selection_config_hash)
 
 
 def global_constant_path(config):
@@ -25,24 +25,27 @@ def global_constant_path(config):
 
 
 def expected_global_constant_provenance(config, cache):
-    """Digests that a valid global mean must match to belong to this manifest.
+    """Digests that a valid role-matched global mean must match to belong here.
 
-    The global-constant control is a derived asset of the current train manifest
-    and selection policy: the mean must come from the deduplicated async+aligned
-    pools of the very manifest the loader will pair it with.
+    Each role (async / aligned / positive) must come from the deduplicated pool
+    of the very manifest the loader will pair it with, so a role-matched content
+    baseline can never silently use another role's or another manifest's mean.
     """
     from .dataset import read_manifest
     manifest = Path(config["data"]["train_manifest"])
     if not manifest.is_absolute():
         from .runtime import ROOT
         manifest = ROOT / manifest
-    unique = unique_train_reference_pool(read_manifest(manifest), cache)
+    rows = read_manifest(manifest)
+    roles = {}
+    for role in sorted(GLOBAL_MEAN_ROLES):
+        unique = role_reference_pool(rows, cache, role)
+        roles[role] = {"unique_reference_count": len(unique), "reference_keys_sha256": reference_keys_digest(unique)}
     return {"train_manifest": str(manifest), "train_manifest_sha256": manifest_digest(manifest),
-            "unique_reference_count": len(unique), "reference_keys_sha256": reference_keys_digest(unique),
-            "selection_config_hash": selection_config_hash(config)}
+            "roles": roles, "selection_config_hash": selection_config_hash(config)}
 
 
-def _load_global_constant_payload(config, cache, device):
+def _load_global_constant_payload(config, cache, device, role="positive"):
     path = global_constant_path(config)
     if not path.is_file():
         raise FileNotFoundError(f"Missing global-constant control; run scripts/cache_reality_features.py: {path}")
@@ -51,23 +54,29 @@ def _load_global_constant_payload(config, cache, device):
         raise ValueError(f"Unsupported global-constant payload schema at {path}; regenerate it with scripts/cache_reality_features.py")
     if payload.get("cache_identity") != cache.identity or payload.get("tokens") != cache.tokens or payload.get("channels") != cache.channels:
         raise ValueError("Global constant feature cache identity/shape metadata mismatch")
-    features = payload.get("features")
+    means = payload.get("means")
+    if not isinstance(means, dict) or role not in means:
+        raise ValueError(f"Global constant has no {role!r} role mean; regenerate it with scripts/cache_reality_features.py")
+    features = means[role]
     if not isinstance(features, torch.Tensor) or tuple(features.shape) != (cache.tokens, cache.channels) or not torch.isfinite(features).all():
-        raise ValueError("Global constant features must be finite and shaped (tokens, channels)")
+        raise ValueError(f"Global constant {role} mean must be finite and shaped (tokens, channels)")
     if payload.get("source_split") != "train":
         raise ValueError("Global constant must be computed from train references")
-    missing = [key for key in ("train_manifest_sha256", "reference_keys_sha256",
-                               "unique_reference_count", "selection_config_hash") if payload.get(key) is None]
-    if missing:
-        raise ValueError(f"Global constant lacks required provenance fields {missing}; regenerate it with scripts/cache_reality_features.py")
+    roles = payload.get("roles")
+    if not isinstance(roles, dict) or set(roles) != set(GLOBAL_MEAN_ROLES):
+        raise ValueError("Global constant role metadata is missing or incomplete; regenerate it")
+    if payload.get("train_manifest_sha256") is None or payload.get("selection_config_hash") is None:
+        raise ValueError("Global constant lacks required provenance fields; regenerate it with scripts/cache_reality_features.py")
     expected = expected_global_constant_provenance(config, cache)
     if payload["train_manifest_sha256"] != expected["train_manifest_sha256"]:
         raise ValueError("Global constant was computed from a different train manifest; regenerate it")
-    if (payload["reference_keys_sha256"] != expected["reference_keys_sha256"]
-            or payload["unique_reference_count"] != expected["unique_reference_count"]):
-        raise ValueError("Global constant reference pool does not match the current train manifest; regenerate it")
     if payload["selection_config_hash"] != expected["selection_config_hash"]:
         raise ValueError("Global constant selection configuration differs from the current config; regenerate it")
+    for name in sorted(GLOBAL_MEAN_ROLES):
+        recorded, wanted = roles.get(name) or {}, expected["roles"][name]
+        if (recorded.get("unique_reference_count") != wanted["unique_reference_count"]
+                or recorded.get("reference_keys_sha256") != wanted["reference_keys_sha256"]):
+            raise ValueError(f"Global constant {name} pool does not match the current train manifest; regenerate it")
     return payload, expected
 
 
@@ -79,22 +88,28 @@ def global_constant_provenance(config, cache, device):
     """
     payload, expected = _load_global_constant_payload(config, cache, device)
     return {"schema": payload["schema"], "source_split": payload["source_split"],
-            "unique_reference_count": payload["unique_reference_count"],
+            "default_role": payload.get("default_role"),
+            "roles": payload["roles"],
             "cache_identity": payload["cache_identity"], "tokens": payload["tokens"],
             "channels": payload["channels"], "shape": [payload["tokens"], payload["channels"]],
             "selection_protocol": payload.get("selection_protocol"),
             "temporal_sampling": payload.get("temporal_sampling"),
             "selection_seed": payload.get("selection_seed"),
             "train_manifest_sha256": payload["train_manifest_sha256"],
-            "reference_keys_sha256": payload["reference_keys_sha256"],
-            "selection_config_hash": payload["selection_config_hash"],
             "expected_train_manifest_sha256": expected["train_manifest_sha256"],
+            "selection_config_hash": payload["selection_config_hash"],
             "file_sha256": hashlib.sha256(global_constant_path(config).read_bytes()).hexdigest()}
 
 
-def load_global_constant(config, cache, device):
-    payload, _ = _load_global_constant_payload(config, cache, device)
-    return payload["features"].to(device)
+def load_global_constant(config, cache, device, role="positive"):
+    payload, _ = _load_global_constant_payload(config, cache, device, role)
+    return payload["means"][role].to(device)
+
+
+def load_global_constant_roles(config, cache, device):
+    """All role-matched means (async / aligned / positive) from one verified load."""
+    payload, _ = _load_global_constant_payload(config, cache, device, "positive")
+    return {role: payload["means"][role].to(device) for role in sorted(GLOBAL_MEAN_ROLES)}
 
 
 def validate_paired_config(config):

@@ -25,11 +25,14 @@ change. GLOBAL_MEAN_SCHEMA identifies the payload layout written by
 """
 import copy
 import hashlib
+import random
 
 from .reality_data import canonical_hash
 
 SELECTION_IDENTITY_SCHEMA = 3
-GLOBAL_MEAN_SCHEMA = 1
+# Schema 2 adds role-matched control means (async / aligned / positive).
+GLOBAL_MEAN_SCHEMA = 2
+GLOBAL_MEAN_ROLES = {"async": ("async",), "aligned": ("aligned",), "positive": ("async", "aligned")}
 TEMPORAL_SAMPLING = ("first_at_or_after", "causal_previous")
 PROTOCOL_TEMPORAL_SAMPLING = {"offline_target_filtered": "first_at_or_after",
                               "strict_online": "causal_previous"}
@@ -154,6 +157,28 @@ def unique_train_reference_pool(rows, cache, kinds=("async", "aligned")):
                     raise ValueError(f"Global-mean pool saw a cross-shot {kind} reference in {row.get('sample_id')}")
                 unique[cache.key(ref)] = ref
     return unique
+
+
+def role_reference_pool(rows, cache, role):
+    """Deduplicated train pool for one global-control role.
+
+    ``async``/``aligned`` are role-matched to the corresponding correct kind;
+    ``positive`` is their union (the original scene-independent control).
+    """
+    if role not in GLOBAL_MEAN_ROLES:
+        raise ValueError(f"Unknown global-mean role {role!r}; expected one of {sorted(GLOBAL_MEAN_ROLES)}")
+    return unique_train_reference_pool(rows, cache, kinds=GLOBAL_MEAN_ROLES[role])
+
+
+def select_targets(rows, count, seed):
+    """Deterministic unique-target index selection.
+
+    ``count <= 0`` or ``count >= len(rows)`` selects every target; otherwise a
+    seeded sample without replacement is sorted for a stable, persisted order.
+    """
+    if count is None or count <= 0 or count >= len(rows):
+        return list(range(len(rows)))
+    return sorted(random.Random(seed).sample(range(len(rows)), count))
 
 
 def manifest_digest(path):

@@ -11,30 +11,39 @@ from restream.dataset import read_manifest
 from restream.reality_data import read_reference, write_json
 from restream.reality_encoder import RealityEncoder
 from restream.reality_runtime import read_reality_config, make_cache
-from restream.reality_selection import (GLOBAL_MEAN_SCHEMA, manifest_digest, reference_keys_digest,
-                                        selection_config_hash, unique_train_reference_pool)
+from restream.reality_selection import (GLOBAL_MEAN_ROLES, GLOBAL_MEAN_SCHEMA, manifest_digest,
+                                        reference_keys_digest, role_reference_pool,
+                                        selection_config_hash)
 
 
 def global_mean_payload(rows, cache, config):
-    """Fixed train-split mean over the deduplicated positive reference pools.
+    """Fixed train-split means for role-matched controls.
 
-    The pool is the union of every row's ``reference_sets.async`` and
-    ``reference_sets.aligned``, deduplicated by content key. It is therefore
-    independent of the training mixture (no-memory/wrong probabilities, sampled
-    K per row, donor references re-used across rows).
+    Each role is the union of its train positive pools, deduplicated by content
+    key, so the controls are independent of the training mixture and exactly
+    matched to the correct reference kind:
+      * ``async``    -- role-matched to correct_kind=async;
+      * ``aligned``  -- role-matched to correct_kind=aligned;
+      * ``positive`` -- the union, i.e. the original scene-independent control.
     """
-    unique = unique_train_reference_pool(rows, cache)
-    keys = sorted(unique)
     manifest = ROOT / config["data"]["train_manifest"]
     references = config["reality_memory"]["references"]
-    if not keys:
-        raise ValueError("Train manifest has no async/aligned reference pool for a global mean")
-    features = torch.stack([cache.read(unique[key]) for key in keys]).mean(0).float()
+    means, roles = {}, {}
+    for role in sorted(GLOBAL_MEAN_ROLES):
+        unique = role_reference_pool(rows, cache, role)
+        keys = sorted(unique)
+        if not keys:
+            raise ValueError(f"Train manifest has no {role} reference pool for a global mean")
+        means[role] = torch.stack([cache.read(unique[key]) for key in keys]).mean(0).float()
+        roles[role] = {"unique_reference_count": len(keys),
+                       "reference_keys_sha256": reference_keys_digest(unique)}
     return {
         "schema": GLOBAL_MEAN_SCHEMA,
-        "features": features,
+        "means": means,
+        "features": means["positive"],
         "source_split": "train",
-        "unique_reference_count": len(keys),
+        "roles": roles,
+        "default_role": "positive",
         "cache_identity": cache.identity,
         "tokens": cache.tokens,
         "channels": cache.channels,
@@ -42,7 +51,6 @@ def global_mean_payload(rows, cache, config):
         "temporal_sampling": config["data"]["temporal_sampling"],
         "selection_seed": config["data"]["selection_seed"],
         "train_manifest_sha256": manifest_digest(manifest),
-        "reference_keys_sha256": reference_keys_digest(unique),
         "selection_config_hash": selection_config_hash(config),
     }
 
@@ -98,13 +106,13 @@ def main():
     torch.save(payload, temporary)
     temporary.replace(global_mean_path)
     report["global_constant"] = {"path": str(global_mean_path.relative_to(ROOT)), "source_split": "train",
-                                 "schema": payload["schema"], "unique_reference_count": payload["unique_reference_count"],
-                                 "tokens": payload["tokens"], "channels": payload["channels"],
+                                 "schema": payload["schema"], "tokens": payload["tokens"],
+                                 "channels": payload["channels"], "default_role": payload["default_role"],
+                                 "roles": payload["roles"],
                                  "selection_protocol": payload["selection_protocol"],
                                  "temporal_sampling": payload["temporal_sampling"],
                                  "selection_seed": payload["selection_seed"],
                                  "train_manifest_sha256": payload["train_manifest_sha256"],
-                                 "reference_keys_sha256": payload["reference_keys_sha256"],
                                  "selection_config_hash": payload["selection_config_hash"],
                                  "file_sha256": hashlib.sha256(global_mean_path.read_bytes()).hexdigest()}
     if args.overfit_samples:

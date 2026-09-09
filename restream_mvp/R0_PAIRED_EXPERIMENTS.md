@@ -125,3 +125,7 @@ $$
 - **诊断与汇总**：梯度分解采样修正为 update 1,2,5,10…；global-constant 一致性三态化；新增 target-level bootstrap CI 汇总器。
 
 strict-online 仍**没有**构建数据、也没有 GPU 结果；现有报告继续按 `offline_target_filtered` 解释。若下一步要验证严格因果协议，必须新建 `reality_memory_paired_online.yaml` 与独立的 `reality_*_online.jsonl`，不覆盖现有 offline manifest。
+
+## 后续：R0 冻结，进入 prefix-aware 检索 gate
+
+R0 已冻结为基线：不再加 loss、不扩训练预算。text-only query 的结论（通用视觉 prior，而非场景特定记忆）与 matched-control 复测见 [R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)；R1 三阶段计划与第一阶段 gate 的实测（完整 83 个 val target，accuracy 1.000 / 0.940，AUROC 0.947）见 [R1_PREFIX_AWARE_PLAN.md](R1_PREFIX_AWARE_PLAN.md) 与 `validation/reality_memory/prefix_retrieval/summary.json`。strict-online 仍未构建数据、仍无 GPU 结果。

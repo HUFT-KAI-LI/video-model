@@ -90,6 +90,21 @@ class RealityDataset(VideoDataset):
                 if not isinstance(ref.get("time"), (int, float)) or ref["time"] > visible_until + 1e-6:
                     raise ValueError(f"strict_online {kind} reference at {ref.get('time')} exceeds visible_until {visible_until}")
 
+    def _assert_prefix_matches_visible_until(self, row, sample):
+        """Runtime causality: the decoded prefix must end exactly at the manifest
+        visible_until under causal_previous, so a manifest cannot claim a boundary
+        the Dataset does not actually consume."""
+        times = sample["sampled_times"]
+        boundary = 4 * (self.prefix_latents - 1)
+        if times.numel() <= boundary:
+            raise ValueError("Sampled window shorter than the strict prefix boundary")
+        end = float(times[boundary])
+        visible_until = float(row["visible_until"])
+        if abs(end - visible_until) > 1e-5:
+            raise ValueError(f"Dataset prefix end {end} differs from manifest visible_until {visible_until}")
+        if float(times[:boundary + 1].max()) > visible_until + 1e-5:
+            raise ValueError("A prefix frame starts after the manifest visible_until")
+
     def reference_features(self, references):
         if not references:
             return torch.empty(0, self.cache.tokens, self.cache.channels)
@@ -97,6 +112,8 @@ class RealityDataset(VideoDataset):
 
     def __getitem__(self, index):
         sample, row = super().__getitem__(index), self.rows[index]
+        if row.get("selection_protocol", "offline_target_filtered") == "strict_online":
+            self._assert_prefix_matches_visible_until(row, sample)
         features = self.reference_features(row["references"])
         return {**sample, "features": features, "reference_mask": torch.ones(features.shape[0], dtype=torch.bool),
                 "wrong_reference": row["reference_kind"] == "wrong", "sample_id": row["sample_id"],

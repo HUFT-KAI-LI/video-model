@@ -67,17 +67,19 @@ CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/probe_existing_memory_checkpoint
 | `S_reference = L_wrong − L_correct` | +0.000146 [−0.00067, 0.00099]（9/16） | +0.000440 [−0.00051, 0.00156]（10/16） |
 | `H_wrong = L_wrong − L_none` | −0.003426 [−0.00513, −0.00210]（0/16） | −0.003511 [−0.00537, −0.00206]（1/16） |
 
-### 结论：落在情况 B，并且直接否证了“场景内容额外收益”
+### 结论：落在情况 B（单 checkpoint 诊断，不是普遍否证）
 
 - `U_correct > 0` 且在 16/16 个 target 上一致（两种 prefix 都是），说明**打开 memory 分支并给它任何图像特征**确实比 No Memory 好，幅度约 1.7–2.0%。
 - `G_generic > 0` 且 CI 不含 0，说明收益的主要来源是**通用真实图像统计**：固定训练均值显著优于全零特征。
-- `G_content ≤ 0`：clean 下固定训练均值**显著优于当前 target 的正确照片**（−0.0016，CI 不含 0，只有 4/16 个 target 为正），mild 下方向相同但不显著。这是对“正确照片内容提供额外价值”的**直接否证**，不是仅仅“未观察到”。
+- `G_content ≤ 0`：clean 下固定训练均值**显著优于当前 target 的正确照片**（−0.0016，CI 不含 0，只有 4/16 个 target 为正），mild 下方向相同但不显著。这是在本 probe 条件下对“正确照片内容提供额外价值”的**反方向证据**；它只覆盖一个 checkpoint、16 个 target、first-block teacher forcing 与离线协议，不能普遍否证场景内容机制，也不替代 prefix 条件检索的独立检验（见下文“后续”）。
 - `S_reference ≈ 0`（9/16、10/16），correct 与 wrong-source 没有可区分的收益；`H_wrong < 0` 说明 wrong-source 也整体优于 No Memory，进一步支持“内容无关”的解释。
 - `G_branch` 很小，clean 下 CI 跨 0，说明单靠 adapter/bias 的收益有限，主要增益来自输入了图像特征这件事本身。
 
-因此，在这个 30-update checkpoint（`offline_target_filtered`、text-only query）上：**没有证据支持场景特定记忆；证据指向一个通用 video-domain context prior**。不能把本结果写成 Reality Memory 有效，也不能据此宣称 strict-online 已闭合。
+因此，在这个 30-update checkpoint（`offline_target_filtered`、text-only query）上：**没有证据支持场景特定记忆；证据指向一个通用 video-domain context prior**。不能把本结果写成 Reality Memory 有效。
 
-**局限**：单个 checkpoint、16 个 val target、first-future-block teacher forcing、离线协议；绝对幅度小（相对 No Memory 约 2.5%）；bootstrap CI 在 16 个 target 下较宽；checkpoint 训练时并没有 global-mean/active-zero 控制，因此该排序是事后诊断，不能反推“用这些控制重新训练”的结果。
+**局限**：单个 checkpoint、16 个 val target、first-future-block teacher forcing、离线协议；绝对幅度小（相对 No Memory 约 2.5%）；bootstrap CI 在 16 个 target 下较宽；checkpoint 训练时并没有 global-mean/active-zero 控制，因此该排序是事后诊断，不能反推“用这些控制重新训练”的结果。本轮的完整 val（83 target）matched-control 复测与唯一 target 统计见 [full_val_controls/summary.json](validation/reality_memory/full_val_controls/summary.json)（`G_content_matched` 使用与 `correct_kind` 同角色的 `global_async` 均值）。
+
+**后续（已完成）**：本仓库下一提交把本 probe 扩展到完整 83 个 val target 并加入 role-matched 的 `global_async` 控制（[full_val_controls/summary.json](validation/reality_memory/full_val_controls/summary.json)）：`G_content_matched = −0.00117`（CI [−0.0017, −0.0007]，19/83），结论仍落在情况 B；同时新增 prefix-state 检索 gate（[R1_PREFIX_AWARE_PLAN.md](R1_PREFIX_AWARE_PLAN.md)、[prefix_retrieval/summary.json](validation/reality_memory/prefix_retrieval/summary.json)）证明**可见 prefix 本身能识别正确参考**（accuracy 1.000 / 0.940）。两者合起来说明：瓶颈在生成路径的 query，而不是参考数据是否可识别。
 
 **下一步（按审阅 §九/§十）**：不要继续加对比损失，也不要在没有新证据前扩训练预算。若继续 R0，应加入最小的 prefix scene feature（可见历史）作为 memory query，让模型有条件区分“哪张照片与当前画面相关”；否则应重新审视 reference 语义与训练目标。
 

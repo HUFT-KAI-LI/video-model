@@ -33,7 +33,7 @@ from restream.reality_data import write_json
 from restream.reality_paired import validate_paired_config
 from restream.reality_runtime import (read_reality_config, make_cache, make_dataset,
                                       make_memory, resume_signature)
-from restream.reality_selection import normalize_selection_defaults
+from restream.reality_selection import normalize_selection_defaults, select_targets
 from restream.runtime import ROOT, load_pipeline
 from train_reality_memory import overfit_indices
 
@@ -98,7 +98,8 @@ def main():
     parser.add_argument("--config", type=Path, default=ROOT / "configs/reality_memory_paired.yaml")
     parser.add_argument("--checkpoint", type=Path, required=True, help="Directory containing state.pt, or the state.pt file")
     parser.add_argument("--split", choices=("train", "val"), default="val")
-    parser.add_argument("--cases", type=int, default=0, help="Probe targets; defaults to eval.cases")
+    parser.add_argument("--cases", type=int, default=-1, help="Probe targets: -1 = eval.cases, 0 = all rows, N = seeded sample of N unique targets")
+    parser.add_argument("--target-seed", type=int, default=None, help="Seed for deterministic target selection (default: config seed)")
     parser.add_argument("--overfit-samples", type=int, default=0, help="Required for --split train: balanced fixed subset like training probes")
     parser.add_argument("--noise-seeds", type=int, nargs="+", help="Override probe_noise_seeds (evaluation-only; e.g. 3-5 seeds per target)")
     parser.add_argument("--output", type=Path, default=ROOT / "outputs/reality_memory/probe_existing")
@@ -123,11 +124,15 @@ def main():
     memory = make_memory(config).to(device)
     memory.load_state_dict(saved["memory"], strict=True)
     dataset = make_dataset(config, args.split, cache)
-    count = args.cases or config["eval"]["cases"]
+    target_seed = config["seed"] if args.target_seed is None else args.target_seed
     if args.split == "train":
         indices = overfit_indices(dataset, args.overfit_samples)
+        selection = {"mode": "balanced_overfit_subset", "count": len(indices), "seed": config["seed"]}
     else:
-        indices = list(range(min(count, len(dataset))))
+        count = config["eval"]["cases"] if args.cases < 0 else args.cases
+        indices = select_targets(dataset.rows, count, target_seed)
+        selection = {"mode": "all" if count <= 0 or count >= len(dataset.rows) else "seeded_sample",
+                     "count": len(indices), "seed": target_seed}
     from restream.reality_paired_diagnostics import probe_paired
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
@@ -142,10 +147,12 @@ def main():
                     "semantics_equal_beyond_eval_only": True, "split": args.split,
                     "probe_noise_seeds": config["reality_memory"]["objective"]["paired"]["probe_noise_seeds"],
                     "legacy_defaults_normalized": True,
-                    "targets_probed": len(indices), "no_parameter_update": True,
+                    "targets_probed": len(indices), "target_selection": selection,
+                    "target_sample_ids": [dataset.rows[index]["sample_id"] for index in indices],
+                    "no_parameter_update": True,
                     "global_constant": report["global_constant"],
                     "notes": ["Probes load the memory state only; optimizer/scheduler/RNG/training offset are not restored.",
-                              "Controls: No Memory, Active Zero, Global Mean, Pair Mean, Correct, Wrong Source; no backward is executed.",
+                              "Controls: No Memory, Active Zero, Global Mean (positive/async/aligned role means), Pair Mean, Correct, Wrong Source; no backward is executed.",
                               "Configs are compared after filling pre-identity defaults, so a checkpoint that predates selection_seed/temporal_sampling/pool_size is checked on its effective semantics."]}
     write_json(output / "probe_existing_verification.json", verification)
     print(json.dumps(verification, indent=2))

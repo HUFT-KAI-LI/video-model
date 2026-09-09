@@ -12,19 +12,16 @@ import torch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from restream.reality_data import write_json
-
-CONTROL_KINDS = ("base", "none", "active_zero", "pair_mean", "global_constant", "correct", "wrong_source")
-CORE_DELTAS = {"U_correct": ("none", "correct"), "G_branch": ("none", "active_zero"),
-               "G_generic": ("active_zero", "global_constant"), "G_content": ("global_constant", "correct"),
-               "S_reference": ("wrong_source", "correct")}
+from restream.reality_paired_diagnostics import CONTROL_KINDS, core_delta_spec
 
 
 def read(path):
     return json.loads(path.read_text())
 
 
-def target_level_deltas(rows):
+def target_level_deltas(rows, correct_kind="async"):
     """Paired deltas averaged over a target's noise seeds, one entry per unique target."""
+    spec = core_delta_spec(correct_kind)
     entries = []
     for sample_id in dict.fromkeys(c["sample_id"] for c in rows):
         selected = [c for c in rows if c["sample_id"] == sample_id]
@@ -34,7 +31,7 @@ def target_level_deltas(rows):
             if values:
                 means[kind] = statistics.mean(values)
         deltas = {name: (means[a] - means[b]) if a in means and b in means else None
-                  for name, (a, b) in CORE_DELTAS.items()}
+                  for name, (a, b) in spec.items()}
         entries.append({"sample_id": sample_id, **means, "core_deltas": deltas,
                         "ordered": all(kind in means for kind in ("correct", "none", "wrong_source"))
                         and means["correct"] < means["none"] < means["wrong_source"]})
@@ -57,7 +54,7 @@ def asset_consistency(comparisons):
     return result
 
 
-def comparison(before, after):
+def comparison(before, after, correct_kind="async"):
     def identity(case):
         return {key: case[key] for key in ("sample_id", "source_id", "prefix_mode", "noise_seed", "history_seed",
                                            "correct_references", "wrong_source_references")}
@@ -84,13 +81,14 @@ def comparison(before, after):
         loss = {kind: values["video_loss"] for kind, values in b["variants"].items() if values.get("video_loss") is not None}
         scores = {kind: b["variants"][kind]["relevance_score"] for kind in ("correct", "wrong_source")}
         rows = [c for c in after["cases"] if c["prefix_mode"] == mode]
-        target_means = target_level_deltas(rows)
+        spec = core_delta_spec(correct_kind)
+        target_means = target_level_deltas(rows, correct_kind)
         aggregate_deltas = {name: statistics.mean(t["core_deltas"][name] for t in target_means if t["core_deltas"][name] is not None)
                             if any(t["core_deltas"][name] is not None for t in target_means) else None
-                            for name in CORE_DELTAS}
-        delta_target_counts = {name: sum(t["core_deltas"][name] is not None for t in target_means) for name in CORE_DELTAS}
+                            for name in spec}
+        delta_target_counts = {name: sum(t["core_deltas"][name] is not None for t in target_means) for name in spec}
         delta_target_positive = {name: sum(t["core_deltas"][name] is not None and t["core_deltas"][name] > 0 for t in target_means)
-                                 for name in CORE_DELTAS}
+                                 for name in spec}
         results[mode] = {"loss_before": {kind: values["video_loss"] for kind, values in a["variants"].items() if values.get("video_loss") is not None},
                          "loss_after": loss, "relevance_before": {k: a["variants"][k]["relevance_score"] for k in scores},
                          "relevance_after": scores,
@@ -135,11 +133,12 @@ def main():
     if {int(item["step"]) for item in state["optimizer"]["state"].values()} != {updates}:
         raise ValueError("Actual AdamW state step differs from the logged effective updates")
     comparisons, sources = {}, {}
+    correct_kind = ((state["config"].get("reality_memory", {}).get("objective", {}) or {}).get("paired") or {}).get("correct_kind", "async")
     for split in ("train", "val"):
         before = args.run / f"paired_before_step_0000_{split}_rank_0.json"
         after = args.run / f"paired_after_step_{step:04d}_{split}_rank_0.json"
         first, last = read(before), read(after)
-        comparisons[split] = comparison(first, last)
+        comparisons[split] = comparison(first, last, correct_kind)
         sources[split] = {c["source_id"] for c in last["cases"]} | {
             r["source_id"] for c in last["cases"] for key in ("correct_references", "wrong_source_references") for r in c[key]}
         for path, label in ((before, "before"), (after, "after")):
@@ -150,6 +149,7 @@ def main():
     constant_consistent = asset_consistency(comparisons)
     report = {"batch_step": step, "optimizer_step": updates, "optimizer_state_step_verified": True,
               "sample_visits": dict(Counter(r["sample_id"] for r in rows)), "config": state["config"],
+              "correct_kind": correct_kind,
               "comparisons": comparisons, "train_val_sources_disjoint": True,
               "global_constant_asset_consistent": constant_consistent,
               "performance": {"sum_training_step_seconds": sum(r["step_time"] for r in rows),

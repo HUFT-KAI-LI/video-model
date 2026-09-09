@@ -22,17 +22,30 @@
   "global_constant": {
     "path": "data/reality_global_mean_features.pt",
     "source_split": "train",
-    "schema": 1,
-    "unique_reference_count": 11680,
+    "schema": 2,
     "tokens": 8,
     "channels": 384,
+    "default_role": "positive",
+    "roles": {
+      "aligned": {
+        "unique_reference_count": 5840,
+        "reference_keys_sha256": "039a0798db2585b73e2a97d147817b11f228b347230c8313540920715d8fc04f"
+      },
+      "async": {
+        "unique_reference_count": 5840,
+        "reference_keys_sha256": "9029d7ea0b383437a5ba96522893aca125eba6a82ebec7c1920260c8599ffdc3"
+      },
+      "positive": {
+        "unique_reference_count": 11680,
+        "reference_keys_sha256": "a5050b2e6171dd6fa8cffcc441997a0b8375f3fbb99f0ee4ccc0bdbfbb52ab58"
+      }
+    },
     "selection_protocol": "offline_target_filtered",
     "temporal_sampling": "first_at_or_after",
     "selection_seed": 42,
     "train_manifest_sha256": "5ef1bab68a8707ed2fb9b353dfa797e60fef8f0d05106c4ffa8871f0370a1501",
-    "reference_keys_sha256": "a5050b2e6171dd6fa8cffcc441997a0b8375f3fbb99f0ee4ccc0bdbfbb52ab58",
     "selection_config_hash": "1c7b08269065472fe310c8242dfcb5a0585fbbb3a2b1656f7cf28bc2a6b92a7c",
-    "file_sha256": "23f56752bb73dc95415cd2843e7ce50ae44a780c497946297fcdfa9993b01579"
+    "file_sha256": "6fa546b910abcaa6c63440b67f563a2979174af5f50380fa8a29ab37e38bdc71"
   },
   "overfit_samples": 16
 }
