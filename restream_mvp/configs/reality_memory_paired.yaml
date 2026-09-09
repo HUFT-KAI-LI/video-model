@@ -22,6 +22,7 @@ reality_memory:
     frozen: true
   feature_cache: data/reality_features
   references:
+    selection_protocol: offline_target_filtered
     min_count: 1
     max_count: 4
     async_probability: 0.5

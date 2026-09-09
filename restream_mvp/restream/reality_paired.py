@@ -123,7 +123,15 @@ def paired_loss(pipeline, model, gt, conditioning, index, batch, rng, config):
     contrast = contrast_loss(stats["relevance_score"][0], stats["relevance_score"][1], cfg["temperature"])
     regularization = config["reality_memory"]["regularization"]["delta_weight"] * stats["delta_square"]
     loss = video_with_grad + cfg["contrast_weight"] * contrast + regularization
+    parameters = tuple(model.parameters())
+    video_grads = torch.autograd.grad(video_with_grad, parameters, retain_graph=True, allow_unused=True)
+    contrast_grads = torch.autograd.grad(contrast, parameters, retain_graph=True, allow_unused=True)
+    def grad_norm(grads):
+        values = [g.float().square().sum() for g in grads if g is not None]
+        return torch.stack(values).sum().sqrt() if values else loss.new_zeros(())
     return loss, {**stats, "video_loss": video, "wrong_loss": video.new_zeros(()),
                   "correct_video_loss": values[0], "wrong_source_video_loss": values[1],
                   "contrast_loss": contrast.detach(), "history_seed": seeds[0], "noise_seed": seeds[1],
+                  "video_gradient_norm": grad_norm(video_grads).detach(),
+                  "contrast_gradient_norm": grad_norm(contrast_grads).detach(),
                   "prefix_suffix_mse": (history[:, 3:].float() - gt[:, 3:index + 1].float()).square().mean()}

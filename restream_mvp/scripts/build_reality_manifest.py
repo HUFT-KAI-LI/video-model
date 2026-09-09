@@ -20,6 +20,15 @@ def reference(row, at, role, shot_id):
             "split": row["split"], "time": round(at, 6), "role": role, "shot_id": shot_id}
 
 
+def selection_times(start, length, arrival, protocol):
+    """Times visible to reference filtering under the declared protocol."""
+    if protocol == "strict_online":
+        return np.linspace(start, start + arrival, 2)
+    if protocol == "offline_target_filtered":
+        return np.linspace(start, start + length, 3)
+    raise ValueError("Unknown reference selection protocol")
+
+
 def candidate(row, shots, config):
     refs = config["reality_memory"]["references"]
     length = (config["data"]["frames"] - 1) / config["data"]["fps"]
@@ -32,8 +41,10 @@ def candidate(row, shots, config):
     max_k = max(refs["max_count"], max(config["eval"]["reference_counts"]))
     for shot_id, shot in eligible:
         start = rng.uniform(shot["start"] + margin + gap + .5, shot["end"] - margin - length)
+        arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
+        protocol = refs.get("selection_protocol", "offline_target_filtered")
         target_hist = np.mean([histogram(read_reference(reference(row, at, "analysis", shot_id), 64))
-                               for at in np.linspace(start, start + length, 3)], axis=0)
+                               for at in selection_times(start, length, arrival, protocol)], axis=0)
         async_refs = []
         for _ in range(max_k * 8):
             intervals = [(shot["start"] + margin, start - gap)]
@@ -53,15 +64,15 @@ def candidate(row, shots, config):
                 break
         if len(async_refs) != max_k:
             continue
-        arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
         radius = refs["near_radius_sec"]
         aligned = []
         for _ in range(max_k * 8):
-            at = rng.uniform(max(start, start + arrival - radius), min(start + length, start + arrival + radius))
+            upper = min(start + arrival, start + length) if protocol == "strict_online" else min(start + length, start + arrival + radius)
+            at = rng.uniform(max(start, start + arrival - radius), upper)
             ref = reference(row, at, "near_aligned_soft", shot_id)
             rgb, actual = read_reference(ref, 64, return_time=True)
             ref["time"] = round(actual, 6)
-            if actual > min(start + length, start + arrival + radius) or any(item["time"] == ref["time"] for item in aligned):
+            if actual > upper or any(item["time"] == ref["time"] for item in aligned):
                 continue
             score = scene_similarity(target_hist, histogram(rgb))
             if score >= config["reality_memory"]["filter"]["scene_similarity"]:
@@ -112,6 +123,8 @@ def main():
     args = parser.parse_args()
     config = read_config(args.config)
     references = config["reality_memory"]["references"]
+    if references.get("selection_protocol", "offline_target_filtered") not in ("offline_target_filtered", "strict_online"):
+        raise ValueError("Invalid reference selection protocol")
     if references["async_direction"] not in ("past_only", "both") or references["min_count"] < 1 or references["max_count"] < references["min_count"]:
         raise ValueError("Invalid reference sampling configuration")
     shots = {r["source_id"]: r for r in read_manifest(args.shots)}

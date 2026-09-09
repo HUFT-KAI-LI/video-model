@@ -13,15 +13,21 @@ def aggregate_pairs(cases):
     for mode in ("clean", "mild"):
         rows = [case for case in cases if case["prefix_mode"] == mode]
         variants = {}
-        for kind in ("base", "none", "correct", "wrong_source"):
+        for kind in ("base", "none", "constant", "correct", "wrong_source"):
             entries = [case["variants"][kind] for case in rows]
             variants[kind] = {key: sum(e[key] for e in entries if e[key] is not None) / sum(e[key] is not None for e in entries)
                               for key in entries[0] if any(e[key] is not None for e in entries)}
+        unique = list(dict.fromkeys(r["sample_id"] for r in rows))
+        unique_rows = [[r for r in rows if r["sample_id"] == sample_id] for sample_id in unique]
         result[mode] = {"variants": variants, "target_noise_pairs": len(rows),
-                        "unique_targets": len({r["sample_id"] for r in rows}),
+                        "unique_targets": len(unique),
                         "score_correct_gt_wrong": sum(r["variants"]["correct"]["relevance_score"] > r["variants"]["wrong_source"]["relevance_score"] for r in rows),
+                        "score_correct_gt_wrong_unique_targets": sum(sum(r["variants"]["correct"]["relevance_score"] for r in group) / len(group) > sum(r["variants"]["wrong_source"]["relevance_score"] for r in group) / len(group) for group in unique_rows),
                         "loss_correct_lt_none_lt_wrong": sum(r["variants"]["correct"]["video_loss"] < r["variants"]["none"]["video_loss"] < r["variants"]["wrong_source"]["video_loss"] for r in rows),
+                        "loss_correct_lt_none_lt_wrong_unique_targets": sum(sum(r["variants"]["correct"]["video_loss"] for r in group) / len(group) < sum(r["variants"]["none"]["video_loss"] for r in group) / len(group) < sum(r["variants"]["wrong_source"]["video_loss"] for r in group) / len(group) for group in unique_rows),
                         "correct_minus_none": variants["correct"]["video_loss"] - variants["none"]["video_loss"],
+                        "correct_minus_constant": variants["correct"]["video_loss"] - variants["constant"]["video_loss"],
+                        "constant_minus_none": variants["constant"]["video_loss"] - variants["none"]["video_loss"],
                         "wrong_minus_none": variants["wrong_source"]["video_loss"] - variants["none"]["video_loss"]}
     return result
 
@@ -39,8 +45,14 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
             gt, conditioning, anchor = prepare_reality(pipeline, collate_reality([dataset[index]]), device, config)
             context = conditioning["prompt_embeds"]
             empty = torch.empty(1, 0, dataset.cache.tokens, dataset.cache.channels, device=device)
-            references = {"base": None, "none": empty, "correct": dataset.reference_features(correct)[None].to(device),
-                          "wrong_source": dataset.reference_features(wrong)[None].to(device)}
+            correct_features = dataset.reference_features(correct)
+            wrong_features = dataset.reference_features(wrong)
+            # Constant control keeps K and the trainable memory branch active while
+            # removing scene-specific image content. It is computed only from the
+            # current split's pair pool, never from the target's future pixels.
+            constant_features = torch.cat((correct_features, wrong_features), 0).mean(0, keepdim=True).repeat(cfg["reference_count"], 1, 1)
+            references = {"base": None, "none": empty, "constant": constant_features[None].to(device),
+                          "correct": correct_features[None].to(device), "wrong_source": wrong_features[None].to(device)}
             for seed_offset in cfg["probe_noise_seeds"]:
                 seed = config["seed"] + seed_offset + index + (0 if split == "train" else 10000)
                 for prefix_mode in ("clean", "mild"):
@@ -74,6 +86,7 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
         report = {"config": config, "split": split, "cases": cases, "aggregate": aggregate_pairs(cases),
                   "scope": "Fixed first-future-block teacher-forcing controls, not AR or long-horizon evidence. Noise seeds are repeated measures, not independent targets.",
                   "notes": ["Correct is same-source past-only proxy; wrong-source is not certified wrong-world.",
+                            "Constant repeats the mean feature over this target's paired pool; it controls active branch and K, but is not an independently trained constant-memory baseline.",
                             "Relevance is prompt/retrieved-feature cosine before the gate; ranking is directly supervised and is not by itself video efficacy.",
                             "Only the suffix of GT history is degraded; reference images never replace a latent."]}
         write_json(output, report)

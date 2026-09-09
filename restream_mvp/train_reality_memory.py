@@ -182,6 +182,8 @@ def main():
                 record.update({"correct_video_loss": stats["correct_video_loss"].item(),
                                "wrong_source_video_loss": stats["wrong_source_video_loss"].item(),
                                "contrast_loss": stats["contrast_loss"].item(),
+                               "video_gradient_norm": stats["video_gradient_norm"].item(),
+                               "contrast_gradient_norm": stats["contrast_gradient_norm"].item(),
                                "correct_memory_gate": stats["gate"][0].item(), "wrong_source_gate": stats["gate"][1].item(),
                                "correct_relevance_score": stats["relevance_score"][0].item(),
                                "wrong_source_relevance_score": stats["relevance_score"][1].item(),
@@ -189,6 +191,8 @@ def main():
                                "memory_attention_entropy": stats["attention_entropy"].tolist(),
                                "valid_memory_tokens": stats["valid_memory_tokens"].tolist(),
                                "prefix_suffix_mse": stats["prefix_suffix_mse"].item(),
+                               "raw_delta_norm": stats["raw_delta_norm"].tolist(),
+                               "applied_delta_norm": stats["applied_delta_norm"].tolist(),
                                "history_seed": stats["history_seed"], "noise_seed": stats["noise_seed"]})
             with log_path.open("a") as log:
                 log.write(json.dumps(record, allow_nan=False) + "\n")

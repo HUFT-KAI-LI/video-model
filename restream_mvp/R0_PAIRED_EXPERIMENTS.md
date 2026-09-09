@@ -2,6 +2,8 @@
 
 本轮针对 `add54daa797380315db289e6d04abb3b7929de6c` 的审阅意见，修改小实验目标与训练预算。原单边 wrong-gate 配置和第一轮报告保留；新实验使用独立的 [reality_memory_paired.yaml](configs/reality_memory_paired.yaml)。不实现 R1，不运行 200-step。
 
+本提交新增 Constant/Mean Memory 反事实控制：它保留 K 个有效 reference 和同一可训练分支，但将当前 pair pool 的 DINO token 均值复制到每个 reference。它不是独立训练的 constant baseline，只回答当前 checkpoint 的“启用分支但去掉具体图像内容”问题；同预算 constant-memory 训练基线仍是后续实验。
+
 ## 同一个 target 的配对目标
 
 每次更新只解码、编码一个 target，共享 caption、GT future、prefix corruption、diffusion timestep 和 noise。该 target 同时读取 K=2 的同 source 过去参考与 K=2 的 wrong-source 参考。pair 两边均预测同一段 GT future，训练不奖励 wrong-source 的视频变差。
@@ -78,3 +80,9 @@ MPLCONFIGDIR=/tmp/reality-paired-matplotlib \
 训练集的 relevance ranking 完全拟合，但验证集排序只为 2/8；训练集 Correct 和 Wrong 同时改善，说明视频目标没有把 score 的排序转化为正确参考专属收益。验证集两类参考也几乎同幅改善，不能宣称 `Correct < No Memory < Wrong`。轻度退化相对 clean 的 No Memory 变化为 train +0.12%、val −0.02%，验证集没有稳定的“救火”需求。
 
 本轮结论是：配对 objective 和按有效更新计数的工程实现可运行，并能学习训练目标上的 relevance separation；它还没有泛化的 video utility 证据。暂不跑 50/200 updates、不扩四卡 paired 训练、不实现 R1。下一步若继续，应先换独立 source／view 的正确 memory 和更强但有明确语义的 degraded-history，再检查 score 排序是否在验证集和 video loss 上同时成立。
+
+评价拆成三个描述性量：`U_correct = L_none - L_correct`（正确参考收益）、`S_reference = L_wrong - L_correct`（匹配额外收益）和 `H_wrong = L_wrong - L_none`（wrong-source 伤害）。`correct < none < wrong` 只保留为逐目标统计，不能作为继续研究的必要条件；wrong-source 可能仍提供类别级先验。
+
+参考选择协议显式标注为 `offline_target_filtered`：当前 manifest 的过去图片筛选使用完整 target 的 histogram，适合离线整理，不等价于在线无前视。新增 `strict_online` 模式时只使用 target 起点到 prefix 可见时间的 histogram，并限制 near-aligned 参考不超过可见时间；单元测试保证它不会读取 target future。当前已有 manifest 未重建，因此报告继续按离线整理协议解释。
+
+每条 paired 记录现在同时保存 video-gradient norm、contrast-gradient norm、`raw_delta_norm` 和实际 `applied_delta_norm = alpha * raw_delta_norm`。这些数值用于区分 score 学习和真正改变 LongLive context 的幅度；不能只依据 gate 或总梯度判断照片被使用。

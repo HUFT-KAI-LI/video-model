@@ -8,6 +8,7 @@ from restream.objective import future_loss
 from restream.reality_memory import RealityMemory
 from restream.reality_paired import (paired_loss, paired_history, paired_references,
                                     contrast_loss, validate_paired_config)
+from restream.reality_paired_diagnostics import aggregate_pairs
 from restream.reality_runtime import PreserveHistory, read_reality_config
 from restream.training_budget import TrainingBudget
 
@@ -54,6 +55,33 @@ class PairedTests(unittest.TestCase):
         contrast_loss(*stats["relevance_score"], .1).backward()
         self.assertTrue(all(p.grad is None for p in model.gate.parameters()))
         self.assertGreater(sum(p.grad.abs().sum().item() for p in model.query.parameters()), 0)
+
+    def test_constant_variant_is_reported_separately_from_none_and_wrong(self):
+        values = {kind: {"video_loss": value, "relevance_score": 0., "memory_gate_mean": .1}
+                  for kind, value in (("base", 1.), ("none", 1.), ("constant", .9), ("correct", .8), ("wrong_source", .85))}
+        cases = [{"sample_id": "x", "prefix_mode": mode, "variants": values} for mode in ("clean", "mild")]
+        aggregate = aggregate_pairs(cases)
+        self.assertAlmostEqual(aggregate["clean"]["correct_minus_constant"], -.1)
+        self.assertAlmostEqual(aggregate["clean"]["constant_minus_none"], -.1)
+
+    def test_memory_reports_raw_and_applied_delta_norm(self):
+        model = RealityMemory(6, 8, 12, 2)
+        context = torch.randn(1, 5, 12)
+        fused, stats = model(context, torch.randn(1, 2, 3, 6), torch.ones(1, 2, dtype=torch.bool))
+        self.assertIn("raw_delta_norm", stats)
+        self.assertIn("applied_delta_norm", stats)
+        torch.testing.assert_close(stats["applied_delta_norm"], torch.zeros_like(stats["applied_delta_norm"]))
+
+    def test_strict_online_selection_never_reads_target_future(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_reality_manifest", ROOT / "scripts/build_reality_manifest.py")
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        strict = module.selection_times(10., 3.5, .75, "strict_online")
+        offline = module.selection_times(10., 3.5, .75, "offline_target_filtered")
+        self.assertLessEqual(max(strict), 10.75)
+        self.assertGreater(max(offline), 10.75)
+        with self.assertRaises(ValueError):
+            module.selection_times(10., 3.5, .75, "bad")
 
     def test_sequential_video_gradients_equal_joint_objective(self):
         sys.path.insert(0, str(ROOT / "code/LongLive"))

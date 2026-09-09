@@ -10,6 +10,8 @@ def memory_usage(stats, wrong=False):
             "correct_memory_gate": gate if not wrong else None,
             "wrong_source_gate": gate if wrong else None,
             "relevance_score": stats["relevance_score"][active].float().mean().item() if active.any() else None,
+            "raw_delta_norm": stats["raw_delta_norm"][active].float().mean().item() if active.any() else None,
+            "applied_delta_norm": stats["applied_delta_norm"][active].float().mean().item() if active.any() else None,
             "memory_attention_entropy": stats["attention_entropy"].float().mean().item(),
             "memory_attention_entropy_normalized": stats["attention_entropy_normalized"].float().mean().item(),
             "valid_memory_tokens": stats["valid_memory_tokens"].float().mean().item()}
@@ -33,7 +35,8 @@ def summarize_cases(cases):
         aggregate[name] = {}
         for metric in ("future_latent_mse", "next_block_latent_mse", "memory_gate_mean", "correct_memory_gate",
                        "wrong_source_gate", "reference_copy_score", "dino_world_similarity", "memory_attention_entropy",
-                       "memory_attention_entropy_normalized", "valid_memory_tokens", "relevance_score", "pixel_motion_magnitude"):
+                       "memory_attention_entropy_normalized", "valid_memory_tokens", "relevance_score", "raw_delta_norm",
+                       "applied_delta_norm", "pixel_motion_magnitude"):
             values = [entry[metric] for entry in entries if entry.get(metric) is not None]
             aggregate[name][metric] = sum(values) / len(values) if values else None
     gaps = {}
