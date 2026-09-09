@@ -23,6 +23,7 @@ reality_memory:
   feature_cache: data/reality_features
   references:
     selection_protocol: offline_target_filtered
+    global_constant_features: data/reality_global_mean_features.pt
     min_count: 1
     max_count: 4
     async_probability: 0.5

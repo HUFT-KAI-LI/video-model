@@ -5,10 +5,13 @@ from .dataset import VideoDataset
 
 
 class RealityDataset(VideoDataset):
-    def __init__(self, manifest, cache, frames=57, height=256, width=432, fps=16, preflight=True):
+    def __init__(self, manifest, cache, frames=57, height=256, width=432, fps=16, preflight=True, selection_protocol=None):
         super().__init__(manifest, frames, height, width, fps)
         self.cache = cache
         for row in self.rows:
+            actual_protocol = row.get("selection_protocol", "offline_target_filtered")
+            if selection_protocol is not None and actual_protocol != selection_protocol:
+                raise ValueError(f"Manifest selection protocol {actual_protocol!r} differs from requested {selection_protocol!r}; rebuild manifest")
             if row["target_start"] != row["window_start"] or row["target_sec"] != row["window_sec"]:
                 raise ValueError("Target and reused decoder window disagree")
             for ref in row["references"]:

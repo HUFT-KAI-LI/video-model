@@ -12,6 +12,8 @@ def memory_usage(stats, wrong=False):
             "relevance_score": stats["relevance_score"][active].float().mean().item() if active.any() else None,
             "raw_delta_norm": stats["raw_delta_norm"][active].float().mean().item() if active.any() else None,
             "applied_delta_norm": stats["applied_delta_norm"][active].float().mean().item() if active.any() else None,
+            "contrast_gradient_norm_raw": stats.get("contrast_gradient_norm_raw"),
+            "contrast_gradient_norm_weighted": stats.get("contrast_gradient_norm_weighted"),
             "memory_attention_entropy": stats["attention_entropy"].float().mean().item(),
             "memory_attention_entropy_normalized": stats["attention_entropy_normalized"].float().mean().item(),
             "valid_memory_tokens": stats["valid_memory_tokens"].float().mean().item()}

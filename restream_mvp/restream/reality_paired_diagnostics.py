@@ -4,7 +4,7 @@ from .objective import future_loss
 from .reality_data import write_json
 from .reality_dataset import collate_reality
 from .reality_metrics import memory_usage
-from .reality_paired import paired_references, paired_history
+from .reality_paired import paired_references, paired_history, load_global_constant
 from .reality_runtime import PreserveHistory, prepare_reality
 
 
@@ -13,7 +13,7 @@ def aggregate_pairs(cases):
     for mode in ("clean", "mild"):
         rows = [case for case in cases if case["prefix_mode"] == mode]
         variants = {}
-        for kind in ("base", "none", "constant", "correct", "wrong_source"):
+        for kind in ("base", "none", "pair_mean", "global_constant", "correct", "wrong_source"):
             entries = [case["variants"][kind] for case in rows]
             variants[kind] = {key: sum(e[key] for e in entries if e[key] is not None) / sum(e[key] is not None for e in entries)
                               for key in entries[0] if any(e[key] is not None for e in entries)}
@@ -26,8 +26,8 @@ def aggregate_pairs(cases):
                         "loss_correct_lt_none_lt_wrong": sum(r["variants"]["correct"]["video_loss"] < r["variants"]["none"]["video_loss"] < r["variants"]["wrong_source"]["video_loss"] for r in rows),
                         "loss_correct_lt_none_lt_wrong_unique_targets": sum(sum(r["variants"]["correct"]["video_loss"] for r in group) / len(group) < sum(r["variants"]["none"]["video_loss"] for r in group) / len(group) < sum(r["variants"]["wrong_source"]["video_loss"] for r in group) / len(group) for group in unique_rows),
                         "correct_minus_none": variants["correct"]["video_loss"] - variants["none"]["video_loss"],
-                        "correct_minus_constant": variants["correct"]["video_loss"] - variants["constant"]["video_loss"],
-                        "constant_minus_none": variants["constant"]["video_loss"] - variants["none"]["video_loss"],
+                        "correct_minus_global_constant": variants["correct"]["video_loss"] - variants["global_constant"]["video_loss"],
+                        "global_constant_minus_none": variants["global_constant"]["video_loss"] - variants["none"]["video_loss"],
                         "wrong_minus_none": variants["wrong_source"]["video_loss"] - variants["none"]["video_loss"]}
     return result
 
@@ -38,6 +38,7 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
     mode = memory.training
     memory.eval()
     cases = []
+    global_mean = load_global_constant(config, dataset.cache, device)
     try:
         for position, index in enumerate(indices):
             row = dataset.rows[index]
@@ -50,8 +51,10 @@ def probe_paired(pipeline, memory, dataset, indices, config, device, output, spl
             # Constant control keeps K and the trainable memory branch active while
             # removing scene-specific image content. It is computed only from the
             # current split's pair pool, never from the target's future pixels.
-            constant_features = torch.cat((correct_features, wrong_features), 0).mean(0, keepdim=True).repeat(cfg["reference_count"], 1, 1)
-            references = {"base": None, "none": empty, "constant": constant_features[None].to(device),
+            pair_mean_features = torch.cat((correct_features, wrong_features), 0).mean(0, keepdim=True).repeat(cfg["reference_count"], 1, 1)
+            constant_features = global_mean.unsqueeze(0).repeat(cfg["reference_count"], 1, 1)
+            references = {"base": None, "none": empty, "pair_mean": pair_mean_features[None].to(device),
+                          "global_constant": constant_features[None].to(device),
                           "correct": correct_features[None].to(device), "wrong_source": wrong_features[None].to(device)}
             for seed_offset in cfg["probe_noise_seeds"]:
                 seed = config["seed"] + seed_offset + index + (0 if split == "train" else 10000)

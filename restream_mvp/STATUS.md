@@ -12,6 +12,8 @@
 
 本提交还加入了 Constant/Mean Memory 反事实控制、唯一 target 统计字段、video／contrast 分离梯度与实际 `alpha * raw_delta` 干预量；manifest 选择协议区分 offline target-filtered 与 strict-online，未重建旧 manifest。
 
+其中 pair mean 已明确降级为混合参考消融；真正的 global constant 必须由准备脚本从训练 split 固定生成并经 cache identity 校验。当前提交只修正工具和协议，没有把上一轮 GPU 结果冒充为新的 global-constant 实测。
+
 下文为上轮 State Re-Anchoring 诊断结果。
 
 上轮五项修改和真实 GPU 验证已完成。真实 teacher-forcing backward 可以运行；Oracle 的小样本改善有限，Hard Anchor 的平均误差反而增加，尚不满足 `Oracle < Hard < No Anchor` 的效果门槛。该段历史记录的 optimizer steps 为 **0**，没有启动 50/200/3000-step 训练。

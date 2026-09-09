@@ -3,11 +3,12 @@ from pathlib import Path
 import sys
 from types import SimpleNamespace
 import unittest
+import tempfile
 import torch
 from restream.objective import future_loss
 from restream.reality_memory import RealityMemory
 from restream.reality_paired import (paired_loss, paired_history, paired_references,
-                                    contrast_loss, validate_paired_config)
+                                    contrast_loss, validate_paired_config, load_global_constant)
 from restream.reality_paired_diagnostics import aggregate_pairs
 from restream.reality_runtime import PreserveHistory, read_reality_config
 from restream.training_budget import TrainingBudget
@@ -58,11 +59,28 @@ class PairedTests(unittest.TestCase):
 
     def test_constant_variant_is_reported_separately_from_none_and_wrong(self):
         values = {kind: {"video_loss": value, "relevance_score": 0., "memory_gate_mean": .1}
-                  for kind, value in (("base", 1.), ("none", 1.), ("constant", .9), ("correct", .8), ("wrong_source", .85))}
+                  for kind, value in (("base", 1.), ("none", 1.), ("pair_mean", .9), ("global_constant", .9), ("correct", .8), ("wrong_source", .85))}
         cases = [{"sample_id": "x", "prefix_mode": mode, "variants": values} for mode in ("clean", "mild")]
         aggregate = aggregate_pairs(cases)
-        self.assertAlmostEqual(aggregate["clean"]["correct_minus_constant"], -.1)
-        self.assertAlmostEqual(aggregate["clean"]["constant_minus_none"], -.1)
+        self.assertAlmostEqual(aggregate["clean"]["correct_minus_global_constant"], -.1)
+        self.assertAlmostEqual(aggregate["clean"]["global_constant_minus_none"], -.1)
+
+    def test_global_constant_is_fixed_and_identity_checked(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "mean.pt"
+            identity = {"encoder": "fixture", "version": 1}
+            features = torch.arange(12, dtype=torch.float32).reshape(3, 4)
+            torch.save({"features": features, "source_split": "train", "cache_identity": identity,
+                        "tokens": 3, "channels": 4}, path)
+            config = {"reality_memory": {"references": {"global_constant_features": str(path)}}}
+            cache = SimpleNamespace(identity=identity, tokens=3, channels=4)
+            first = load_global_constant(config, cache, "cpu")
+            second = load_global_constant(config, cache, "cpu")
+            self.assertTrue(torch.equal(first, second))
+            self.assertFalse(torch.equal(first, features + 1))
+            cache.identity = {"encoder": "other"}
+            with self.assertRaises(ValueError):
+                load_global_constant(config, cache, "cpu")
 
     def test_memory_reports_raw_and_applied_delta_norm(self):
         model = RealityMemory(6, 8, 12, 2)
@@ -82,6 +100,9 @@ class PairedTests(unittest.TestCase):
         self.assertGreater(max(offline), 10.75)
         with self.assertRaises(ValueError):
             module.selection_times(10., 3.5, .75, "bad")
+        with self.assertRaises(ValueError):
+            module.validate_selection_protocol("strict_online", "both")
+        module.validate_selection_protocol("strict_online", "past_only")
 
     def test_sequential_video_gradients_equal_joint_objective(self):
         sys.path.insert(0, str(ROOT / "code/LongLive"))

@@ -4,12 +4,26 @@ Labels select pairs and define a loss only. R0 still queries memory from prompt
 context; neither source IDs nor video-state features enter the memory model.
 """
 import math
+from pathlib import Path
 import torch
 from torch.nn import functional as F
 from torch.utils.data import Dataset
 from .corruption import corrupt_history
 from .objective import future_loss
 from .reality_runtime import PreserveHistory
+
+
+def load_global_constant(config, cache, device):
+    path = Path(config["reality_memory"]["references"]["global_constant_features"])
+    if not path.is_absolute():
+        from .runtime import ROOT
+        path = ROOT / path
+    payload = torch.load(path, map_location=device, weights_only=False)
+    if payload.get("cache_identity") != cache.identity or payload.get("tokens") != cache.tokens or payload.get("channels") != cache.channels:
+        raise ValueError("Global constant feature cache identity/shape mismatch")
+    if payload.get("source_split") != "train" or not torch.isfinite(payload["features"]).all():
+        raise ValueError("Global constant must be finite and computed from train references")
+    return payload["features"].to(device)
 
 
 def validate_paired_config(config):
@@ -129,9 +143,11 @@ def paired_loss(pipeline, model, gt, conditioning, index, batch, rng, config):
     def grad_norm(grads):
         values = [g.float().square().sum() for g in grads if g is not None]
         return torch.stack(values).sum().sqrt() if values else loss.new_zeros(())
+    weighted_contrast = cfg["contrast_weight"] * grad_norm(contrast_grads)
     return loss, {**stats, "video_loss": video, "wrong_loss": video.new_zeros(()),
                   "correct_video_loss": values[0], "wrong_source_video_loss": values[1],
                   "contrast_loss": contrast.detach(), "history_seed": seeds[0], "noise_seed": seeds[1],
                   "video_gradient_norm": grad_norm(video_grads).detach(),
-                  "contrast_gradient_norm": grad_norm(contrast_grads).detach(),
+                  "contrast_gradient_norm_raw": grad_norm(contrast_grads).detach(),
+                  "contrast_gradient_norm_weighted": weighted_contrast.detach(),
                   "prefix_suffix_mse": (history[:, 3:].float() - gt[:, 3:index + 1].float()).square().mean()}

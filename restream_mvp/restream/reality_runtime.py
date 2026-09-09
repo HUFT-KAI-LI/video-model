@@ -21,6 +21,9 @@ def read_reality_config(path):
         raise ValueError("R0 requires frozen backbones and zero-initialized residual output")
     if memory["encoder"]["type"] != "dinov2":
         raise ValueError("R0 uses one frozen DINOv2 encoder")
+    references = memory["references"]
+    if references.get("selection_protocol", "offline_target_filtered") == "strict_online" and references.get("async_direction") != "past_only":
+        raise ValueError("strict_online requires past_only references")
     if config["data"]["frames"] < 21 or not 0 <= memory["references"]["per_reference_dropout"] <= 1:
         raise ValueError("Invalid R0 temporal window/dropout")
     prefix = memory["objective"]["prefix_latents"]
@@ -47,8 +50,9 @@ def make_cache(config):
 
 def make_dataset(config, split, cache=None):
     data = config["data"]
+    protocol = config["reality_memory"]["references"].get("selection_protocol", "offline_target_filtered")
     return RealityDataset(ROOT / data[f"{split}_manifest"], cache or make_cache(config),
-                          data["frames"], data["height"], data["width"], data["fps"])
+                          data["frames"], data["height"], data["width"], data["fps"], selection_protocol=protocol)
 
 
 @torch.no_grad()

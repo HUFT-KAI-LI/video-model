@@ -49,6 +49,19 @@ def main():
             print(f"Features {i + 1}/{len(refs)}", flush=True)
     report = {"unique_references": len(refs), "written": written, "reused": reused, "encoder": cache.identity,
               "shape_per_reference": [cache.tokens, cache.channels], "optimizer_steps": 0}
+    # One fixed control for every target: only train-split references contribute.
+    train_features = []
+    for row in read_manifest(ROOT / config["data"]["train_manifest"]):
+        for ref in row["references"]:
+            train_features.append(cache.read(ref))
+    if train_features:
+        global_mean_path = ROOT / memory["references"].get("global_constant_features", "data/reality_global_mean_features.pt")
+        global_mean_path.parent.mkdir(parents=True, exist_ok=True)
+        torch.save({"features": torch.stack(train_features).mean(0).float(), "source_split": "train",
+                    "reference_count": len(train_features), "cache_identity": cache.identity,
+                    "tokens": cache.tokens, "channels": cache.channels}, global_mean_path)
+        report["global_constant"] = {"path": str(global_mean_path.relative_to(ROOT)), "source_split": "train",
+                                      "reference_count": len(train_features)}
     if args.overfit_samples:
         report["overfit_samples"] = args.overfit_samples
     write_json(ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)

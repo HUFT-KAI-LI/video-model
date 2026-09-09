@@ -2,7 +2,7 @@
 
 本轮针对 `add54daa797380315db289e6d04abb3b7929de6c` 的审阅意见，修改小实验目标与训练预算。原单边 wrong-gate 配置和第一轮报告保留；新实验使用独立的 [reality_memory_paired.yaml](configs/reality_memory_paired.yaml)。不实现 R1，不运行 200-step。
 
-本提交新增 Constant/Mean Memory 反事实控制：它保留 K 个有效 reference 和同一可训练分支，但将当前 pair pool 的 DINO token 均值复制到每个 reference。它不是独立训练的 constant baseline，只回答当前 checkpoint 的“启用分支但去掉具体图像内容”问题；同预算 constant-memory 训练基线仍是后续实验。
+本提交新增两种反事实：`pair_mean_memory` 保留 K 个有效 reference 和同一可训练分支，但将当前 pair pool 的 DINO token 均值复制到每个 reference；`global_constant_memory` 读取准备阶段由**训练 split 全部可用参考**计算并保存的固定张量 `data/reality_global_mean_features.pt`。前者是混合参考消融，后者才是去除当前 target 特有内容的固定控制。文件保存 cache identity、source split、数量和形状；同预算 constant-memory 训练基线仍是后续实验。
 
 ## 同一个 target 的配对目标
 
@@ -62,7 +62,7 @@ MPLCONFIGDIR=/tmp/reality-paired-matplotlib \
   .venv/bin/python scripts/summarize_reality_paired.py
 ```
 
-复现时使用新的 output 目录，或显式 `--resume <checkpoint>`。改变 contrast、degradation、参考策略或数据划分时需新建实验；恢复签名拒绝语义不同的配置。新配对配置默认单卡，这次不重新声称它经过四卡 paired NCCL 验证；第一轮原目标的四卡保存／恢复证据仍在旧报告。
+复现时先运行 `scripts/cache_reality_features.py` 生成并校验全局训练均值，再使用新的 output 目录或显式 `--resume <checkpoint>`。改变 contrast、degradation、参考策略或数据划分时需新建实验；恢复签名拒绝语义不同的配置。新配对配置默认单卡，这次不重新声称它经过四卡 paired NCCL 验证；第一轮原目标的四卡保存／恢复证据仍在旧报告。旧 paired GPU 报告没有 global constant 变体，不能事后补写成新对照结果。
 
 ## 本轮实测
 

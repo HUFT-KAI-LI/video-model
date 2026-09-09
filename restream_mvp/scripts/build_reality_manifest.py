@@ -29,6 +29,13 @@ def selection_times(start, length, arrival, protocol):
     raise ValueError("Unknown reference selection protocol")
 
 
+def validate_selection_protocol(protocol, async_direction):
+    if protocol not in ("offline_target_filtered", "strict_online"):
+        raise ValueError("Invalid reference selection protocol")
+    if protocol == "strict_online" and async_direction != "past_only":
+        raise ValueError("strict_online requires past_only references")
+
+
 def candidate(row, shots, config):
     refs = config["reality_memory"]["references"]
     length = (config["data"]["frames"] - 1) / config["data"]["fps"]
@@ -43,6 +50,7 @@ def candidate(row, shots, config):
         start = rng.uniform(shot["start"] + margin + gap + .5, shot["end"] - margin - length)
         arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
         protocol = refs.get("selection_protocol", "offline_target_filtered")
+        validate_selection_protocol(protocol, refs["async_direction"])
         target_hist = np.mean([histogram(read_reference(reference(row, at, "analysis", shot_id), 64))
                                for at in selection_times(start, length, arrival, protocol)], axis=0)
         async_refs = []
@@ -82,9 +90,18 @@ def candidate(row, shots, config):
                 break
         if len(aligned) != max_k:
             continue
+        if protocol == "strict_online":
+            if any(ref["time"] > start + arrival + 1e-6 for ref in async_refs + aligned):
+                raise ValueError("strict_online selected a reference after visible_until")
+        protocol_hash = canonical_hash({"protocol": protocol, "async_direction": refs["async_direction"],
+                                       "min_gap_sec": gap, "boundary_margin_sec": margin,
+                                       "prefix_latents": config["reality_memory"]["objective"]["prefix_latents"]})
+        visible_until = round(start + arrival, 6) if protocol == "strict_online" else None
         return {**row, "window_start": start, "window_sec": length, "anchor_sec": [arrival],
                 "target_start": start, "target_sec": length, "shot_id": shot_id, "shot": shot,
                 "reference_sets": {"async": async_refs, "aligned": aligned},
+                "selection_protocol": protocol, "visible_until": visible_until,
+                "selection_config_hash": protocol_hash,
                 "filter_status": "heuristic_pass", "visual_review": "pending",
                 "reference_semantics": "same-source continuous-shot proxy; not certified same-world"}
     return None
@@ -123,8 +140,7 @@ def main():
     args = parser.parse_args()
     config = read_config(args.config)
     references = config["reality_memory"]["references"]
-    if references.get("selection_protocol", "offline_target_filtered") not in ("offline_target_filtered", "strict_online"):
-        raise ValueError("Invalid reference selection protocol")
+    validate_selection_protocol(references.get("selection_protocol", "offline_target_filtered"), references.get("async_direction"))
     if references["async_direction"] not in ("past_only", "both") or references["min_count"] < 1 or references["max_count"] < references["min_count"]:
         raise ValueError("Invalid reference sampling configuration")
     shots = {r["source_id"]: r for r in read_manifest(args.shots)}
