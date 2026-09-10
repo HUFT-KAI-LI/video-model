@@ -18,11 +18,12 @@ import torch
 from .edit_cache import (
     ROOT,
     canonical_hash,
-    code_commit,
     config_hash,
+    git_state,
     model_identity,
     sha256_file,
     sha256_text,
+    source_tree_sha256,
 )
 from .edit_replay import latent_shape
 
@@ -106,6 +107,7 @@ def expand_cases(config: Dict[str, Any], cases: Optional[int] = None,
                 "base_prompt": entry["base"],
                 "edit_prompt": entry["edit"],
                 "probe": entry.get("probe"),
+                "evidence": entry.get("evidence", "directional"),
                 "target_chunk": int(target),
                 "seed": int(config["seed"]) + entry["index"] + seed_stride * len(available),
             })
@@ -125,7 +127,8 @@ def group_cases(cases: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
         group = groups.get(key)
         if group is None:
             group = {field: case[field] for field in
-                     ("prompt_id", "prompt_index", "base_prompt", "edit_prompt", "probe", "seed")}
+                     ("prompt_id", "prompt_index", "base_prompt", "edit_prompt", "probe",
+                      "evidence", "seed")}
             group["targets"] = []
             groups[key] = group
         group["targets"].append(int(case["target_chunk"]))
@@ -180,9 +183,12 @@ def run_provenance(config: Dict[str, Any], config_path: os.PathLike | str, *,
                    extra: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     global GIT_COMMIT
     if GIT_COMMIT is None:
-        GIT_COMMIT = code_commit()
+        GIT_COMMIT = git_state()
     record = {
-        "git_commit": GIT_COMMIT,
+        "git_commit": GIT_COMMIT["git_commit"],
+        "git_dirty": GIT_COMMIT["git_dirty"],
+        "git_status_sha256": GIT_COMMIT["git_status_sha256"],
+        "code_tree_sha256": source_tree_sha256(),
         "config_path": str(config_path),
         "config_sha256": sha256_file(config_path),
         "config_hash": config_hash(config),
@@ -197,6 +203,25 @@ def run_provenance(config: Dict[str, Any], config_path: os.PathLike | str, *,
     if extra:
         record.update(extra)
     return record
+
+
+def drop_page_cache(path: os.PathLike | str) -> bool:
+    """Evict one file from the OS page cache so a "cold read" is really cold.
+
+    Uses ``posix_fadvise(POSIX_FADV_DONTNEED)``, which is scoped to this file and
+    does not disturb the rest of the host.
+    """
+    if not hasattr(os, "posix_fadvise"):
+        return False
+    try:
+        descriptor = os.open(str(path), os.O_RDONLY)
+        try:
+            os.posix_fadvise(descriptor, 0, 0, os.POSIX_FADV_DONTNEED)
+        finally:
+            os.close(descriptor)
+        return True
+    except OSError:
+        return False
 
 
 def peak_vram_bytes(device: torch.device | str) -> int:

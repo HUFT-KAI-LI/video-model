@@ -55,7 +55,7 @@ def tensor_digest(tensor: torch.Tensor) -> str:
 
 
 def replay_target(pipeline, prompt, target, base, device, noise_source, decode_pixels,
-                  decoded_base=None) -> dict:
+                  decoded_base=None, expected_model_hash=None, expected_config_hash=None) -> dict:
     block = int(pipeline.num_frame_per_block)
     entry = base.checkpoint_entries[target]
     checkpoint = entry.get("checkpoint") or ec.load_edit_checkpoint(
@@ -64,9 +64,13 @@ def replay_target(pipeline, prompt, target, base, device, noise_source, decode_p
     base_chunk = base.latents[:, target * block:(target + 1) * block].clone()
 
     first = er.replay_chunk(pipeline, checkpoint, prompt, device=device, noise="from-cache",
-                            noise_source=noise_source, crossattn="restore", restore_rng=True)
+                            noise_source=noise_source, crossattn="restore", restore_rng=True,
+                            expected_model_hash=expected_model_hash,
+                            expected_config_hash=expected_config_hash)
     second = er.replay_chunk(pipeline, checkpoint, prompt, device=device, noise="from-cache",
-                             noise_source=noise_source, crossattn="restore", restore_rng=True)
+                             noise_source=noise_source, crossattn="restore", restore_rng=True,
+                             expected_model_hash=expected_model_hash,
+                             expected_config_hash=expected_config_hash)
 
     record = {
         "target_chunk": target,
@@ -196,7 +200,8 @@ def main() -> None:
         for target in group["targets"]:
             print(f"[replay] {group['prompt_id']} chunk={target} seed={seed}", flush=True)
             record = replay_target(pipeline, group["base_prompt"], target, base, device,
-                                   noise_source, not arguments.no_decode, decoded_base)
+                                   noise_source, not arguments.no_decode, decoded_base,
+                                   identity["model_checkpoint_sha256"], identity["config_hash"])
             record.update({
                 "sample_id": f"{sample_id}_chunk{target}",
                 "prompt_id": group["prompt_id"],

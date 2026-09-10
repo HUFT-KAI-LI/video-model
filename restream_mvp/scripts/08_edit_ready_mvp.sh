@@ -57,9 +57,9 @@ case "$MODE" in
   smoke)
     SHARDS=1
     mkdir -p "$OUT" "$CACHE/replay_smoke" "$CACHE/edit_smoke"
-    run_replay_shards replay_smoke "$OUT/replay_smoke" "$CACHE/replay_smoke" --cases 2 --targets 1 4
+    run_replay_shards replay_smoke "$OUT/replay_smoke" "$CACHE/replay_smoke" --cases 1 --targets 0 1
     run_edit_shards edit_smoke "$OUT/local_edit_smoke" "$CACHE/edit_smoke" "$OUT/videos_smoke" \
-      --cases 2 --targets 1 4 --dino
+      --cases 1 --targets 0 1
     "$RESTREAM_PYTHON" scripts/summarize_edit_ready_mvp.py \
       --config "$CONFIG" --replay "$OUT/replay_smoke_shard0.json" \
       --edit "$OUT/local_edit_smoke_shard0.json" --output "$OUT/summary_smoke.json"
@@ -68,13 +68,12 @@ case "$MODE" in
     SHARDS=1
     mkdir -p "$OUT" "$CACHE/all_chunks"
     run_replay_shards replay_all_chunks "$OUT/replay_all_chunks" "$CACHE/all_chunks" \
-      --cases 1 --targets 1 4 --all-chunks
+      --cases 1 --targets 0 1 4 --all-chunks
     ;;
   main)
     mkdir -p "$OUT" "$CACHE/replay_main" "$CACHE/edit_main" "$OUT/videos"
-    run_replay_shards replay_main "$OUT/replay_main" "$CACHE/replay_main" --targets 1 4
-    run_edit_shards edit_main "$OUT/local_edit_main" "$CACHE/edit_main" "$OUT/videos" \
-      --targets 1 4 --dino
+    run_replay_shards replay_main "$OUT/replay_main" "$CACHE/replay_main"
+    run_edit_shards edit_main "$OUT/local_edit_main" "$CACHE/edit_main" "$OUT/videos" --dino
     "$RESTREAM_PYTHON" scripts/summarize_edit_ready_mvp.py \
       --config "$CONFIG" --output "$OUT/summary.json"
     ;;
@@ -82,12 +81,35 @@ case "$MODE" in
     # Re-run only Experiment B and re-aggregate (Experiment A outputs are reused).
     mkdir -p "$OUT" "$CACHE/edit_main" "$OUT/videos"
     run_edit_shards "${EDIT_TAG:-edit_main}" "${EDIT_PREFIX:-$OUT/local_edit_main}" \
-      "$CACHE/edit_main" "$OUT/videos" --targets 1 4 --dino "${@}"
+      "$CACHE/edit_main" "$OUT/videos" --dino "${@}"
     "$RESTREAM_PYTHON" scripts/summarize_edit_ready_mvp.py \
       --config "$CONFIG" --output "$OUT/summary.json"
     ;;
+  rerun)
+    # Sealed rerun on a clean tree: every artifact goes to a git-ignored scratch
+    # directory so `git status --porcelain` stays empty while the jobs run and the
+    # recorded provenance can honestly say git_dirty=false.
+    RERUN_OUT="$OUT/rerun"
+    mkdir -p "$RERUN_OUT" "$CACHE/rerun_replay" "$CACHE/rerun_edit" "$RERUN_OUT/videos"
+    CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false \
+      "$RESTREAM_PYTHON" scripts/check_edit_streaming_equivalence.py --reviewed --gpu 0 \
+      --output "$RERUN_OUT/streaming_equivalence.json" \
+      > "logs/edit_ready_equivalence_${LOG_STAMP}.log" 2>&1
+    saved_shards="$SHARDS"
+    SHARDS=1
+    run_replay_shards clean_all_chunks "$RERUN_OUT/replay_all_chunks" "$CACHE/rerun_all_chunks" \
+      --cases 1 --targets 0 1 4 --all-chunks
+    SHARDS="$saved_shards"
+    run_replay_shards clean_replay "$RERUN_OUT/replay_main" "$CACHE/rerun_replay"
+    run_edit_shards clean_edit "$RERUN_OUT/local_edit_main" "$CACHE/rerun_edit" \
+      "$RERUN_OUT/videos" --dino
+    run_edit_shards clean_edit_seed2 "$RERUN_OUT/local_edit_seed2" "$CACHE/rerun_edit" \
+      "$RERUN_OUT/videos" --dino --seed-stride 1
+    "$RESTREAM_PYTHON" scripts/summarize_edit_ready_mvp.py --config "$CONFIG" \
+      --output "$RERUN_OUT/summary.json"
+    ;;
   *)
-    echo "usage: $0 {smoke|all-chunks|main}" >&2
+    echo "usage: $0 {smoke|all-chunks|main|main-edit|rerun}" >&2
     exit 2
     ;;
 esac

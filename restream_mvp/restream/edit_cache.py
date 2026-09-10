@@ -89,21 +89,71 @@ def _jsonable(value: Any) -> Any:
     return repr(value)
 
 
+def git_state() -> Dict[str, Any]:
+    """Commit, dirtiness and status digest of the tree that produced a result.
+
+    ``git_dirty`` is ``False`` only when the working tree was clean at the moment
+    the record was written, which is what a sealed experiment requires.
+    """
+    import subprocess
+
+    state: Dict[str, Any] = {"git_commit": "unknown", "git_dirty": None,
+                             "git_status_sha256": None}
+    try:
+        head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                              capture_output=True, text=True, timeout=10)
+        commit = head.stdout.strip()
+        if head.returncode != 0 or not commit:
+            return state
+        status = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"],
+                                capture_output=True, text=True, timeout=10)
+        if status.returncode != 0:
+            return state
+        state["git_commit"] = commit
+        state["git_dirty"] = bool(status.stdout.strip())
+        state["git_status_sha256"] = sha256_text(status.stdout)
+    except Exception:  # pragma: no cover - git is optional at runtime
+        pass
+    return state
+
+
 def code_commit() -> str:
-    """Best-effort git commit of the repository containing this file."""
+    """Human-readable ``<commit>[+dirty]`` string."""
+    state = git_state()
+    if state["git_dirty"] is None:
+        return str(state["git_commit"])
+    return state["git_commit"] + ("+dirty" if state["git_dirty"] else "")
+
+
+def source_tree_sha256(prefixes: Sequence[str] = ("restream/", "scripts/", "configs/", "tests/")) -> str:
+    """Content digest of the tracked experiment source surface.
+
+    Independent of ``git status``: it hashes the *contents* of every tracked file
+    under ``prefixes``, so a reviewer can confirm that the recorded digest matches
+    the sources they are reading even if the tree is later modified.
+    """
     import subprocess
 
     try:
-        out = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
-                             capture_output=True, text=True, timeout=10)
-        commit = out.stdout.strip()
-        if out.returncode == 0 and commit:
-            dirty = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"],
-                                   capture_output=True, text=True, timeout=10).stdout.strip()
-            return commit + ("+dirty" if dirty else "")
+        listing = subprocess.run(["git", "-C", str(ROOT), "ls-files"],
+                                 capture_output=True, text=True, timeout=20)
+        tracked = [line for line in listing.stdout.splitlines() if line.startswith(tuple(prefixes))]
     except Exception:  # pragma: no cover - git is optional at runtime
-        pass
-    return "unknown"
+        tracked = []
+    digest = hashlib.sha256()
+    count = 0
+    for name in sorted(tracked):
+        path = ROOT / name
+        if not path.is_file():
+            continue
+        digest.update(name.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(sha256_file(path).encode("ascii"))
+        digest.update(b"\0")
+        count += 1
+    if not count:
+        return "unknown"
+    return digest.hexdigest()
 
 
 def model_identity(config: Any) -> Dict[str, Any]:
@@ -260,6 +310,8 @@ class EditCheckpoint:
     previous_chunk_latent: Optional[torch.Tensor] = None
     next_noise: Optional[torch.Tensor] = None
     denoise_noise: Optional[List[torch.Tensor]] = None
+    git_dirty: Optional[bool] = None
+    code_tree_sha256: Optional[str] = None
 
     provenance: Dict[str, Any] = field(default_factory=dict)
 
@@ -283,6 +335,8 @@ class EditCheckpoint:
         body.setdefault("previous_chunk_latent", None)
         body.setdefault("next_noise", None)
         body.setdefault("denoise_noise", None)
+        body.setdefault("git_dirty", None)
+        body.setdefault("code_tree_sha256", None)
         body.setdefault("provenance", {})
         return cls(schema_version=SCHEMA_VERSION, **body)
 
@@ -461,6 +515,7 @@ def capture_checkpoint(
     """Snapshot the state that sits *before* chunk ``chunk_index`` is denoised."""
     rng = capture_rng_state(device)
     generator_state = generator.get_state().clone() if generator is not None else None
+    git = git_state()
     if full_latent_shape is not None:
         latent_shape = [int(v) for v in full_latent_shape]
     elif isinstance(latent_history, torch.Tensor):
@@ -501,6 +556,8 @@ def capture_checkpoint(
         previous_chunk_latent=previous_chunk_latent,
         next_noise=next_noise,
         denoise_noise=denoise_noise,
+        git_dirty=git["git_dirty"],
+        code_tree_sha256=source_tree_sha256(),
     )
     checkpoint.provenance = {
         "tensors": tensor_provenance(checkpoint.to_payload()),
@@ -510,6 +567,29 @@ def capture_checkpoint(
         "kv_blocks": len(checkpoint.kv_cache),
     }
     return checkpoint
+
+
+def verify_checkpoint_against_pipeline(checkpoint: EditCheckpoint, pipeline) -> None:
+    """Geometry check that runs on every restore, not only when asked.
+
+    A checkpoint is a standalone artifact once it is written to disk; replay must
+    refuse to install a cache whose AR block size, token geometry or attention
+    window does not match the live pipeline.
+    """
+    if checkpoint.num_frame_per_block != int(pipeline.num_frame_per_block):
+        raise ValueError(f"Checkpoint AR block size {checkpoint.num_frame_per_block} != "
+                         f"pipeline {pipeline.num_frame_per_block}")
+    if checkpoint.frame_seq_length != int(pipeline.frame_seq_length):
+        raise ValueError(f"Checkpoint frame_seq_length {checkpoint.frame_seq_length} != "
+                         f"pipeline {pipeline.frame_seq_length}")
+    if checkpoint.local_attn_size != int(pipeline.local_attn_size):
+        raise ValueError(f"Checkpoint local_attn_size {checkpoint.local_attn_size} != "
+                         f"pipeline {pipeline.local_attn_size}")
+    if checkpoint.kv_cache:
+        expected = int(pipeline.local_attn_size) * int(pipeline.frame_seq_length)
+        actual = int(checkpoint.kv_cache[0]["k"].shape[1])
+        if actual != expected:
+            raise ValueError(f"Checkpoint KV cache length {actual} != {expected}")
 
 
 def restore_checkpoint(pipeline, checkpoint: EditCheckpoint,
@@ -524,6 +604,7 @@ def restore_checkpoint(pipeline, checkpoint: EditCheckpoint,
     """
     if not checkpoint.kv_cache:
         raise ValueError("Checkpoint has no KV cache; cannot restore generation state")
+    verify_checkpoint_against_pipeline(checkpoint, pipeline)
     target = device if device is not None else checkpoint.source_device
     # Always build fresh device tensors: replay must never alias (and therefore
     # mutate) the checkpoint it was restored from, so the same checkpoint can be

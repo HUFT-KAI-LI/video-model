@@ -1,5 +1,5 @@
 {
-  "status": "passed",
+  "status": "failed",
   "replay_gate": {
     "passed": true,
     "cases": 2,
@@ -7,68 +7,141 @@
     "exact_cases": 2,
     "rng_exact_cases": 2,
     "latent_mse_mean": 0.0,
-    "latent_cosine_mean": 1.0000001192092896,
+    "latent_cosine_mean": 1.0000000596046448,
     "repeat_noise_baseline": 0.0,
     "relative_to_repeat": 3.0,
     "cosine_floor": 0.999
   },
   "edit_gate": {
-    "passed": true,
-    "cases": 4,
-    "successful_cases": 3,
-    "strong_cases": 1,
+    "passed": false,
+    "semantic_cases": 2,
+    "successful_cases": 0,
+    "strong_cases": 0,
     "min_full_regeneration_ratio": 0.25,
-    "s_proxy_local_edit_mean": 0.02716742621527777,
-    "s_proxy_full_regeneration_mean": 0.18381528501157407,
-    "s_proxy_control_mean": 0.0,
-    "variants": [
-      "car_red_to_black",
-      "dress_red_to_blue"
+    "R_k_by_chunk": {
+      "0": 1.0,
+      "1": -0.0014104921916398949
+    },
+    "R_k_cases_by_chunk": {
+      "0": [
+        1.0
+      ],
+      "1": [
+        -0.0014104921916398949
+      ]
+    },
+    "s_proxy_text_rebind_mean": 0.04669227129147376,
+    "s_proxy_full_regeneration_mean": 0.09510784384645062,
+    "s_proxy_control_mean": 0.04676046489197531,
+    "variants": [],
+    "strong_variants": [],
+    "qualitative_cases": 0,
+    "qualitative_consistent_cases": 0,
+    "note": "Only `evidence: directional` prompts enter the pass/strong aggregate; qualitative prompts (smile / zoom / rain) report a proxy-consistent change count and are not counted as semantic success."
+  },
+  "sanity_controls": {
+    "chunk0_cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "chunk0_matches_full_regeneration": true
+      }
     ],
-    "strong_variants": [
-      "car_red_to_black"
-    ]
+    "base_and_full_regen_share_rng_stream_cases": 0,
+    "base_and_full_regen_share_rng_stream_total": 2,
+    "control_equals_replay_cases": 1,
+    "control_equals_replay_total": 1,
+    "control_equals_text_rebind_at_chunk0": [
+      true
+    ],
+    "recache_equals_text_rebind_cases": 1,
+    "recache_cache_exact_cases": 1,
+    "recache_cache_differing_token_range": {
+      "first": 0,
+      "last": 1295,
+      "cache_len": 5184
+    },
+    "total_cases": 2
+  },
+  "history_confound": {
+    "cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.09352092978395062,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.35238102078437805,
+        "text_rebind_vs_replay_mse": 0.35238102078437805
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.0964038990162037,
+        "S_full_regeneration": 0.09669475790895062,
+        "ratio_reverse_to_full": 0.9969919890277735,
+        "reverse_vs_full_regeneration_mse": 0.0007561313104815781,
+        "text_rebind_vs_replay_mse": 0.006960602477192879
+      }
+    ],
+    "ratio_reverse_to_full_by_chunk": {
+      "0": 0.0,
+      "1": 0.9969919890277735
+    },
+    "reverse_vs_full_regeneration_mse_by_chunk": {
+      "0": 0.35238102078437805,
+      "1": 0.0007561313104815781
+    },
+    "note": "reverse = P1 history + P0 text.  A ratio near 1 means the reopened chunk follows the visual history rather than the prompt."
   },
   "preservation_gate": {
     "passed": true,
     "outside_exact_fraction": 1.0,
-    "outside_max_abs_after_vae_mean": 0.62353515625,
+    "outside_max_abs_after_vae_mean": 0.5390625,
     "note": "Asserted with torch.equal on pre-decode latents; the VAE leak is reported separately and is not part of the gate."
   },
   "boundary": {
-    "left_delta_mean": 0.03967800550162792,
-    "left_base_mean": 0.10073998104780912,
-    "left_edited_mean": 0.14041798654943705,
-    "left_relative_increase_of_means": 0.3938655247790602,
-    "left_acceptable_cases": 3,
-    "right_delta_mean": 0.11680151335895061,
-    "right_base_mean": 0.10552285891026258,
-    "right_edited_mean": 0.2223243722692132,
-    "right_relative_increase_of_means": 1.1068835185585664,
-    "right_acceptable_cases": 3,
-    "total_cases": 4,
-    "left_acceptable": false,
+    "left_delta_mean": 0.00304432213306427,
+    "left_base_mean": 0.048979274928569794,
+    "left_edited_mean": 0.052023597061634064,
+    "left_relative_increase_of_means": 0.062155312374551006,
+    "left_acceptable_cases": 1,
+    "right_delta_mean": 0.24739549309015274,
+    "right_base_mean": 0.06865926831960678,
+    "right_edited_mean": 0.3160547614097595,
+    "right_relative_increase_of_means": 3.6032352098267975,
+    "right_acceptable_cases": 1,
+    "total_cases": 2,
+    "left_acceptable": true,
     "right_acceptable": false
   },
   "efficiency": {
-    "full_seconds_mean": 3.516886370256543,
-    "partial_seconds_mean": 0.5788090033456683,
-    "speedup": 0.1645823441912954,
-    "R_time_end_to_end_mean": 0.40138218440417023,
+    "full_seconds_mean": 7.966352187097073,
+    "partial_generation_seconds_mean": 2.4226757120341063,
+    "partial_end_to_end_seconds_mean": 3.323086805641651,
+    "disk_load_seconds_mean": 1.7467708569020033,
+    "host_to_device_seconds_mean": 0.11292350478470325,
+    "restore_seconds_mean": 0.01199769601225853,
+    "encode_seconds_mean": 0.059867409989237785,
+    "denoise_seconds_mean": 0.4911162443459034,
+    "R_time_generation": 0.30411355851904986,
+    "R_time_compute": 0.07066990476007932,
+    "R_time_end_to_end": 0.3738578534567608,
     "partial_regenerated_chunks": 1,
     "full_generated_chunks_mean": 7.0,
-    "peak_vram_bytes_max": 18296560640,
-    "cache_bytes_per_chunk": 1049887200
+    "peak_vram_bytes_max": 20563914240,
+    "cache_bytes_per_chunk": 1049887200,
+    "page_cache_dropped": true
   },
   "gate_d_cost": {
     "passed": true,
     "max_time_ratio": 0.5
   },
-  "decision": "GO_WITH_BOUNDARY_RISK",
+  "decision": "NO_GO_NEED_PROMPT_REBINDING",
   "decision_notes": [
-    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames."
+    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames.",
+    "Gate B covers only the directional-probe prompts; smile / zoom / rain are reported as qualitative and need human review."
   ],
-  "next_step": "Investigate bridge generation / local propagation before scaling edits.",
+  "next_step": "Add a light prompt-rebinding / edit-adapter post-training stage.",
   "limitations": [
     "Edit responsiveness uses interpretable proxies (colour fraction / luma / appearance change); no CLIP-style text-video alignment was computed because the host has no network access to fetch CLIP weights.",
     "Only local appearance / transient edits are tested; no topology, object deletion or persistent semantic change (plan section 3)."

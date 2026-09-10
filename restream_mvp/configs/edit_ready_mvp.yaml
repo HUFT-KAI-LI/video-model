@@ -32,46 +32,71 @@ cache:
   keep_targets_only: false
 
 edit:
-  # 0-based AR chunk indices. 5-8 chunks per video, 2 target chunks per video.
-  targets: [1, 4]
-  # Variants produced per (prompt, target) pair.
+  # 0-based AR chunk indices.  Chunk 0 has **no visual history**, so
+  # `cache@chunk0 + P1 + text rebind` must equal the full-regeneration chunk 0
+  # bit-for-bit; it is the calibration point for the whole editability curve.
+  targets: [0, 1, 4]
+  # Baselines produced per (prompt, target) pair:
+  #   replay              P0 history + P0 text (bit-exact reopen)
+  #   text_rebind         P0 history + P1 text, text K/V rebound   <- the MVP method
+  #   history_recache     unchanged P0 latents re-cached under P1, then P1 text
+  #   reverse             P1 history + P0 text (history-confound diagnostic)
+  #   crossattn_control   P1 text but the cached P0 text K/V kept (must be a no-op)
+  #   full_regeneration   P1 trajectory (upper reference)
   variants:
-    - same_prompt_replay          # B2: cache replay with the original prompt
-    - local_edit                  # B3: cache replay with the new prompt
-    - crossattn_control           # diagnostic: new prompt but old text K/V kept
+    - replay
+    - text_rebind
+    - history_recache
+    - reverse
+    - crossattn_control
+    - full_regeneration
   prompts:
+    # `evidence: directional` means the probe measures a *signed, defined*
+    # direction and may enter the automatic Gate B aggregate.
+    # `evidence: qualitative` means the probe only detects "something changed";
+    # those cases are reported separately for human review and never counted as
+    # semantic success.
     - id: dress_red_to_blue
+      evidence: directional
       base: "A woman in a red dress walks slowly through a bright living room."
       edit: "A woman in a blue dress walks slowly through a bright living room."
       probe: {kind: color_fraction, color: blue, reference_color: red}
     - id: car_red_to_black
+      evidence: directional
       base: "A red car drives down a sunny city street."
       edit: "A black car drives down a sunny city street."
       probe: {kind: color_fraction, color: black, reference_color: red}
     - id: lighting_darker
+      evidence: directional
       base: "A cat walks across a bright living room floor in daylight."
       edit: "A cat walks across a dim living room floor at night."
       probe: {kind: luma, direction: decrease}
     - id: lighting_warm_to_cool
+      evidence: directional
       base: "A person sits at a wooden table in warm sunlight."
       edit: "A person sits at a wooden table in cool blue light."
       probe: {kind: color_fraction, color: blue, reference_color: yellow}
+    - id: jacket_green_to_yellow
+      evidence: directional
+      base: "A cyclist in a green jacket rides along a coastal road."
+      edit: "A cyclist in a yellow jacket rides along a coastal road."
+      probe: {kind: color_fraction, color: yellow, reference_color: green}
+    # ---- qualitative only: the proxy cannot confirm the semantics ----------
     - id: park_light_rain
+      evidence: qualitative
       base: "A dog runs through a green park on a sunny day."
       edit: "A dog runs through a green park in light rain."
       probe: {kind: luma, direction: decrease}
     - id: brief_smile
+      evidence: qualitative
       base: "A man looks at the camera with a neutral expression."
       edit: "A man looks at the camera and smiles briefly."
       probe: {kind: change}
     - id: slight_zoom_in
+      evidence: qualitative
       base: "A slow shot of a vase of flowers on a table."
       edit: "A slow close-up shot of a vase of flowers on a table."
       probe: {kind: change}
-    - id: jacket_green_to_yellow
-      base: "A cyclist in a green jacket rides along a coastal road."
-      edit: "A cyclist in a yellow jacket rides along a coastal road."
-      probe: {kind: color_fraction, color: yellow, reference_color: green}
 
 gates:
   replay:

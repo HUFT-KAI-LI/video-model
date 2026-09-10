@@ -18,3 +18,6 @@ code/longlive-v1.0.tar.gz
 # representative comparison is committed under validation/edit_ready_mvp/examples/.
 validation/edit_ready_mvp/videos/
 validation/edit_ready_mvp/videos_smoke/
+# Clean-tree rerun scratch space: artifacts are written here so the working tree
+# stays clean while the jobs run, then copied into the tracked validation files.
+validation/edit_ready_mvp/rerun/

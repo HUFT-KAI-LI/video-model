@@ -25,10 +25,11 @@ import torch
 from .edit_cache import (
     EditCheckpoint,
     capture_checkpoint,
-    checkpoint_to_device,
+    reset_crossattn_cache,
     restore_checkpoint,
     restore_rng_state,
     save_edit_checkpoint,
+    verify_checkpoint_identity,
 )
 
 
@@ -81,22 +82,6 @@ def initialize_streaming_state(pipeline, noise: torch.Tensor) -> None:
     pipeline._initialize_crossattn_cache(batch_size=batch_size, dtype=noise.dtype, device=noise.device)
     pipeline.generator.model.local_attn_size = pipeline.local_attn_size
     pipeline._set_all_modules_max_attention_size(pipeline.local_attn_size)
-
-
-def allocate_like(pipeline, kv_cache: Sequence[Dict[str, Any]], crossattn_cache: Sequence[Dict[str, Any]]) -> None:
-    """Install zeroed caches with the geometry of a checkpoint.
-
-    Only needed when a checkpoint is inspected without being restored; the normal
-    replay path goes through :func:`restream.edit_cache.restore_checkpoint`, which
-    builds the caches directly from the checkpoint.
-    """
-    pipeline.kv_cache1 = [{"k": torch.zeros_like(block["k"]), "v": torch.zeros_like(block["v"]),
-                           "global_end_index": torch.zeros_like(block["global_end_index"]),
-                           "local_end_index": torch.zeros_like(block["local_end_index"])}
-                          for block in kv_cache]
-    pipeline.crossattn_cache = [{"k": torch.zeros_like(block["k"]), "v": torch.zeros_like(block["v"]),
-                                 "is_init": False}
-                                for block in crossattn_cache]
 
 
 # --------------------------------------------------------------------------- #
@@ -282,7 +267,10 @@ def replay_chunk(pipeline, checkpoint: EditCheckpoint, prompt: str, *,
                  noise: str = "from-cache", noise_source: str = "global",
                  crossattn: str = "restore", restore_rng: bool = True,
                  generator: Optional[torch.Generator] = None,
-                 allocate: bool = False, time_it: bool = True) -> ReplayResult:
+                 prepare_state: bool = True,
+                 expected_model_hash: Optional[str] = None,
+                 expected_config_hash: Optional[str] = None,
+                 time_it: bool = True) -> ReplayResult:
     """Reopen exactly one chunk from ``checkpoint``.
 
     ``noise``:
@@ -298,17 +286,26 @@ def replay_chunk(pipeline, checkpoint: EditCheckpoint, prompt: str, *,
       * ``restore`` - keep the original text K/V.  Combined with a *new* prompt
         this is the no-op control that isolates "prompt changed" from "text
         binding changed": the new prompt never enters the computation.
+    ``prepare_state=False`` means the caller has already installed the cache (for
+    example after a history recache) and only the RNG, conditioning and denoising
+    steps should run.
     """
     if not checkpoint.kv_cache:
         raise ValueError("Checkpoint has no KV cache to replay from")
     if device is None:
         device = pipeline.generator.model.patch_embedding.weight.device
-    if allocate:
-        allocate_like(pipeline, checkpoint.kv_cache, checkpoint.crossattn_cache or [])
+    # A checkpoint is a standalone artifact; refuse to open it against a
+    # different model or generation config unless the caller says otherwise.
+    verify_checkpoint_identity(checkpoint, model_hash=expected_model_hash,
+                               config_digest=expected_config_hash)
     started = time.perf_counter()
     recorded: List[torch.Tensor] = []
-    restore_checkpoint(pipeline, checkpoint, device=device,
-                       reset_crossattn=(crossattn == "reset"))
+    if prepare_state:
+        restore_checkpoint(pipeline, checkpoint, device=device,
+                           reset_crossattn=(crossattn == "reset"))
+    elif crossattn == "reset":
+        reset_crossattn_cache(pipeline)
+    restore_seconds = time.perf_counter() - started
     if restore_rng:
         restore_rng_state(checkpoint.torch_rng_state, checkpoint.cuda_rng_state, device)
     if generator is not None and checkpoint.generator_state is not None:
@@ -318,7 +315,7 @@ def replay_chunk(pipeline, checkpoint: EditCheckpoint, prompt: str, *,
     else:
         conditioning = make_conditioning(pipeline, prompt)
     conditioning = _conditioning_to_device(conditioning, device)
-    restore_seconds = time.perf_counter() - started
+    prepare_seconds = time.perf_counter() - started
 
     if noise == "from-cache":
         if checkpoint.next_noise is None:
@@ -341,17 +338,94 @@ def replay_chunk(pipeline, checkpoint: EditCheckpoint, prompt: str, *,
                             record_noise=recorded)
     denoise_seconds = time.perf_counter() - denoise_started
     peak = torch.cuda.max_memory_allocated(device) if torch.cuda.is_available() else 0
+    timings = {"restore_seconds": restore_seconds, "prepare_seconds": prepare_seconds,
+               "denoise_seconds": denoise_seconds}
     return ReplayResult(latents=latents, prompt=prompt, chunk_index=checkpoint.chunk_index,
                         current_start_frame=checkpoint.current_start_frame,
                         recorded_noise=recorded or None,
-                        timings=({"restore_seconds": restore_seconds,
-                                  "denoise_seconds": denoise_seconds} if time_it else {}),
+                        timings=timings if time_it else {},
                         peak_vram_bytes=int(peak))
 
 
 def _conditioning_to_device(conditioning: Dict[str, Any], device) -> Dict[str, Any]:
     return {key: value.to(device=device) if isinstance(value, torch.Tensor) else value
             for key, value in conditioning.items()}
+
+
+# --------------------------------------------------------------------------- #
+# history recache: re-derive the cache from unchanged latents under a new prompt
+# --------------------------------------------------------------------------- #
+@torch.no_grad()
+def recache_history(pipeline, latents: torch.Tensor, prompt: str, num_chunks: int, *,
+                    device: torch.device | str | None = None) -> Dict[str, Any]:
+    """Rebuild the streaming cache from *unchanged* latent history under ``prompt``.
+
+    The latent content of chunks ``0..num_chunks-1`` is not modified at all; only
+    the context-update pass is re-run so the cache is re-derived.  This is the
+    training-free "history recache" control: it tests the hypothesis that the
+    stored visual KV is itself tied to the original prompt.
+
+    Architecturally the self-attention K/V are a function of ``x`` only (the text
+    prompt enters solely through cross-attention), so this is expected to rebuild
+    the *same* visual cache; the caller compares the result to the checkpoint to
+    prove or refute that on the real model.
+    """
+    started = time.perf_counter()
+    initialize_streaming_state(pipeline, latents)
+    conditioning = make_conditioning(pipeline, prompt)
+    if device is not None:
+        conditioning = _conditioning_to_device(conditioning, device)
+    block = int(pipeline.num_frame_per_block)
+    for index in range(int(num_chunks)):
+        start = index * block
+        _context_update(pipeline, latents[:, start:start + block], conditioning, start)
+    return {"recache_seconds": time.perf_counter() - started,
+            "recached_chunks": int(num_chunks), "prompt": prompt}
+
+
+def compare_caches(left: Sequence[Dict[str, Any]], right: Sequence[Dict[str, Any]],
+                   labels: Sequence[str] = ("k", "v", "global_end_index", "local_end_index")) -> Dict[str, Any]:
+    """Bit-exactness of two cache structures, with the differing token range.
+
+    Used to test the history-recache hypothesis: rebuilding the cache from
+    unchanged latents writes the same slots, but the values can differ because a
+    block's written K/V depend on the attention output of the previous block,
+    which in turn depends on the cache contents at that moment.  The cache is
+    therefore path-dependent, and this locates where.
+    """
+    if len(left) != len(right):
+        return {"comparable": False, "reason": f"block count {len(left)} vs {len(right)}"}
+    maximum, exact, tensors = 0.0, True, 0
+    differing_blocks, first_token, last_token, differing_tensors = set(), None, None, 0
+    for block_index, (first, second) in enumerate(zip(left, right)):
+        for label in labels:
+            a, b = first.get(label), second.get(label)
+            if isinstance(a, torch.Tensor) and isinstance(b, torch.Tensor):
+                if a.shape != b.shape:
+                    return {"comparable": False,
+                            "reason": f"{label} shape {tuple(a.shape)} vs {tuple(b.shape)}"}
+                tensors += 1
+                if not torch.equal(a, b):
+                    exact = False
+                    maximum = max(maximum,
+                                  float((a.float().cpu() - b.float().cpu()).abs().max().item()))
+                    differing_blocks.add(block_index)
+                    differing_tensors += 1
+                    if a.ndim >= 2 and a.shape[1] > 1:  # [B, S, ...] -> token axis
+                        per_token = (a != b).reshape(a.shape[0], a.shape[1], -1).any(dim=0).any(dim=-1)
+                        indices = torch.nonzero(per_token).flatten()
+                        if indices.numel():
+                            low, high = int(indices[0]), int(indices[-1])
+                            first_token = low if first_token is None else min(first_token, low)
+                            last_token = high if last_token is None else max(last_token, high)
+            elif a != b:
+                exact = False
+                differing_blocks.add(block_index)
+    return {"comparable": True, "exact": bool(exact), "max_abs_diff": maximum, "tensors": tensors,
+            "kv_blocks": len(left), "differing_blocks": len(differing_blocks),
+            "differing_tensors": differing_tensors,
+            "first_differing_token": first_token, "last_differing_token": last_token,
+            "cache_len": int(left[0]["k"].shape[1]) if left and "k" in left[0] else None}
 
 
 def verify_upstream_equivalence(pipeline, noise: torch.Tensor, prompt: str) -> Dict[str, Any]:

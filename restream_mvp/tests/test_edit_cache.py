@@ -44,7 +44,7 @@ class FakeModel(torch.nn.Module):
 
 
 class FakePipeline:
-    def __init__(self, blocks=2, cache_len=4, batch=1, block=3, frame_seq_length=4):
+    def __init__(self, blocks=2, cache_len=8, batch=1, block=3, frame_seq_length=4):
         self.num_frame_per_block = block
         self.frame_seq_length = frame_seq_length
         self.local_attn_size = 2
@@ -147,7 +147,7 @@ class RestoreSemantics(unittest.TestCase):
         restore_target = FakePipeline()
         ec.restore_checkpoint(restore_target, checkpoint, device="cpu")
         self.assertTrue(torch.equal(restore_target.kv_cache1[0]["k"],
-                                    torch.full((1, 4, 2, 4), 5.0, dtype=torch.bfloat16)))
+                                    torch.full((1, 8, 2, 4), 5.0, dtype=torch.bfloat16)))
         restore_target.kv_cache1[0]["k"].fill_(0)
         self.assertTrue(torch.all(checkpoint.kv_cache[0]["k"] == 5))
 
@@ -333,16 +333,31 @@ class ScriptGates(unittest.TestCase):
                                      ROOT / "scripts/summarize_edit_ready_mvp.py")
 
     @staticmethod
-    def _record(local, full, replay=0.0, control=0.0, num_chunks=7, r_time=0.16, outside=True):
+    def _record(local, full, replay=0.0, control=0.0, num_chunks=7, r_time=0.16, outside=True,
+                evidence="directional", target_chunk=1, recache_exact=True,
+                control_exact=True, recache_eq_rebind=True, r_e2e=0.4):
         return {
-            "sample_id": "case", "prompt_id": "p", "target_chunk": 1, "num_chunks": num_chunks,
-            "responsiveness": {"local_edit": {"S_proxy": local},
-                               "same_prompt_replay": {"S_proxy": replay},
+            "sample_id": "case", "prompt_id": "p", "target_chunk": target_chunk,
+            "num_chunks": num_chunks, "evidence": evidence,
+            "responsiveness": {"text_rebind": {"S_proxy": local},
+                               "replay": {"S_proxy": replay},
                                "crossattn_control": {"S_proxy": control},
                                "full_regeneration": {"S_proxy": full}},
-            "preservation": {"outside_exact": outside, "chunks_checked": num_chunks - 1},
-            "cost": {"R_time_generation": r_time, "R_time_end_to_end": 0.4,
-                     "partial_generation_seconds": 0.5, "full_generation_seconds": 3.2},
+            "preservation": {"outside_exact": outside, "chunks_checked": num_chunks - 1,
+                             "outside_max_abs_after_vae": 0.01},
+            "cost": {"R_time_generation": r_time, "R_time_compute": r_time * 0.9,
+                     "R_time_end_to_end": r_e2e,
+                     "partial_generation_seconds": 0.5, "full_generation_seconds": 3.2,
+                     "partial_end_to_end_seconds": 0.9, "disk_load_seconds": 0.1,
+                     "host_to_device_seconds": 0.05, "restore_seconds": 0.02,
+                     "encode_seconds": 0.03, "denoise_seconds": 0.3,
+                     "cache_bytes_per_chunk": 1049887200, "cache_disk_bytes": 1055165467,
+                     "peak_vram_bytes": 1, "page_cache_dropped": True},
+            "editability": {"chunk0_matches_full_regeneration":
+                            True if target_chunk == 0 else None},
+            "sanity": {"control_equals_replay": control_exact,
+                       "recache_equals_text_rebind": recache_eq_rebind},
+            "recache_cache_matches_checkpoint": {"comparable": True, "exact": recache_exact},
             "boundary": {"latent": {"base": {"left_mse": 0.01, "right_mse": 0.02},
                                     "edited": {"left_mse": 0.011, "right_mse": 0.021}}},
         }
@@ -360,8 +375,47 @@ class ScriptGates(unittest.TestCase):
         self.assertFalse(failed["gate_b_editability"]["passed"])
         self.assertFalse(self.runner.evaluate_gates([self._record(local=0.1, full=0.2, outside=False)],
                                                     config)["gate_c_preservation"]["passed"])
-        slow = self.runner.evaluate_gates([self._record(local=0.1, full=0.2, r_time=0.9)], config)
+        slow = self.runner.evaluate_gates([self._record(local=0.1, full=0.2, r_e2e=0.9)], config)
         self.assertFalse(slow["gate_d_cost"]["passed"])
+
+    def test_qualitative_cases_are_excluded_from_gate_b(self):
+        config = {"gates": {"edit": {"min_s_proxy": 0.0, "min_full_regeneration_ratio": 0.25},
+                            "cost": {"max_time_ratio": 0.5, "min_chunks": 5}}}
+        gates = self.runner.evaluate_gates(
+            [self._record(local=0.9, full=1.0, evidence="qualitative")], config)
+        edit_gate = gates["gate_b_editability"]
+        self.assertFalse(edit_gate["passed"])          # no directional case at all
+        self.assertEqual(edit_gate["semantic_cases"], 0)
+        self.assertEqual(edit_gate["qualitative_cases"], 1)
+        self.assertEqual(edit_gate["qualitative_consistent_cases"], 1)
+
+    def test_r_k_by_chunk_and_sanity_counters(self):
+        config = {"gates": {"edit": {"min_s_proxy": 0.0, "min_full_regeneration_ratio": 0.25},
+                            "cost": {"max_time_ratio": 0.5, "min_chunks": 5}}}
+        records = [self._record(local=0.2, full=0.2, target_chunk=0),
+                   self._record(local=0.02, full=0.2, target_chunk=1),
+                   self._record(local=0.004, full=0.2, target_chunk=4)]
+        gates = self.runner.evaluate_gates(records, config)
+        by_chunk = gates["gate_b_editability"]["R_k_by_chunk"]
+        self.assertAlmostEqual(by_chunk["0"][0], 1.0)
+        self.assertAlmostEqual(by_chunk["1"][0], 0.1)
+        self.assertAlmostEqual(by_chunk["4"][0], 0.02)
+
+    def test_chunk0_control_is_not_informative(self):
+        config = {"gates": {"edit": {"min_s_proxy": 0.0, "min_full_regeneration_ratio": 0.25},
+                            "cost": {"max_time_ratio": 0.5, "min_chunks": 5}}}
+        # At chunk 0 the cached text K/V is empty, so control == edit; that must
+        # not veto an otherwise directional case.
+        gates = self.runner.evaluate_gates(
+            [self._record(local=0.1, full=0.1, control=0.1, target_chunk=0)], config)
+        self.assertTrue(gates["gate_b_editability"]["passed"])
+        self.assertFalse(gates["gate_b_editability"]["cases"][0]["control_informative"])
+        same = self.runner.evaluate_gates(
+            [self._record(local=0.1, full=0.1, control=0.1, target_chunk=1)], config)
+        self.assertFalse(same["gate_b_editability"]["passed"])
+        cases = self.summarizer.gate_b_cases(
+            [self._record(local=0.1, full=0.1, control=0.1, target_chunk=0)], 0.0, 0.25)
+        self.assertTrue(cases[0]["passed"])
 
     def test_summarizer_boundary_and_decision(self):
         config = {"max_relative_increase": 1.0, "absolute_slack": 1e-4}
@@ -381,6 +435,65 @@ class ScriptGates(unittest.TestCase):
         self.assertEqual(self.summarizer.decision(True, True, 1, 23, good, {}),
                          "GO_WEAK_PROMPT_REBINDING")
         self.assertEqual(self.summarizer.decision(True, True, 2, 4, good, {}), "STRONG_GO")
+
+    def test_summarizer_splits_semantic_and_qualitative(self):
+        records = [self._record(local=0.1, full=0.2, evidence="directional"),
+                   self._record(local=0.5, full=0.6, evidence="qualitative")]
+        cases = self.summarizer.gate_b_cases(records, 0.0, 0.25)
+        semantic = [case for case in cases if case["evidence"] == "directional"]
+        qualitative = [case for case in cases if case["evidence"] != "directional"]
+        self.assertEqual(len(semantic), 1)
+        self.assertEqual(len(qualitative), 1)
+        self.assertTrue(semantic[0]["passed"])
+        self.assertTrue(semantic[0]["strong"])
+
+    def test_provenance_records_cleanliness_and_tree_digest(self):
+        state = ec.git_state()
+        self.assertIn("git_commit", state)
+        self.assertIn("git_dirty", state)
+        self.assertIn("git_status_sha256", state)
+        digest = ec.source_tree_sha256()
+        self.assertEqual(len(digest), 64)
+        self.assertEqual(digest, ec.source_tree_sha256())
+        self.assertNotEqual(digest, ec.source_tree_sha256(prefixes=("nonexistent/",)))
+
+
+class RecacheAndCaches(unittest.TestCase):
+    def test_compare_caches_detects_exact_and_drift(self):
+        left = [{"k": torch.zeros(2, 3), "v": torch.ones(2, 3),
+                 "global_end_index": torch.tensor([5]), "local_end_index": torch.tensor([2])}]
+        right = [{"k": torch.zeros(2, 3), "v": torch.ones(2, 3),
+                  "global_end_index": torch.tensor([5]), "local_end_index": torch.tensor([2])}]
+        self.assertTrue(er.compare_caches(left, right)["exact"])
+        right[0]["k"][0, 0] = 1.0
+        result = er.compare_caches(left, right)
+        self.assertFalse(result["exact"])
+        self.assertAlmostEqual(result["max_abs_diff"], 1.0, places=6)
+        self.assertFalse(er.compare_caches(left, [])["comparable"])
+
+    def test_replay_rejects_foreign_checkpoint_identity(self):
+        pipeline = FakePipeline()
+        checkpoint = make_checkpoint(pipeline)
+        with self.assertRaises(ValueError):
+            er.replay_chunk(pipeline, checkpoint, "a prompt", device="cpu",
+                            expected_model_hash="someone-elses-model", time_it=False)
+        with self.assertRaises(ValueError):
+            er.replay_chunk(pipeline, checkpoint, "a prompt", device="cpu",
+                            expected_config_hash="another-config", time_it=False)
+
+    def test_replay_rejects_geometry_mismatch(self):
+        pipeline = FakePipeline()
+        checkpoint = make_checkpoint(pipeline)
+        other = FakePipeline(frame_seq_length=8)
+        with self.assertRaises(ValueError):
+            er.replay_chunk(other, checkpoint, "a prompt", device="cpu", time_it=False)
+
+    def test_drop_page_cache_is_scoped_and_safe(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "blob.bin"
+            path.write_bytes(b"x" * 4096)
+            ex.drop_page_cache(path)  # must not raise even when unsupported
+            self.assertTrue(path.is_file())
 
 
 if __name__ == "__main__":
