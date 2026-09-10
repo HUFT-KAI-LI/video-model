@@ -1,0 +1,232 @@
+{
+  "status": "passed",
+  "run_provenance": {
+    "files": [
+      {
+        "file": "replay_smoke_shard0.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "09923508f5c2c0dda8e965b9962be4bbc169f6c0",
+        "git_dirty": false,
+        "code_tree_sha256": "835647a1cf054e8ef216772dd1938ae6ac3cbb7f027001645fefe0271b7e45dc",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_smoke_shard0.json",
+        "experiment": "B_local_edit",
+        "git_commit": "09923508f5c2c0dda8e965b9962be4bbc169f6c0",
+        "git_dirty": false,
+        "code_tree_sha256": "835647a1cf054e8ef216772dd1938ae6ac3cbb7f027001645fefe0271b7e45dc",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      }
+    ],
+    "git_commits": [
+      "09923508f5c2c0dda8e965b9962be4bbc169f6c0"
+    ],
+    "git_dirty_values": [
+      false
+    ],
+    "code_tree_sha256": [
+      "835647a1cf054e8ef216772dd1938ae6ac3cbb7f027001645fefe0271b7e45dc"
+    ],
+    "config_sha256": [
+      "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba"
+    ],
+    "model_checkpoint_sha256": [
+      "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    ],
+    "clean": true
+  },
+  "replay_gate": {
+    "passed": true,
+    "cases": 4,
+    "passed_cases": 4,
+    "exact_cases": 4,
+    "rng_exact_cases": 4,
+    "latent_mse_mean": 0.0,
+    "latent_cosine_mean": 1.0,
+    "repeat_noise_baseline": 0.0,
+    "relative_to_repeat": 3.0,
+    "cosine_floor": 0.999
+  },
+  "edit_gate": {
+    "passed": true,
+    "semantic_cases": 2,
+    "successful_cases": 1,
+    "strong_cases": 1,
+    "calibration_cases": 2,
+    "calibration_matches_full_regeneration": 2,
+    "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k. These cases are excluded from the pass/strong aggregate.",
+    "min_full_regeneration_ratio": 0.25,
+    "R_k_by_chunk": {
+      "1": 0.18015842412498084
+    },
+    "R_k_cases_by_chunk": {
+      "1": [
+        -0.0014104921916398949,
+        0.3617273404416016
+      ]
+    },
+    "s_proxy_text_rebind_mean": 0.05226041063850308,
+    "s_proxy_full_regeneration_mean": 0.1930104950327932,
+    "s_proxy_control_mean": 0.0,
+    "variants": [
+      "car_red_to_black"
+    ],
+    "strong_variants": [
+      "car_red_to_black"
+    ],
+    "qualitative_cases": 0,
+    "qualitative_consistent_cases": 0,
+    "note": "Only `evidence: directional` prompts enter the pass/strong aggregate; qualitative prompts (smile / zoom / rain) report a proxy-consistent change count and are not counted as semantic success."
+  },
+  "sanity_controls": {
+    "chunk0_cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk0",
+        "chunk0_matches_full_regeneration": true
+      }
+    ],
+    "base_and_full_regen_share_rng_stream_cases": 4,
+    "base_and_full_regen_share_rng_stream_total": 4,
+    "control_equals_replay_cases": 2,
+    "control_equals_replay_total": 2,
+    "control_equals_text_rebind_at_chunk0": [
+      true,
+      true
+    ],
+    "recache_equals_text_rebind_cases": 2,
+    "recache_cache_exact_cases": 2,
+    "recache_cache_by_chunk": {
+      "0": {
+        "exact_cases": 2,
+        "cases": 2,
+        "differing_token_ranges": []
+      },
+      "1": {
+        "exact_cases": 0,
+        "cases": 2,
+        "differing_token_ranges": [
+          [
+            0,
+            1295
+          ]
+        ]
+      }
+    },
+    "recache_cache_len": 5184,
+    "total_cases": 4
+  },
+  "history_confound": {
+    "cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.09352092978395062,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.35238102078437805,
+        "text_rebind_vs_replay_mse": 0.35238102078437805
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.0964038990162037,
+        "S_full_regeneration": 0.09669475790895062,
+        "ratio_reverse_to_full": 0.9969919890277735,
+        "reverse_vs_full_regeneration_mse": 0.0007561313104815781,
+        "text_rebind_vs_replay_mse": 0.006960602477192879
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.3184497974537037,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 1.086734414100647,
+        "text_rebind_vs_replay_mse": 1.086734414100647
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.10847831066743824,
+        "S_full_regeneration": 0.2893262321566358,
+        "ratio_reverse_to_full": 0.3749342389690753,
+        "reverse_vs_full_regeneration_mse": 0.4589858055114746,
+        "text_rebind_vs_replay_mse": 0.4303266704082489
+      }
+    ],
+    "ratio_reverse_to_full_by_chunk": {
+      "0": 0.0,
+      "1": 0.6859631139984244
+    },
+    "reverse_vs_full_regeneration_mse_by_chunk": {
+      "0": 0.7195577174425125,
+      "1": 0.2298709684109781
+    },
+    "note": "reverse = P1 history + P0 text.  A ratio near 1 means the reopened chunk follows the visual history rather than the prompt."
+  },
+  "preservation_gate": {
+    "passed": true,
+    "outside_exact_fraction": 1.0,
+    "outside_max_abs_after_vae_mean": 0.76806640625,
+    "note": "Asserted with torch.equal on pre-decode latents; the VAE leak is reported separately and is not part of the gate."
+  },
+  "boundary": {
+    "left_delta_mean": 0.07573606818914413,
+    "left_base_mean": 0.08238078281283379,
+    "left_edited_mean": 0.15811685100197792,
+    "left_relative_increase_of_means": 0.9193414483716887,
+    "left_acceptable_cases": 1,
+    "right_delta_mean": 0.5303301885724068,
+    "right_base_mean": 0.10286993533372879,
+    "right_edited_mean": 0.6332001239061356,
+    "right_relative_increase_of_means": 5.155346767273831,
+    "right_acceptable_cases": 1,
+    "total_cases": 4,
+    "left_acceptable": false,
+    "right_acceptable": false
+  },
+  "efficiency": {
+    "full_seconds_mean": 3.4587492272257805,
+    "partial_generation_seconds_mean": 2.4966696919873357,
+    "partial_end_to_end_seconds_mean": 3.3981022657826543,
+    "disk_load_seconds_mean": 1.8124913927167654,
+    "host_to_device_seconds_mean": 0.1142499390989542,
+    "restore_seconds_mean": 0.011993392370641232,
+    "encode_seconds_mean": 0.059895155020058155,
+    "denoise_seconds_mean": 0.4980398127809167,
+    "R_time_generation": 0.7217164162731441,
+    "R_time_compute": 0.16479899437634815,
+    "R_time_end_to_end": 0.7753280954318214,
+    "R_time_end_to_end_warm_cache": 0.3618381747088355,
+    "cache_read_seconds_per_gib": 1.8446798138509535,
+    "partial_regenerated_chunks": 1,
+    "full_generated_chunks_mean": 7.0,
+    "peak_vram_bytes_max": 20568318976,
+    "cache_bytes_per_chunk": 1049887200,
+    "page_cache_dropped": true
+  },
+  "gate_d_cost": {
+    "passed": false,
+    "passed_warm_cache": true,
+    "max_time_ratio": 0.5,
+    "cold_read_note": "Gate D is evaluated on the full user path including a cold page-cache read of the ~1 GiB checkpoint; the device-side compute ratio and the warm-cache ratio are reported separately."
+  },
+  "decision": "GO_WITH_BOUNDARY_RISK",
+  "decision_notes": [
+    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames.",
+    "Gate B covers only the directional-probe prompts; smile / zoom / rain are reported as qualitative and need human review.",
+    "Gate D fails on the cold-storage path: reading one ~1 GiB checkpoint costs about as much as generating several chunks. The device-side compute ratio is much lower, so the cost problem is cache size and I/O, not recomputation."
+  ],
+  "next_step": "Investigate bridge generation / local propagation before scaling edits.",
+  "limitations": [
+    "Edit responsiveness uses interpretable proxies (colour fraction / luma / appearance change); no CLIP-style text-video alignment was computed because the host has no network access to fetch CLIP weights.",
+    "Only local appearance / transient edits are tested; no topology, object deletion or persistent semantic change (plan section 3)."
+  ]
+}
