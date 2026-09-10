@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "replay_gate": {
+    "passed": true,
+    "cases": 16,
+    "passed_cases": 16,
+    "exact_cases": 16,
+    "rng_exact_cases": 16,
+    "latent_mse_mean": 0.0,
+    "latent_cosine_mean": 1.000000026077032,
+    "repeat_noise_baseline": 0.0,
+    "relative_to_repeat": 3.0,
+    "cosine_floor": 0.999
+  },
+  "edit_gate": {
+    "passed": true,
+    "cases": 32,
+    "successful_cases": 23,
+    "strong_cases": 1,
+    "min_full_regeneration_ratio": 0.25,
+    "s_proxy_local_edit_mean": 0.005772433108143526,
+    "s_proxy_full_regeneration_mean": 0.21381792980878625,
+    "s_proxy_control_mean": 0.0,
+    "variants": [
+      "brief_smile",
+      "car_red_to_black",
+      "dress_red_to_blue",
+      "jacket_green_to_yellow",
+      "lighting_darker",
+      "lighting_warm_to_cool",
+      "park_light_rain",
+      "slight_zoom_in"
+    ],
+    "strong_variants": [
+      "car_red_to_black"
+    ]
+  },
+  "preservation_gate": {
+    "passed": true,
+    "outside_exact_fraction": 1.0,
+    "outside_max_abs_after_vae_mean": 0.4516468048095703,
+    "note": "Asserted with torch.equal on pre-decode latents; the VAE leak is reported separately and is not part of the gate."
+  },
+  "boundary": {
+    "left_delta_mean": 0.005333605164196342,
+    "left_base_mean": 0.07641233946196735,
+    "left_edited_mean": 0.08174594462616369,
+    "left_relative_increase_of_means": 0.06980031238084305,
+    "left_acceptable_cases": 31,
+    "right_delta_mean": 0.025151921552605927,
+    "right_base_mean": 0.06980907183606178,
+    "right_edited_mean": 0.0949609933886677,
+    "right_relative_increase_of_means": 0.36029588835777954,
+    "right_acceptable_cases": 29,
+    "total_cases": 32,
+    "left_acceptable": false,
+    "right_acceptable": false
+  },
+  "efficiency": {
+    "full_seconds_mean": 3.507362984120846,
+    "partial_seconds_mean": 0.5775356404483318,
+    "speedup": 0.16467827943676286,
+    "R_time_end_to_end_mean": 0.40086458398146996,
+    "partial_regenerated_chunks": 1,
+    "full_generated_chunks_mean": 7.0,
+    "peak_vram_bytes_max": 18296560640,
+    "cache_bytes_per_chunk": 1049887200
+  },
+  "gate_d_cost": {
+    "passed": true,
+    "max_time_ratio": 0.5
+  },
+  "decision": "GO_WEAK_PROMPT_REBINDING",
+  "decision_notes": [
+    "Prompt re-binding is directionally correct but weak: only 1/23 directional cases recover >=25% of the full-regeneration response.",
+    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames."
+  ],
+  "next_step": "State reuse is proven; add light prompt-rebinding post-training.",
+  "limitations": [
+    "Edit responsiveness uses interpretable proxies (colour fraction / luma / appearance change); no CLIP-style text-video alignment was computed because the host has no network access to fetch CLIP weights.",
+    "Only local appearance / transient edits are tested; no topology, object deletion or persistent semantic change (plan section 3)."
+  ]
+}

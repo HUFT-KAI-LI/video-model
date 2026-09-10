@@ -1,5 +1,17 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## 新方向：Edit-Ready Video Generation 可行性 MVP（2026-09-10）
+
+按 [EDIT_READY_VIDEO_FEASIBILITY_PLAN.md](EDIT_READY_VIDEO_FEASIBILITY_PLAN.md) 完成 Generation-Time Edit Cache 的纯推理可行性测试，**不训练任何模型、不改 R0/R1 逻辑**。完整报告见 [EDIT_READY_MVP.md](EDIT_READY_MVP.md)，机器可读汇总见 `validation/edit_ready_mvp/summary.json`。
+
+- **Q1 缓存是否够用：够，而且逐位精确**。镜像 chunk 循环与上游 `inference()` 逐位一致（`max_abs=0.0`）；8 prompt × 2 target = 16 个 case 从 `S_{k-1}` 用原 prompt 重开目标 chunk 全部 `torch.equal`，checkpoint 内的 RNG state 也 16/16 精确重现 chunk 内 3 次噪声抽样。第一版 cache 体积 1.0499e9 B ≈ 0.978 GiB/chunk；保存全部 7 个 chunk 边界共 6.9 GB。
+- **Q2 新 prompt 能否只影响重开 chunk：能，但作用弱**。32 个编辑 case（2 seed）未编辑 chunk 编码前全部 `torch.equal`；若沿用旧文本 K/V，结果与同 prompt replay 逐位相同（32/32），说明新 prompt 的唯一入口是 text cross-attention。重绑定后 chunk 确实变化，但平均只恢复 full regeneration 响应幅度的 **2.7%**（`S_proxy` 0.00577 vs 0.21382），23/32 方向正确、仅 1/32 达到 ≥25%。
+- **Q3 边界**：latent 左边界断裂 MSE 0.0764→0.0817（+7.0%，31/32 在 2× 规则内），右边界 0.0698→0.0950（+36.0%，29/32），方向与预期一致（右边界更差）。新发现：Wan VAE 时间因果解码会让编辑点**之后**的像素产生小幅、随距离衰减的泄漏（均值 0.0045、p99 0.092、max≈1.0；紧邻帧 0.047 → 片尾 ≈0.0005），编辑点之前为 0；同 prompt replay 解码后仍逐位精确。
+- **Q4 成本**：整条重生成 3.507 s vs 单 chunk 编辑生成 0.578 s（`R_time=0.165`），端到端 0.401，峰值显存 18.3 GB。代价是首轮生成时 cache 落盘约 2.2 s/个，与 chunk 生成本身同量级。
+- **判定 `GO_WEAK_PROMPT_REBINDING`**：状态复用问题解决，下一步做轻量 prompt-rebinding post-training，而不是先做 propagation。
+
+本轮工程验证：CPU 测试 **94 项通过**（新增 23 项 Edit Cache 回归测试）。发现并修复了一个真实 bug——镜像循环曾把干净预测而非带噪 latent 送进下一次 forward，导致与上游 `max_abs_diff=11.06`；已定位、修复并加入逐步等价性检查脚本。
+
 ## 第三轮：prefix-aware 检索 gate 与 matched control（R0 冻结为基线）
 
 本轮**不训练任何视频模型、不改 paired objective、不扩训练预算**；按审阅把 R0 冻结为基线，只补诊断、控制变量与取证，并跑通 R1 第一阶段的 gate。

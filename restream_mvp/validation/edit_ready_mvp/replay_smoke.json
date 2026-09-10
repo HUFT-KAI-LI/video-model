@@ -1,0 +1,375 @@
+{
+  "experiment": "A_same_prompt_replay",
+  "provenance": {
+    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "0e735a0286bf88a072d350a82e1e01b332e1fd4a55b430c4e89847c09d92aa2a",
+    "config_hash": "283544d948e8eb4f183178411b19935633cbb454efd5e82ddb50c6dc83546a84",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789046451.032529,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "shard": 0,
+    "shards": 1,
+    "all_chunks": false,
+    "noise_source": "global"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        1,
+        4
+      ],
+      "variants": [
+        "same_prompt_replay",
+        "local_edit",
+        "crossattn_control"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "gate": {
+    "passed": true,
+    "relative_to_repeat": 3.0,
+    "epsilon": 1e-12,
+    "cosine_floor": 0.999,
+    "cases": [
+      {
+        "sample_id": "replay_dress_red_to_blue_seed42_chunk1",
+        "prompt_id": "dress_red_to_blue",
+        "target_chunk": 1,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_dress_red_to_blue_seed42_chunk4",
+        "prompt_id": "dress_red_to_blue",
+        "target_chunk": 4,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      }
+    ],
+    "exact_cases": 2,
+    "total_cases": 2,
+    "latent_mse_mean": 0.0,
+    "repeat_mse_mean": 0.0,
+    "rng_exact_cases": 2
+  },
+  "cases": [
+    {
+      "target_chunk": 1,
+      "chunk_latent_sha256": {
+        "original": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
+        "replay_one": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
+        "replay_two": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/smoke/replay_dress_red_to_blue_seed42__chunk001.pt",
+        "sha256": "d3d5ba0a3dd6ea8f9fa3cbde11b26a4248d0507ceb47bc3f79f7d156227d013f",
+        "bytes": 1055165853,
+        "chunk_index": 1,
+        "sample_id": "replay_dress_red_to_blue_seed42",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_dress_red_to_blue_seed42",
+          "chunk_index": 1,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "283544d948e8eb4f183178411b19935633cbb454efd5e82ddb50c6dc83546a84",
+          "seed": 42,
+          "current_start_frame": 3,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789046435.7179017
+      },
+      "timings": {
+        "replay_restore_seconds": 0.012142125517129898,
+        "replay_denoise_seconds": 0.49249251186847687
+      },
+      "peak_vram_bytes": 17762504192,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_dress_red_to_blue_seed42_chunk1",
+      "prompt_id": "dress_red_to_blue",
+      "prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+      "seed": 42,
+      "num_chunks": 7,
+      "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
+      "generate_seconds_including_cache_write": 8.238662004470825
+    },
+    {
+      "target_chunk": 4,
+      "chunk_latent_sha256": {
+        "original": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
+        "replay_one": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
+        "replay_two": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/smoke/replay_dress_red_to_blue_seed42__chunk004.pt",
+        "sha256": "b7580150fb14c4f94c35dbcc50986787bd8d23f30d5ee8caa42eae8c3fac9c1a",
+        "bytes": 1055663517,
+        "chunk_index": 4,
+        "sample_id": "replay_dress_red_to_blue_seed42",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_dress_red_to_blue_seed42",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "283544d948e8eb4f183178411b19935633cbb454efd5e82ddb50c6dc83546a84",
+          "seed": 42,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789046439.4127986
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011974092572927475,
+        "replay_denoise_seconds": 0.49294837191700935
+      },
+      "peak_vram_bytes": 17772865024,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_dress_red_to_blue_seed42_chunk4",
+      "prompt_id": "dress_red_to_blue",
+      "prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+      "seed": 42,
+      "num_chunks": 7,
+      "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
+      "generate_seconds_including_cache_write": 8.238662004470825
+    }
+  ],
+  "non_finite_fields": [
+    "cases[0].pixel.psnr",
+    "cases[1].pixel.psnr"
+  ]
+}

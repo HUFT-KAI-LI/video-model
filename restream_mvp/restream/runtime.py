@@ -63,7 +63,9 @@ def load_pipeline(config, device):
     peft.set_peft_model_state_dict(pipeline.generator.model, weights)
     pipeline.eval().requires_grad_(False).to(device=device, dtype=torch.bfloat16)
     # Cache token offsets must reflect actual spatial resolution (upstream: 1560).
-    h, w = config["data"]["height"] // 8, config["data"]["width"] // 8
+    # `data` is the historical key; newer experiment configs use `generation`.
+    geometry = config.get("data") or config.get("generation")
+    h, w = geometry["height"] // 8, geometry["width"] // 8
     pipeline.frame_seq_length = (h // 2) * (w // 2)
     pipeline._set_all_modules_max_attention_size(pipeline.local_attn_size)
     return pipeline

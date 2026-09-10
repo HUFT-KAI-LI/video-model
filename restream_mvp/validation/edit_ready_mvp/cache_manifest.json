@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "cache_bytes_per_chunk": 1049887200,
+  "entries": [
+    {
+      "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055165467,
+      "sha256": "8cb79df9f44b192848744c3edaf13d0b5d7d6f6ec2c211634690549d14d4f3a8",
+      "path": "outputs/edit_ready_mvp/cache/smoke/edit_dress_red_to_blue_seed42__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055663131,
+      "sha256": "227abcfb38ff270db8c437c6e9478ddebc2674d2677bc15e1c724711960b96e1",
+      "path": "outputs/edit_ready_mvp/cache/smoke/edit_dress_red_to_blue_seed42__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed43_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055165210,
+      "sha256": "056e71408823fa1c1a323fea7bd7249bdb2e7b959b8bfe25d94c9a28f60a848e",
+      "path": "outputs/edit_ready_mvp/cache/smoke/edit_car_red_to_black_seed43__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed43_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055662874,
+      "sha256": "42a7c619aaeafcb607ba237acbbcc24c7b59a43353da688b4320eb16c581636d",
+      "path": "outputs/edit_ready_mvp/cache/smoke/edit_car_red_to_black_seed43__chunk004.pt"
+    }
+  ]
+}

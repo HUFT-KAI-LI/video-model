@@ -13,3 +13,8 @@ wheelhouse/
 __pycache__/
 *.pyc
 code/longlive-v1.0.tar.gz
+# Edit-Ready MVP review videos stay on the work machine; their paths and digests
+# are recorded in validation/edit_ready_mvp/videos_manifest.json, and one
+# representative comparison is committed under validation/edit_ready_mvp/examples/.
+validation/edit_ready_mvp/videos/
+validation/edit_ready_mvp/videos_smoke/

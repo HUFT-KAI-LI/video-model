@@ -1,0 +1,562 @@
+{
+  "experiment": "A_same_prompt_replay",
+  "provenance": {
+    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "config_path": "configs/edit_ready_mvp.yaml",
+    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
+    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789047044.7393117,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "shard": 2,
+    "shards": 4,
+    "all_chunks": false,
+    "noise_source": "global"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        1,
+        4
+      ],
+      "variants": [
+        "same_prompt_replay",
+        "local_edit",
+        "crossattn_control"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0,
+        "min_full_regeneration_ratio": 0.25
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "gate": {
+    "passed": true,
+    "relative_to_repeat": 3.0,
+    "epsilon": 1e-12,
+    "cosine_floor": 0.999,
+    "cases": [
+      {
+        "sample_id": "replay_lighting_darker_seed44_chunk1",
+        "prompt_id": "lighting_darker",
+        "target_chunk": 1,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_lighting_darker_seed44_chunk4",
+        "prompt_id": "lighting_darker",
+        "target_chunk": 4,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 0.9999999403953552,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_slight_zoom_in_seed48_chunk1",
+        "prompt_id": "slight_zoom_in",
+        "target_chunk": 1,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_slight_zoom_in_seed48_chunk4",
+        "prompt_id": "slight_zoom_in",
+        "target_chunk": 4,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0,
+        "max_abs": 0.0,
+        "rng_exact": true
+      }
+    ],
+    "exact_cases": 4,
+    "total_cases": 4,
+    "latent_mse_mean": 0.0,
+    "repeat_mse_mean": 0.0,
+    "rng_exact_cases": 4
+  },
+  "cases": [
+    {
+      "target_chunk": 1,
+      "chunk_latent_sha256": {
+        "original": "1aa750d42c2d7d4aa1a56f0844d4d63e846e59b6c635f5a5383c7c1a838f29b0",
+        "replay_one": "1aa750d42c2d7d4aa1a56f0844d4d63e846e59b6c635f5a5383c7c1a838f29b0",
+        "replay_two": "1aa750d42c2d7d4aa1a56f0844d4d63e846e59b6c635f5a5383c7c1a838f29b0"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_lighting_darker_seed44__chunk001.pt",
+        "sha256": "952461cc650bb21ef7bdde2cb1fc47f3508a76d0ba0b903599d43a0734345c5c",
+        "bytes": 1055165403,
+        "chunk_index": 1,
+        "sample_id": "replay_lighting_darker_seed44",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_lighting_darker_seed44",
+          "chunk_index": 1,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 44,
+          "current_start_frame": 3,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047013.9350395
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011875975877046585,
+        "replay_denoise_seconds": 0.49123864248394966
+      },
+      "peak_vram_bytes": 17762504192,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_lighting_darker_seed44_chunk1",
+      "prompt_id": "lighting_darker",
+      "prompt": "A cat walks across a bright living room floor in daylight.",
+      "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+      "seed": 44,
+      "num_chunks": 7,
+      "noise_sha256": "7a28f32ef49ce9b92c313c74dedcc79e753eab18c41391ce12be7d7d3bfc7ed7",
+      "generate_seconds_including_cache_write": 8.15678821131587
+    },
+    {
+      "target_chunk": 4,
+      "chunk_latent_sha256": {
+        "original": "cf84400165a3505b30448d6214eb1ad63d28d0b2b441a535b36db5fc2ecb094e",
+        "replay_one": "cf84400165a3505b30448d6214eb1ad63d28d0b2b441a535b36db5fc2ecb094e",
+        "replay_two": "cf84400165a3505b30448d6214eb1ad63d28d0b2b441a535b36db5fc2ecb094e"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_lighting_darker_seed44__chunk004.pt",
+        "sha256": "48d82cbf82791eaf53ae9d07c48a8ff3674081b48203e3461614cfe3f8f207f5",
+        "bytes": 1055663067,
+        "chunk_index": 4,
+        "sample_id": "replay_lighting_darker_seed44",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_lighting_darker_seed44",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 44,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047017.6066527
+      },
+      "timings": {
+        "replay_restore_seconds": 0.012051664292812347,
+        "replay_denoise_seconds": 0.49485160037875175
+      },
+      "peak_vram_bytes": 17772865024,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_lighting_darker_seed44_chunk4",
+      "prompt_id": "lighting_darker",
+      "prompt": "A cat walks across a bright living room floor in daylight.",
+      "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+      "seed": 44,
+      "num_chunks": 7,
+      "noise_sha256": "7a28f32ef49ce9b92c313c74dedcc79e753eab18c41391ce12be7d7d3bfc7ed7",
+      "generate_seconds_including_cache_write": 8.15678821131587
+    },
+    {
+      "target_chunk": 1,
+      "chunk_latent_sha256": {
+        "original": "a24494aa473bf2706daac9b4ff2855c49021c1893effddca19aa747bc30b86c8",
+        "replay_one": "a24494aa473bf2706daac9b4ff2855c49021c1893effddca19aa747bc30b86c8",
+        "replay_two": "a24494aa473bf2706daac9b4ff2855c49021c1893effddca19aa747bc30b86c8"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_slight_zoom_in_seed48__chunk001.pt",
+        "sha256": "d52d322da97b19642a7a03765aa80d29948ab28402c3ab80f202d173d8ec0470",
+        "bytes": 1055165210,
+        "chunk_index": 1,
+        "sample_id": "replay_slight_zoom_in_seed48",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_slight_zoom_in_seed48",
+          "chunk_index": 1,
+          "num_chunks": 7,
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 48,
+          "current_start_frame": 3,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047029.721507
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011917851865291595,
+        "replay_denoise_seconds": 0.4898385517299175
+      },
+      "peak_vram_bytes": 18721394176,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_slight_zoom_in_seed48_chunk1",
+      "prompt_id": "slight_zoom_in",
+      "prompt": "A slow shot of a vase of flowers on a table.",
+      "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "seed": 48,
+      "num_chunks": 7,
+      "noise_sha256": "2fa022b55b22600572fd3eb2c0e2572c2323ece946f12562c7cfbb06d311487a",
+      "generate_seconds_including_cache_write": 7.855995420366526
+    },
+    {
+      "target_chunk": 4,
+      "chunk_latent_sha256": {
+        "original": "5879363bb5bd39ac12087dfb5ea0809ec5d9f0aaa20ba980b74267e34f91a2de",
+        "replay_one": "5879363bb5bd39ac12087dfb5ea0809ec5d9f0aaa20ba980b74267e34f91a2de",
+        "replay_two": "5879363bb5bd39ac12087dfb5ea0809ec5d9f0aaa20ba980b74267e34f91a2de"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_slight_zoom_in_seed48__chunk004.pt",
+        "sha256": "d19e4d8442da0ac56d3ef1a2202f1d5567eb691eb1c6b1741560b4359d4ed16c",
+        "bytes": 1055662874,
+        "chunk_index": 4,
+        "sample_id": "replay_slight_zoom_in_seed48",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_slight_zoom_in_seed48",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 48,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047033.354861
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011972539126873016,
+        "replay_denoise_seconds": 0.49635663256049156
+      },
+      "peak_vram_bytes": 18721394176,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_slight_zoom_in_seed48_chunk4",
+      "prompt_id": "slight_zoom_in",
+      "prompt": "A slow shot of a vase of flowers on a table.",
+      "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "seed": 48,
+      "num_chunks": 7,
+      "noise_sha256": "2fa022b55b22600572fd3eb2c0e2572c2323ece946f12562c7cfbb06d311487a",
+      "generate_seconds_including_cache_write": 7.855995420366526
+    }
+  ],
+  "non_finite_fields": [
+    "cases[0].pixel.psnr",
+    "cases[1].pixel.psnr",
+    "cases[2].pixel.psnr",
+    "cases[3].pixel.psnr"
+  ]
+}

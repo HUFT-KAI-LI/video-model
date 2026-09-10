@@ -1,0 +1,1931 @@
+{
+  "provenance": {
+    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "0e735a0286bf88a072d350a82e1e01b332e1fd4a55b430c4e89847c09d92aa2a",
+    "config_hash": "2665dcc6a8545ec722a38d7f7ed3b60cc741d62238dcd48b4016e406aba00034",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789046047.7921076,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "latent_frames": 6
+  },
+  "upstream_equivalence": {
+    "exact": true,
+    "max_abs_diff": 0.0,
+    "mse": 0.0,
+    "cosine": 0.9999999403953552
+  },
+  "checkpoint_bytes": 1049887200,
+  "cache_provenance": {
+    "tensors": {
+      "torch_rng_state": {
+        "shape": [
+          5056
+        ],
+        "dtype": "torch.uint8",
+        "device": "cpu",
+        "numel": 5056
+      },
+      "cuda_rng_state[0]": {
+        "shape": [
+          16
+        ],
+        "dtype": "torch.uint8",
+        "device": "cpu",
+        "numel": 16
+      },
+      "latent_history": {
+        "shape": [
+          1,
+          3,
+          16,
+          32,
+          54
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 82944
+      },
+      "kv_cache[0].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[0].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[0].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[0].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[1].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[1].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[1].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[1].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[2].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[2].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[2].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[2].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[3].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[3].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[3].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[3].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[4].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[4].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[4].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[4].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[5].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[5].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[5].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[5].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[6].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[6].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[6].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[6].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[7].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[7].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[7].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[7].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[8].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[8].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[8].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[8].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[9].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[9].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[9].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[9].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[10].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[10].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[10].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[10].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[11].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[11].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[11].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[11].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[12].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[12].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[12].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[12].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[13].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[13].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[13].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[13].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[14].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[14].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[14].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[14].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[15].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[15].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[15].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[15].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[16].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[16].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[16].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[16].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[17].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[17].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[17].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[17].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[18].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[18].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[18].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[18].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[19].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[19].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[19].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[19].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[20].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[20].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[20].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[20].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[21].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[21].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[21].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[21].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[22].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[22].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[22].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[22].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[23].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[23].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[23].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[23].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[24].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[24].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[24].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[24].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[25].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[25].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[25].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[25].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[26].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[26].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[26].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[26].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[27].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[27].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[27].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[27].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[28].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[28].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[28].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[28].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[29].k": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[29].v": {
+        "shape": [
+          1,
+          5184,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 7962624
+      },
+      "kv_cache[29].global_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "kv_cache[29].local_end_index": {
+        "shape": [
+          1
+        ],
+        "dtype": "torch.int64",
+        "device": "cpu",
+        "numel": 1
+      },
+      "crossattn_cache[0].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[0].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[1].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[1].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[2].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[2].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[3].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[3].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[4].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[4].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[5].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[5].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[6].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[6].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[7].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[7].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[8].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[8].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[9].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[9].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[10].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[10].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[11].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[11].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[12].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[12].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[13].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[13].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[14].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[14].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[15].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[15].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[16].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[16].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[17].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[17].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[18].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[18].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[19].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[19].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[20].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[20].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[21].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[21].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[22].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[22].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[23].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[23].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[24].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[24].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[25].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[25].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[26].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[26].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[27].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[27].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[28].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[28].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[29].k": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "crossattn_cache[29].v": {
+        "shape": [
+          1,
+          512,
+          12,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 786432
+      },
+      "conditional_dict.prompt_embeds": {
+        "shape": [
+          1,
+          512,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 2097152
+      },
+      "previous_chunk_latent": {
+        "shape": [
+          1,
+          3,
+          16,
+          32,
+          54
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 82944
+      },
+      "next_noise": {
+        "shape": [
+          1,
+          3,
+          16,
+          32,
+          54
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cpu",
+        "numel": 82944
+      }
+    },
+    "cache_bytes": 1049887200,
+    "crossattn_initialised_blocks": 30,
+    "kv_blocks": 30
+  },
+  "replay_original_vs_replay": {
+    "mse": 0.0,
+    "rmse": 0.0,
+    "max_abs": 0.0,
+    "cosine": 1.0000001192092896,
+    "relative_l2": 0.0,
+    "exact": true
+  },
+  "replay_repeat_baseline": {
+    "mse": 0.0,
+    "rmse": 0.0,
+    "max_abs": 0.0,
+    "cosine": 1.0000001192092896,
+    "relative_l2": 0.0,
+    "exact": true
+  },
+  "rng_draws_exact": true,
+  "rng_steps": 3,
+  "passed": true
+}

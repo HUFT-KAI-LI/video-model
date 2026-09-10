@@ -1,0 +1,127 @@
+{
+  "provenance": {
+    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "3edc0237813f2c6f62523faafc87fd38122c4bbf7821139176c6c5ebfb2ae1d2",
+    "config_hash": "4d0a9eb136fd60eb07b1867113715250ec9ecb60fa369113b028fb234e76f538",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789048081.4317594,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "replay_inputs": [
+      "validation/edit_ready_mvp/replay_smoke.json"
+    ],
+    "edit_inputs": [
+      "validation/edit_ready_mvp/local_edit_smoke.json"
+    ]
+  },
+  "cases": [
+    {
+      "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "full_generation_seconds": 3.5010194703936577,
+      "base_generation_seconds_including_cache_write": 8.128457605838776,
+      "partial_restore_seconds": 0.07098633423447609,
+      "partial_denoise_seconds": 0.49950072541832924,
+      "partial_generation_seconds": 0.5704870596528053,
+      "cache_load_seconds_cold": 0.255560927093029,
+      "decode_seconds": 0.923162441700697,
+      "partial_end_to_end_seconds": 1.7492104284465313,
+      "full_end_to_end_seconds": 4.424060557037592,
+      "full_generated_chunks": 7,
+      "partial_regenerated_chunks": 1,
+      "peak_vram_bytes": 17956369408,
+      "cache_bytes_per_chunk": 1049887200,
+      "cache_disk_bytes": 1055165467,
+      "R_time_generation": 0.16294883946722502,
+      "R_time_end_to_end": 0.3953857335121618
+    },
+    {
+      "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
+      "target_chunk": 4,
+      "num_chunks": 7,
+      "full_generation_seconds": 3.5010194703936577,
+      "base_generation_seconds_including_cache_write": 8.128457605838776,
+      "partial_restore_seconds": 0.0712750107049942,
+      "partial_denoise_seconds": 0.5143566988408566,
+      "partial_generation_seconds": 0.5856317095458508,
+      "cache_load_seconds_cold": 0.31361010670661926,
+      "decode_seconds": 0.9227248542010784,
+      "partial_end_to_end_seconds": 1.8219666704535484,
+      "full_end_to_end_seconds": 4.424060557037592,
+      "full_generated_chunks": 7,
+      "partial_regenerated_chunks": 1,
+      "peak_vram_bytes": 18290695168,
+      "cache_bytes_per_chunk": 1049887200,
+      "cache_disk_bytes": 1055663131,
+      "R_time_generation": 0.16727462229166118,
+      "R_time_end_to_end": 0.4118313135554276
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed43_chunk1",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "full_generation_seconds": 3.5327532701194286,
+      "base_generation_seconds_including_cache_write": 7.929147399961948,
+      "partial_restore_seconds": 0.0706959180533886,
+      "partial_denoise_seconds": 0.5038110017776489,
+      "partial_generation_seconds": 0.5745069198310375,
+      "cache_load_seconds_cold": 0.2448127605021,
+      "decode_seconds": 0.9240774512290955,
+      "partial_end_to_end_seconds": 1.743397131562233,
+      "full_end_to_end_seconds": 4.455946084111929,
+      "full_generated_chunks": 7,
+      "partial_regenerated_chunks": 1,
+      "peak_vram_bytes": 17956369408,
+      "cache_bytes_per_chunk": 1049887200,
+      "cache_disk_bytes": 1055165210,
+      "R_time_generation": 0.16262299569299266,
+      "R_time_end_to_end": 0.3912518461070411
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed43_chunk4",
+      "target_chunk": 4,
+      "num_chunks": 7,
+      "full_generation_seconds": 3.5327532701194286,
+      "base_generation_seconds_including_cache_write": 7.929147399961948,
+      "partial_restore_seconds": 0.07126400247216225,
+      "partial_denoise_seconds": 0.5133463218808174,
+      "partial_generation_seconds": 0.5846103243529797,
+      "cache_load_seconds_cold": 0.306366678327322,
+      "decode_seconds": 0.9228597171604633,
+      "partial_end_to_end_seconds": 1.813836719840765,
+      "full_end_to_end_seconds": 4.455946084111929,
+      "full_generated_chunks": 7,
+      "partial_regenerated_chunks": 1,
+      "peak_vram_bytes": 18296560640,
+      "cache_bytes_per_chunk": 1049887200,
+      "cache_disk_bytes": 1055662874,
+      "R_time_generation": 0.1654829193133027,
+      "R_time_end_to_end": 0.4070598444420503
+    }
+  ]
+}

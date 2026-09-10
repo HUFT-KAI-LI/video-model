@@ -1,0 +1,111 @@
+## Edit-Ready Video Generation -- feasibility MVP (Generation-Time Edit Cache)
+## See EDIT_READY_VIDEO_FEASIBILITY_PLAN.md and EDIT_READY_MVP.md.
+##
+## Scope: inference-only state reuse. No training, no adapter, no spatial mask,
+## no bidirectional propagation, no multi-round editing. The MCBV here is that
+## nothing in this file introduces a learnable component.
+
+seed: 42
+
+generation:
+  # 21 latent frames -> 7 AR chunks of 3 frames (num_frame_per_block from the
+  # upstream inference config). 4 * (21 - 1) + 1 = 81 pixel frames at 16 fps.
+  num_latent_frames: 21
+  height: 256
+  width: 432
+  fps: 16
+  # "global" reproduces upstream `torch.randn_like` exactly; the checkpoint also
+  # records the concrete draws and the RNG states so replay is verifiable.
+  noise_source: global
+
+model:
+  upstream_config: code/LongLive/configs/longlive_inference.yaml
+  wan: models/Wan2.1-T2V-1.3B
+  longlive: models/LongLive-1.3B
+  dino: models/dinov2-small
+
+cache:
+  # Written by the first (base) generation pass; reused by every replay/edit.
+  root: outputs/edit_ready_mvp/cache
+  # Save every chunk boundary (heavy cache first, per plan section 4); set to
+  # true to store only `edit.targets`.
+  keep_targets_only: false
+
+edit:
+  # 0-based AR chunk indices. 5-8 chunks per video, 2 target chunks per video.
+  targets: [1, 4]
+  # Variants produced per (prompt, target) pair.
+  variants:
+    - same_prompt_replay          # B2: cache replay with the original prompt
+    - local_edit                  # B3: cache replay with the new prompt
+    - crossattn_control           # diagnostic: new prompt but old text K/V kept
+  prompts:
+    - id: dress_red_to_blue
+      base: "A woman in a red dress walks slowly through a bright living room."
+      edit: "A woman in a blue dress walks slowly through a bright living room."
+      probe: {kind: color_fraction, color: blue, reference_color: red}
+    - id: car_red_to_black
+      base: "A red car drives down a sunny city street."
+      edit: "A black car drives down a sunny city street."
+      probe: {kind: color_fraction, color: black, reference_color: red}
+    - id: lighting_darker
+      base: "A cat walks across a bright living room floor in daylight."
+      edit: "A cat walks across a dim living room floor at night."
+      probe: {kind: luma, direction: decrease}
+    - id: lighting_warm_to_cool
+      base: "A person sits at a wooden table in warm sunlight."
+      edit: "A person sits at a wooden table in cool blue light."
+      probe: {kind: color_fraction, color: blue, reference_color: yellow}
+    - id: park_light_rain
+      base: "A dog runs through a green park on a sunny day."
+      edit: "A dog runs through a green park in light rain."
+      probe: {kind: luma, direction: decrease}
+    - id: brief_smile
+      base: "A man looks at the camera with a neutral expression."
+      edit: "A man looks at the camera and smiles briefly."
+      probe: {kind: change}
+    - id: slight_zoom_in
+      base: "A slow shot of a vase of flowers on a table."
+      edit: "A slow close-up shot of a vase of flowers on a table."
+      probe: {kind: change}
+    - id: jacket_green_to_yellow
+      base: "A cyclist in a green jacket rides along a coastal road."
+      edit: "A cyclist in a yellow jacket rides along a coastal road."
+      probe: {kind: color_fraction, color: yellow, reference_color: green}
+
+gates:
+  replay:
+    # Gate A: same-prompt replay must be exact, or at most a small multiple of
+    # the same-cache repeat-noise baseline.
+    relative_to_repeat: 3.0
+    epsilon: 1.0e-12
+    abs_latent_mse: 1.0e-4
+    cosine_floor: 0.999
+  edit:
+    # Gate B (plan-literal): the local edit must move the edited chunk in the
+    # prompt's direction more than the original prompt does.
+    min_s_proxy: 0.0
+    # Stronger, reported alongside: a case only counts as a "strong" edit when it
+    # recovers at least this fraction of the full-regeneration response.  Without
+    # this, a barely-nonzero change would be reported as a pass.
+    min_full_regeneration_ratio: 0.25
+    # A few strong cases do not upgrade the verdict to STRONG_GO; they must cover
+    # this fraction of the directional ones.
+    min_strong_fraction: 0.25
+  preservation:
+    # Gate C: outside chunks must be bit-identical before encoding.
+    require_exact: true
+  boundary:
+    # Edited boundary MSE may not exceed base boundary MSE by more than this
+    # relative increase (plus a small absolute slack for near-zero baselines).
+    max_relative_increase: 1.0
+    absolute_slack: 1.0e-4
+    # A boundary side counts as acceptable when this fraction of cases passes.
+    acceptable_fraction: 0.9
+  cost:
+    # Gate D: partial edit must beat half of full regeneration for N >= 5.
+    max_time_ratio: 0.5
+    min_chunks: 5
+
+outputs:
+  root: validation/edit_ready_mvp

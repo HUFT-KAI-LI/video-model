@@ -1,0 +1,1182 @@
+{
+  "experiment": "B_local_edit",
+  "provenance": {
+    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "config_path": "configs/edit_ready_mvp.yaml",
+    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
+    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789047509.2748077,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "shard": 3,
+    "shards": 4,
+    "video_root": "validation/edit_ready_mvp/videos"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        1,
+        4
+      ],
+      "variants": [
+        "same_prompt_replay",
+        "local_edit",
+        "crossattn_control"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0,
+        "min_full_regeneration_ratio": 0.25
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "gates": {
+    "gate_b_editability": {
+      "passed": true,
+      "successful_cases": 1,
+      "strong_cases": 0,
+      "min_full_regeneration_ratio": 0.25,
+      "cases": [
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
+          "prompt_id": "lighting_warm_to_cool",
+          "target_chunk": 1,
+          "s_proxy_local_edit": 2.4866174768518517e-05,
+          "s_proxy_same_prompt": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.4689564646026234,
+          "ratio_to_full_regeneration": 5.3024484457398845e-05,
+          "passed": true,
+          "strong": false
+        },
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
+          "prompt_id": "lighting_warm_to_cool",
+          "target_chunk": 4,
+          "s_proxy_local_edit": -1.280984760802468e-05,
+          "s_proxy_same_prompt": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.4574675383391204,
+          "ratio_to_full_regeneration": -2.8001653744727015e-05,
+          "passed": false,
+          "strong": false
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+          "prompt_id": "jacket_green_to_yellow",
+          "target_chunk": 1,
+          "s_proxy_local_edit": -0.0003873095100308671,
+          "s_proxy_same_prompt": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.15364432629243827,
+          "ratio_to_full_regeneration": -0.002520818824729546,
+          "passed": false,
+          "strong": false
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+          "prompt_id": "jacket_green_to_yellow",
+          "target_chunk": 4,
+          "s_proxy_local_edit": -0.00039032359182100684,
+          "s_proxy_same_prompt": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.13333845727237653,
+          "ratio_to_full_regeneration": -0.002927314443301793,
+          "passed": false,
+          "strong": false
+        }
+      ]
+    },
+    "gate_c_preservation": {
+      "passed": true,
+      "outside_exact_fraction": 1.0,
+      "cases": [
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+          "outside_exact": true,
+          "chunks_checked": 6
+        }
+      ]
+    },
+    "gate_d_cost": {
+      "passed": true,
+      "cases": [
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
+          "num_chunks": 7,
+          "R_time_generation": 0.16530450055894516,
+          "R_time_end_to_end": 0.41046312717899613,
+          "partial_generation_seconds": 0.5766972862184048,
+          "full_generation_seconds": 3.488696824759245,
+          "counted": true,
+          "passed": true
+        },
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
+          "num_chunks": 7,
+          "R_time_generation": 0.1655064247818927,
+          "R_time_end_to_end": 0.40172618589795916,
+          "partial_generation_seconds": 0.5774017386138439,
+          "full_generation_seconds": 3.488696824759245,
+          "counted": true,
+          "passed": true
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+          "num_chunks": 7,
+          "R_time_generation": 0.16525876228658729,
+          "R_time_end_to_end": 0.4090616316276042,
+          "partial_generation_seconds": 0.5659929402172565,
+          "full_generation_seconds": 3.424889139831066,
+          "counted": true,
+          "passed": true
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+          "num_chunks": 7,
+          "R_time_generation": 0.1694822165515583,
+          "R_time_end_to_end": 0.4075622566503445,
+          "partial_generation_seconds": 0.5804578028619289,
+          "full_generation_seconds": 3.424889139831066,
+          "counted": true,
+          "passed": true
+        }
+      ],
+      "max_time_ratio": 0.5,
+      "counted_cases": 4
+    }
+  },
+  "cases": [
+    {
+      "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
+      "prompt_id": "lighting_warm_to_cool",
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "prompt_hash_old": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+      "prompt_hash_new": "45f88bb5f423615635db9179fa7cfcb609357ee62fd62ba16f96725a1d464b65",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "seed": 45,
+      "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
+        "same_prompt_replay": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
+        "local_edit": "99080f8f694265fc4456cd7dc767826c58aa3d9e70425d8f3ead3116a776cfe5",
+        "crossattn_control": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
+        "full_regeneration": "e675dc2a978951c77c80bda16e8ae057e745db6f4f197bc703912b28c62c8dfb"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "edit_vs_replay": {
+        "mse": 0.00015839800471439958,
+        "rmse": 0.012585626915097237,
+        "max_abs": 0.1640625,
+        "cosine": 0.9998884797096252,
+        "relative_l2": 0.014998882077634335,
+        "exact": false
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "local_edit": {
+          "kind": "color_fraction",
+          "S_proxy": 2.4866174768518517e-05,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 2.2605613425925925e-06,
+            "delta_target_fraction": 7.535204475308642e-07,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 0.0002931194540895062,
+            "delta_reference_fraction": -2.4112654320987653e-05,
+            "histogram_distance": 0.0013752606088418447,
+            "appearance_change": 0.0021939859725534916
+          }
+        },
+        "same_prompt_replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 1.5070408950617283e-06,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 0.0003172321084104938,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 1.5070408950617283e-06,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 0.0003172321084104938,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4689564646026234,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 0.4693196614583333,
+            "delta_target_fraction": 0.46931815441743824,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 0.0006789219232253087,
+            "delta_reference_fraction": 0.00036168981481481485,
+            "histogram_distance": 0.6640850665836828,
+            "appearance_change": 0.2938157618045807
+          }
+        }
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.076171875,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": 0.03343983739614487,
+            "right_mse": 0.033625323325395584
+          },
+          "edited": {
+            "left_mse": 0.03404202312231064,
+            "right_mse": 0.0345023013651371
+          },
+          "delta": {
+            "delta_left_mse": 0.0006021857261657715,
+            "delta_right_mse": 0.0008769780397415161
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": 9.322771074948832e-05,
+            "right_mse": 0.00023463946126867086
+          },
+          "edited": {
+            "left_mse": 9.943410259438679e-05,
+            "right_mse": 0.00024344510165974498
+          },
+          "delta": {
+            "delta_left_mse": 6.206391844898462e-06,
+            "delta_right_mse": 8.805640391074121e-06
+          }
+        },
+        "dino": {
+          "left_base": {
+            "mean_cosine": 0.9983798265457153,
+            "mean_cosine_distance": 0.001620173454284668
+          },
+          "left_edited": {
+            "mean_cosine": 0.9982112646102905,
+            "mean_cosine_distance": 0.0017887353897094727
+          },
+          "right_base": {
+            "mean_cosine": 0.9947037100791931,
+            "mean_cosine_distance": 0.005296289920806885
+          },
+          "right_edited": {
+            "mean_cosine": 0.9941950440406799,
+            "mean_cosine_distance": 0.005804955959320068
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_warm_to_cool_seed45__chunk001.pt",
+        "sha256": "f39faf4051ba1c8f0f63b66fb92493bb7144c774406cee09743dbdab8abe771b",
+        "bytes": 1055166175,
+        "chunk_index": 1,
+        "sample_id": "edit_lighting_warm_to_cool_seed45",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed45",
+          "chunk_index": 1,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 45,
+          "current_start_frame": 3,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047434.6698003
+      },
+      "cost": {
+        "full_generation_seconds": 3.488696824759245,
+        "base_generation_seconds_including_cache_write": 8.447144914418459,
+        "partial_restore_seconds": 0.07163574174046516,
+        "partial_denoise_seconds": 0.5050615444779396,
+        "partial_generation_seconds": 0.5766972862184048,
+        "cache_load_seconds_cold": 0.3083867318928242,
+        "decode_seconds": 0.9275998957455158,
+        "partial_end_to_end_seconds": 1.8126839138567448,
+        "full_end_to_end_seconds": 4.416191842406988,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 17956369408,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055166175,
+        "R_time_generation": 0.16530450055894516,
+        "R_time_end_to_end": 0.41046312717899613
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/full_regeneration.mp4",
+        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/same_prompt_replay.mp4",
+        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/local_edit.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
+      "prompt_id": "lighting_warm_to_cool",
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "prompt_hash_old": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+      "prompt_hash_new": "45f88bb5f423615635db9179fa7cfcb609357ee62fd62ba16f96725a1d464b65",
+      "target_chunk": 4,
+      "num_chunks": 7,
+      "seed": 45,
+      "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
+        "same_prompt_replay": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
+        "local_edit": "ecb79e3ae78cfe9d52ae2ecac9cd6d32b394a38a48ca32caee5debe999ca4217",
+        "crossattn_control": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
+        "full_regeneration": "a550bf14fc8f21cf369b3c149c5c78c6f3af870723e27313b124a688f0f785b1"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999999403953552,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999999403953552,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "edit_vs_replay": {
+        "mse": 0.0004226157034281641,
+        "rmse": 0.020557619631290436,
+        "max_abs": 0.34375,
+        "cosine": 0.9996963143348694,
+        "relative_l2": 0.024651603773236275,
+        "exact": false
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "local_edit": {
+          "kind": "color_fraction",
+          "S_proxy": -1.280984760802468e-05,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 0.00010549286265432098,
+            "delta_reference_fraction": 1.280984760802468e-05,
+            "histogram_distance": 0.0009157449585112272,
+            "appearance_change": 0.002829337725415826
+          }
+        },
+        "same_prompt_replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 9.26830150462963e-05,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 9.26830150462963e-05,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4574675383391204,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.4584644458912037,
+            "delta_target_fraction": 0.4584644458912037,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 0.0010895905671296296,
+            "delta_reference_fraction": 0.0009969075520833333,
+            "histogram_distance": 0.6781779330798099,
+            "appearance_change": 0.29349663853645325
+          }
+        }
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.1456298828125,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": 0.018680064007639885,
+            "right_mse": 0.015291726216673851
+          },
+          "edited": {
+            "left_mse": 0.01860754005610943,
+            "right_mse": 0.020154673606157303
+          },
+          "delta": {
+            "delta_left_mse": -7.252395153045654e-05,
+            "delta_right_mse": 0.004862947389483452
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": 0.00010646621376508847,
+            "right_mse": 0.00015166190860327333
+          },
+          "edited": {
+            "left_mse": 0.00010874413419514894,
+            "right_mse": 0.00031118025071918964
+          },
+          "delta": {
+            "delta_left_mse": 2.277920430060476e-06,
+            "delta_right_mse": 0.0001595183421159163
+          }
+        },
+        "dino": {
+          "left_base": {
+            "mean_cosine": 0.996354341506958,
+            "mean_cosine_distance": 0.003645658493041992
+          },
+          "left_edited": {
+            "mean_cosine": 0.9963515400886536,
+            "mean_cosine_distance": 0.0036484599113464355
+          },
+          "right_base": {
+            "mean_cosine": 0.9938517212867737,
+            "mean_cosine_distance": 0.006148278713226318
+          },
+          "right_edited": {
+            "mean_cosine": 0.9913922548294067,
+            "mean_cosine_distance": 0.008607745170593262
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_warm_to_cool_seed45__chunk004.pt",
+        "sha256": "0716d879e1a241790b40075a7998e213d24455431b1dc116bfcfe3f9b2dc7d32",
+        "bytes": 1055663839,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed45",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed45",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 45,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047438.4864168
+      },
+      "cost": {
+        "full_generation_seconds": 3.488696824759245,
+        "base_generation_seconds_including_cache_write": 8.447144914418459,
+        "partial_restore_seconds": 0.07126360386610031,
+        "partial_denoise_seconds": 0.5061381347477436,
+        "partial_generation_seconds": 0.5774017386138439,
+        "cache_load_seconds_cold": 0.26763956621289253,
+        "decode_seconds": 0.929058600217104,
+        "partial_end_to_end_seconds": 1.7740999050438404,
+        "full_end_to_end_seconds": 4.416191842406988,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 18290695168,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055663839,
+        "R_time_generation": 0.1655064247818927,
+        "R_time_end_to_end": 0.40172618589795916
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/full_regeneration.mp4",
+        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/same_prompt_replay.mp4",
+        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/local_edit.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+      "prompt_id": "jacket_green_to_yellow",
+      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
+      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "seed": 49,
+      "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
+        "same_prompt_replay": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
+        "local_edit": "13582ec77b9d946fca60c14fd06872ce64d4ab9295061c20ac7815cbe48673fc",
+        "crossattn_control": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
+        "full_regeneration": "1c3bdf68180b5b68901143d14cb3c96996699b61a2c48219ed2346afad09a434"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999997615814209,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999997615814209,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "edit_vs_replay": {
+        "mse": 0.0035246198531240225,
+        "rmse": 0.05936850979924202,
+        "max_abs": 2.9296875,
+        "cosine": 0.9979772567749023,
+        "relative_l2": 0.06357558071613312,
+        "exact": false
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "local_edit": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0003873095100308671,
+          "measurements": {
+            "target_fraction_base": 0.09775948230131173,
+            "target_fraction_edited": 0.0952487521701389,
+            "delta_target_fraction": -0.002510730131172839,
+            "reference_fraction_base": 0.12012622974537036,
+            "reference_fraction_edited": 0.11800280912422839,
+            "delta_reference_fraction": -0.002123420621141972,
+            "histogram_distance": 0.0076413727532707795,
+            "appearance_change": 0.008412125520408154
+          }
+        },
+        "same_prompt_replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.09775948230131173,
+            "target_fraction_edited": 0.09775948230131173,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.12012622974537036,
+            "reference_fraction_edited": 0.12012622974537036,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.09775948230131173,
+            "target_fraction_edited": 0.09775948230131173,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.12012622974537036,
+            "reference_fraction_edited": 0.12012622974537036,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.15364432629243827,
+          "measurements": {
+            "target_fraction_base": 0.09775948230131173,
+            "target_fraction_edited": 0.13596522955246915,
+            "delta_target_fraction": 0.03820574725115741,
+            "reference_fraction_base": 0.12012622974537036,
+            "reference_fraction_edited": 0.004687650704089506,
+            "delta_reference_fraction": -0.11543857904128085,
+            "histogram_distance": 0.2673033254555276,
+            "appearance_change": 0.28567713499069214
+          }
+        }
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.740234375,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": 0.10695558041334152,
+            "right_mse": 0.09875770658254623
+          },
+          "edited": {
+            "left_mse": 0.10733246058225632,
+            "right_mse": 0.1005386933684349
+          },
+          "delta": {
+            "delta_left_mse": 0.0003768801689147949,
+            "delta_right_mse": 0.0017809867858886719
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": 0.004569585435092449,
+            "right_mse": 0.00481386249884963
+          },
+          "edited": {
+            "left_mse": 0.0045530665665864944,
+            "right_mse": 0.0049833497032523155
+          },
+          "delta": {
+            "delta_left_mse": -1.6518868505954742e-05,
+            "delta_right_mse": 0.00016948720440268517
+          }
+        },
+        "dino": {
+          "left_base": {
+            "mean_cosine": 0.9954347014427185,
+            "mean_cosine_distance": 0.004565298557281494
+          },
+          "left_edited": {
+            "mean_cosine": 0.9950070977210999,
+            "mean_cosine_distance": 0.0049929022789001465
+          },
+          "right_base": {
+            "mean_cosine": 0.9961297512054443,
+            "mean_cosine_distance": 0.003870248794555664
+          },
+          "right_edited": {
+            "mean_cosine": 0.9950277209281921,
+            "mean_cosine_distance": 0.004972279071807861
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_jacket_green_to_yellow_seed49__chunk001.pt",
+        "sha256": "ca225f2ff8f3c277136d2d91a8900d3ce7d7ae73637ffd0284b620c52d3d4ff5",
+        "bytes": 1055166432,
+        "chunk_index": 1,
+        "sample_id": "edit_jacket_green_to_yellow_seed49",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_jacket_green_to_yellow_seed49",
+          "chunk_index": 1,
+          "num_chunks": 7,
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 49,
+          "current_start_frame": 3,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047471.2510965
+      },
+      "cost": {
+        "full_generation_seconds": 3.424889139831066,
+        "base_generation_seconds_including_cache_write": 8.058634642511606,
+        "partial_restore_seconds": 0.07116277143359184,
+        "partial_denoise_seconds": 0.4948301687836647,
+        "partial_generation_seconds": 0.5659929402172565,
+        "cache_load_seconds_cold": 0.2840732932090759,
+        "decode_seconds": 0.9321228973567486,
+        "partial_end_to_end_seconds": 1.782189130783081,
+        "full_end_to_end_seconds": 4.356774121522903,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 17956369408,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055166432,
+        "R_time_generation": 0.16525876228658729,
+        "R_time_end_to_end": 0.4090616316276042
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/full_regeneration.mp4",
+        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/same_prompt_replay.mp4",
+        "local_edit": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/local_edit.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+      "prompt_id": "jacket_green_to_yellow",
+      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
+      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
+      "target_chunk": 4,
+      "num_chunks": 7,
+      "seed": 49,
+      "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
+        "same_prompt_replay": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
+        "local_edit": "7b261cc9f653e55f76f96800e1fcf928c9d4ee0424004ad662aec7226e448dc0",
+        "crossattn_control": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
+        "full_regeneration": "9991ee2d2d869786cc920fefb6711cb8c918d555e93eba3a6037464bd5a2ab71"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "edit_vs_replay": {
+        "mse": 0.002352604176849127,
+        "rmse": 0.04850365221500397,
+        "max_abs": 0.703125,
+        "cosine": 0.9986435174942017,
+        "relative_l2": 0.05210253223776817,
+        "exact": false
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "local_edit": {
+          "kind": "color_fraction",
+          "S_proxy": -0.00039032359182100684,
+          "measurements": {
+            "target_fraction_base": 0.12199722101658951,
+            "target_fraction_edited": 0.12123616536458333,
+            "delta_target_fraction": -0.0007610556520061817,
+            "reference_fraction_base": 0.12633147063078703,
+            "reference_fraction_edited": 0.12596073857060186,
+            "delta_reference_fraction": -0.0003707320601851749,
+            "histogram_distance": 0.003335948869153776,
+            "appearance_change": 0.008486094884574413
+          }
+        },
+        "same_prompt_replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.12199722101658951,
+            "target_fraction_edited": 0.12199722101658951,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.12633147063078703,
+            "reference_fraction_edited": 0.12633147063078703,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.12199722101658951,
+            "target_fraction_edited": 0.12199722101658951,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.12633147063078703,
+            "reference_fraction_edited": 0.12633147063078703,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.13333845727237653,
+          "measurements": {
+            "target_fraction_base": 0.12199722101658951,
+            "target_fraction_edited": 0.14780906394675927,
+            "delta_target_fraction": 0.025811842930169762,
+            "reference_fraction_base": 0.12633147063078703,
+            "reference_fraction_edited": 0.018804856288580248,
+            "delta_reference_fraction": -0.10752661434220678,
+            "histogram_distance": 0.28548724453523544,
+            "appearance_change": 0.2942599654197693
+          }
+        }
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.4951171875,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": 0.08071010559797287,
+            "right_mse": 0.12481261044740677
+          },
+          "edited": {
+            "left_mse": 0.0805586725473404,
+            "right_mse": 0.12675319612026215
+          },
+          "delta": {
+            "delta_left_mse": -0.0001514330506324768,
+            "delta_right_mse": 0.0019405856728553772
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": 0.0026166357565671206,
+            "right_mse": 0.00426208321005106
+          },
+          "edited": {
+            "left_mse": 0.0025929517578333616,
+            "right_mse": 0.004677846096456051
+          },
+          "delta": {
+            "delta_left_mse": -2.3683998733758926e-05,
+            "delta_right_mse": 0.00041576288640499115
+          }
+        },
+        "dino": {
+          "left_base": {
+            "mean_cosine": 0.9975031614303589,
+            "mean_cosine_distance": 0.0024968385696411133
+          },
+          "left_edited": {
+            "mean_cosine": 0.9973374009132385,
+            "mean_cosine_distance": 0.0026625990867614746
+          },
+          "right_base": {
+            "mean_cosine": 0.9959716200828552,
+            "mean_cosine_distance": 0.004028379917144775
+          },
+          "right_edited": {
+            "mean_cosine": 0.9959481358528137,
+            "mean_cosine_distance": 0.004051864147186279
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_jacket_green_to_yellow_seed49__chunk004.pt",
+        "sha256": "0de533b59b1af4ddde6c7bf2f11f7ca2f2e5bc1d22cc7f69c5720dc76e93d5d2",
+        "bytes": 1055664096,
+        "chunk_index": 4,
+        "sample_id": "edit_jacket_green_to_yellow_seed49",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_jacket_green_to_yellow_seed49",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "seed": 49,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789047475.0247846
+      },
+      "cost": {
+        "full_generation_seconds": 3.424889139831066,
+        "base_generation_seconds_including_cache_write": 8.058634642511606,
+        "partial_restore_seconds": 0.07125047221779823,
+        "partial_denoise_seconds": 0.5092073306441307,
+        "partial_generation_seconds": 0.5804578028619289,
+        "cache_load_seconds_cold": 0.2630627229809761,
+        "decode_seconds": 0.9321361668407917,
+        "partial_end_to_end_seconds": 1.7756566926836967,
+        "full_end_to_end_seconds": 4.356774121522903,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 18296560640,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055664096,
+        "R_time_generation": 0.1694822165515583,
+        "R_time_end_to_end": 0.4075622566503445
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/full_regeneration.mp4",
+        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/same_prompt_replay.mp4",
+        "local_edit": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/local_edit.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/edited_chunk_strip.mp4"
+      }
+    }
+  ],
+  "aggregate": {
+    "cases": 4,
+    "replay_fidelity_mse_mean": 0.0,
+    "s_proxy_local_edit_mean": -0.00019139419367284502,
+    "s_proxy_same_prompt_mean": 0.0,
+    "s_proxy_control_mean": 0.0,
+    "s_proxy_full_regeneration_mean": 0.3033516966266397,
+    "left_boundary_delta_mean": 0.00018877722322940826,
+    "right_boundary_delta_mean": 0.0023653744719922543,
+    "R_time_generation_mean": 0.16638797604474587,
+    "R_time_end_to_end_mean": 0.407203300338726,
+    "cache_bytes_per_chunk": 1049887200
+  }
+}

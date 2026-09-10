@@ -2,6 +2,12 @@
 
 Reality Memory：基于冻结 Wan / LongLive，用稀疏真实图像作为外部记忆的实验。原有 State Re-Anchoring 保留为 baseline 与诊断。
 
+新方向 **Edit-Ready Video Generation（Generation-Time Edit Cache）** 的可行性 MVP 已完成，结论为 `GO_WEAK_PROMPT_REBINDING`：
+
+- [可行性方案](restream_mvp/EDIT_READY_VIDEO_FEASIBILITY_PLAN.md)
+- [MVP 实现与实测结果](restream_mvp/EDIT_READY_MVP.md)
+- [机器可读汇总 summary.json](restream_mvp/validation/edit_ready_mvp/summary.json)
+
 - [Reality Memory 新方案](restream_mvp/REALITY_MEMORY_PLAN.md)
 - [R0 实现、数据和审阅后训练命令](restream_mvp/REALITY_MEMORY_R0.md)
 - [R0 修补与短实验结果](restream_mvp/R0_SHORT_EXPERIMENTS.md)
