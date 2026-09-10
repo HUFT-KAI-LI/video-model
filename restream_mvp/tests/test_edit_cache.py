@@ -396,10 +396,15 @@ class ScriptGates(unittest.TestCase):
                    self._record(local=0.02, full=0.2, target_chunk=1),
                    self._record(local=0.004, full=0.2, target_chunk=4)]
         gates = self.runner.evaluate_gates(records, config)
-        by_chunk = gates["gate_b_editability"]["R_k_by_chunk"]
-        self.assertAlmostEqual(by_chunk["0"][0], 1.0)
+        edit_gate = gates["gate_b_editability"]
+        by_chunk = edit_gate["R_k_by_chunk"]
+        # Chunk 0 is reported as calibration and deliberately excluded from the
+        # pooled pass/strong statistics.
+        self.assertNotIn("0", by_chunk)
         self.assertAlmostEqual(by_chunk["1"][0], 0.1)
         self.assertAlmostEqual(by_chunk["4"][0], 0.02)
+        self.assertEqual(edit_gate["calibration_cases"], 1)
+        self.assertEqual(edit_gate["semantic_cases"], 2)
 
     def test_chunk0_control_is_not_informative(self):
         config = {"gates": {"edit": {"min_s_proxy": 0.0, "min_full_regeneration_ratio": 0.25},
@@ -408,8 +413,13 @@ class ScriptGates(unittest.TestCase):
         # not veto an otherwise directional case.
         gates = self.runner.evaluate_gates(
             [self._record(local=0.1, full=0.1, control=0.1, target_chunk=0)], config)
-        self.assertTrue(gates["gate_b_editability"]["passed"])
-        self.assertFalse(gates["gate_b_editability"]["cases"][0]["control_informative"])
+        # Chunk 0 is a calibration case, not an edit case: it is excluded from the
+        # pass aggregate but recorded separately.
+        self.assertEqual(gates["gate_b_editability"]["semantic_cases"], 0)
+        self.assertEqual(gates["gate_b_editability"]["calibration_cases"], 1)
+        entry = gates["gate_b_editability"]["calibration_case_entries"][0]
+        self.assertFalse(entry["control_informative"])
+        self.assertTrue(entry["passed"])
         same = self.runner.evaluate_gates(
             [self._record(local=0.1, full=0.1, control=0.1, target_chunk=1)], config)
         self.assertFalse(same["gate_b_editability"]["passed"])

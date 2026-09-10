@@ -181,19 +181,33 @@ def run_group(pipeline, config, group, device, output_dir, cache_dir, identity, 
     # ---- B1: full regeneration from scratch with the new prompt -----------
     # Checkpoints are kept so the reverse control (P1 history + P0 text) can be
     # run from the *same* P1 trajectory.
+    # The timed full-regeneration baseline writes no cache: a user who only wants
+    # a fresh video does not pay for per-chunk checkpoints, and including that
+    # cost would flatter the partial-edit ratio.
     noise_regen = ex.sample_noise(config, device, seed)
     rng_at_regen_start = _cuda_state(device)
     regen_started = time.perf_counter()
     regenerated = er.stream_generate(
         pipeline, noise_regen, edit_prompt, sample_id=f"{group_id}_fullregen", seed=seed,
         model_hash=identity["model_checkpoint_sha256"], model_record=identity["model_identity"],
-        config_digest=identity["config_hash"], cache_dir=regen_cache, save_chunks=targets,
+        config_digest=identity["config_hash"], cache_dir=None, save_chunks=[],
         noise_source=noise_source)
     regen_seconds = time.perf_counter() - regen_started
     rng_stream_match = None
     noise_match = bool(torch.equal(noise_base, noise_regen))
     if rng_at_base_start is not None and rng_at_regen_start is not None:
         rng_stream_match = bool(torch.equal(rng_at_base_start, rng_at_regen_start))
+
+    # Second regeneration whose checkpoints feed the reverse control (P1 history +
+    # P0 text).  Not part of the reported cost.
+    reverse_source = er.stream_generate(
+        pipeline, ex.sample_noise(config, device, seed), edit_prompt,
+        sample_id=f"{group_id}_fullregen_ckpt", seed=seed,
+        model_hash=identity["model_checkpoint_sha256"], model_record=identity["model_identity"],
+        config_digest=identity["config_hash"], cache_dir=regen_cache, save_chunks=targets,
+        noise_source=noise_source)
+    if not torch.equal(reverse_source.latents, regenerated.latents):
+        raise RuntimeError("Checkpointed regeneration diverged from the timed baseline")
 
     decode_seconds = {}
     started = time.perf_counter()
@@ -208,7 +222,7 @@ def run_group(pipeline, config, group, device, output_dir, cache_dir, identity, 
         case_dir = Path(output_dir) / f"{group_id}_chunk{target}"
         case_dir.mkdir(parents=True, exist_ok=True)
         entry = base.checkpoint_entries[target]
-        regen_entry = regenerated.checkpoint_entries[target]
+        regen_entry = reverse_source.checkpoint_entries[target]
         base_chunk = base.latents[:, target * block:(target + 1) * block].clone()
         regen_chunk = regenerated.latents[:, target * block:(target + 1) * block].clone()
         reference = pixels_base
@@ -435,7 +449,11 @@ def evaluate_gates(records, config) -> dict:
     thresholds = config["gates"]
     minimum_s = float(thresholds["edit"].get("min_s_proxy", 0.0))
     minimum_ratio = float(thresholds["edit"].get("min_full_regeneration_ratio", 0.0))
-    semantic = [record for record in records if record.get("evidence") == "directional"]
+    directional = [record for record in records if record.get("evidence") == "directional"]
+    # Chunk 0 has no visual history: it calibrates the rebinding implementation
+    # and must not be pooled with the committed-history edit cases.
+    semantic = [record for record in directional if record["target_chunk"] > 0]
+    calibration = [record for record in directional if record["target_chunk"] == 0]
     qualitative = [record for record in records if record.get("evidence") != "directional"]
 
     def case_entry(record):
@@ -459,6 +477,7 @@ def evaluate_gates(records, config) -> dict:
                 "strong": bool(directional and ratio is not None and ratio >= minimum_ratio)}
 
     edit_cases = [case_entry(record) for record in semantic]
+    calibration_cases = [case_entry(record) for record in calibration]
     qualitative_cases = [case_entry(record) for record in qualitative]
     preservation_cases = [{"sample_id": record["sample_id"],
                            "outside_exact": record["preservation"]["outside_exact"],
@@ -489,6 +508,10 @@ def evaluate_gates(records, config) -> dict:
             "successful_cases": len(successful), "strong_cases": len(strong),
             "min_full_regeneration_ratio": minimum_ratio,
             "cases": edit_cases,
+            "calibration_cases": len(calibration_cases),
+            "calibration_case_entries": calibration_cases,
+            "calibration_note": "Chunk 0 has no visual history; text rebind there equals the "
+                                "full-regeneration chunk bit-for-bit and calibrates R_k.",
             "qualitative_cases": len(qualitative_cases),
             "qualitative_case_entries": qualitative_cases,
             "qualitative_consistent_cases": sum(case["s_proxy_text_rebind"] > case["s_proxy_replay"]

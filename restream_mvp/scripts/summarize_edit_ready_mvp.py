@@ -195,7 +195,11 @@ def main() -> None:
     minimum_ratio = float(config["gates"]["edit"].get("min_full_regeneration_ratio", 0.0))
     minimum_strong_fraction = float(config["gates"]["edit"].get("min_strong_fraction", 0.25))
     all_cases = gate_b_cases(edit_cases, minimum_s, minimum_ratio)
-    semantic = [case for case in all_cases if case["evidence"] == "directional"]
+    directional = [case for case in all_cases if case["evidence"] == "directional"]
+    # Chunk 0 has no visual history: it calibrates the rebinding implementation
+    # and must not be pooled with the committed-history edit cases.
+    semantic = [case for case in directional if case["target_chunk"] > 0]
+    calibration = [case for case in directional if case["target_chunk"] == 0]
     qualitative = [case for case in all_cases if case["evidence"] != "directional"]
     successful = [case for case in semantic if case["passed"]]
     strong = [case for case in semantic if case["strong"]]
@@ -206,6 +210,14 @@ def main() -> None:
         "passed": (len(successful) > 0) if semantic else None,
         "semantic_cases": len(semantic), "successful_cases": len(successful),
         "strong_cases": len(strong),
+        "calibration_cases": len(calibration),
+        "calibration_matches_full_regeneration": sum(
+            1 for case in calibration
+            if next((record["editability"].get("chunk0_matches_full_regeneration")
+                     for record in edit_cases if record["sample_id"] == case["sample_id"]), None)),
+        "calibration_note": "Chunk 0 has no visual history; text rebind there equals the "
+                            "full-regeneration chunk bit-for-bit and calibrates R_k. These "
+                            "cases are excluded from the pass/strong aggregate.",
         "min_full_regeneration_ratio": minimum_ratio,
         "R_k_by_chunk": {str(chunk): mean(values) for chunk, values in sorted(by_chunk.items())},
         "R_k_cases_by_chunk": {str(chunk): values for chunk, values in sorted(by_chunk.items())},
@@ -243,18 +255,20 @@ def main() -> None:
             1 for case in edit_cases if case["sanity"].get("recache_equals_text_rebind")),
         "recache_cache_exact_cases": sum(
             1 for case in edit_cases if case["recache_cache_matches_checkpoint"].get("exact")),
-        "recache_cache_differing_token_range": {
-            "first": min((case["recache_cache_matches_checkpoint"].get("first_differing_token")
-                          for case in edit_cases
-                          if case["recache_cache_matches_checkpoint"].get("first_differing_token")
-                          is not None), default=None),
-            "last": max((case["recache_cache_matches_checkpoint"].get("last_differing_token")
-                         for case in edit_cases
-                         if case["recache_cache_matches_checkpoint"].get("last_differing_token")
-                         is not None), default=None),
-            "cache_len": next((case["recache_cache_matches_checkpoint"].get("cache_len")
-                               for case in edit_cases), None),
-        },
+        "recache_cache_by_chunk": {
+            str(chunk): {
+                "exact_cases": sum(
+                    1 for case in edit_cases if case["target_chunk"] == chunk
+                    and case["recache_cache_matches_checkpoint"].get("exact")),
+                "cases": sum(1 for case in edit_cases if case["target_chunk"] == chunk),
+                "differing_token_ranges": sorted({
+                    (case["recache_cache_matches_checkpoint"].get("first_differing_token"),
+                     case["recache_cache_matches_checkpoint"].get("last_differing_token"))
+                    for case in edit_cases if case["target_chunk"] == chunk
+                    and case["recache_cache_matches_checkpoint"].get("exact") is False}),
+            } for chunk in sorted({case["target_chunk"] for case in edit_cases})},
+        "recache_cache_len": next((case["recache_cache_matches_checkpoint"].get("cache_len")
+                                   for case in edit_cases), None),
         "total_cases": len(edit_cases),
     }
 
