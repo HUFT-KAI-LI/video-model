@@ -1,77 +1,519 @@
 {
   "status": "passed",
+  "run_provenance": {
+    "files": [
+      {
+        "file": "replay_main_shard0.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard1.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard2.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard3.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_main_shard0.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_main_shard1.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_main_shard2.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_main_shard3.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      }
+    ],
+    "git_commits": [
+      "4c4d52f2d6b244da7566f4518edf5bcead4b1640"
+    ],
+    "git_dirty_values": [
+      false
+    ],
+    "code_tree_sha256": [
+      "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00"
+    ],
+    "config_sha256": [
+      "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba"
+    ],
+    "model_checkpoint_sha256": [
+      "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    ],
+    "clean": true
+  },
   "replay_gate": {
     "passed": true,
-    "cases": 16,
-    "passed_cases": 16,
-    "exact_cases": 16,
-    "rng_exact_cases": 16,
+    "cases": 24,
+    "passed_cases": 24,
+    "exact_cases": 24,
+    "rng_exact_cases": 24,
     "latent_mse_mean": 0.0,
-    "latent_cosine_mean": 1.000000026077032,
+    "latent_cosine_mean": 1.00000003973643,
     "repeat_noise_baseline": 0.0,
     "relative_to_repeat": 3.0,
     "cosine_floor": 0.999
   },
   "edit_gate": {
     "passed": true,
-    "cases": 16,
-    "successful_cases": 10,
+    "semantic_cases": 10,
+    "successful_cases": 6,
     "strong_cases": 1,
+    "calibration_cases": 5,
+    "calibration_matches_full_regeneration": 5,
+    "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k. These cases are excluded from the pass/strong aggregate.",
     "min_full_regeneration_ratio": 0.25,
-    "s_proxy_local_edit_mean": 0.008295075563867688,
-    "s_proxy_full_regeneration_mean": 0.20474023266155042,
+    "R_k_by_chunk": {
+      "1": 0.07864763999228949,
+      "4": 0.0075281493151874036
+    },
+    "R_k_cases_by_chunk": {
+      "1": [
+        -0.0014104921916398949,
+        -0.005279935981756785,
+        0.3617273404416016,
+        0.0381512159237062,
+        5.007176953633541e-05
+      ],
+      "4": [
+        0.01315131848868003,
+        -0.0019263662141505153,
+        0.00987403548110526,
+        0.016568657682163923,
+        -2.689886186168603e-05
+      ]
+    },
+    "s_proxy_text_rebind_mean": 0.011893823595694554,
+    "s_proxy_full_regeneration_mean": 0.2743514991468853,
     "s_proxy_control_mean": 0.0,
     "variants": [
-      "brief_smile",
       "car_red_to_black",
       "dress_red_to_blue",
       "lighting_darker",
-      "lighting_warm_to_cool",
-      "slight_zoom_in"
+      "lighting_warm_to_cool"
     ],
     "strong_variants": [
       "car_red_to_black"
-    ]
+    ],
+    "qualitative_cases": 9,
+    "qualitative_consistent_cases": 8,
+    "note": "Only `evidence: directional` prompts enter the pass/strong aggregate; qualitative prompts (smile / zoom / rain) report a proxy-consistent change count and are not counted as semantic success."
+  },
+  "sanity_controls": {
+    "chunk0_cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed47_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed44_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_brief_smile_seed48_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed49_chunk0",
+        "chunk0_matches_full_regeneration": true
+      }
+    ],
+    "base_and_full_regen_share_rng_stream_cases": 24,
+    "base_and_full_regen_share_rng_stream_total": 24,
+    "control_equals_replay_cases": 16,
+    "control_equals_replay_total": 16,
+    "control_equals_text_rebind_at_chunk0": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "recache_equals_text_rebind_cases": 8,
+    "recache_cache_exact_cases": 8,
+    "recache_cache_by_chunk": {
+      "0": {
+        "exact_cases": 8,
+        "cases": 8,
+        "differing_token_ranges": []
+      },
+      "1": {
+        "exact_cases": 0,
+        "cases": 8,
+        "differing_token_ranges": [
+          [
+            0,
+            1295
+          ]
+        ]
+      },
+      "4": {
+        "exact_cases": 0,
+        "cases": 8,
+        "differing_token_ranges": [
+          [
+            0,
+            5183
+          ]
+        ]
+      }
+    },
+    "recache_cache_len": 5184,
+    "total_cases": 24
+  },
+  "history_confound": {
+    "cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.09352092978395062,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.35238102078437805,
+        "text_rebind_vs_replay_mse": 0.35238102078437805
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.0964038990162037,
+        "S_full_regeneration": 0.09669475790895062,
+        "ratio_reverse_to_full": 0.9969919890277735,
+        "reverse_vs_full_regeneration_mse": 0.0007561313104815781,
+        "text_rebind_vs_replay_mse": 0.006960602477192879
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.10092728226273148,
+        "S_full_regeneration": 0.10101318359375,
+        "ratio_reverse_to_full": 0.9991496027749804,
+        "reverse_vs_full_regeneration_mse": 0.0004314457473810762,
+        "text_rebind_vs_replay_mse": 0.005700468551367521
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.28118971836419754,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.5607840418815613,
+        "text_rebind_vs_replay_mse": 0.5607840418815613
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed46_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.2880264093846451,
+        "S_full_regeneration": 0.28813943745177467,
+        "ratio_reverse_to_full": 0.99960773135351,
+        "reverse_vs_full_regeneration_mse": 0.0117948604747653,
+        "text_rebind_vs_replay_mse": 0.0056481752544641495
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed46_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.2656709647472994,
+        "S_full_regeneration": 0.2652075496720679,
+        "ratio_reverse_to_full": 1.0017473675836321,
+        "reverse_vs_full_regeneration_mse": 0.00295801879838109,
+        "text_rebind_vs_replay_mse": 0.0011773594887927175
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.3184497974537037,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 1.086734414100647,
+        "text_rebind_vs_replay_mse": 1.086734414100647
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.10847831066743824,
+        "S_full_regeneration": 0.2893262321566358,
+        "ratio_reverse_to_full": 0.3749342389690753,
+        "reverse_vs_full_regeneration_mse": 0.4589858055114746,
+        "text_rebind_vs_replay_mse": 0.4303266704082489
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed43_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.1568603515625,
+        "S_full_regeneration": 0.28564076364776236,
+        "ratio_reverse_to_full": 0.5491525423728814,
+        "reverse_vs_full_regeneration_mse": 0.10569199174642563,
+        "text_rebind_vs_replay_mse": 0.01625257357954979
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed47_chunk0",
+        "target_chunk": 0,
+        "S_reverse": -0.0,
+        "S_full_regeneration": 0.07135027647018433,
+        "ratio_reverse_to_full": -0.0,
+        "reverse_vs_full_regeneration_mse": 0.29553723335266113,
+        "text_rebind_vs_replay_mse": 0.29553723335266113
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed47_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.06887304782867432,
+        "S_full_regeneration": 0.06934842467308044,
+        "ratio_reverse_to_full": 0.9931450952686073,
+        "reverse_vs_full_regeneration_mse": 0.029741305857896805,
+        "text_rebind_vs_replay_mse": 0.021900292485952377
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed47_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.06109660863876343,
+        "S_full_regeneration": 0.060176998376846313,
+        "ratio_reverse_to_full": 1.0152817569290884,
+        "reverse_vs_full_regeneration_mse": 0.004607038572430611,
+        "text_rebind_vs_replay_mse": 0.00566563755273819
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed44_chunk0",
+        "target_chunk": 0,
+        "S_reverse": -0.0,
+        "S_full_regeneration": 0.2425539791584015,
+        "ratio_reverse_to_full": -0.0,
+        "reverse_vs_full_regeneration_mse": 0.5842755436897278,
+        "text_rebind_vs_replay_mse": 0.5842755436897278
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed44_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.20720554888248444,
+        "S_full_regeneration": 0.22802229225635529,
+        "ratio_reverse_to_full": 0.9087074199286291,
+        "reverse_vs_full_regeneration_mse": 0.014449791051447392,
+        "text_rebind_vs_replay_mse": 0.0017448244616389275
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed44_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.21312811970710754,
+        "S_full_regeneration": 0.21663744747638702,
+        "ratio_reverse_to_full": 0.9838009180307482,
+        "reverse_vs_full_regeneration_mse": 0.0035342229530215263,
+        "text_rebind_vs_replay_mse": 0.0005190563388168812
+      },
+      {
+        "sample_id": "edit_brief_smile_seed48_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.16703487932682037,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.22364501655101776,
+        "text_rebind_vs_replay_mse": 0.22364501655101776
+      },
+      {
+        "sample_id": "edit_brief_smile_seed48_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.16677579283714294,
+        "S_full_regeneration": 0.16637647151947021,
+        "ratio_reverse_to_full": 1.0024001069022912,
+        "reverse_vs_full_regeneration_mse": 0.009364706464111805,
+        "text_rebind_vs_replay_mse": 0.0009232630836777389
+      },
+      {
+        "sample_id": "edit_brief_smile_seed48_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.16541974246501923,
+        "S_full_regeneration": 0.16602768003940582,
+        "ratio_reverse_to_full": 0.9963383360278099,
+        "reverse_vs_full_regeneration_mse": 0.004900971427559853,
+        "text_rebind_vs_replay_mse": 0.003431963734328747
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.4956004452803498,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.850546658039093,
+        "text_rebind_vs_replay_mse": 0.850546658039093
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.47918625819830246,
+        "S_full_regeneration": 0.4966106650270061,
+        "ratio_reverse_to_full": 0.9649133454921752,
+        "reverse_vs_full_regeneration_mse": 0.0028012210968881845,
+        "text_rebind_vs_replay_mse": 0.00015839800471439958
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.46358009620949076,
+        "S_full_regeneration": 0.47622266227816357,
+        "ratio_reverse_to_full": 0.9734524056285078,
+        "reverse_vs_full_regeneration_mse": 0.004836997948586941,
+        "text_rebind_vs_replay_mse": 0.0004226157034281641
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed49_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.13554170727729797,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.2617257237434387,
+        "text_rebind_vs_replay_mse": 0.2617257237434387
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed49_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.13532592356204987,
+        "S_full_regeneration": 0.13526254892349243,
+        "ratio_reverse_to_full": 1.0004685305656429,
+        "reverse_vs_full_regeneration_mse": 0.00023581324785482138,
+        "text_rebind_vs_replay_mse": 0.0002507719909772277
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed49_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.1364530771970749,
+        "S_full_regeneration": 0.1365450918674469,
+        "ratio_reverse_to_full": 0.9993261224617188,
+        "reverse_vs_full_regeneration_mse": 0.00034518339089117944,
+        "text_rebind_vs_replay_mse": 0.00022053503198549151
+      }
+    ],
+    "ratio_reverse_to_full_by_chunk": {
+      "0": 0.0,
+      "1": 0.9051460571884631,
+      "4": 0.9397811314761708
+    },
+    "reverse_vs_full_regeneration_mse_by_chunk": {
+      "0": 0.5269537065178156,
+      "1": 0.06601620437686506,
+      "4": 0.015913233823084738
+    },
+    "note": "reverse = P1 history + P0 text.  A ratio near 1 means the reopened chunk follows the visual history rather than the prompt."
   },
   "preservation_gate": {
     "passed": true,
     "outside_exact_fraction": 1.0,
-    "outside_max_abs_after_vae_mean": 0.446258544921875,
+    "outside_max_abs_after_vae_mean": 0.5841623942057291,
     "note": "Asserted with torch.equal on pre-decode latents; the VAE leak is reported separately and is not part of the gate."
   },
   "boundary": {
-    "left_delta_mean": 0.00993610720615834,
-    "left_base_mean": 0.07160524802748114,
-    "left_edited_mean": 0.08154135523363948,
-    "left_relative_increase_of_means": 0.1387622762279239,
+    "left_delta_mean": 0.00923486694227904,
+    "left_base_mean": 0.06876247515901923,
+    "left_edited_mean": 0.07799734210129827,
+    "left_relative_increase_of_means": 0.1343009675105878,
     "left_acceptable_cases": 15,
-    "right_delta_mean": 0.03349605394760147,
-    "right_base_mean": 0.06622176867676899,
-    "right_edited_mean": 0.09971782262437046,
-    "right_relative_increase_of_means": 0.5058163594375892,
+    "right_delta_mean": 0.2504978918004781,
+    "right_base_mean": 0.06619543128181249,
+    "right_edited_mean": 0.3166933230822906,
+    "right_relative_increase_of_means": 3.7842172329694237,
     "right_acceptable_cases": 15,
-    "total_cases": 16,
+    "total_cases": 24,
     "left_acceptable": false,
     "right_acceptable": false
   },
   "efficiency": {
-    "full_seconds_mean": 3.5113660488277674,
-    "partial_seconds_mean": 0.5777601753361523,
-    "speedup": 0.1645642158168404,
-    "R_time_end_to_end_mean": 0.40268788377676445,
+    "full_seconds_mean": 3.5192448892630637,
+    "partial_generation_seconds_mean": 2.529297028978666,
+    "partial_end_to_end_seconds_mean": 3.4542953240064285,
+    "disk_load_seconds_mean": 1.8259487395795684,
+    "host_to_device_seconds_mean": 0.11702738733341296,
+    "restore_seconds_mean": 0.01230907579883933,
+    "encode_seconds_mean": 0.059857229236513376,
+    "denoise_seconds_mean": 0.5141545970303317,
+    "R_time_generation": 0.7190276030239585,
+    "R_time_compute": 0.16661581012949042,
+    "R_time_end_to_end": 0.7777070633201216,
+    "R_time_end_to_end_warm_cache": 0.3665227058937241,
+    "cache_read_seconds_per_gib": 1.857991990459353,
     "partial_regenerated_chunks": 1,
     "full_generated_chunks_mean": 7.0,
-    "peak_vram_bytes_max": 18296560640,
-    "cache_bytes_per_chunk": 1049887200
+    "peak_vram_bytes_max": 20654859264,
+    "cache_bytes_per_chunk": 1049887200,
+    "page_cache_dropped": true
   },
   "gate_d_cost": {
-    "passed": true,
-    "max_time_ratio": 0.5
+    "passed": false,
+    "passed_warm_cache": true,
+    "max_time_ratio": 0.5,
+    "cold_read_note": "Gate D is evaluated on the full user path including a cold page-cache read of the ~1 GiB checkpoint; the device-side compute ratio and the warm-cache ratio are reported separately."
   },
   "decision": "GO_WEAK_PROMPT_REBINDING",
   "decision_notes": [
-    "Prompt re-binding is directionally correct but weak: only 1/10 directional cases recover >=25% of the full-regeneration response.",
-    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames."
+    "Prompt re-binding is directionally correct but weak: only 1/6 directional cases recover >=25% of the full-regeneration response.",
+    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames.",
+    "Gate B covers only the directional-probe prompts; smile / zoom / rain are reported as qualitative and need human review.",
+    "Gate D fails on the cold-storage path: reading one ~1 GiB checkpoint costs about as much as generating several chunks. The device-side compute ratio is much lower, so the cost problem is cache size and I/O, not recomputation."
   ],
   "next_step": "State reuse is proven; add light prompt-rebinding post-training.",
   "limitations": [

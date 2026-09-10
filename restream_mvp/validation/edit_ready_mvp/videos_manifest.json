@@ -1,1267 +1,2355 @@
 {
-  "note": "Review videos stay on the work machine (validation/edit_ready_mvp/videos*/ is git-ignored). One representative comparison is committed under examples/.",
-  "total_bytes": 73476283,
-  "count": 252,
-  "entries": [
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/comparison.mp4",
-      "bytes": 409159,
-      "sha256": "a55ed483089699d9686cf685991e3743db87ef47732fe5569ddf5b0ba50cd373"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/crossattn_control.mp4",
-      "bytes": 89015,
-      "sha256": "2db1c94b3d77b16e95609b7beecc7c699593750e9c0eeb3f9cdc3e169c777eae"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/edited_chunk_strip.mp4",
-      "bytes": 80730,
-      "sha256": "770645c72144a8cf40f1674920eb66cb82045ff7f6cfdd6bb9cd3fa277bb2cc3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/full_regeneration.mp4",
-      "bytes": 107661,
-      "sha256": "dfa99125946260457df516fa24eb66a5d3224850a5586d6769948cf46ff5ec89"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/local_edit.mp4",
-      "bytes": 89865,
-      "sha256": "ff34ecf493b706636d8c93f0ba07d93fc5d93523fdc82bb83fd7f202efcabe39"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/original.mp4",
-      "bytes": 88843,
-      "sha256": "1c4a060384235f922a1b40b9cf7695f24ddefd109b3a9d4e30f67336aa9229ee"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk1/same_prompt_replay.mp4",
-      "bytes": 88923,
-      "sha256": "b018cfc405f1a48560ea642071eb884efc10d30f1866b3c539399767c1a49edb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/comparison.mp4",
-      "bytes": 410062,
-      "sha256": "02418f90367b950a59984bf57351be3e3b7fb6c5413c1569b8ddaac26d13273f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/crossattn_control.mp4",
-      "bytes": 89015,
-      "sha256": "2db1c94b3d77b16e95609b7beecc7c699593750e9c0eeb3f9cdc3e169c777eae"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/edited_chunk_strip.mp4",
-      "bytes": 68957,
-      "sha256": "f380e1169fcd4e92669ecd5d89850747995eaedb1a116f1002e2b057b12f3b75"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/full_regeneration.mp4",
-      "bytes": 107661,
-      "sha256": "dfa99125946260457df516fa24eb66a5d3224850a5586d6769948cf46ff5ec89"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/local_edit.mp4",
-      "bytes": 89695,
-      "sha256": "4282d4f41103e67804855ec093355033b35abac3df45eb9459d5401107586279"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/original.mp4",
-      "bytes": 89015,
-      "sha256": "569b57b8cdae3a703779766067504a8f8fcfe1418bad98405e19a038f42a87cd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed47_chunk4/same_prompt_replay.mp4",
-      "bytes": 88923,
-      "sha256": "b018cfc405f1a48560ea642071eb884efc10d30f1866b3c539399767c1a49edb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/comparison.mp4",
-      "bytes": 429257,
-      "sha256": "b49249827f6c5c34ae34aaed0cd338667086b8fdbd83e10df11346f6bdbe2ad5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/crossattn_control.mp4",
-      "bytes": 99611,
-      "sha256": "2ee3f5d5ad82125cab86ac6a478325fff3259bcc68ccc48c748cdc84619c5205"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/edited_chunk_strip.mp4",
-      "bytes": 78247,
-      "sha256": "d7babbb9cafd18dcda634ceb7e02a5574793a49f91dfcf5396434bef7977783e"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/full_regeneration.mp4",
-      "bytes": 86130,
-      "sha256": "5284f17d9540f8bcfa552ee4fbb19455fb0cc1ccfdd053885f33a8464305e0f0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/local_edit.mp4",
-      "bytes": 100036,
-      "sha256": "bc14d5b498705d9ff5544b5e01b66026c41d1bc5f929916a3b7fabb8617540c4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/original.mp4",
-      "bytes": 99801,
-      "sha256": "7095a759e1336aaba15542d45bb6fa20028f2b7c45cc1849a05f571994e1ddc1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk1/same_prompt_replay.mp4",
-      "bytes": 99416,
-      "sha256": "ab6a7e18f13162de9e1b1c64d8737c4bc80acea6fa87909314acbe79e6865279"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/comparison.mp4",
-      "bytes": 429916,
-      "sha256": "008eb06f7b7166ef24683f0b52020f26847bb0d3c876a970de2b9b0769d8dce7"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/crossattn_control.mp4",
-      "bytes": 99642,
-      "sha256": "8c1fbbd8bac127f8c9362d0dfdd291e851068f942b8a0761bc00403e89ec0d73"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/edited_chunk_strip.mp4",
-      "bytes": 70954,
-      "sha256": "b1437c2be153684114fe605182cf276c2123ce6cfb10b08f3293fe737bd3459f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/full_regeneration.mp4",
-      "bytes": 86094,
-      "sha256": "8310adc2c5b743e07dc775fbe231d5be1e7ecdc34ae4d0c6a4f290bf10d36dc2"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/local_edit.mp4",
-      "bytes": 100438,
-      "sha256": "a2af40374573e5b34daa9a66b6dd5a3ff47fc68354e5e9fdb25ec5e38d4ec10e"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/original.mp4",
-      "bytes": 99711,
-      "sha256": "8b6036d8395c3b0b42fdd683cf20f90806c3b084b2ca55f58dce1bfaf773ea07"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed55_chunk4/same_prompt_replay.mp4",
-      "bytes": 99614,
-      "sha256": "af67e52e3bd0752f35dd8903e8b8bfad5af3039e5833ef9778e3de8840cf59e1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/comparison.mp4",
-      "bytes": 1515172,
-      "sha256": "84232e927d29c83cfe8abedfb5c82e98980945e493054be0b0e4def16aedc65c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/crossattn_control.mp4",
-      "bytes": 346334,
-      "sha256": "9aba49b7c019f4084053a53226718caa16945bdd26a871d77cdf4103c4b9bc15"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/edited_chunk_strip.mp4",
-      "bytes": 239010,
-      "sha256": "9e77ce88c175393916655ce71eae096d730d09bb0daad7966c5d899f92f53e57"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/full_regeneration.mp4",
-      "bytes": 254914,
-      "sha256": "05d865a6bb33905fc61cebe0155377ebadfd1e1013160002f29cf56feab5f1fa"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/local_edit.mp4",
-      "bytes": 384237,
-      "sha256": "7185573ebfc41a7af27819f4f647fa5be1b9cdd6aaffcafedd6fbcaab6717e05"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/original.mp4",
-      "bytes": 346842,
-      "sha256": "b8e1ba1f181ad0f6843271ccd7e59bb5cc982a8fbdbdeab2c3f39f7a74c93206"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/same_prompt_replay.mp4",
-      "bytes": 346410,
-      "sha256": "796d3eea5c3642172c08cca0c8c55ca5d29a68d13b385b2a89ad0a33437cf77d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/comparison.mp4",
-      "bytes": 1492600,
-      "sha256": "0943dab77f263cbbe81e8083b9c1b2c3433f4b3e05717b4be490b62bd2c73bac"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/crossattn_control.mp4",
-      "bytes": 345827,
-      "sha256": "baf65ad0a5b08aeb2610c1b87ef59bcc71079b26d5c571d52450e59f99747f24"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/edited_chunk_strip.mp4",
-      "bytes": 262878,
-      "sha256": "731695d0247236691318252df9fcf133ddf60d8eccb7e0760c909e3dd5cb63b3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/full_regeneration.mp4",
-      "bytes": 255446,
-      "sha256": "5cbc25d0f98457addbd8ac0d29e0b402ffd442ec9990ce9ac8896a0f3e55ca09"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/local_edit.mp4",
-      "bytes": 348577,
-      "sha256": "3a3fff445c6e1d1b15aadc7d64155bf85d19e744460c1f6a060d524024418dfd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/original.mp4",
-      "bytes": 346515,
-      "sha256": "0486a67ae55e45a85da01968fed964283d643e3ec77234656ebacca0b2fc3505"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/same_prompt_replay.mp4",
-      "bytes": 345738,
-      "sha256": "42451598000f2a678d27d92a589e21f85bbdeb710f466652c46ebe7a3640e0ab"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/comparison.mp4",
-      "bytes": 828179,
-      "sha256": "6173ef83dc1430b6710d1e9577ccc2794c300d4cd0553dbb8c8bd3a68fba0016"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/crossattn_control.mp4",
-      "bytes": 186106,
-      "sha256": "c64169ac8077bc51c211b562fe3d3e661193edff28dda205300fac633caa1064"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/edited_chunk_strip.mp4",
-      "bytes": 176525,
-      "sha256": "add30606a1759a62ec2c11873bbb7f9530c25dfc7f1fc0e70f6de3b03bcf612a"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/full_regeneration.mp4",
-      "bytes": 207529,
-      "sha256": "5dbc5bc5f6d4e81c6f3cb61722cdc677c25bd678b4b2351f934071b08fdfbb1e"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/local_edit.mp4",
-      "bytes": 193307,
-      "sha256": "86ef96d3eca6ffffa501be670e34289872f04544b700ba7198a9110741e82fb8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/original.mp4",
-      "bytes": 187030,
-      "sha256": "86fa2b459e2b1e122a18b76cdfde16de229f78751163bce840f7ce4bc8ee056d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/same_prompt_replay.mp4",
-      "bytes": 186270,
-      "sha256": "673c6ec2e0c2b822535fa5d1464a3226fb57144c8fa2ee1f8745a3676d133841"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/comparison.mp4",
-      "bytes": 821009,
-      "sha256": "5cf3fcaef28ecd4bbb5876e2f4c5b4e16fa87d829b191616a42937acb0119e94"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/crossattn_control.mp4",
-      "bytes": 186231,
-      "sha256": "e10eea2f239330af227e37255c58803b8e2dc9670cf57c5254410d28d02ac983"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/edited_chunk_strip.mp4",
-      "bytes": 131708,
-      "sha256": "8361762cf85940060963c75d0d034861212058c80e499cc6104ba7f8eaa3bfb3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/full_regeneration.mp4",
-      "bytes": 207958,
-      "sha256": "93eecb11abb4776573da1e18d0502c8dd94b3e3e744b7930399e464942b6ba53"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/local_edit.mp4",
-      "bytes": 186673,
-      "sha256": "b3049230c2c31a6895f8201865b06c71c0ddee3b1eadff0244604079568b9d73"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/original.mp4",
-      "bytes": 186724,
-      "sha256": "5e9521e5545718b69174d6b2eb509dd7dabe74936261a974190bc8f13d54ca5f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/same_prompt_replay.mp4",
-      "bytes": 186279,
-      "sha256": "e53fd8021048659a708e65b754673e236264129dd3a111df8b077cb450fde545"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
-      "bytes": 690267,
-      "sha256": "6a81f19e2de24afd9cd69baa77d7606e2b3cdbfd85d4afea073af9a808d8f4ad"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
-      "bytes": 154026,
-      "sha256": "3adc095d53f6cead43c9f38b6cf72fff04604df0c0087b5b008e69e2e9942e8b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4",
-      "bytes": 128894,
-      "sha256": "ad35bd38fb184140a0f47c0ef4e37a2b5ea6812e9759ebcc497fd786e3be2d09"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
-      "bytes": 117401,
-      "sha256": "03478dc20c92f1801303e09d16882a37aa9e9a01d3285da6b1960af9a25451ec"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/local_edit.mp4",
-      "bytes": 156105,
-      "sha256": "d3151a1507bbfd692f141d6232598e694d7feae2a8376bb234bae96833e60b23"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
-      "bytes": 154804,
-      "sha256": "c446cec5cdbc53ed68b12344e5142d6c84aa28dbd0fb37b252e0d3762cc8d669"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/same_prompt_replay.mp4",
-      "bytes": 154119,
-      "sha256": "e048c4d892add3c83938363dd0153fa37d790eb59496963752d9b095b8b5f637"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/comparison.mp4",
-      "bytes": 689133,
-      "sha256": "7bffa95b97b9db0b3aa7723a405f0e233021cda1a26f94bb77295273a58a5369"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/crossattn_control.mp4",
-      "bytes": 153935,
-      "sha256": "3b589fe5751ef14a08e23cd7934772b03a84e128a411a0a190690ec864d66558"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/edited_chunk_strip.mp4",
-      "bytes": 110290,
-      "sha256": "1e94ccd79049c6d4a89b32e56360e832317db6080b18800d6b2e1f0ecdbbbdbb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/full_regeneration.mp4",
-      "bytes": 117401,
-      "sha256": "03478dc20c92f1801303e09d16882a37aa9e9a01d3285da6b1960af9a25451ec"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/local_edit.mp4",
-      "bytes": 155513,
-      "sha256": "11eeeb81902a6967402d821f8fc8e1fd4083687af31fdcf5f58638713e4163b6"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/original.mp4",
-      "bytes": 154294,
-      "sha256": "639931069f2b1da1a7b60329070851d01e823282f9db618ddfe58708e39678b1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/same_prompt_replay.mp4",
-      "bytes": 153701,
-      "sha256": "1a47f20c53a012d33a5733edb5ed169ed49b5aba60873e5c30bcde44e97464eb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/comparison.mp4",
-      "bytes": 689099,
-      "sha256": "7332a07ae24c7a86e29eb1855525a77c81f43026bbad150e84ba914560459c44"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/crossattn_control.mp4",
-      "bytes": 139301,
-      "sha256": "a56690021935bae807ce7713b528f4697d6fa7d0235708d0d5a5d913e432b80f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/edited_chunk_strip.mp4",
-      "bytes": 121954,
-      "sha256": "c87b62bae43f9ee8f99320cc24948bbcbee2b1265e68e9c024aebb4a8adb0064"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/full_regeneration.mp4",
-      "bytes": 183440,
-      "sha256": "f154b238578e9c3defcf8e88610d825c1d0519dfef69c6f77daa420cd7981d96"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/local_edit.mp4",
-      "bytes": 140997,
-      "sha256": "b0d96386cd0cb17754357b5155c656674a33b2e2137d11ddcfff6a10a70e548d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/original.mp4",
-      "bytes": 139435,
-      "sha256": "99986ec257dcf92d65f667e3e400c006a96edf2d66cf5c3887942a55b16c096f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/same_prompt_replay.mp4",
-      "bytes": 139277,
-      "sha256": "8f6b7083dcee3d04f249385610340a6af00b49f545a496d0fc885b867f099c88"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/comparison.mp4",
-      "bytes": 689076,
-      "sha256": "002297e39a8214fc1ed5173768328dd6d3b5aa7fd615f74be7959095290ce3b5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/crossattn_control.mp4",
-      "bytes": 139505,
-      "sha256": "6a35ab5c8445b4c6d41039232e90a762eabce884d124e189100b59ca044c88b3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/edited_chunk_strip.mp4",
-      "bytes": 114861,
-      "sha256": "c93dc051ce543d01c449d40492127543987e94a8ea4b27b3ee7d1d33c5308d9c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/full_regeneration.mp4",
-      "bytes": 183440,
-      "sha256": "f154b238578e9c3defcf8e88610d825c1d0519dfef69c6f77daa420cd7981d96"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/local_edit.mp4",
-      "bytes": 141099,
-      "sha256": "04cd9eb09dab29e49fc2d63a90f4e40d26cd82cbb9cc34d3e04570c23cdfb6f9"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/original.mp4",
-      "bytes": 139542,
-      "sha256": "16ad38e6c5998ea93d33357786556740b87dde8ef9a32c3ad27cf048895706b6"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/same_prompt_replay.mp4",
-      "bytes": 139328,
-      "sha256": "91dc1ff4964cdd07e706989b18f2f1f7c9b743a7d70de01f2a93ed82984802a1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/comparison.mp4",
-      "bytes": 1507725,
-      "sha256": "3dc2c4122154272f13f58ade0f0a3ac6612bf04508f9ccc8ddee27894dfcaffe"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/crossattn_control.mp4",
-      "bytes": 307367,
-      "sha256": "65f763d757066595dde141c811ccaa892442029be36dde97199a6e05f677637d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/edited_chunk_strip.mp4",
-      "bytes": 255640,
-      "sha256": "526eb0de5790513b5470a3066cdd33f145bf7705eae6cc6da0b7e2714ed43a7f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/full_regeneration.mp4",
-      "bytes": 353191,
-      "sha256": "64107a6c033ef4648a06bd62d565b92b92455ab0238c5cb0ca0433530fcf670c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/local_edit.mp4",
-      "bytes": 308613,
-      "sha256": "2b9a3e6f177c49d4792a29b5bededcc6c7a3abf368110be6c3097393ee1a8a7b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/original.mp4",
-      "bytes": 307808,
-      "sha256": "340a6e6d1ea2b87874ffd4aeff9acb93ee5b7623e257b7d260498cb6bcd7ea82"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/same_prompt_replay.mp4",
-      "bytes": 307363,
-      "sha256": "d33d265a6ed6d3c9cd0fc641f7607513d45dfceebfdca6c26fae03a91d61ab02"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/comparison.mp4",
-      "bytes": 1506913,
-      "sha256": "dfadf346f636f1583db5bf27263fc63fb04a2c7cfe83066e7d8d8959520d0ce9"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/crossattn_control.mp4",
-      "bytes": 307883,
-      "sha256": "81e6403ce2417569fa90ebbe7b7122fcd873606fbed3046e35699c54c0c3f54d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/edited_chunk_strip.mp4",
-      "bytes": 219797,
-      "sha256": "1acd2a683fb8208cd7cc2fa6a9d8df67f0f6eb924da388b5c0d8360c2d34a4f3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/full_regeneration.mp4",
-      "bytes": 352829,
-      "sha256": "3f9d13d15910102a468740f2291cf093755d00d8c311a594911abc8cdefac2d1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/local_edit.mp4",
-      "bytes": 307606,
-      "sha256": "22ded942929a720ef04c7652dd87986a5e2686d2708535b68b72297985fda93d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/original.mp4",
-      "bytes": 308277,
-      "sha256": "0cb62acba30f53bdbc9c1041353e8d960ba08cd6496b7e2c72d1f869e91bdfd6"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/same_prompt_replay.mp4",
-      "bytes": 307721,
-      "sha256": "1fc65c12c503158e16f0a34e4462707d418b2317284299e57acba44efe5c3037"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/comparison.mp4",
-      "bytes": 1735844,
-      "sha256": "171dc5b6b50056437a8339ae22b5c4dfb6b6021424ee95e331dd320ad6f87c87"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/crossattn_control.mp4",
-      "bytes": 378154,
-      "sha256": "00e9fdbf7cfa2d573ff4cee2e63e349ba60d69b7b7a69c0121a5ed1591dbc60b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/edited_chunk_strip.mp4",
-      "bytes": 294406,
-      "sha256": "45d56b2671fc9a5a8c85cd00c3e44ec52fc97881bfb1a236ecc0bce29c810fd1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/full_regeneration.mp4",
-      "bytes": 322595,
-      "sha256": "ef33420a5e76ffb843f007ff133e0488dd286a6698ccf33b376db8476e30298d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/local_edit.mp4",
-      "bytes": 377471,
-      "sha256": "03c359b61b91d53e3943aef150ef5b956acc40bfee84e02eff235fa6f48e0ec4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/original.mp4",
-      "bytes": 378218,
-      "sha256": "1011d0c73bcf72b851ea7da3122016a09460d3bd870f3cf8dba8aa980e80c835"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk1/same_prompt_replay.mp4",
-      "bytes": 378154,
-      "sha256": "00e9fdbf7cfa2d573ff4cee2e63e349ba60d69b7b7a69c0121a5ed1591dbc60b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/comparison.mp4",
-      "bytes": 1735074,
-      "sha256": "b280f2ef29d1ff11b1aa5a7383e703194fcf6d8f0e3a792480724488de2822ab"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/crossattn_control.mp4",
-      "bytes": 377245,
-      "sha256": "9bf9b5053859aec75ae9c4f69b0c8c2c688cfad10252842af5e68ace350991a5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/edited_chunk_strip.mp4",
-      "bytes": 252399,
-      "sha256": "df1b78b39921f7273730505cc6e9cf84cef48829aecfd9ab7a09d0caaa3f658b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/full_regeneration.mp4",
-      "bytes": 322764,
-      "sha256": "cbd07750dd6f413014a71718f366751f25f4f48c866d802ca087889fbb1f1353"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/local_edit.mp4",
-      "bytes": 377716,
-      "sha256": "e3076f5a236e51f9373131e80c5ab351d1fde257d57df25d2fab13a45ae04bc0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/original.mp4",
-      "bytes": 377427,
-      "sha256": "6f04302357011a3c5812273602758cdbbcf525cf20c3ad04d22f6f0df843f31f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed57_chunk4/same_prompt_replay.mp4",
-      "bytes": 377475,
-      "sha256": "d9907183aed9ff5553a4d6b4d37aaa8f6cf375ca853486fe3417a8172f8b7dd3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/comparison.mp4",
-      "bytes": 483261,
-      "sha256": "727139483daba2dc6bbca415a39e0b8a7814e857df6173aa2ac4970899e03bc8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/crossattn_control.mp4",
-      "bytes": 112123,
-      "sha256": "3f0ddb0beaf09a94657a74d0c28798a83e781818bedfb78fc5c5bf2be725620e"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/edited_chunk_strip.mp4",
-      "bytes": 87287,
-      "sha256": "833273a299f0b8b5b712c4b96a3eb1f69fd15235d5e8c202a81dd59b443e06c6"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/full_regeneration.mp4",
-      "bytes": 87933,
-      "sha256": "71268fde274d7e14e455be76dfc082a5a52d5e3f6d45b648b029be4dcba2256f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/local_edit.mp4",
-      "bytes": 112425,
-      "sha256": "9a6d581d547045d4fbd58cac12040c761e39b39a20d9880abf5d3dd05cab29f4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/original.mp4",
-      "bytes": 112065,
-      "sha256": "91fc467e1d85226543647b4406b6bb9098abc7981518368710754bb641a53a1b"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/same_prompt_replay.mp4",
-      "bytes": 112314,
-      "sha256": "9b1b0b1eab3c155c282d5e0b33ee1fb45a8255278a3e5489260998164f0d1eaa"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/comparison.mp4",
-      "bytes": 482825,
-      "sha256": "b4271bc45febf0315f35a3c75d5bf5eb027638a56588ba70f1c7b478356c77b0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/crossattn_control.mp4",
-      "bytes": 112362,
-      "sha256": "6fa773f40dab16569b40c40b993a597d71bb1122d9b26daa5fe31c67619d52d1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/edited_chunk_strip.mp4",
-      "bytes": 79097,
-      "sha256": "271be9727202ee9c5c7e9c12dbe53dc2bd98f80ad93356483d2e64400a210163"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/full_regeneration.mp4",
-      "bytes": 88100,
-      "sha256": "88aabd2aa702d9df9902505f414979cb5db8565033e28c7b396ec070749470f8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/local_edit.mp4",
-      "bytes": 112439,
-      "sha256": "19cfc8414c7f3f3bd1db242b771100573da3d375220c77bf6b93c16d40ff895c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/original.mp4",
-      "bytes": 112794,
-      "sha256": "ab124b4df3b97b35c9eccf04e082759c393022a8f47025616ea2ff96f7e3d3b3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/same_prompt_replay.mp4",
-      "bytes": 112319,
-      "sha256": "fe51e6a8989c4d3ead7015f600ec94cd6b50307122638bbfe6913bedebc510a4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/comparison.mp4",
-      "bytes": 654569,
-      "sha256": "0b1c051083be9687e487708c8b7a7e21cf4b1ba9282617d9ddde2ac04df80247"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/crossattn_control.mp4",
-      "bytes": 154956,
-      "sha256": "21bc59b2c985b8d19c27de2ead11fe7a2ed15688fc9bfbed548085481b4c608d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/edited_chunk_strip.mp4",
-      "bytes": 122036,
-      "sha256": "eb3f1724d7d24087f970183d9e2673353710ac87dec68e5c3b044e9b9ec842bc"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/full_regeneration.mp4",
-      "bytes": 86673,
-      "sha256": "4cfde4ec5085880b6c9cd008bf73105f48d5ecf5ee8e7dd2b383d62aac0b3011"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/local_edit.mp4",
-      "bytes": 155340,
-      "sha256": "b0dff0751785555f5cbc693af7640742ffc416c68d35a4a6f331969887f611f4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/original.mp4",
-      "bytes": 154913,
-      "sha256": "2f84a15ae3fe4b8a0daf45b4735c0654cc8e1e715d10587f4add093ed907414c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/same_prompt_replay.mp4",
-      "bytes": 154688,
-      "sha256": "75f52619c40ed5b690223684b4769f034244a653dcca616d86b75725c340b205"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/comparison.mp4",
-      "bytes": 649772,
-      "sha256": "1de64cc6ee694c3e663d00d5f20e65a843442796ce6ed917d11a57a22e9da4cd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/crossattn_control.mp4",
-      "bytes": 154379,
-      "sha256": "0dd56323d8e53ca705f10ebab149aed962f4311cef673edd706e0c5987b30007"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/edited_chunk_strip.mp4",
-      "bytes": 105232,
-      "sha256": "b3706b357d127fa35340a52828cacb877ef1c4d25964b1ecde4f03b85b8495dd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/full_regeneration.mp4",
-      "bytes": 86673,
-      "sha256": "4cfde4ec5085880b6c9cd008bf73105f48d5ecf5ee8e7dd2b383d62aac0b3011"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/local_edit.mp4",
-      "bytes": 154760,
-      "sha256": "affeb6272543d014cdbb16be5a70cb0f54564b9feb1b519d02b50f4972c30e6c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/original.mp4",
-      "bytes": 154746,
-      "sha256": "a433ee70b9ed3e9c3c24611d334669fb245c17cc5aea0a191883aabdeb5941a3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/same_prompt_replay.mp4",
-      "bytes": 154379,
-      "sha256": "0dd56323d8e53ca705f10ebab149aed962f4311cef673edd706e0c5987b30007"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/comparison.mp4",
-      "bytes": 363933,
-      "sha256": "8614c819e7613a9be207ac7b9a47979a8f81225aac742f90068671fe00466bde"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/crossattn_control.mp4",
-      "bytes": 83763,
-      "sha256": "ac541862b36705f11c6cfb6d6abc6a47c9710b805914ffb2de507efbf5166a61"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/edited_chunk_strip.mp4",
-      "bytes": 79207,
-      "sha256": "b45aeef8a459ed70843e52e8ad1fa87b66ee6388b4997ec25af181ab12650fe5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/full_regeneration.mp4",
-      "bytes": 80230,
-      "sha256": "fde680f97a160dd093cb9c7c2ca3419131c475a07790f9ea0ffa02edf9ab228d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/local_edit.mp4",
-      "bytes": 83011,
-      "sha256": "28b9765241cf9e7da1add641c321077485678fa0b29649bcac38926f8db5ae9e"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/original.mp4",
-      "bytes": 83410,
-      "sha256": "7a807b78bc1a2ea77762114115902047fb65839d8675d4ca39c9f63f576c67aa"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/same_prompt_replay.mp4",
-      "bytes": 83763,
-      "sha256": "ac541862b36705f11c6cfb6d6abc6a47c9710b805914ffb2de507efbf5166a61"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/comparison.mp4",
-      "bytes": 363367,
-      "sha256": "5512243408d6eb986fcc632846f43d939feef61c92b190af440c7aaabd690d49"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/crossattn_control.mp4",
-      "bytes": 83763,
-      "sha256": "ac541862b36705f11c6cfb6d6abc6a47c9710b805914ffb2de507efbf5166a61"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/edited_chunk_strip.mp4",
-      "bytes": 77011,
-      "sha256": "5222f2fed8271a036f6ee5b0ea1c8fd1849d8a6885b113d5cfcb0844fce77b85"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/full_regeneration.mp4",
-      "bytes": 80196,
-      "sha256": "d8b214c974013fcbefef926b7fab440a43ff417db199a64d9501513b5eab57a0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/local_edit.mp4",
-      "bytes": 83585,
-      "sha256": "3497f3700c79ef5b0980244fa691231b9e83b1f304c0e13d5cdf437e4af27a24"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/original.mp4",
-      "bytes": 83634,
-      "sha256": "f39d528bd3dc922c74dd17b33fc61556c773e7bf8ff272f9768e0db2cdd57e94"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/same_prompt_replay.mp4",
-      "bytes": 83763,
-      "sha256": "ac541862b36705f11c6cfb6d6abc6a47c9710b805914ffb2de507efbf5166a61"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/comparison.mp4",
-      "bytes": 475307,
-      "sha256": "c90ba3af68060e7a161264b057c7af89a7d274a019f8799bed5b94e07f8a2df5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/crossattn_control.mp4",
-      "bytes": 106093,
-      "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/edited_chunk_strip.mp4",
-      "bytes": 102915,
-      "sha256": "70a7b27d08e56e923a770497d3a432df858920d38c905151fb68936268f436c4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/full_regeneration.mp4",
-      "bytes": 94584,
-      "sha256": "d43b446d1635310ee8ec52ceca9fd5c588a84aacdf72ca5bd490b6dc508ea386"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/local_edit.mp4",
-      "bytes": 110650,
-      "sha256": "9a51f22f584d8b246c61914cab29abb03238047994051bf1abef64ce26cdbc79"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/original.mp4",
-      "bytes": 106830,
-      "sha256": "72675f9fffba25e7bf1e262a7408703e0655128f45ff7e3345dd8d11c63fbfc8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/same_prompt_replay.mp4",
-      "bytes": 106093,
-      "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/comparison.mp4",
-      "bytes": 472109,
-      "sha256": "87577d9543d54bd7ea6644debdb1ae4e6b1074494098587b45cb39260ffa396f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/crossattn_control.mp4",
-      "bytes": 106093,
-      "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/edited_chunk_strip.mp4",
-      "bytes": 85004,
-      "sha256": "6f2eb15869ebbca871e446caf06474a8ea418ca035254a3eef712e44a6c7a6f5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/full_regeneration.mp4",
-      "bytes": 94289,
-      "sha256": "85e62ddc020f89f1c3517d68d23c1b707bce545dcbbcfc6826e7dde7f13f1d16"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/local_edit.mp4",
-      "bytes": 107948,
-      "sha256": "0aa58684c8f46441fd96f222eda58c2660ebd623b65d8796909a86c85ab03cc5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/original.mp4",
-      "bytes": 106829,
-      "sha256": "7bf97ca46207ba2ffd99521b49797eb04a3849d1d51f2797033a3558395b6233"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/same_prompt_replay.mp4",
-      "bytes": 106093,
-      "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/comparison.mp4",
-      "bytes": 1377681,
-      "sha256": "fbf43a282cb76f9ab99c1183bb7d608d49cd58efbb5f5ce0d84f25bce3ab1d69"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/crossattn_control.mp4",
-      "bytes": 313221,
-      "sha256": "6a27d9f40070e91994a1e7e1080307f49869a9baeb4bc80b333cf30eadfc8fe3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/edited_chunk_strip.mp4",
-      "bytes": 225535,
-      "sha256": "6b947c444c02f82a6900c5ed614d4e0f262fe8db72afc875504b82aaa3d3f66a"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/full_regeneration.mp4",
-      "bytes": 244975,
-      "sha256": "77053dd37d769c5db3bc43bf6454d82ae60ce281004c50f13a531a1f2cf951a0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/local_edit.mp4",
-      "bytes": 312665,
-      "sha256": "d951f26b876da184259402df2cd93ef1c2d7ea16da7262a3f4ed12a2a1c0ecfb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/original.mp4",
-      "bytes": 313221,
-      "sha256": "6a27d9f40070e91994a1e7e1080307f49869a9baeb4bc80b333cf30eadfc8fe3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/same_prompt_replay.mp4",
-      "bytes": 313221,
-      "sha256": "6a27d9f40070e91994a1e7e1080307f49869a9baeb4bc80b333cf30eadfc8fe3"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/comparison.mp4",
-      "bytes": 1364996,
-      "sha256": "753f0106be3bb9bdee0d3b9453d27d4de4157d5ca97ed2b64e9f9b2d0602a0e4"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/crossattn_control.mp4",
-      "bytes": 313455,
-      "sha256": "f5736cbb4bf151c5477f6fa9d2ad8cf745a51a11bec681661c7758649be9be5f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/edited_chunk_strip.mp4",
-      "bytes": 227726,
-      "sha256": "e37b354b9dba4b72b90f32243dccca724d51ec4cd4476a05cbe96032f8aad39f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/full_regeneration.mp4",
-      "bytes": 244816,
-      "sha256": "29ebd0250ff359eca00a3c637cc8ebe838960d6f89021f0759156291af448b53"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/local_edit.mp4",
-      "bytes": 310512,
-      "sha256": "7d0e68153359708abb0bc87048e000b3d67197998c1be5fb4f3758f29cb590fd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/original.mp4",
-      "bytes": 313405,
-      "sha256": "5cc6e09da78bf1db837bf87ffaa446454f3418b890ae759daf5e695d5a2e6eca"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/same_prompt_replay.mp4",
-      "bytes": 313455,
-      "sha256": "f5736cbb4bf151c5477f6fa9d2ad8cf745a51a11bec681661c7758649be9be5f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/comparison.mp4",
-      "bytes": 1844744,
-      "sha256": "af6a3e03a27ece902d899abce70c196377766fe4281752036dd19b978262d375"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/crossattn_control.mp4",
-      "bytes": 427862,
-      "sha256": "264c428d032f3bb578ee3f12b0ad08d2f36e7fdf2a85d4ae05b93eec4c8a45ac"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/edited_chunk_strip.mp4",
-      "bytes": 258751,
-      "sha256": "ac54fbe8bac88f7e6ce170f4b405a39867bb5a8060d8c2610525728faab51511"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/full_regeneration.mp4",
-      "bytes": 277643,
-      "sha256": "75fff0154e903c8ed2eaca79c7f3104746add65192d4d8134e6f347d67a3b518"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/local_edit.mp4",
-      "bytes": 423581,
-      "sha256": "5b992d501702c7d0943834d85b1f76ca1c6e2a94eaebda25cab7ddcea15a7bfc"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/original.mp4",
-      "bytes": 427371,
-      "sha256": "ab87d9ac142775b8afbc258458bf970be7e8049480d27a9dda271ee66ec3fa49"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk1/same_prompt_replay.mp4",
-      "bytes": 427626,
-      "sha256": "080e325c7725ed8765c00a6f08891dde314d303bf7c0e55208fb53012c2f3833"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/comparison.mp4",
-      "bytes": 1860490,
-      "sha256": "b65b05dd5f51c05e55ba440b194beec63a0cd2c2eacb750cb68a9c372f05e05d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/crossattn_control.mp4",
-      "bytes": 427626,
-      "sha256": "080e325c7725ed8765c00a6f08891dde314d303bf7c0e55208fb53012c2f3833"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/edited_chunk_strip.mp4",
-      "bytes": 290240,
-      "sha256": "5954b222f371004b8e7dbc9f75595d16ed7726787cc3ce2c84b655b5f0e01b9f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/full_regeneration.mp4",
-      "bytes": 277413,
-      "sha256": "59c03a8ed7454092c0168a49daa14effa0eae4545fd564b57cb33346c8a8f7d1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/local_edit.mp4",
-      "bytes": 434125,
-      "sha256": "91facaa47381fd3448ed80fac1f5358e20b34cebaa02a8dd9c95b991894eeaec"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/original.mp4",
-      "bytes": 426890,
-      "sha256": "1e7678f6f1a967356b0f296a19014ec6ff98df9ce3484dacbeefff533d7f8167"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed54_chunk4/same_prompt_replay.mp4",
-      "bytes": 427862,
-      "sha256": "264c428d032f3bb578ee3f12b0ad08d2f36e7fdf2a85d4ae05b93eec4c8a45ac"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/comparison.mp4",
-      "bytes": 580009,
-      "sha256": "ea15d1f02271264b964471d2a5b722e19dde01f4e21b2b8f6d99a27736b46f9d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/crossattn_control.mp4",
-      "bytes": 139863,
-      "sha256": "c3115af701945cadeb8baebfac0cd4d25cad35221aed96b4d71c327ecb13460c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/edited_chunk_strip.mp4",
-      "bytes": 102361,
-      "sha256": "6a562d995ace154e9a042b43b49617917421d4ee4ad781b2c279376c15739cf5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/full_regeneration.mp4",
-      "bytes": 140567,
-      "sha256": "4d002ca1c6557c00fc110a224aa201bf95e52a7f4df5b17162e9a18227415b2d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/local_edit.mp4",
-      "bytes": 139005,
-      "sha256": "32ece1c7890155fc54fa8f8487abc2498063440cd71e7a00c4cb0b39706a8534"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/original.mp4",
-      "bytes": 139718,
-      "sha256": "061f9a040c71feceac1aef9f918a425d9f0ce9c5d9b710b144fefc03bcd4dbea"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk1/same_prompt_replay.mp4",
-      "bytes": 139863,
-      "sha256": "c3115af701945cadeb8baebfac0cd4d25cad35221aed96b4d71c327ecb13460c"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/comparison.mp4",
-      "bytes": 579406,
-      "sha256": "b2bf5040624a839f86a717693a60d8faf43560eb330ed64e20e229beac4be839"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/crossattn_control.mp4",
-      "bytes": 139809,
-      "sha256": "4c055112452a6ae275fcd8ce76ae4c54d2cf7cc6dc38076cd22e4ca6a11c931d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/edited_chunk_strip.mp4",
-      "bytes": 97091,
-      "sha256": "4ddcbaf086dc5a48676e36251f0b152865acb02a330429fbe04f8752bacd5d67"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/full_regeneration.mp4",
-      "bytes": 140695,
-      "sha256": "01d4d2d1ef104414460f8f588630e8aa8f1b5cb9b79c38b21d774cb85cdb2ab8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/local_edit.mp4",
-      "bytes": 139889,
-      "sha256": "493270d1c8a366cc5b09fabc901ab63c546d80f6f50df357bcdafa582e4028e1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/original.mp4",
-      "bytes": 139580,
-      "sha256": "7222ed09c0bd2a49366fd08545008afb9955e8742c6a63773e65fa382f827ed2"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed48_chunk4/same_prompt_replay.mp4",
-      "bytes": 139809,
-      "sha256": "4c055112452a6ae275fcd8ce76ae4c54d2cf7cc6dc38076cd22e4ca6a11c931d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/comparison.mp4",
-      "bytes": 472043,
-      "sha256": "93448c54cbf4ec0cd8ce5567a323d2e17b59c83d78eee41fb0a94f4a234c84fd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/crossattn_control.mp4",
-      "bytes": 108103,
-      "sha256": "36363639acb74500fde0bfa14d8decf6bb59123972b647596b7d42e208712892"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/edited_chunk_strip.mp4",
-      "bytes": 94111,
-      "sha256": "6000a85ceeb6979b294ca10764c52d465f713624feaa04341d0ad66223e46a0f"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/full_regeneration.mp4",
-      "bytes": 110887,
-      "sha256": "5a53e4c8d994ce490eefdfeb78ce45866cae2dc82e46b937bc4b4e19cbdbfd20"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/local_edit.mp4",
-      "bytes": 110306,
-      "sha256": "8a55d0b3981182e6e65decfde3c017133ba42fbcd6f74b136a99f8ae4d781139"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/original.mp4",
-      "bytes": 108103,
-      "sha256": "36363639acb74500fde0bfa14d8decf6bb59123972b647596b7d42e208712892"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/same_prompt_replay.mp4",
-      "bytes": 108103,
-      "sha256": "36363639acb74500fde0bfa14d8decf6bb59123972b647596b7d42e208712892"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/comparison.mp4",
-      "bytes": 470972,
-      "sha256": "8fca2dd03f357718800eaca264a789c22f0dfe2dcac38bb0c3db48f9ac742ced"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/crossattn_control.mp4",
-      "bytes": 108277,
-      "sha256": "3f098f2a2f181dafedd759e7ab3606d886b899bec35f3f9f47d5371372d74695"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/edited_chunk_strip.mp4",
-      "bytes": 86922,
-      "sha256": "938557b0675cbe36e45e1be72fe6c518687fa2cd88df7600bd28e30c9a7560f0"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/full_regeneration.mp4",
-      "bytes": 110887,
-      "sha256": "5a53e4c8d994ce490eefdfeb78ce45866cae2dc82e46b937bc4b4e19cbdbfd20"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/local_edit.mp4",
-      "bytes": 108507,
-      "sha256": "78900ea9440295e0079a727015da3a4e51c32ba0f523e94fb3b6937b152f54dd"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/original.mp4",
-      "bytes": 108103,
-      "sha256": "36363639acb74500fde0bfa14d8decf6bb59123972b647596b7d42e208712892"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/same_prompt_replay.mp4",
-      "bytes": 108277,
-      "sha256": "3f098f2a2f181dafedd759e7ab3606d886b899bec35f3f9f47d5371372d74695"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/comparison.mp4",
-      "bytes": 1513844,
-      "sha256": "931f0e43c929fd752ca053d047ed643353a463491d791d760a1549c058afe743"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/crossattn_control.mp4",
-      "bytes": 346414,
-      "sha256": "1321d13e228c8b47b091b9ab66b7052e47b9e4f1cfe373ccdfdb6e1674b7fba8"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/edited_chunk_strip.mp4",
-      "bytes": 239010,
-      "sha256": "9e77ce88c175393916655ce71eae096d730d09bb0daad7966c5d899f92f53e57"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/full_regeneration.mp4",
-      "bytes": 255556,
-      "sha256": "7b0b6d0eb8cda37c02fbc1fb68fa90f00bbdbed2e8e636eac9b502a860a701ec"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/local_edit.mp4",
-      "bytes": 384912,
-      "sha256": "6d1681783d5e442eaab2fe8ba3df9fb9959eab74cd1d916f7972c610e47cbdfb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/original.mp4",
-      "bytes": 346837,
-      "sha256": "0da7462f61527b72dde4561ade7076faa31d73a58821a99e8ea9fbe2ce58b19a"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/same_prompt_replay.mp4",
-      "bytes": 346380,
-      "sha256": "75cc3dfc1e657789eac45d278334c19ce304ebf9b92bd1b07274991e86ee28e1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/comparison.mp4",
-      "bytes": 1492460,
-      "sha256": "eabd029ffa9736dc14bd7a2ca45fa635f2498b6c228e6cde54323d8a0185c621"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/crossattn_control.mp4",
-      "bytes": 346780,
-      "sha256": "d0769850ef9474edde19b493161f66f8a9e80362972d46049456fc8d0c3631c1"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/edited_chunk_strip.mp4",
-      "bytes": 262818,
-      "sha256": "f60fc13f719989ae0a6efc0085945578ed97462724df77315384620047055a3d"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/full_regeneration.mp4",
-      "bytes": 256072,
-      "sha256": "a3a9d393d00d2ab6019f784d1e9f5b6217d0f6bc632f205e56fde8bc88ccd09a"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/local_edit.mp4",
-      "bytes": 349361,
-      "sha256": "d94ff2c56b46064691d98ed1ef721837b0bb6612900de0a5670d81cdfa140def"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/original.mp4",
-      "bytes": 347348,
-      "sha256": "d1016150f8d3739fb3d6489c447f5bfd6421f43fe6146b0cff04a2db282c61e5"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk4/same_prompt_replay.mp4",
-      "bytes": 346775,
-      "sha256": "c51892fe877e414508ec8bbff215b64d3b3e918fd5c43350fa6959072b845e26"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
-      "bytes": 690542,
-      "sha256": "b8c4fbfeba1882c40bda19e41b983d75ba2aefe528567c4c0c7276d52f25ead6"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
-      "bytes": 153996,
-      "sha256": "5b1da3aba436414d90f0a6c43a6c0e00786efa0a3fe96f71e287fff1a4386099"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4",
-      "bytes": 128894,
-      "sha256": "ad35bd38fb184140a0f47c0ef4e37a2b5ea6812e9759ebcc497fd786e3be2d09"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
-      "bytes": 117401,
-      "sha256": "03478dc20c92f1801303e09d16882a37aa9e9a01d3285da6b1960af9a25451ec"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/local_edit.mp4",
-      "bytes": 155966,
-      "sha256": "2b9f3c3c92936d13635de79ac3f2c1954240f5c2ff9cf1a448a87e7e973ea846"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
-      "bytes": 154868,
-      "sha256": "d2b08cb82e1fe5e8b69ad2884faa167713722e05093c99b838ce9956944b7547"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/same_prompt_replay.mp4",
-      "bytes": 154492,
-      "sha256": "859897ab51f64aa06652681e97b3b475d0db7859433640d5c29350c5ea435e26"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/comparison.mp4",
-      "bytes": 689367,
-      "sha256": "6d80b424390385eb1e92fba4dc7f155179d326e973996d886552ed0c0eb1ff43"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/crossattn_control.mp4",
-      "bytes": 154757,
-      "sha256": "52e42d202bf060bda9be2dbc38f00c1e514d0487236c06f26436be93a187f8aa"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/edited_chunk_strip.mp4",
-      "bytes": 110290,
-      "sha256": "1e94ccd79049c6d4a89b32e56360e832317db6080b18800d6b2e1f0ecdbbbdbb"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/full_regeneration.mp4",
-      "bytes": 117310,
-      "sha256": "d45f152cea2f8f708ad8a36ad39abdbba926c69cc886525a22baa70fa842c0cf"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/local_edit.mp4",
-      "bytes": 155509,
-      "sha256": "739e34380786614062faea70a87bd558a0439052bfc086007f1619be37aead67"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/original.mp4",
-      "bytes": 154668,
-      "sha256": "597b2f05c8c319a89512cd167b69cf7723a9c867662bda21991e7695df299f65"
-    },
-    {
-      "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk4/same_prompt_replay.mp4",
-      "bytes": 155018,
-      "sha256": "21267a4b0c7a7907ec202aa148b557a4f97525fb21c45294d88585dee5721f95"
-    }
-  ]
+  "note": "Review videos stay on the work machine; validation/edit_ready_mvp/videos*/ is git-ignored. Representative comparisons are committed under examples/.",
+  "main": {
+    "count": 432,
+    "total_bytes": 128548345,
+    "entries": [
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/comparison.mp4",
+        "bytes": 593083,
+        "sha256": "2e8c11e619607fae401a4eacf99f3ff862d0ed09899647d47645923935d292dc"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/crossattn_control.mp4",
+        "bytes": 95846,
+        "sha256": "5b09d708bcab766ea90e3765a7e1478efae97901b5cfcf1eaeb38041faf8961a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/edited_chunk_strip.mp4",
+        "bytes": 94973,
+        "sha256": "69c50fba70d75bfd7bc32c12a8a628895ee3beaa977feffa6f53a471160d14cf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/full_regeneration.mp4",
+        "bytes": 100739,
+        "sha256": "e8f6e3182ae2709bd74e22763632dec477f2065c853bd90e3706066729e2faff"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/history_recache.mp4",
+        "bytes": 95846,
+        "sha256": "5b09d708bcab766ea90e3765a7e1478efae97901b5cfcf1eaeb38041faf8961a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/original.mp4",
+        "bytes": 82408,
+        "sha256": "a8df9c901e7982a2e5e491d91c1ee674f760c21df03609cc224fdfc1a99b2f4d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/replay.mp4",
+        "bytes": 82092,
+        "sha256": "7b67cb7e89d21493511a18434c02e9ef9c83d970f1efd5cd7ceaf8897a342570"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/reverse.mp4",
+        "bytes": 111685,
+        "sha256": "c6d716ef66332bc384ea09d4af3b1621272954e86d37a23be9f15ac8b04621b1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk0/text_rebind.mp4",
+        "bytes": 95600,
+        "sha256": "82a4555e33ffdad93c62921af42a970380bbdb8878089b6f92f2b173873ed622"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/comparison.mp4",
+        "bytes": 539619,
+        "sha256": "0f30d7f95058c4d37b419d2c078912f631bde7e69d61e90f3f3c067a8a041ad9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/crossattn_control.mp4",
+        "bytes": 82093,
+        "sha256": "269caf3fc2cbea017b656af77bd57eb308e9277b189c6ae30b33deef866b2907"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/edited_chunk_strip.mp4",
+        "bytes": 100694,
+        "sha256": "8434a9600d044e0ef57fc189d1f8b44ef104bc12f622aba1c78d0dab70175792"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/full_regeneration.mp4",
+        "bytes": 100582,
+        "sha256": "534a72411a8b054d027cb7d0b863e198ccf444d6abf461d5708d685864048759"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/history_recache.mp4",
+        "bytes": 83053,
+        "sha256": "30c3d36317c2b9d15c36397e5c1f69ea6e2ba43dcaf5322f3e8e7476d35194e6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/original.mp4",
+        "bytes": 82283,
+        "sha256": "ad8a249ba6e12994049f6a8ba00bd791889fd4009d12d57fdcefde66c5924091"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/replay.mp4",
+        "bytes": 82093,
+        "sha256": "269caf3fc2cbea017b656af77bd57eb308e9277b189c6ae30b33deef866b2907"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/reverse.mp4",
+        "bytes": 101650,
+        "sha256": "837ee19f2eae1fc00590e07963a27aefe143fb8bfc727c4b6db9c627dad8afb5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk1/text_rebind.mp4",
+        "bytes": 83385,
+        "sha256": "1c28510fd7217fa1574290a6969f293d32d502c2837eab9ca67f1bceb6ff374c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/comparison.mp4",
+        "bytes": 538264,
+        "sha256": "e743af1dc4671d3f109f7488fa4b5ab50e0f8dae922c933737cfe24bef9a28df"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/crossattn_control.mp4",
+        "bytes": 82093,
+        "sha256": "269caf3fc2cbea017b656af77bd57eb308e9277b189c6ae30b33deef866b2907"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/edited_chunk_strip.mp4",
+        "bytes": 89852,
+        "sha256": "9ec776f301222fc4132ab19de9e3b6e5b62835ac129395f7ce4e15ba6faa58ac"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/full_regeneration.mp4",
+        "bytes": 100582,
+        "sha256": "534a72411a8b054d027cb7d0b863e198ccf444d6abf461d5708d685864048759"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/history_recache.mp4",
+        "bytes": 82773,
+        "sha256": "d46b123665fbdf487c94db3b66386a6120b847745b326410be0d6267f2f737bb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/original.mp4",
+        "bytes": 82594,
+        "sha256": "70689f0b11f24cabe551991f8d81795851f7f5deeb2c3f0491c6a6501bf0d9de"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/replay.mp4",
+        "bytes": 82093,
+        "sha256": "269caf3fc2cbea017b656af77bd57eb308e9277b189c6ae30b33deef866b2907"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/reverse.mp4",
+        "bytes": 100773,
+        "sha256": "ab76fb489b0febc39c8e3dab9d39aaade3e31ebc933ff8e5c8a42acb1ec05807"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed48_chunk4/text_rebind.mp4",
+        "bytes": 82772,
+        "sha256": "50d5648404cfef09fb28eb474df2c1d3f8886badf6e5c688e0b68365f3c51dd7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/comparison.mp4",
+        "bytes": 584592,
+        "sha256": "67031edb6e55fa7ae682f7005e4d56580476b4a47f8e94501aa4ca37df218343"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/crossattn_control.mp4",
+        "bytes": 96542,
+        "sha256": "8824fe0164f03e03530193f9c923ca53610c9b57a1a88f7cf60161058e83357f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/edited_chunk_strip.mp4",
+        "bytes": 97738,
+        "sha256": "407fdb764def6a0912f9692b0f7303cced49c3a84f89b2816d4872bd5c026aeb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/full_regeneration.mp4",
+        "bytes": 99219,
+        "sha256": "250dfecdf1cdcd0c51177afd747a1cb2591eef71410dc3fceb1ae2b4ace9ef69"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/history_recache.mp4",
+        "bytes": 96542,
+        "sha256": "8824fe0164f03e03530193f9c923ca53610c9b57a1a88f7cf60161058e83357f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/original.mp4",
+        "bytes": 80481,
+        "sha256": "2d5cd689be1b7e155da6cfed1ef5a76b05093a67368778c0cca0ffeb4292458b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/replay.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/reverse.mp4",
+        "bytes": 112628,
+        "sha256": "00b64b91149fff23871d22e7c14793d087ff008872c18fac5410f6d82df71348"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk0/text_rebind.mp4",
+        "bytes": 96542,
+        "sha256": "8824fe0164f03e03530193f9c923ca53610c9b57a1a88f7cf60161058e83357f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/comparison.mp4",
+        "bytes": 530829,
+        "sha256": "31f50d96a93dd6352123bd1b51f028201b0bb2e7f5eed646e9fdd80f86c343e9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/crossattn_control.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/edited_chunk_strip.mp4",
+        "bytes": 97272,
+        "sha256": "4f0a53d17321af8ee1be153421fe3063139184f7366486357e61ebd889d1796c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/full_regeneration.mp4",
+        "bytes": 99251,
+        "sha256": "4d84c6f4840bbcef0b4d1c4a3db02084e1eeb4b7042d72448e27abb96d5b629c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/history_recache.mp4",
+        "bytes": 81371,
+        "sha256": "3f787dd86c8679055a09defb652f71b9826adbc6716dabd8ed0b3ccf7f2867b5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/original.mp4",
+        "bytes": 80669,
+        "sha256": "28d74f399ea67493baae6c17a447abcdbbe1d9a341bba14f1ccde1bce62b44ac"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/replay.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/reverse.mp4",
+        "bytes": 98565,
+        "sha256": "a67034b028273ba31ebe30b42d0060536ab9bb0fea5f15e574a012d9e6ea52a6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk1/text_rebind.mp4",
+        "bytes": 81886,
+        "sha256": "e744871078ce16d27f119eba0f7b1e1ceb408ce56cfc8de9810579dc090e8b0c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/comparison.mp4",
+        "bytes": 531327,
+        "sha256": "3127e3810bbec09d3b2c25985284b26c1e45e9fae5281ff39c5a742cf77d637c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/crossattn_control.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/edited_chunk_strip.mp4",
+        "bytes": 90549,
+        "sha256": "c7e742db38b6c81374ae23b53e868890ca86e2fbbe7bf2079ad18f7800f25e09"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/full_regeneration.mp4",
+        "bytes": 99293,
+        "sha256": "2369fc318eff3b341c9be4aed99104a8f1391d9112d9e522fe2691c1e4e1747f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/history_recache.mp4",
+        "bytes": 80760,
+        "sha256": "c1d01223e2a7bc1317c8f6b20fa846b3f47e8e4f67caff237b92a29334b1f192"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/original.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/replay.mp4",
+        "bytes": 80423,
+        "sha256": "3df87f2042bc569fa6f7870c022634cb08f2631852132546d82a4101e1d55922"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/reverse.mp4",
+        "bytes": 99282,
+        "sha256": "8232ad4766db2654ced44f106515491df0e95cc95565893efe2d208865a1ebbf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_brief_smile_seed56_chunk4/text_rebind.mp4",
+        "bytes": 81490,
+        "sha256": "3d3ec10edf27af64a0a8db60ad46f2e884d7b9c4de08bae47a50a29256361f15"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/comparison.mp4",
+        "bytes": 2417287,
+        "sha256": "0e3064e8fae1b6d728ad5fd57501212f96a3c70448a09bcaca2e138d05642d4e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/crossattn_control.mp4",
+        "bytes": 378010,
+        "sha256": "f84c2026ef8d70495c79399a40da149a3d586a395a9c24d6846e1db6b3ff677c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/edited_chunk_strip.mp4",
+        "bytes": 293103,
+        "sha256": "096d3484f83a33311e5b1b0d8e8fec3e82ab29920687a6bc1f0abc3bc4ce8dad"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/full_regeneration.mp4",
+        "bytes": 430401,
+        "sha256": "9e105f78f610cdfb2513b0b5eb48d5ea8a3cd881e50a175e2dde249ea9f515eb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/history_recache.mp4",
+        "bytes": 378544,
+        "sha256": "d72e855814e993dbde60f35d49923dfcebd57301776c96664a344ce022b23a1e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/original.mp4",
+        "bytes": 347488,
+        "sha256": "2408be29e596eda4415ac9afa2c13231d07f241a88b85e602fedd9fbe8e6de5d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/replay.mp4",
+        "bytes": 346573,
+        "sha256": "81a554e91b0d0defb5e519557cfc3016a550650ea7eb5e67a8e5d082f185c5c2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/reverse.mp4",
+        "bytes": 450756,
+        "sha256": "9693bdfd57b7f208c69894bc8bb210abb8745eec1c926064b77049cee74554f7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk0/text_rebind.mp4",
+        "bytes": 378404,
+        "sha256": "fa4ea9c1cb284165d4b76c26715459d155b6a6dc66fb0fe1ff97f4718d667f70"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/comparison.mp4",
+        "bytes": 2382804,
+        "sha256": "bddbab4e96eee73d3eae4eaf0821a0a0647e3467a35a3db3336e53bac34ba75a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/crossattn_control.mp4",
+        "bytes": 346916,
+        "sha256": "2ef8adcfa4a5360fb39562b7a97af8ff049ed01a90a055894341bb50202bd222"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/edited_chunk_strip.mp4",
+        "bytes": 394551,
+        "sha256": "94e087a335281d8e8a58a8678de87a0511f9defbc09c694719b7d6f012ed205e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/full_regeneration.mp4",
+        "bytes": 431122,
+        "sha256": "72fc728d91e277ec38766cb418c9e8acefa8203ed95ae5eba91ffc2b174a8a42"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/history_recache.mp4",
+        "bytes": 378237,
+        "sha256": "220196548d635c4c918985534d21ccb6150ff790f88c5c15c70ef225747989a7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/original.mp4",
+        "bytes": 346911,
+        "sha256": "278a455321a4f9d56c27745d21dd10a1d666967350f14fcb98aab1431e7a4624"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/replay.mp4",
+        "bytes": 346284,
+        "sha256": "c861b70e63815f744153613dc93dddf523771a63657fad938b57461521ea323c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/reverse.mp4",
+        "bytes": 438038,
+        "sha256": "be14feca669fc2215aa97a473a6e6702c2f975c35b0452e2628c64eaa390ae6b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk1/text_rebind.mp4",
+        "bytes": 384787,
+        "sha256": "35f1f680182d9c79d57657e3109411fb212ac2984bc681459923097c0b24b910"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/comparison.mp4",
+        "bytes": 2345294,
+        "sha256": "75677708795a86f5e3a795c20bf601c97d6fe592b2ce669a563bc4fa0ac51566"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/crossattn_control.mp4",
+        "bytes": 346115,
+        "sha256": "0f9c4145743a8fc1415d1b2712540a04df531b8b2069cc5284c9b4d3a33a0ac2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/edited_chunk_strip.mp4",
+        "bytes": 401587,
+        "sha256": "0285b55aad67e25b3e4fa2641da8420ecc918f2dd187c7589f4f27acc6710aa5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/full_regeneration.mp4",
+        "bytes": 430877,
+        "sha256": "3a76c76bd992efa04bbacb3c40c965279d06327eabb285e4881b179eabc41407"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/history_recache.mp4",
+        "bytes": 348644,
+        "sha256": "10e7117768e7d67b3adf9a2f972282eb1ac38b379fe89acc3e55ea78437fff46"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/original.mp4",
+        "bytes": 346570,
+        "sha256": "5bcf019305b22a9fa9ecea63c3d5eb0d1757b2f66b8fcf053d41ae832f666c41"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/replay.mp4",
+        "bytes": 346187,
+        "sha256": "b6de263a7878277f6cceb1751de5d3b45fe345bfe6bb24e623aa4b70ab76b1a8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/reverse.mp4",
+        "bytes": 435352,
+        "sha256": "17f7ba4ba1c6800082e7b93f95de82787ecd063d5315b553c5f3c548905e57a5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed43_chunk4/text_rebind.mp4",
+        "bytes": 348854,
+        "sha256": "04b878a78380816ca105781f9652088326991e4c82b244deddff7daf3c096da3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/comparison.mp4",
+        "bytes": 1294075,
+        "sha256": "dccb105e10e000c4284a6caa713f2c1ca0b3dd6846db37e1d9d9f52ed6aa88f9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/crossattn_control.mp4",
+        "bytes": 228309,
+        "sha256": "d68de728cd6c475fedf1293b6972a954db83d9abffec7f0b502282bd8728eefc"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/edited_chunk_strip.mp4",
+        "bytes": 210256,
+        "sha256": "41d0892430414f41eb910387f280d3ee85d1878e2c9146cc16b0d0bea783e059"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/full_regeneration.mp4",
+        "bytes": 199263,
+        "sha256": "5f4f7088ae9d63ed13de89ec63d5b36f6f22c0b870620c1438c42bd79f434c65"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/history_recache.mp4",
+        "bytes": 227979,
+        "sha256": "6da30e721d2f945f35b50a45c87bf34d1249946baeb35e8e5b30e681930c3031"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/original.mp4",
+        "bytes": 186546,
+        "sha256": "c7f0475cc3fc42707f8c5a4e0605d5e8406b3a4c8de676644ba2cbc5da7d7c1b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/replay.mp4",
+        "bytes": 185658,
+        "sha256": "f5880b623534ed1713de8f3fd6bb946504d14307a1b4ca59f0b58ac7a440d034"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/reverse.mp4",
+        "bytes": 233103,
+        "sha256": "2491bb052b604a4e40d78d12d3be071a5257732cf69328210eb464f71c201f5e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk0/text_rebind.mp4",
+        "bytes": 228329,
+        "sha256": "6e8925b866a9fd20ea33ee9653106783455ba157f536670a686b0bd144e22020"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/comparison.mp4",
+        "bytes": 1166011,
+        "sha256": "1c92d1b0469b8fb66c0cb58ef2003fda52cda852a16618763c81c849fab7ca48"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/crossattn_control.mp4",
+        "bytes": 186279,
+        "sha256": "e53fd8021048659a708e65b754673e236264129dd3a111df8b077cb450fde545"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/edited_chunk_strip.mp4",
+        "bytes": 249551,
+        "sha256": "5cbefac66ee1ffde098aafa2c54c47e6b07dcb9cc76169b3448440b3b72d5f62"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/full_regeneration.mp4",
+        "bytes": 198752,
+        "sha256": "e1e2472ec3001f7990f64ecf7f719528ed828ff0542c835be7b7f8e8daf92de2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/history_recache.mp4",
+        "bytes": 194474,
+        "sha256": "a98c274f60d49d814f3dbf1411aea0c92c47f72271d3e22157c5234847163dbe"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/original.mp4",
+        "bytes": 186884,
+        "sha256": "13a4884d74453ca0abc00f1d810e0679986a5f9211c86b34892cb44ff45995ae"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/replay.mp4",
+        "bytes": 186120,
+        "sha256": "337ff80997a99e955969b5414f82df87b26ba765b1a93a78b28bc62b32ceacee"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/reverse.mp4",
+        "bytes": 199626,
+        "sha256": "1b25b9e91e86b67135853b61185fc0720e1a22ed42f93b393ba390b3e642ecf3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk1/text_rebind.mp4",
+        "bytes": 193684,
+        "sha256": "9c4ef4f105bf6c6305b1a80e62409027ce0436fd8dc10002e477d328b8fe5027"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/comparison.mp4",
+        "bytes": 1153589,
+        "sha256": "44bc9cd0c864fee838c1da42cec333729180985cb4e657ba47ac58e9e3ce8d16"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/crossattn_control.mp4",
+        "bytes": 186377,
+        "sha256": "26cc4eff93d02b046b784b02c36d5a2c2e571e54cab528166685bf3f09824471"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/edited_chunk_strip.mp4",
+        "bytes": 184763,
+        "sha256": "ca1020b21c4771d135ae6056ffeab6f1166c665a179b2b0a15c015e24901beae"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/full_regeneration.mp4",
+        "bytes": 198511,
+        "sha256": "66f4e578f92199fab0bf975d2ae404fbc924bf6cd71cdacdb53f8b65c35e398a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/history_recache.mp4",
+        "bytes": 186521,
+        "sha256": "4a2736512cf87189230e88e0d055ef228227b2c3c38032a20707733d060428c6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/original.mp4",
+        "bytes": 186700,
+        "sha256": "52029bcd0f9646646b8ec2800e1ad5234ee8aa2e77b82edb1b7ab5aa1533bef3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/replay.mp4",
+        "bytes": 186231,
+        "sha256": "e10eea2f239330af227e37255c58803b8e2dc9670cf57c5254410d28d02ac983"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/reverse.mp4",
+        "bytes": 198700,
+        "sha256": "4920860967298631bae299a4067b2333073c27921d495ae7157a5f43afabbce8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_car_red_to_black_seed51_chunk4/text_rebind.mp4",
+        "bytes": 186518,
+        "sha256": "6d23862b5f151f477bdbd087ef8dc2f41dd48abc1e4d7c59537f253d64ed3e74"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/comparison.mp4",
+        "bytes": 1013587,
+        "sha256": "34f1d8899e30ed66697e439cd6a3b1c3d76ddc72b419b6fa5b85b9f9e32a4900"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/crossattn_control.mp4",
+        "bytes": 165421,
+        "sha256": "2fb391b61de201caa71fa6216e987863e9466b6d7c22576d06f6a32fafc57593"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/edited_chunk_strip.mp4",
+        "bytes": 165674,
+        "sha256": "b05dbdb4b78c5bb6f59fa120ced25c81a2a9f655fc8a91ab3de0edfd80705155"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/full_regeneration.mp4",
+        "bytes": 130516,
+        "sha256": "d651ff797bde9cd5d4b5f25206ad1c89c38140ec48bd6879f0be852bb0ac14c8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/history_recache.mp4",
+        "bytes": 165551,
+        "sha256": "dca1ac9f9b13fc16975219efc9a4d9313d06a3484da487ee771b89acb3471f39"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/original.mp4",
+        "bytes": 154344,
+        "sha256": "7e21644fa6a28ff773fe0f3fde933a084931f7875f7a7d29583e724ac0937542"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/replay.mp4",
+        "bytes": 154098,
+        "sha256": "c4267968178da09e5cd810e4038abff4bc3348bf227f731b5471b84bb3a6d077"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/reverse.mp4",
+        "bytes": 147563,
+        "sha256": "3b2253e5a66c3fcdacfc8a8159f9d65e2cb21e0c3ac9363890b8a5c32491d100"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk0/text_rebind.mp4",
+        "bytes": 165068,
+        "sha256": "8df2b14113a3f09292fdcdf100f925a2d3db753445417a34ef530cb925a97d24"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
+        "bytes": 972289,
+        "sha256": "670a4c03233644df6c03bc557cea63c28d913ea9d5c40bdd2c2f8abaad7b02ae"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
+        "bytes": 154442,
+        "sha256": "fdf5cf2654fc45b617edbb649c0aecbc914a4019d4f1fa4412526cf063011efb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4",
+        "bytes": 179365,
+        "sha256": "7e575c82d76da72b04c7a941e8bb46f5ac4e8056c130a6db18679d6b4c704eef"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
+        "bytes": 131088,
+        "sha256": "aaa25a1a591361359500a233cf676ed5f531a9e102aa6f9d89a33392a9873d14"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/history_recache.mp4",
+        "bytes": 155329,
+        "sha256": "332c9c09fefc0cf43a725a405437c5d987ddf0ffbb7a98a09fc38a1cee63cc47"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
+        "bytes": 154522,
+        "sha256": "3772a2a8316cf7dab3676c4da0f3ac586d0b2f211a329cbf9f1f5797b5df08da"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/replay.mp4",
+        "bytes": 154411,
+        "sha256": "a6c475b428db60c60a029c8229a9b10e8d949bd10c8236aae0ee88c0c657c8e7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/reverse.mp4",
+        "bytes": 131423,
+        "sha256": "cc3b4888453e4f56173ab51e43a4c9b88ad2ce3b039f554a5e8d152720e4e1ef"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/text_rebind.mp4",
+        "bytes": 155679,
+        "sha256": "0089498b6b02378e341d1cfc2f3868508e4c89a1e053403ac95bbee2e8f0dfb1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/comparison.mp4",
+        "bytes": 971072,
+        "sha256": "47efdf643a3f311fa8fefa382d06dd93448060c66de015a125214ac2b826e9ca"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/crossattn_control.mp4",
+        "bytes": 154521,
+        "sha256": "6023abe6cc8bc5876a530e079dc256e1334d707ee57fee943d415967e98e0fa1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/edited_chunk_strip.mp4",
+        "bytes": 151510,
+        "sha256": "be862403d511a15d784be6390fbc0603247175c56e92c35ef16d676c7f346a5f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/full_regeneration.mp4",
+        "bytes": 130615,
+        "sha256": "7fff6e15b838d4c77b5ed33b3df4c08f6643bb0677fcb330e0d36b649806aef7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/history_recache.mp4",
+        "bytes": 154529,
+        "sha256": "486f57d12ed0c80a2eb64c78dfac69bc6b90f6e1ccba20233b780a6e5194e036"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/original.mp4",
+        "bytes": 155014,
+        "sha256": "d86a918d77ddb864aec6f4dbbfbfc9fd17fb643862e18194256fa4020a96e5d9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/replay.mp4",
+        "bytes": 154961,
+        "sha256": "ff16f18eac80b1c0e54702b59de22c330e3f519abf229fc2e5918e347575489d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/reverse.mp4",
+        "bytes": 131552,
+        "sha256": "672e6068cf1d2cce71148608ebbe75018533e2ed162282adc3759f2eb8c0090a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/text_rebind.mp4",
+        "bytes": 155950,
+        "sha256": "cfe9705c95daf9eb528a3282c3a9ce4ec253e7dd4d4784b191a8605817f94120"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/comparison.mp4",
+        "bytes": 974653,
+        "sha256": "e252b44b390595ac65ac028b39d192000fde71ef584483c51312d316dc09ced2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/crossattn_control.mp4",
+        "bytes": 156418,
+        "sha256": "f1001db2e34bce287e157146d8d45615f3fd8b7fe221948269f28fd1f37284f1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/edited_chunk_strip.mp4",
+        "bytes": 152162,
+        "sha256": "29917538952e2c1eaf0145086986f1068731d39be756fa5ce442a8e3069acebd"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/full_regeneration.mp4",
+        "bytes": 149610,
+        "sha256": "2f5ef3fecaf280b0447bb7c7e32ffcbc4b465200450c086d295e0e457cdc7894"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/history_recache.mp4",
+        "bytes": 156889,
+        "sha256": "f606dbe5614e5fee4abd88b3401faddb36f070c617df240764b202e8fc17b454"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/original.mp4",
+        "bytes": 139134,
+        "sha256": "38b2b2fc1c5dd8d214a1fafa09348056189feea3724aaab8687792f4065c3fa2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/replay.mp4",
+        "bytes": 139212,
+        "sha256": "02e2926cef0d775c28de03e4c2a5d72aa23577363bb0e693b4e4831a182291f9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/reverse.mp4",
+        "bytes": 161705,
+        "sha256": "f1f59598ffa3b11bc6184bb2ff1b014f892e4c74d3a6711097e6d0bf259dc96a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk0/text_rebind.mp4",
+        "bytes": 156366,
+        "sha256": "7dfe1eb1fa4a9200866a04c70e88b0293aa6763e5057b4da46fb29cf9aeeca9c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/comparison.mp4",
+        "bytes": 912474,
+        "sha256": "2e2ec28de591864b6141e12f0b9ed624f3e257f38907d4b5e5f53442f3ac6346"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/crossattn_control.mp4",
+        "bytes": 139590,
+        "sha256": "84c25d028633daffbba42c4f1b82e6daa0d7ecd1e73f8f1f57b68c9616e0262b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/edited_chunk_strip.mp4",
+        "bytes": 163289,
+        "sha256": "9b88b288c0c0447ba4c4d05beda0529f95a36fa707a1b05d50651e0441086736"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/full_regeneration.mp4",
+        "bytes": 149688,
+        "sha256": "6da914b4d9c224f164dcfddced0a1a88d14774613e30eeed48884ad965e19329"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/history_recache.mp4",
+        "bytes": 140382,
+        "sha256": "43348c33f46a707acdf895e952a297939e05fdbf648602aeb3e6aca62a70637b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/original.mp4",
+        "bytes": 139341,
+        "sha256": "fb363ab0556a4046f63fee20ea4d66fcbfe50d11fa79e8d2982b84bec0c759e1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/replay.mp4",
+        "bytes": 139240,
+        "sha256": "7f2c8a3f63ffc3d2386763751c1a53575b7cba5c94e24874b0a20e2ec48880ab"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/reverse.mp4",
+        "bytes": 149662,
+        "sha256": "86bf8c5457992265b3336b1d26b1bc43ca0d4bd05d4424baec7f5a1377503700"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk1/text_rebind.mp4",
+        "bytes": 140772,
+        "sha256": "38da8a935671cb166492163a701f685e908fcc977ae115e944987392862b3158"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/comparison.mp4",
+        "bytes": 912968,
+        "sha256": "c8c67b83923e4827594cc6a87aa8ad48fd9bd0fbf6bde604accd2ba1b8009f0e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/crossattn_control.mp4",
+        "bytes": 139179,
+        "sha256": "0e79b7ff2d4111e3a9772df4921b849f63d3f2303151d6c6e30fc30bd35bddc3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/edited_chunk_strip.mp4",
+        "bytes": 154408,
+        "sha256": "e71b9b2d7c6d148c5e9678823033d361377d01574f7ffce4c31e0c6eaba3a8ff"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/full_regeneration.mp4",
+        "bytes": 149704,
+        "sha256": "1c65dbf4b712c8c2a41065126ef90915ce71747befa72d02102e2e8a88d086ec"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/history_recache.mp4",
+        "bytes": 140379,
+        "sha256": "64e29c43be590db57c1a74e5380ff71269cf60b74e9734c32d4b975aabbdf5b1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/original.mp4",
+        "bytes": 139244,
+        "sha256": "006b435098a3e9be38e2b5bdb686708a99b44c320ab966195e634cbde84b98a2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/replay.mp4",
+        "bytes": 139179,
+        "sha256": "0e79b7ff2d4111e3a9772df4921b849f63d3f2303151d6c6e30fc30bd35bddc3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/reverse.mp4",
+        "bytes": 149791,
+        "sha256": "d7fc3af83076bac228fde3b0f948065dca16f400c60a5531f279ccf69e712307"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed50_chunk4/text_rebind.mp4",
+        "bytes": 141568,
+        "sha256": "d83502a412221b7d6c55aa519e0d97ee60297b7d18409e96f037cf0693c34c6a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/comparison.mp4",
+        "bytes": 1802544,
+        "sha256": "7a6bcd0cfadac65ef79d31854a37f96e6f7438bd29961a3d357762351a76e737"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/crossattn_control.mp4",
+        "bytes": 283809,
+        "sha256": "ae2e7c8e7551294e1c8250d5759fd25bfc62760d715c50406544edc0ad5f4c97"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/edited_chunk_strip.mp4",
+        "bytes": 321870,
+        "sha256": "9b98baa965b97aed07c9511f7d309f4046c88a991a4f2c22dceb405dbaf973b9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/full_regeneration.mp4",
+        "bytes": 262546,
+        "sha256": "9215b446e2e5b3edeeaecb0047a44f1da641da8db73344881f7c2cee770faf63"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/history_recache.mp4",
+        "bytes": 283486,
+        "sha256": "4c398fc70654762e73ec4e4c467749390a6d447b63cff348f111498797257608"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/original.mp4",
+        "bytes": 262524,
+        "sha256": "7cd1783d976852277e08005cfbdae28dc22524e1c4e936dad2521d30e6bc7bde"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/replay.mp4",
+        "bytes": 262427,
+        "sha256": "1f4b18c492068a6c49678ead675c187ff85bed24395261b1d7bbb25e9dfa15ba"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/reverse.mp4",
+        "bytes": 281879,
+        "sha256": "1c9a921e2ca473d2406d7928769ed0ba96ea1e15db6879825424244a45703885"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk0/text_rebind.mp4",
+        "bytes": 283102,
+        "sha256": "ec047ac9a08582ecf7ad4ccb36da3c73c3bc988676c18f73e3861847b37e8aba"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/comparison.mp4",
+        "bytes": 1740583,
+        "sha256": "907afbbd9a83dd10798cf399d4c25cfb1fd53086537daf10cf7511e7f0363940"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/crossattn_control.mp4",
+        "bytes": 262490,
+        "sha256": "5e6fae7d0cb85b5283b90fd5c0eb0ab3d318e7f0b3ea90b9e03d484390cd260d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/edited_chunk_strip.mp4",
+        "bytes": 304205,
+        "sha256": "438694c34d1f79887a3e95ced35a835649dd765e3f7498ac32fea87872826ee2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/full_regeneration.mp4",
+        "bytes": 262491,
+        "sha256": "b917f0347d1cb5cd5055944bb30a8965532ff4d74ffe1f13eae0335c006c9b7f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/history_recache.mp4",
+        "bytes": 263495,
+        "sha256": "0c5a0709045a3acd9d78f37f9d310e153bf529b4d1f8f3bf16ed72b3b45cd96f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/original.mp4",
+        "bytes": 262196,
+        "sha256": "3efd51cfb4a6cb9f9a04e3bd74cc80bab925ee7b1a21d9dcf9821a584a3c516a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/replay.mp4",
+        "bytes": 262476,
+        "sha256": "63e79a596935fc5605f4435f8056107e58154558a9e441f3cf41759115b6f308"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/reverse.mp4",
+        "bytes": 263212,
+        "sha256": "9b1169568d61b1d3f709ca30f0b14ae06f9ddd9ac3e5c4b332ec5d026261a815"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk1/text_rebind.mp4",
+        "bytes": 263180,
+        "sha256": "2f5a88f4e1889dfa4aad74a50a51f2080c394510b056685297b20ffac9d32761"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/comparison.mp4",
+        "bytes": 1735342,
+        "sha256": "0e44539eb60c35e5c42cbad7d6e71033cb96bf106462d04b7de9e589e11f4b09"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/crossattn_control.mp4",
+        "bytes": 261975,
+        "sha256": "3cdb7ec3c25798b8edbd01bac23e9c417e86ca2ee08abe41e789f17b261a4002"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/edited_chunk_strip.mp4",
+        "bytes": 252317,
+        "sha256": "05112d84bd35708a6cb8196e22f1560d35fe05983d2db9bca7f5e95a390e18dc"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/full_regeneration.mp4",
+        "bytes": 261680,
+        "sha256": "7cf037c7f967f0be9cf36b19306e38c02512920909d83ed8a29959f117780beb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/history_recache.mp4",
+        "bytes": 262691,
+        "sha256": "57e8193a600ab0e68dbd45dfade6c30a04da9089d0a4b368533dd29f0576fdbf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/original.mp4",
+        "bytes": 262561,
+        "sha256": "9c8fb2b8a49fb49ac9842745d3a48c5117712dd30473d203ee8e72d13a204390"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/replay.mp4",
+        "bytes": 262099,
+        "sha256": "9af013c16dfa2308032fd1c4568ed1a069a1ceaa19de8b9476b0106816b18677"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/reverse.mp4",
+        "bytes": 263450,
+        "sha256": "51c9e5e0e60019ca326b7612841a522374a6e1adf242ce890a7f2476110bee18"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed46_chunk4/text_rebind.mp4",
+        "bytes": 262740,
+        "sha256": "a542e927389dc0787fd69e0abc8958bfe1a29fa24f728273e05e7e5d696cfcfd"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/comparison.mp4",
+        "bytes": 1793355,
+        "sha256": "aaa4d00de00b62b9fc4a986b1c756741825be37a57e3608f944bf20b8edf1acb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/crossattn_control.mp4",
+        "bytes": 287371,
+        "sha256": "3f77212c097d1722b57b02eb8bdc5468dd20e6a5a1a3da9b563e9f316fbc0f10"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/edited_chunk_strip.mp4",
+        "bytes": 275983,
+        "sha256": "3881a209d62d42225a7f55a7a6a5f07768e7107e83a09a62b5dcfcea9b48a9c0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/full_regeneration.mp4",
+        "bytes": 263972,
+        "sha256": "ca5b685b90628e61a4f195ecff9df8361390abe5f893b0727fa2581cd30af4ad"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/history_recache.mp4",
+        "bytes": 287503,
+        "sha256": "7db6feef6bd6e01be4c8271a722327374b25dc22ad3f7aa5c35c771987ace82b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/original.mp4",
+        "bytes": 273121,
+        "sha256": "994abacfecd4678dd5f58015573dbcd2b2a59f1ab309b706e484fb1e1c0f09bf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/replay.mp4",
+        "bytes": 273155,
+        "sha256": "430c650a20fb7e93af6e88e7aaa28d4d2a3b221e18554dc0f137768d59eed95e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/reverse.mp4",
+        "bytes": 282819,
+        "sha256": "4614d680db93f97a8d26f5eedae528a11a64e60cb215e342e272b0a185172a02"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk0/text_rebind.mp4",
+        "bytes": 287102,
+        "sha256": "8d8d9d4ec61f5c5d38472d53b49e76cc18201c385aa81f0dc0b07816181f6045"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/comparison.mp4",
+        "bytes": 1755924,
+        "sha256": "0607733c1b298eda9a7117d4e243a204332b0c421303b384dcc53729fe30bf41"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/crossattn_control.mp4",
+        "bytes": 272621,
+        "sha256": "76099467bfb9b51f5fae2a6052d5e5f75bb5c5aa62ac88187fdca80bc09fe888"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/edited_chunk_strip.mp4",
+        "bytes": 285676,
+        "sha256": "548e1941f427218f3f6ed91d8180bda2dca6fc2e142f72f6c262d53a98878b49"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/full_regeneration.mp4",
+        "bytes": 264623,
+        "sha256": "c99ec1c16587ccbc54d9419d0cf3781212eb830102792a09c74a9a2963887691"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/history_recache.mp4",
+        "bytes": 272260,
+        "sha256": "cb4e7300c3d45ad471bc5db86c7be1c338c082c85e5f5d688cc1fc33cd6a74a5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/original.mp4",
+        "bytes": 273344,
+        "sha256": "1a4f4df798a3623fc4327155e82cd596ed8ea38cd6c0990e0882c6bd5aa9a87e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/replay.mp4",
+        "bytes": 272812,
+        "sha256": "2042e62beda8577b3deed5fb1c98a2772a95541321ee4088ee4ea0fc3bcc463d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/reverse.mp4",
+        "bytes": 265588,
+        "sha256": "415e408793b6872653a04ffd94e9e981366cb5a58962c5f3ecb6c21a1e9fee49"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk1/text_rebind.mp4",
+        "bytes": 272622,
+        "sha256": "2f6543a22b852aeff21fd77257c1ba2663e0261d2ef94392da768a97e0446bf8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/comparison.mp4",
+        "bytes": 1741560,
+        "sha256": "7b63e61b6ad870b5014c387b4994fc62682b669081efc0db651cd4c3f9c78edf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/crossattn_control.mp4",
+        "bytes": 272839,
+        "sha256": "eb6e8ae840853a18d0ccd17e500dce621345ad11fb155cb923936d0f9717e410"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/edited_chunk_strip.mp4",
+        "bytes": 262011,
+        "sha256": "5f41c3036d48a26f920201b1f5a7c5d34deb76d7ece4927a4b6e06445632dcdf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/full_regeneration.mp4",
+        "bytes": 264606,
+        "sha256": "73109650b2d4a8b9bdeed004495980d24bcfd7615d20b4757e3d0e622cca5aaa"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/history_recache.mp4",
+        "bytes": 273090,
+        "sha256": "6f7e05a88799e447665deba8c067d2a6525f9068e76109770b5af940586fba46"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/original.mp4",
+        "bytes": 272682,
+        "sha256": "2ec263cfbfa6dcd0e3702d72c991102730d7fae7096bfa95b2ccb8066f455030"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/replay.mp4",
+        "bytes": 272224,
+        "sha256": "ca9b126bc60944fb6b58a0aa2c1f3a1c5a3be10e12613e36bcfacfe2ee27502f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/reverse.mp4",
+        "bytes": 264293,
+        "sha256": "a6ad8dbb46588738c270a309f9e90fe7f0ecc220b9e383bf8287e0f331eaa382"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed54_chunk4/text_rebind.mp4",
+        "bytes": 272528,
+        "sha256": "60004831e77b3889fc09c4be4d20024106cb86a9bf4d0127f1ac5875b17c7cf7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/comparison.mp4",
+        "bytes": 694551,
+        "sha256": "406410a9ca365d8f84603f7704db4bfed6e1a4e3695af439123b8cac2eaaead9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/crossattn_control.mp4",
+        "bytes": 124816,
+        "sha256": "2bad87b2b950fc2384ea9e72fe460fdae95afa12ad818d1652105d9d1b4f3e09"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/edited_chunk_strip.mp4",
+        "bytes": 98957,
+        "sha256": "cf87519e06c13dcc03d70ebd9cb43398ce9a350bc01888557fe0d3187bef5746"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/full_regeneration.mp4",
+        "bytes": 92548,
+        "sha256": "18ec7144c50332b9d8400f7d1653b1abc2a403b13363c55cb40a49eaf44493be"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/history_recache.mp4",
+        "bytes": 125044,
+        "sha256": "e10b658bbe12fc31ff1ec9939e3dbd9c666104c5720a87752aeb91ee479832d4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/original.mp4",
+        "bytes": 112853,
+        "sha256": "a12df91e07fd218d585622c21742c721ec63af76d0976674a8078baf4d2c0366"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/replay.mp4",
+        "bytes": 112181,
+        "sha256": "c06a32291077552a1f5345db53d989ca7e9593b8618c437ad031f31d73dfa112"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/reverse.mp4",
+        "bytes": 108972,
+        "sha256": "1c51c74e1d59cb5cb06ab3a970c88bf1a98762a29411fc250ce32127fd8b10a9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk0/text_rebind.mp4",
+        "bytes": 125503,
+        "sha256": "fef2414438c1644aad5eeda027217e0412cb0d59e31b5cf20f0e24af252c8cb4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/comparison.mp4",
+        "bytes": 677560,
+        "sha256": "ab855723b8bf7a077eb85d70b6938ad3472ab860fac9e4e0f1fddc30de535886"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/crossattn_control.mp4",
+        "bytes": 112270,
+        "sha256": "446876a80f4499a165df8b93b37e8a97105b5fdf464323a58f2b9b794274cd0d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/edited_chunk_strip.mp4",
+        "bytes": 119661,
+        "sha256": "1fffc1c8990b303ebbde6fdca3b7a915c8b39cd32faab2c57df1f76c5444fdc0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/full_regeneration.mp4",
+        "bytes": 92395,
+        "sha256": "3423c065ecfb986e1dfb1f059a92b19b5f8cf10118175ab9d8c4db4459c0c7b6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/history_recache.mp4",
+        "bytes": 113055,
+        "sha256": "dcd24c3b0a814e6a68c6b8bfc6cc25387838631af301a866cc32edf3ae56f3fc"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/original.mp4",
+        "bytes": 112162,
+        "sha256": "37e1c4304c7a334f8d8b23cbc304815b114a2ef756dc7af0ec7f7fd0dfb058fb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/replay.mp4",
+        "bytes": 112569,
+        "sha256": "26c05bec37811aac58692f159477524d523d73bd93bb9dfa0901d9fed40bd320"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/reverse.mp4",
+        "bytes": 95941,
+        "sha256": "6f7af8423a9b631f522235c8786a560412bec335a01f2f6969b07ea53d4afe0c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk1/text_rebind.mp4",
+        "bytes": 112499,
+        "sha256": "167883f6438c709cac311f71ae3fc443fb16ee759531b2004006fb3e98f45826"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/comparison.mp4",
+        "bytes": 670329,
+        "sha256": "238806326544e80aa9984c3d4dccad4e95b5588d869b5224606f0b37b45eec8d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/crossattn_control.mp4",
+        "bytes": 112318,
+        "sha256": "04f4509d112ba14e93766141f623796fec04d3d34657649ac8b46ed8cb25c5c1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/edited_chunk_strip.mp4",
+        "bytes": 110732,
+        "sha256": "baa279ef54ab1dc4f494e258370fd138331c284a50e1c629211732d5c905e755"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/full_regeneration.mp4",
+        "bytes": 92412,
+        "sha256": "2d7742425c8b8d75883927d3f4da9202ddf4a2107007dcbd9d53a63b90f49f66"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/history_recache.mp4",
+        "bytes": 111982,
+        "sha256": "0dab18190dbc67c1fa0a9d145139fc22962b9d50d1af1aa8760ccf57b7d750cb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/original.mp4",
+        "bytes": 112453,
+        "sha256": "df3dccd243ef1b3ba966515376cd1c1f02d47c7e2d33852e71520c945358bd78"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/replay.mp4",
+        "bytes": 112161,
+        "sha256": "a671a6c52d4272f0cf948187787bf0f04fbf1cf1a09abe341ddb905df144e938"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/reverse.mp4",
+        "bytes": 92997,
+        "sha256": "1d393c001a2d6fddc99e68bc02b5cfcf46c80be45eb454328302936afc7dabd0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed44_chunk4/text_rebind.mp4",
+        "bytes": 112393,
+        "sha256": "25c2898e3bbbd799913b4a4606973b4ba4d3fcf0f3f0d287170caef6bb3c7af9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/comparison.mp4",
+        "bytes": 932686,
+        "sha256": "db64640d50d680b647e170d7bf4906cd729bbd505e9bce8209e3ae6d07e69c2e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/crossattn_control.mp4",
+        "bytes": 164540,
+        "sha256": "94db384f624f7bf00ceeb21cbd0cbfda91035c01891a128214c09ea52e81b8cb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/edited_chunk_strip.mp4",
+        "bytes": 121630,
+        "sha256": "3dfe891a61479a1a39e62dd70828e8393854863bc8442b65992b5f87e3b7ad54"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/full_regeneration.mp4",
+        "bytes": 96379,
+        "sha256": "9d4438ecc4183a38ed857d3d225737882221ce4143557997cac60b379a265e04"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/history_recache.mp4",
+        "bytes": 164843,
+        "sha256": "87c67717b5be2daf2ebf11c9a2ea360b885d0217152fa030aa52df26513f6d41"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/original.mp4",
+        "bytes": 154944,
+        "sha256": "45034b2c3c97da328c751188cbc9f00661efdb0000057bc359012ceff1edce22"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/replay.mp4",
+        "bytes": 154729,
+        "sha256": "5e6bd9bcc820d87d4b79f69a78aee8a35777b95c52ac030afd9a29d5d5dba8dd"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/reverse.mp4",
+        "bytes": 114758,
+        "sha256": "e537c289dc5e3c70ea3df3f6c40527d4a1ac94e2b74cf2389464ca959ce8aa7d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk0/text_rebind.mp4",
+        "bytes": 165024,
+        "sha256": "a98655cf0a83f5378c429c405d4d994ca6d54fb3aba6b3a2df0b961a435a284a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/comparison.mp4",
+        "bytes": 900748,
+        "sha256": "b516a8aa753fe69d2145bf2960ddee3af66f54020eee4bb1a81fdca228730a65"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/crossattn_control.mp4",
+        "bytes": 154760,
+        "sha256": "f362f547150672f343953a37681458843faf1eda68e3bba22550b74be945fa11"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/edited_chunk_strip.mp4",
+        "bytes": 173293,
+        "sha256": "b259ee9b3b38ef0b926fa3913d3095b653d9762aafb255b9af3032c1053365eb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/full_regeneration.mp4",
+        "bytes": 96357,
+        "sha256": "84ef706a051e1ce89dd1cd26403988b5c33eabc16e4666f523b6efc4328e2404"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/history_recache.mp4",
+        "bytes": 156107,
+        "sha256": "4f39ea82a241450a5bd3be9e995b7e129c452264fe99cfc6bc30cca0832266cb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/original.mp4",
+        "bytes": 154906,
+        "sha256": "4d48ae7144f37c0105d85ce087d3130734075aab198ae571502321658abdbd68"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/replay.mp4",
+        "bytes": 154602,
+        "sha256": "da45713317eb1d012a2391fd256217f1c48ac6669438ba79a5515311b04cb851"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/reverse.mp4",
+        "bytes": 105300,
+        "sha256": "2037ef0f9a4a81de59ae0e8463a1bd3304762bc5d2a2ca6c1206ce7cca9b3eda"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/text_rebind.mp4",
+        "bytes": 155070,
+        "sha256": "1fdb2f8811f8f76aa2eb4a06f8f9cd8e4f742e4e01ec391c3f3e657bbe0b7cce"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/comparison.mp4",
+        "bytes": 891502,
+        "sha256": "e776a25a35ab6276d91fde957fac94dd5686bf0b37d672e5b88ac8d5fc7f6e79"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/crossattn_control.mp4",
+        "bytes": 154922,
+        "sha256": "39b0464492351338f0ab6ebd699234a11685049b8927782f4a31e38adcd57bb3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/edited_chunk_strip.mp4",
+        "bytes": 140934,
+        "sha256": "a03b74c956ca27fc2f571b895935e798585e5f0bfd87535b32284b6ed31963e5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/full_regeneration.mp4",
+        "bytes": 96415,
+        "sha256": "cf0b7d2686ca9fedf95e318dbe58dead6691d69a79c50847bfcff0937e73debe"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/history_recache.mp4",
+        "bytes": 155130,
+        "sha256": "7a7d82f4a83c03c33c3f0a2095f85d3e9b01c456314c8035e0de6b63579ed66a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/original.mp4",
+        "bytes": 154835,
+        "sha256": "0df00e1c5eaf06d9f0916643a430aab44dfadbd002fc6446907e04e9a10cde4a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/replay.mp4",
+        "bytes": 154948,
+        "sha256": "338e6b8c29dffcfa804411be1dfe63112e7c602ae5354790ff0d2f1f8d3ef8c4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/reverse.mp4",
+        "bytes": 97562,
+        "sha256": "9ce4a9c8e40abf2ac7762e0fac955bda4d2365f3764ff6abbf0bd586f85686df"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/text_rebind.mp4",
+        "bytes": 155107,
+        "sha256": "d9271f82cd839bb677b5ff3c4a3ca22d6aeffbc0b9a51a03c67ac064bcb787c8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/comparison.mp4",
+        "bytes": 611071,
+        "sha256": "6e048bef2c7e4ec99760c55683b6e69f89d083082a721f1d68887407c99f8e6c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/crossattn_control.mp4",
+        "bytes": 113392,
+        "sha256": "fa85cc333211e945f40ada1f687c6f72683bf5eee4408cf34659799de702bd9f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/edited_chunk_strip.mp4",
+        "bytes": 99712,
+        "sha256": "273b9f9785efd8e150dae644f8815c260b19f1b01b5a710aa4e6b08e56ed0c08"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/full_regeneration.mp4",
+        "bytes": 78328,
+        "sha256": "cc85a64bd697cf9bef107fa4f866bf61f30ea90dbbac69c2183216f3ef2673a6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/history_recache.mp4",
+        "bytes": 113392,
+        "sha256": "fa85cc333211e945f40ada1f687c6f72683bf5eee4408cf34659799de702bd9f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/original.mp4",
+        "bytes": 83130,
+        "sha256": "517ce4062180290b2aba93e159a667049f9aada121ef5adc27fa021ec8e3388e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/replay.mp4",
+        "bytes": 83574,
+        "sha256": "4c066094cae41b00c5fd4c1b7fe87534637b8bd36dd70cd5ce3359d53970041d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/reverse.mp4",
+        "bytes": 103777,
+        "sha256": "fafccb61e57e5947fdc64e44df16b1cc42cb7c9c709920efbcebd0bcdd867373"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk0/text_rebind.mp4",
+        "bytes": 113392,
+        "sha256": "fa85cc333211e945f40ada1f687c6f72683bf5eee4408cf34659799de702bd9f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/comparison.mp4",
+        "bytes": 503890,
+        "sha256": "dd007990c6cb990593156e3c037f352c01a452ddd5672f1d5c3ea41741cae90c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/crossattn_control.mp4",
+        "bytes": 83574,
+        "sha256": "4c066094cae41b00c5fd4c1b7fe87534637b8bd36dd70cd5ce3359d53970041d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/edited_chunk_strip.mp4",
+        "bytes": 110725,
+        "sha256": "88ae7c6b97c753bab3dfce2a48c6200917757424493287fb3e96c6fba3843fa6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/full_regeneration.mp4",
+        "bytes": 78528,
+        "sha256": "1f40e0ada91734661e82cef12d78029b476b971d3b6b0e47a3d5f372e56409ea"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/history_recache.mp4",
+        "bytes": 83117,
+        "sha256": "d1410a3bfb3dbc472f6b3eca3a5099f46bc759a4325104ef77387831bb03bcca"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/original.mp4",
+        "bytes": 83639,
+        "sha256": "1b1d16357a3840d94634ae725e7952040ff0e27008a70fdf129fe2d146a48f45"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/replay.mp4",
+        "bytes": 83574,
+        "sha256": "4c066094cae41b00c5fd4c1b7fe87534637b8bd36dd70cd5ce3359d53970041d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/reverse.mp4",
+        "bytes": 80019,
+        "sha256": "31f74bfe55d25b38029a770e7c421daaea2f24b01df705447c00c50094f8f157"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/text_rebind.mp4",
+        "bytes": 83011,
+        "sha256": "28b9765241cf9e7da1add641c321077485678fa0b29649bcac38926f8db5ae9e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/comparison.mp4",
+        "bytes": 508814,
+        "sha256": "74193947d0b9daa3303f9e6c14e565705d615693baedd2b3095d2c809c4edf7c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/crossattn_control.mp4",
+        "bytes": 83735,
+        "sha256": "9128f9c965886af1f3f422281e9c214b91551f07c09de0bb288695a9a53cb9a8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/edited_chunk_strip.mp4",
+        "bytes": 112378,
+        "sha256": "3e836ef6d7f614e59ba2fbd7c6e88146653057836cb37b897e8a1e908fe3188f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/full_regeneration.mp4",
+        "bytes": 78815,
+        "sha256": "ca487db70eae515549b27dfb11d0d718ee08d9db942cdea804f8131a146a2c0b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/history_recache.mp4",
+        "bytes": 83745,
+        "sha256": "80148657b602050484ddad0f20ba2e4c0149f22a3c8abaacb4848542209cdf91"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/original.mp4",
+        "bytes": 83740,
+        "sha256": "f59c8b6410af91bb40eeecd92090738bf917a899cf03744ecf63dcb5d6e469ac"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/replay.mp4",
+        "bytes": 83827,
+        "sha256": "3fb1ce2b8f7870343ee8c29a38cd307602cc46cff756aed6c1d96f33d4c01cfe"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/reverse.mp4",
+        "bytes": 81043,
+        "sha256": "674f6011dad65e71a18a1404b1fb13fbc5dd400330e8c085b4dbc40e6ca0b970"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/text_rebind.mp4",
+        "bytes": 83276,
+        "sha256": "8d8e0fc4cc9593c5322d71e063ec3484f139b0e1d7ccee5360b5cc1f98fa28d1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/comparison.mp4",
+        "bytes": 706411,
+        "sha256": "b534e133c5def53128c847f09e1fe6dc81d670e44de7b3ee4f893766d13d879e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/crossattn_control.mp4",
+        "bytes": 131573,
+        "sha256": "3933828e1a0fb115190c38ea5ff07ba54a13125c7c2591d3b32462896f461d4a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/edited_chunk_strip.mp4",
+        "bytes": 116972,
+        "sha256": "cd1f233d8fc13cdbd1bd247620513b7be6028ba5d361787693bea07029e9e8c9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/full_regeneration.mp4",
+        "bytes": 77998,
+        "sha256": "41d90869e02d955a16123edf29335c72a594be2bfe1e40dc51a0c216e8398396"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/history_recache.mp4",
+        "bytes": 131573,
+        "sha256": "3933828e1a0fb115190c38ea5ff07ba54a13125c7c2591d3b32462896f461d4a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/original.mp4",
+        "bytes": 106209,
+        "sha256": "4bfb2ee8acbd1c2a7be5a60c08c29e25adf67c78fc80fbb1ed4adcdf4cb9b26e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/replay.mp4",
+        "bytes": 106093,
+        "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/reverse.mp4",
+        "bytes": 104663,
+        "sha256": "91897668c217a8f3980ece2afa3dbc602239154b5d5bad895acc8a1cf0884020"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk0/text_rebind.mp4",
+        "bytes": 131573,
+        "sha256": "3933828e1a0fb115190c38ea5ff07ba54a13125c7c2591d3b32462896f461d4a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/comparison.mp4",
+        "bytes": 623156,
+        "sha256": "0348984fa38f6bf4ba4d47193041ae5dd0c7aa44bb21280a9b11cb4b2d0de123"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/crossattn_control.mp4",
+        "bytes": 106093,
+        "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/edited_chunk_strip.mp4",
+        "bytes": 135838,
+        "sha256": "86a405055d7f656b16fab556bfb5857fe7edc10aa7ad59fa88fb77f5973e818c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/full_regeneration.mp4",
+        "bytes": 77881,
+        "sha256": "88e48a7a1c0e827808cda5cab830dc3c581bf46680a23311702aa9879fc57719"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/history_recache.mp4",
+        "bytes": 109543,
+        "sha256": "8a9f5a51792f944a7bbf956aed5dd0142e982a4e181bab27ec613ce9459006c7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/original.mp4",
+        "bytes": 106828,
+        "sha256": "d2f139f19ed8cfc2f41493529a8ef3276f06a55bfff334653c0bb6e6d2eee7d7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/replay.mp4",
+        "bytes": 106093,
+        "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/reverse.mp4",
+        "bytes": 78035,
+        "sha256": "72842f784312f17f0218a5a1ac86ea3369921de41f14f2d5cf9f22fd660a2c7b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk1/text_rebind.mp4",
+        "bytes": 110650,
+        "sha256": "9a51f22f584d8b246c61914cab29abb03238047994051bf1abef64ce26cdbc79"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/comparison.mp4",
+        "bytes": 617515,
+        "sha256": "ad16d9ce73849cb8a897cd8eabe39cdeb5dbd7cd3e78cbd6e0e384a83316e65b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/crossattn_control.mp4",
+        "bytes": 106093,
+        "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/edited_chunk_strip.mp4",
+        "bytes": 114268,
+        "sha256": "6a1be6f0b3055600e8f3273a16a3b4ae8c848e754e53b70d93e5f15800960932"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/full_regeneration.mp4",
+        "bytes": 77972,
+        "sha256": "e84a520be1af0f2c6649509220a3c61449cbd44cf916c348c02779f9bd07f478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/history_recache.mp4",
+        "bytes": 106274,
+        "sha256": "eef3547afcbb3475890fd8e4c3de66af97516cc62ed19a543c564edf1df255c9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/original.mp4",
+        "bytes": 106830,
+        "sha256": "72675f9fffba25e7bf1e262a7408703e0655128f45ff7e3345dd8d11c63fbfc8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/replay.mp4",
+        "bytes": 106093,
+        "sha256": "3400507321cd41b8ccf2fefac30476324e014a8ec51874bbc5a4f1a8db2a2478"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/reverse.mp4",
+        "bytes": 77990,
+        "sha256": "286c27520e548fbf9451ca06bed284695ef804c56eb7b299d071f34bffe6168e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed53_chunk4/text_rebind.mp4",
+        "bytes": 107948,
+        "sha256": "0aa58684c8f46441fd96f222eda58c2660ebd623b65d8796909a86c85ab03cc5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/comparison.mp4",
+        "bytes": 2333402,
+        "sha256": "f8f438df188d4189a54f28a7af35131a9e2eaf8e8cff18b430f045fd255ef196"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/crossattn_control.mp4",
+        "bytes": 349984,
+        "sha256": "f4fd3eb28f6701276a85a5dfdda7d2c302b8e7342b302a2305dec4abb34e5df2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/edited_chunk_strip.mp4",
+        "bytes": 358712,
+        "sha256": "54be534767246f87672b146eaff150709c79ddfba7f4601ac2479b1682b0f2c6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/full_regeneration.mp4",
+        "bytes": 333727,
+        "sha256": "6086af8336ff9623695379d36756a8d5e0136524ee47ccbf97f6b69d87bfaa47"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/history_recache.mp4",
+        "bytes": 350112,
+        "sha256": "6380223a9ec35d23d4ed0b081117844197c51d4a5c55f2f4e0c260d5af57248d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/original.mp4",
+        "bytes": 340319,
+        "sha256": "76b4ba229411be8d62c47b084a45707b583a9460a16c4a7871a99a689829b5cf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/replay.mp4",
+        "bytes": 340144,
+        "sha256": "cd3aa58b54209f68ff8199b22b7635667bc893cbdcfbb2f2af49da849d880a45"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/reverse.mp4",
+        "bytes": 358795,
+        "sha256": "b4789f99e9ba6a59eb71497062edd28f6e5c33678c583c9d3c331adee70303e8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk0/text_rebind.mp4",
+        "bytes": 349484,
+        "sha256": "8b959fcb9f266b93a1f1cdb0023c5566c1dd50a23dafce8299f1e5e9f56b3f01"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/comparison.mp4",
+        "bytes": 2269282,
+        "sha256": "39992d2161ab21021ad58e1fa8c04e6fa485e05fd21de9bcf45f16a46457ab5d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/crossattn_control.mp4",
+        "bytes": 340834,
+        "sha256": "5d10bedcdba9bb779d8ab96df8813a4f3aab5f45ae0e7cdc4de27a752dd449c6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/edited_chunk_strip.mp4",
+        "bytes": 393541,
+        "sha256": "0842e24b84b734c213b06a6cc3f72de3f2f6daa580ac7513457295a47ebcf0e3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/full_regeneration.mp4",
+        "bytes": 333607,
+        "sha256": "039d8dfeed0783a0058ed4d45d68c5757c348b7f19a5a74c57d1573f1960cd65"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/history_recache.mp4",
+        "bytes": 344867,
+        "sha256": "6c2ad5995d4ccecbed1aae6d4783d094be160b1a7eaeb3514c24ad2d5109be39"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/original.mp4",
+        "bytes": 340669,
+        "sha256": "222918ededdf6e015bebccdc0a0ef1c2d2f591b869bec32aa82f0e8f3552a8a8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/replay.mp4",
+        "bytes": 340264,
+        "sha256": "ba5c4fbada84ccc825e784b544fba0a93afb02ca2f3cc6a79d42a6beee9aceba"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/reverse.mp4",
+        "bytes": 331685,
+        "sha256": "513d27a22c86267ee26910172ce3588d0f50fb742ac26f1840221c69464d8e6f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk1/text_rebind.mp4",
+        "bytes": 348296,
+        "sha256": "dda2a24540207bcd94011679631814c37824bf475a1602aa68e8f18ad10002ad"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/comparison.mp4",
+        "bytes": 2255356,
+        "sha256": "4b6766ab3b6efdc239c47689af73b81dc6e2baaa20e5d47a8792752ac1f41165"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/crossattn_control.mp4",
+        "bytes": 340059,
+        "sha256": "04fc9bc7be4cc92e6eed6e7ea56e8d1c4ebb6f9badb419c26143f25bec07f9f1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/edited_chunk_strip.mp4",
+        "bytes": 342452,
+        "sha256": "88fda917b152fc239f1adc3f9844766e6c6b72854b07c214add3475ef0324523"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/full_regeneration.mp4",
+        "bytes": 333956,
+        "sha256": "c96fa182adf172be6608839205e0cac259a0060981e3637203b96e77bb60f79d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/history_recache.mp4",
+        "bytes": 343462,
+        "sha256": "5ae85bf37ff1266fe8e6650c50743f3156cbccb495479e58460f6a40e34b5f7a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/original.mp4",
+        "bytes": 340443,
+        "sha256": "d90fba9ba05a038de1a889d4d7f662f33bee901a67313009d2d5db70af69917c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/replay.mp4",
+        "bytes": 339807,
+        "sha256": "2b93db614cb47274b1cd5fb69c6b35c1e6270945bb45dcacaf0f5e9900501420"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/reverse.mp4",
+        "bytes": 332140,
+        "sha256": "d5badf5f97ab9b8185451c4e42b5a2985cd2e789c166404036f54257c6f47b5d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed47_chunk4/text_rebind.mp4",
+        "bytes": 343630,
+        "sha256": "6176fd65be9b6163f7be2b0d89b5fc5f7ca5f83b21503b998d28b2d51c7ad5b2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/comparison.mp4",
+        "bytes": 1933589,
+        "sha256": "fc6cb33f0cbdcb0865e3a5c4853131f4ef398ad549dbc200bd86438748b0a789"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/crossattn_control.mp4",
+        "bytes": 312312,
+        "sha256": "6cc7944fb09614415cd2c5c55a4c9a1f60d49e38d1e8a768baba0681a47fd9ad"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/edited_chunk_strip.mp4",
+        "bytes": 250920,
+        "sha256": "98b2ee088589a2129eeb8ca8137340db9371573e019662609ed1d3c38f978a54"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/full_regeneration.mp4",
+        "bytes": 285807,
+        "sha256": "09b22a30f251b545e16cfd6d48a7c512924b64d22eedc8146bcc08f51e1bfaab"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/history_recache.mp4",
+        "bytes": 312277,
+        "sha256": "559ddac16403ea50468fe32a93898c6046cc2eb167a1b91801207fb6cfc203a0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/original.mp4",
+        "bytes": 298974,
+        "sha256": "ad01b2ba46755b39ac58880c7ffdfd7c7a455a8a84611046aa64b6555e9fd64d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/replay.mp4",
+        "bytes": 299007,
+        "sha256": "277068316abebd5fee09973be925e0728db43a7585cb9fc82f08dc8d752851d5"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/reverse.mp4",
+        "bytes": 309991,
+        "sha256": "1d2a112b7f7e132607708f65900522d8c2e6bed41b2a5e7b101730dfa3b6d14b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk0/text_rebind.mp4",
+        "bytes": 312277,
+        "sha256": "559ddac16403ea50468fe32a93898c6046cc2eb167a1b91801207fb6cfc203a0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/comparison.mp4",
+        "bytes": 1931892,
+        "sha256": "ca8be3d8942a23d8bf3a867aab0133ce261ec2461c073136f2edd4a70c073840"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/crossattn_control.mp4",
+        "bytes": 299175,
+        "sha256": "0138fa0d3be515cbf5d1daf56e4edd8f207480c98af15e06ae0effd1c412e1f6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/edited_chunk_strip.mp4",
+        "bytes": 322588,
+        "sha256": "9b0025c7420027fef735e47d78836c3112b75ce25f66b74c7ae373680b1411bd"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/full_regeneration.mp4",
+        "bytes": 285863,
+        "sha256": "97f2943fd000d9f8f32b358b6add8bdf686ad4e7dfd6d3c1e52b4c58fa0b2a2c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/history_recache.mp4",
+        "bytes": 300990,
+        "sha256": "db32d3182babf52a8ba2170fc5518f6408968737da295a21d33def32da9b4ec0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/original.mp4",
+        "bytes": 298209,
+        "sha256": "a6933cfa57006591b17e4d4147f6ec67099dfba7003d15ddde402e8e48500f07"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/replay.mp4",
+        "bytes": 299175,
+        "sha256": "0138fa0d3be515cbf5d1daf56e4edd8f207480c98af15e06ae0effd1c412e1f6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/reverse.mp4",
+        "bytes": 282669,
+        "sha256": "b62c71f3f6424e6cfaf4c78a152b58749abf76dd9529e61658e888658c1b2e3d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk1/text_rebind.mp4",
+        "bytes": 300712,
+        "sha256": "758561cf69711de6cb4c1bb5fa6afffffe828938ea096bf5b51773e1f1f904be"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/comparison.mp4",
+        "bytes": 1929108,
+        "sha256": "a9a442cd95ccbc99af0dcc30ed265417be3e9ddc7e78d9bce2189c5cb418678a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/crossattn_control.mp4",
+        "bytes": 298903,
+        "sha256": "accf1d9d8fc5728b2c1a41903f4e1d3e03aeb907d0b2a9ac183933fad7d63346"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/edited_chunk_strip.mp4",
+        "bytes": 317148,
+        "sha256": "52a231902a9865159d812d416920f1629d2018430edfe0650d321a1289b10f93"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/full_regeneration.mp4",
+        "bytes": 285954,
+        "sha256": "867c0c70af14c25b85acef2e4a41858d3aaee07bdc6713756b2698f240e7eba7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/history_recache.mp4",
+        "bytes": 300588,
+        "sha256": "442fc97f79a0a9ec974560f09168842fd1a825e0819be072c9203b7904f20412"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/original.mp4",
+        "bytes": 299377,
+        "sha256": "f4f1a9f1d46b2739e61f2fee78bede43af3679276da6224780c5f425e1706763"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/replay.mp4",
+        "bytes": 298513,
+        "sha256": "f12d3c3f819053830199ed78d604b0750610721688ea12abd71fe65d03a25fbb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/reverse.mp4",
+        "bytes": 281836,
+        "sha256": "0f976d2fe27d039f0ad181e22df38d08c37ef5415d943772a64e40e63a3808e3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed55_chunk4/text_rebind.mp4",
+        "bytes": 300405,
+        "sha256": "6440bc916b80f38d089a88eecb42daaafe6898044c46b67d511eaa06d5df99f4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/comparison.mp4",
+        "bytes": 998386,
+        "sha256": "9c3410a056518fae38b01297c9bf00db92950366392c4214425909bbfd59d0e9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/crossattn_control.mp4",
+        "bytes": 190520,
+        "sha256": "ab926c7200d8d6dd4d293c4ce84f59075ee2b49bf69bd2838f48ed5bb068e841"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/edited_chunk_strip.mp4",
+        "bytes": 170479,
+        "sha256": "5c83f148a3c1a636ff5ac1d7c87853fdf07222f248580221dc97187ee0b0ecc1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/full_regeneration.mp4",
+        "bytes": 144220,
+        "sha256": "85617356664cdd4a3ae45a242e490c325ca1de00118426986c3921c6f68ae93a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/history_recache.mp4",
+        "bytes": 190405,
+        "sha256": "2101bf440433fd4add072a3a104846672942db9e0c5300c7a16acac5ed60c8a9"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/original.mp4",
+        "bytes": 173785,
+        "sha256": "8a294ff2a9a577d55e0af83f91a17cc8be27b9549cf2a236466d21f037a6b1ba"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/replay.mp4",
+        "bytes": 173740,
+        "sha256": "7a03aa4843b186205bf787f61121e1fc58b7326813b73c734c8320555503f16d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/reverse.mp4",
+        "bytes": 169485,
+        "sha256": "9edb6edf411aea9b8fbca79484ce8a3206d6e3aab1c63a90adc08c0356af885b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk0/text_rebind.mp4",
+        "bytes": 190667,
+        "sha256": "ad5ca864a33bd9c4f66225af3702a5af859d51dae9f952d9cace4cdb3572c562"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/comparison.mp4",
+        "bytes": 941084,
+        "sha256": "53dc65d1d1c2240eabd7010cc9145c379cc2893b1da9c908d1f4fdd3cc29b085"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/crossattn_control.mp4",
+        "bytes": 173613,
+        "sha256": "fe9e444940c2b6967605b3f8a590e6d1048968c683225837b4a09bb96635fad8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/edited_chunk_strip.mp4",
+        "bytes": 173771,
+        "sha256": "a5832ef3185b3252324f66142608a6eb5c9005cc61ea1c69c1aefaca32f1a897"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/full_regeneration.mp4",
+        "bytes": 144338,
+        "sha256": "f691cba514caaf187d80de5f0460d7f2b571ddffe36dc9265f9c54f6da01ce6f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/history_recache.mp4",
+        "bytes": 175128,
+        "sha256": "a58c0a2e800db55276de395f110ee5f972df82baff50d18f49c95d672b6a1b24"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/original.mp4",
+        "bytes": 173785,
+        "sha256": "8a294ff2a9a577d55e0af83f91a17cc8be27b9549cf2a236466d21f037a6b1ba"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/replay.mp4",
+        "bytes": 173740,
+        "sha256": "7a03aa4843b186205bf787f61121e1fc58b7326813b73c734c8320555503f16d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/reverse.mp4",
+        "bytes": 141891,
+        "sha256": "5679138ecbab901448ba6c7ac1db3dc8f04500b8926bc2ae6c7f0dc8e8378060"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk1/text_rebind.mp4",
+        "bytes": 175482,
+        "sha256": "2101e1b1cd237575a67f7a385270af91d22ef0a5029bf1cc55085c8700e2c3df"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/comparison.mp4",
+        "bytes": 940030,
+        "sha256": "8f90d2ae0fa5c1a61df2defe9cd68bebd9d82f56b49c7f9625e41e192e21d1a1"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/crossattn_control.mp4",
+        "bytes": 173740,
+        "sha256": "7a03aa4843b186205bf787f61121e1fc58b7326813b73c734c8320555503f16d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/edited_chunk_strip.mp4",
+        "bytes": 170798,
+        "sha256": "1c0591bcb5c1dcf735a010afcc296a089f43049c7d86ef57971343e7a09527fd"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/full_regeneration.mp4",
+        "bytes": 144828,
+        "sha256": "a77a7e6edd2f10bbe7e6d6ecf0ee99e29db635699e0f160ae8c62cda4ba01cb2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/history_recache.mp4",
+        "bytes": 175116,
+        "sha256": "6a5e2c47cb50c87c691df9cf0f962e4767ca2fc2aefb3f1c6a3f8365051fea69"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/original.mp4",
+        "bytes": 173740,
+        "sha256": "7a03aa4843b186205bf787f61121e1fc58b7326813b73c734c8320555503f16d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/replay.mp4",
+        "bytes": 173740,
+        "sha256": "7a03aa4843b186205bf787f61121e1fc58b7326813b73c734c8320555503f16d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/reverse.mp4",
+        "bytes": 144788,
+        "sha256": "f767946a2086d373131757c75afec174cbabd2881ce798eed84823866d499fa4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed49_chunk4/text_rebind.mp4",
+        "bytes": 174466,
+        "sha256": "798452e8892032a26815a2acf0c46f9ad86a8db2c7997ed2d674e24270ac4214"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/comparison.mp4",
+        "bytes": 808638,
+        "sha256": "ec38c057f5def8d0a9be1e4c63efac52b348d508027a471eca0473e93b59b62c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/crossattn_control.mp4",
+        "bytes": 155870,
+        "sha256": "6b7d1e742f03dfc1ccb22dbe58d69f031925a1bdc1ab5dce6266dc0b51561b76"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/edited_chunk_strip.mp4",
+        "bytes": 149859,
+        "sha256": "3bfaefc9e865380ca9c05047ca4fd2a3a4eec9c68545a73243797fce1e680934"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/full_regeneration.mp4",
+        "bytes": 107076,
+        "sha256": "af51f94cc27cb843fa4f30b0791320716c726c8f11e75bd1be6aea540f1057db"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/history_recache.mp4",
+        "bytes": 155870,
+        "sha256": "6b7d1e742f03dfc1ccb22dbe58d69f031925a1bdc1ab5dce6266dc0b51561b76"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/original.mp4",
+        "bytes": 141524,
+        "sha256": "670f63e66effe5e64cf521ad5c2f98509f5cbb780f5cb64417f72f302482d3cf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/replay.mp4",
+        "bytes": 141271,
+        "sha256": "24572106b477887ea7c07d38d30ad615595d70fedf3af200663f47169568c18a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/reverse.mp4",
+        "bytes": 141086,
+        "sha256": "d75eca2f5b3a15c62c9403da6bab2cf6b1a833915dd2b3984a6bf4e3d3828c41"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk0/text_rebind.mp4",
+        "bytes": 156079,
+        "sha256": "859d135a19ab3eeb4964a06895419c23d60b5001a3d1790854516b7b23f0c84c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/comparison.mp4",
+        "bytes": 766784,
+        "sha256": "abedfe68bed89b4c544244a5d40882b80d523dbf38b0206cf11fb5b8b76c7402"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/crossattn_control.mp4",
+        "bytes": 141271,
+        "sha256": "24572106b477887ea7c07d38d30ad615595d70fedf3af200663f47169568c18a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/edited_chunk_strip.mp4",
+        "bytes": 145779,
+        "sha256": "75b4de612f4418a1c490f1c62cdb21da77b20d871a6b51b2793dc166976dac0d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/full_regeneration.mp4",
+        "bytes": 107015,
+        "sha256": "07bb2c3d7c400f9cd02f1f20549a614b750d2c1d15d979d1ec36c109ae0400e3"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/history_recache.mp4",
+        "bytes": 142045,
+        "sha256": "8cb8bed1bd5e1ad513af99c4ffa67f28f0b9185a1ddf63db9bb481b50c29240b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/original.mp4",
+        "bytes": 140628,
+        "sha256": "772b46959e79fff086fd05e1dd502c5f4f0e90a88e781d7e2f752f4164ce07d4"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/replay.mp4",
+        "bytes": 141796,
+        "sha256": "476df901a3aa365316021f7dccd5723d05ad3fc6e10880686aecfe36f1137f0f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/reverse.mp4",
+        "bytes": 106569,
+        "sha256": "ad6fa0faaaecc49285014b17e2105d549ba6a1065fe8edd6d57b49cd5f31779d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk1/text_rebind.mp4",
+        "bytes": 141584,
+        "sha256": "ba6b3c6b8397c476a564d7b181505462d2598fb922d7d35ad0462c4526d5de51"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/comparison.mp4",
+        "bytes": 764034,
+        "sha256": "1c23c664302fbb6be508e812cb9ec7a17c5aaa2e5a074d4ce9ce5ed62fb6de1c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/crossattn_control.mp4",
+        "bytes": 141796,
+        "sha256": "476df901a3aa365316021f7dccd5723d05ad3fc6e10880686aecfe36f1137f0f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/edited_chunk_strip.mp4",
+        "bytes": 140355,
+        "sha256": "9fa0b2b9b77d86a64676a1a3620228d3ba6f464d7ad794db77be2ba1d1adb545"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/full_regeneration.mp4",
+        "bytes": 107066,
+        "sha256": "1cac5be4f7306dc6f97b7778700944bfdf9def6a8aa1f99a7e87f3a2d3f70192"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/history_recache.mp4",
+        "bytes": 141753,
+        "sha256": "28bd1e06919a0e3d7106aa539f083ef6bb4a9e6bcaa484742706c94ac1c91514"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/original.mp4",
+        "bytes": 141239,
+        "sha256": "0e10c819e60936abbfe7dad5f0c5a8a44fb7b9f202aa8c1b7dc2c41436e2a8f8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/replay.mp4",
+        "bytes": 141341,
+        "sha256": "1d1c15a4b57209b3f464ee521004fe8a6cca0f1fd18e65d4253f9dc49d340896"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/reverse.mp4",
+        "bytes": 106911,
+        "sha256": "6e9c5d31bd5b357bfd7695b10921c112de207a43d07239158c63e391c57c5c9b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed57_chunk4/text_rebind.mp4",
+        "bytes": 141779,
+        "sha256": "c9fab8404c1b1210ccd6fdad13e535852ccea43442a8810f9418e2141c9d77d7"
+      }
+    ]
+  },
+  "smoke": {
+    "count": 36,
+    "total_bytes": 15322078,
+    "entries": [
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/comparison.mp4",
+        "bytes": 2417472,
+        "sha256": "36061670ad485f2b3808dd44b564f31b168b993e6ed12e22affff26819ccffeb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/crossattn_control.mp4",
+        "bytes": 378289,
+        "sha256": "18f738101bcb4821eeccccd8c88e8a685c885dcbfff74f8453ab93f4a042cacf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/edited_chunk_strip.mp4",
+        "bytes": 293298,
+        "sha256": "0b637fd1ecb9700dacf7d34c7506a8bfea65992ecaab2ac71492fe4e2df5dfce"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/full_regeneration.mp4",
+        "bytes": 430217,
+        "sha256": "f1e0f235c513cf596de938c03614492bd7b3e73cd26d14ea497c436fa1b0dddf"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/history_recache.mp4",
+        "bytes": 377792,
+        "sha256": "3b6151b73834a3b427bbe58c9c25f3a00c19e695c4a0d7525e890e1810302628"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/original.mp4",
+        "bytes": 346212,
+        "sha256": "e90ad5ff197bc7076ab6348da97fa332143de38455b211c552f25add95f53466"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/replay.mp4",
+        "bytes": 346967,
+        "sha256": "68c6336f275098b28db706bfcc79976447da166c4160f351e67bcb0569c222d7"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/reverse.mp4",
+        "bytes": 449688,
+        "sha256": "102c2f4c2559786d722ab7949f3e9dcc0692edab07d64df87055616ad22fa5ff"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk0/text_rebind.mp4",
+        "bytes": 378457,
+        "sha256": "5b8a0e671f7f515a8847d11155db07ae791d97a30613012d95d9d31dcf2102fe"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/comparison.mp4",
+        "bytes": 2382093,
+        "sha256": "d248c551cf60451ac34ee13f17ea01fbc0f969be73d2dd3c60d11d3b499639fa"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/crossattn_control.mp4",
+        "bytes": 347619,
+        "sha256": "f86260f31db369a54d3035dfe09bff9633150d99e97c7ff5fe7821bc85350343"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/edited_chunk_strip.mp4",
+        "bytes": 394562,
+        "sha256": "c2c3cbc58650246970bfb8d9a8db8bc6caa21c80c014141a2ce656e291d00038"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/full_regeneration.mp4",
+        "bytes": 431018,
+        "sha256": "4799e00396a30bacfdd89b0f256ae8e48a4c3ca21b2763fced918a397195dd07"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/history_recache.mp4",
+        "bytes": 378681,
+        "sha256": "d9d27c0a00f1559c15efd52352c55db7233f6af009e1c84c500cbfb0b6078505"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/original.mp4",
+        "bytes": 347349,
+        "sha256": "29c8e7e2c33a19f954cb7bafd60050a953658949de1a1194c48d839f0d1bdfab"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/replay.mp4",
+        "bytes": 347201,
+        "sha256": "3e1aaff96f894c91e2e8409e5786a4ba6861735b06c72344f3aaeacb155fdb2e"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/reverse.mp4",
+        "bytes": 439064,
+        "sha256": "1be10015ba9e399e9c5b2c426d72635f5d774a7493af3317eb10ce3a9e434c88"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_car_red_to_black_seed43_chunk1/text_rebind.mp4",
+        "bytes": 384991,
+        "sha256": "2e06b926701752f4748423a10ec9c12cea332573505aa20a1729087f85ea2167"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/comparison.mp4",
+        "bytes": 1013892,
+        "sha256": "0a0c7b57f5ed5164e9ee5fe7550344db5573c69e46c3a264a5d21eeef414659a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/crossattn_control.mp4",
+        "bytes": 164935,
+        "sha256": "65bc1d390a05a01acb5b536cda1e90fb3fbeb0ca429b79e0cda8bcf422167c44"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/edited_chunk_strip.mp4",
+        "bytes": 165674,
+        "sha256": "b05dbdb4b78c5bb6f59fa120ced25c81a2a9f655fc8a91ab3de0edfd80705155"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/full_regeneration.mp4",
+        "bytes": 130798,
+        "sha256": "5945be1a295e947b1db71491e39e50a39daed125bda9861c1a8138a5b7e269e8"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/history_recache.mp4",
+        "bytes": 165634,
+        "sha256": "bdfd76894fa429b585511a749b5d24e581e332692fd7cbbb5b66e513e03df066"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/original.mp4",
+        "bytes": 154586,
+        "sha256": "4dfbf3c5c3206bb5ec7b91e16aea0c742f926bd534b54fb27b5eb93e7e090432"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/replay.mp4",
+        "bytes": 155021,
+        "sha256": "c78dd272ae43c50c05c62fd9495eddf557fef0fadca96efea7d57a27f0e162c6"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/reverse.mp4",
+        "bytes": 147170,
+        "sha256": "a8b3a7fd03d81d8124e76aff6236e3aab8a7386bcdf0d2d08bd1019b7bee0b33"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk0/text_rebind.mp4",
+        "bytes": 165597,
+        "sha256": "ae3af8ea6293170063a78b46bea0b7953037fea182f4d9aa288ed5a6299ac46c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
+        "bytes": 971447,
+        "sha256": "9d3558e4c89809398b109a5fef70e19291473b12449928344d90ab292c441ea2"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
+        "bytes": 154580,
+        "sha256": "8efb6ff2daa78850a9092b01b698efd2461a336a1907ecb472dbd9377826dd1c"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4",
+        "bytes": 179353,
+        "sha256": "3ac580a3d4362ce77502056f2bad8a726824bfd841466a477e7239fc175ad3eb"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
+        "bytes": 130831,
+        "sha256": "1f16c5c690ec501d339e47997c52106a1f50709c133e8a3c345e7ae4223b3a0a"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/history_recache.mp4",
+        "bytes": 154927,
+        "sha256": "0a1e544a0ba71c112b70b4f33bef32003b2cf8ad8f6d225f2281bdcf546afd4d"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
+        "bytes": 154206,
+        "sha256": "ceccf3b13dff081453392c86284a55466fb5aad79527de5c474464691d10076f"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/replay.mp4",
+        "bytes": 154884,
+        "sha256": "878f2db913548d3f4222bb0d7d6fd0718f11cc96b616ced6001304a2b40b29c0"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/reverse.mp4",
+        "bytes": 131237,
+        "sha256": "234354a21757dc30a12cec8f700ccf9eef988e014a5c57b465af0ebc0f8ed24b"
+      },
+      {
+        "path": "validation/edit_ready_mvp/videos_smoke/edit_dress_red_to_blue_seed42_chunk1/text_rebind.mp4",
+        "bytes": 156336,
+        "sha256": "06710f9e921d9d518293a3825ddc8908dee4a316a2f88a2f6376a643c2f8d2d9"
+      }
+    ]
+  }
 }

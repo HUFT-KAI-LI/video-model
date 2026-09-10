@@ -1,77 +1,518 @@
 {
   "status": "passed",
+  "run_provenance": {
+    "files": [
+      {
+        "file": "replay_main_shard0.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard1.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard2.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "replay_main_shard3.json",
+        "experiment": "A_same_prompt_replay",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_seed2_shard0.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_seed2_shard1.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_seed2_shard2.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      },
+      {
+        "file": "local_edit_seed2_shard3.json",
+        "experiment": "B_local_edit",
+        "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+        "git_dirty": false,
+        "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
+        "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+        "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+      }
+    ],
+    "git_commits": [
+      "4c4d52f2d6b244da7566f4518edf5bcead4b1640"
+    ],
+    "git_dirty_values": [
+      false
+    ],
+    "code_tree_sha256": [
+      "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00"
+    ],
+    "config_sha256": [
+      "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba"
+    ],
+    "model_checkpoint_sha256": [
+      "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    ],
+    "clean": true
+  },
   "replay_gate": {
     "passed": true,
-    "cases": 16,
-    "passed_cases": 16,
-    "exact_cases": 16,
-    "rng_exact_cases": 16,
+    "cases": 24,
+    "passed_cases": 24,
+    "exact_cases": 24,
+    "rng_exact_cases": 24,
     "latent_mse_mean": 0.0,
-    "latent_cosine_mean": 1.000000026077032,
+    "latent_cosine_mean": 1.00000003973643,
     "repeat_noise_baseline": 0.0,
     "relative_to_repeat": 3.0,
     "cosine_floor": 0.999
   },
   "edit_gate": {
     "passed": true,
-    "cases": 16,
-    "successful_cases": 13,
+    "semantic_cases": 10,
+    "successful_cases": 9,
     "strong_cases": 0,
+    "calibration_cases": 5,
+    "calibration_matches_full_regeneration": 5,
+    "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k. These cases are excluded from the pass/strong aggregate.",
     "min_full_regeneration_ratio": 0.25,
-    "s_proxy_local_edit_mean": 0.0032497906524193627,
-    "s_proxy_full_regeneration_mean": 0.22289562695602208,
+    "R_k_by_chunk": {
+      "1": 0.026624592997850267,
+      "4": 0.024569144803630285
+    },
+    "R_k_cases_by_chunk": {
+      "1": [
+        0.05097783469918519,
+        0.036015336674468997,
+        0.0019607249174541214,
+        0.04357510579797953,
+        0.000593962900163468
+      ],
+      "4": [
+        0.08937638328342665,
+        0.010616756281892282,
+        -0.0010402629623565557,
+        0.018971236945266912,
+        0.004921610469922148
+      ]
+    },
+    "s_proxy_text_rebind_mean": 0.004100146558549672,
+    "s_proxy_full_regeneration_mean": 0.24797772262935283,
     "s_proxy_control_mean": 0.0,
     "variants": [
-      "brief_smile",
       "car_red_to_black",
       "dress_red_to_blue",
       "jacket_green_to_yellow",
       "lighting_darker",
-      "lighting_warm_to_cool",
-      "park_light_rain",
-      "slight_zoom_in"
+      "lighting_warm_to_cool"
     ],
-    "strong_variants": []
+    "strong_variants": [],
+    "qualitative_cases": 9,
+    "qualitative_consistent_cases": 7,
+    "note": "Only `evidence: directional` prompts enter the pass/strong aggregate; qualitative prompts (smile / zoom / rain) report a proxy-consistent change count and are not counted as semantic success."
+  },
+  "sanity_controls": {
+    "chunk0_cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed50_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed54_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed51_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed55_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed52_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_brief_smile_seed56_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed53_chunk0",
+        "chunk0_matches_full_regeneration": true
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed57_chunk0",
+        "chunk0_matches_full_regeneration": true
+      }
+    ],
+    "base_and_full_regen_share_rng_stream_cases": 24,
+    "base_and_full_regen_share_rng_stream_total": 24,
+    "control_equals_replay_cases": 16,
+    "control_equals_replay_total": 16,
+    "control_equals_text_rebind_at_chunk0": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "recache_equals_text_rebind_cases": 8,
+    "recache_cache_exact_cases": 8,
+    "recache_cache_by_chunk": {
+      "0": {
+        "exact_cases": 8,
+        "cases": 8,
+        "differing_token_ranges": []
+      },
+      "1": {
+        "exact_cases": 0,
+        "cases": 8,
+        "differing_token_ranges": [
+          [
+            0,
+            1295
+          ]
+        ]
+      },
+      "4": {
+        "exact_cases": 0,
+        "cases": 8,
+        "differing_token_ranges": [
+          [
+            0,
+            5183
+          ]
+        ]
+      }
+    },
+    "recache_cache_len": 5184,
+    "total_cases": 24
+  },
+  "history_confound": {
+    "cases": [
+      {
+        "sample_id": "edit_dress_red_to_blue_seed50_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.09624264564043211,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.23968005180358887,
+        "text_rebind_vs_replay_mse": 0.23968005180358887
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed50_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.0952638225790895,
+        "S_full_regeneration": 0.09590130087770062,
+        "ratio_reverse_to_full": 0.9933527669304083,
+        "reverse_vs_full_regeneration_mse": 0.0005241765175014734,
+        "text_rebind_vs_replay_mse": 0.009357420727610588
+      },
+      {
+        "sample_id": "edit_dress_red_to_blue_seed50_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.10398657527970678,
+        "S_full_regeneration": 0.10418023003472222,
+        "ratio_reverse_to_full": 0.9981411563887803,
+        "reverse_vs_full_regeneration_mse": 0.0006909308140166104,
+        "text_rebind_vs_replay_mse": 0.014228359796106815
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed54_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.1008983973122428,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.3259628713130951,
+        "text_rebind_vs_replay_mse": 0.3259628713130951
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed54_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.10670452353395062,
+        "S_full_regeneration": 0.10494580680941358,
+        "ratio_reverse_to_full": 1.016758332495656,
+        "reverse_vs_full_regeneration_mse": 0.007520558778196573,
+        "text_rebind_vs_replay_mse": 0.01002831943333149
+      },
+      {
+        "sample_id": "edit_jacket_green_to_yellow_seed54_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.12148332007137345,
+        "S_full_regeneration": 0.12094078534915123,
+        "ratio_reverse_to_full": 1.004485953358546,
+        "reverse_vs_full_regeneration_mse": 0.0012553139822557569,
+        "text_rebind_vs_replay_mse": 0.0038707705680280924
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed51_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.26308714313271603,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.7610943913459778,
+        "text_rebind_vs_replay_mse": 0.7610943913459778
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed51_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.27185887466242287,
+        "S_full_regeneration": 0.27362663363233025,
+        "ratio_reverse_to_full": 0.9935395215500743,
+        "reverse_vs_full_regeneration_mse": 0.0008459868258796632,
+        "text_rebind_vs_replay_mse": 0.0413065068423748
+      },
+      {
+        "sample_id": "edit_car_red_to_black_seed51_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.2986178927951389,
+        "S_full_regeneration": 0.29915892047646603,
+        "ratio_reverse_to_full": 0.9981915040993414,
+        "reverse_vs_full_regeneration_mse": 0.0003343161952216178,
+        "text_rebind_vs_replay_mse": 0.0009867993649095297
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed55_chunk0",
+        "target_chunk": 0,
+        "S_reverse": -0.0,
+        "S_full_regeneration": 0.04974806308746338,
+        "ratio_reverse_to_full": -0.0,
+        "reverse_vs_full_regeneration_mse": 0.1994059532880783,
+        "text_rebind_vs_replay_mse": 0.1994059532880783
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed55_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.0497058629989624,
+        "S_full_regeneration": 0.047298282384872437,
+        "ratio_reverse_to_full": 1.0509020728173417,
+        "reverse_vs_full_regeneration_mse": 0.007006647996604443,
+        "text_rebind_vs_replay_mse": 0.006429751869291067
+      },
+      {
+        "sample_id": "edit_park_light_rain_seed55_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.03526490926742554,
+        "S_full_regeneration": 0.03208404779434204,
+        "ratio_reverse_to_full": 1.0991415264517974,
+        "reverse_vs_full_regeneration_mse": 0.011723327450454235,
+        "text_rebind_vs_replay_mse": 0.00617591105401516
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed52_chunk0",
+        "target_chunk": 0,
+        "S_reverse": -0.0,
+        "S_full_regeneration": 0.3165759891271591,
+        "ratio_reverse_to_full": -0.0,
+        "reverse_vs_full_regeneration_mse": 0.747156023979187,
+        "text_rebind_vs_replay_mse": 0.747156023979187
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed52_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.27231578528881073,
+        "S_full_regeneration": 0.3138000816106796,
+        "ratio_reverse_to_full": 0.8678002373073409,
+        "reverse_vs_full_regeneration_mse": 0.045438844710588455,
+        "text_rebind_vs_replay_mse": 0.008566171862185001
+      },
+      {
+        "sample_id": "edit_lighting_darker_seed52_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.28027383983135223,
+        "S_full_regeneration": 0.28619831800460815,
+        "ratio_reverse_to_full": 0.9792993955570328,
+        "reverse_vs_full_regeneration_mse": 0.004176594782620668,
+        "text_rebind_vs_replay_mse": 0.002481257077306509
+      },
+      {
+        "sample_id": "edit_brief_smile_seed56_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.15250596404075623,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.2555817663669586,
+        "text_rebind_vs_replay_mse": 0.2555817663669586
+      },
+      {
+        "sample_id": "edit_brief_smile_seed56_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.147722527384758,
+        "S_full_regeneration": 0.1481548249721527,
+        "ratio_reverse_to_full": 0.9970821227896157,
+        "reverse_vs_full_regeneration_mse": 0.002135622315108776,
+        "text_rebind_vs_replay_mse": 0.001061260118149221
+      },
+      {
+        "sample_id": "edit_brief_smile_seed56_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.14471544325351715,
+        "S_full_regeneration": 0.14517426490783691,
+        "ratio_reverse_to_full": 0.9968395110895788,
+        "reverse_vs_full_regeneration_mse": 0.0009117639856413007,
+        "text_rebind_vs_replay_mse": 0.0019994936883449554
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed53_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.4378757555298354,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 1.1867014169692993,
+        "text_rebind_vs_replay_mse": 1.1867014169692993
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed53_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.4434038327064043,
+        "S_full_regeneration": 0.44528989438657407,
+        "ratio_reverse_to_full": 0.9957644184070964,
+        "reverse_vs_full_regeneration_mse": 0.0004320614680182189,
+        "text_rebind_vs_replay_mse": 0.02119428664445877
+      },
+      {
+        "sample_id": "edit_lighting_warm_to_cool_seed53_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.4340021580825617,
+        "S_full_regeneration": 0.4357352551118827,
+        "ratio_reverse_to_full": 0.9960225916792618,
+        "reverse_vs_full_regeneration_mse": 0.00028007416403852403,
+        "text_rebind_vs_replay_mse": 0.004084128886461258
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed57_chunk0",
+        "target_chunk": 0,
+        "S_reverse": 0.0,
+        "S_full_regeneration": 0.2021249532699585,
+        "ratio_reverse_to_full": 0.0,
+        "reverse_vs_full_regeneration_mse": 0.4054315984249115,
+        "text_rebind_vs_replay_mse": 0.4054315984249115
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed57_chunk1",
+        "target_chunk": 1,
+        "S_reverse": 0.1998230218887329,
+        "S_full_regeneration": 0.19976356625556946,
+        "ratio_reverse_to_full": 1.0002976300147115,
+        "reverse_vs_full_regeneration_mse": 0.00033742678351700306,
+        "text_rebind_vs_replay_mse": 0.00018851559434551746
+      },
+      {
+        "sample_id": "edit_slight_zoom_in_seed57_chunk4",
+        "target_chunk": 4,
+        "S_reverse": 0.20184485614299774,
+        "S_full_regeneration": 0.20180922746658325,
+        "ratio_reverse_to_full": 1.0001765463198178,
+        "reverse_vs_full_regeneration_mse": 0.00018970461678691208,
+        "text_rebind_vs_replay_mse": 0.00015818145766388625
+      }
+    ],
+    "ratio_reverse_to_full_by_chunk": {
+      "0": 0.0,
+      "1": 0.9894371377890306,
+      "4": 1.0090372731180195
+    },
+    "reverse_vs_full_regeneration_mse_by_chunk": {
+      "0": 0.5151267591863871,
+      "1": 0.008030165674426826,
+      "4": 0.002445253248879453
+    },
+    "note": "reverse = P1 history + P0 text.  A ratio near 1 means the reopened chunk follows the visual history rather than the prompt."
   },
   "preservation_gate": {
     "passed": true,
     "outside_exact_fraction": 1.0,
-    "outside_max_abs_after_vae_mean": 0.4570350646972656,
+    "outside_max_abs_after_vae_mean": 0.6084391276041666,
     "note": "Asserted with torch.equal on pre-decode latents; the VAE leak is reported separately and is not part of the gate."
   },
   "boundary": {
-    "left_delta_mean": 0.0007311031222343445,
-    "left_base_mean": 0.08121943089645356,
-    "left_edited_mean": 0.0819505340186879,
-    "left_relative_increase_of_means": 0.009001578983807778,
+    "left_delta_mean": 0.0008544535376131535,
+    "left_base_mean": 0.08151478529907763,
+    "left_edited_mean": 0.08236923883669078,
+    "left_relative_increase_of_means": 0.010482190862408147,
     "left_acceptable_cases": 16,
-    "right_delta_mean": 0.016807789157610387,
-    "right_base_mean": 0.07339637499535456,
-    "right_edited_mean": 0.09020416415296495,
-    "right_relative_increase_of_means": 0.22900026273333243,
+    "right_delta_mean": 0.23583178330833712,
+    "right_base_mean": 0.07533387723378837,
+    "right_edited_mean": 0.3111656605421255,
+    "right_relative_increase_of_means": 3.1304877960345188,
     "right_acceptable_cases": 14,
-    "total_cases": 16,
+    "total_cases": 24,
     "left_acceptable": true,
     "right_acceptable": false
   },
   "efficiency": {
-    "full_seconds_mean": 3.503359919413924,
-    "partial_seconds_mean": 0.5773111055605114,
-    "speedup": 0.1647923430566853,
-    "R_time_end_to_end_mean": 0.3990412841861756,
+    "full_seconds_mean": 3.51816463842988,
+    "partial_generation_seconds_mean": 2.4612546033846834,
+    "partial_end_to_end_seconds_mean": 3.3899280301605663,
+    "disk_load_seconds_mean": 1.7569506545551121,
+    "host_to_device_seconds_mean": 0.11916644979889195,
+    "restore_seconds_mean": 0.012433757695058981,
+    "encode_seconds_mean": 0.0598569029631714,
+    "denoise_seconds_mean": 0.512846838372449,
+    "R_time_generation": 0.6996170855502211,
+    "R_time_compute": 0.16632182965888884,
+    "R_time_end_to_end": 0.7632541096556585,
+    "R_time_end_to_end_warm_cache": 0.3676484121077089,
+    "cache_read_seconds_per_gib": 1.7877794246473384,
     "partial_regenerated_chunks": 1,
     "full_generated_chunks_mean": 7.0,
-    "peak_vram_bytes_max": 18296560640,
-    "cache_bytes_per_chunk": 1049887200
+    "peak_vram_bytes_max": 20654859264,
+    "cache_bytes_per_chunk": 1049887200,
+    "page_cache_dropped": true
   },
   "gate_d_cost": {
-    "passed": true,
-    "max_time_ratio": 0.5
+    "passed": false,
+    "passed_warm_cache": true,
+    "max_time_ratio": 0.5,
+    "cold_read_note": "Gate D is evaluated on the full user path including a cold page-cache read of the ~1 GiB checkpoint; the device-side compute ratio and the warm-cache ratio are reported separately."
   },
   "decision": "GO_WEAK_PROMPT_REBINDING",
   "decision_notes": [
-    "Prompt re-binding is directionally correct but weak: only 0/13 directional cases recover >=25% of the full-regeneration response.",
-    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames."
+    "Prompt re-binding is directionally correct but weak: only 0/9 directional cases recover >=25% of the full-regeneration response.",
+    "Outside preservation is bit-exact on pre-decode latents; the causal VAE still leaks a small, decaying change into later decoded frames.",
+    "Gate B covers only the directional-probe prompts; smile / zoom / rain are reported as qualitative and need human review.",
+    "Gate D fails on the cold-storage path: reading one ~1 GiB checkpoint costs about as much as generating several chunks. The device-side compute ratio is much lower, so the cost problem is cache size and I/O, not recomputation."
   ],
   "next_step": "State reuse is proven; add light prompt-rebinding post-training.",
   "limitations": [

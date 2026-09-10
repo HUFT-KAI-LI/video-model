@@ -11,7 +11,7 @@
 - 汇总：[validation/edit_ready_mvp/summary.json](validation/edit_ready_mvp/summary.json)
 - 复现：`bash scripts/08_edit_ready_mvp.sh smoke|all-chunks|main`
 
-结论：同 prompt 重开 chunk **逐位精确**（16/16），未编辑 chunk 编码前 **逐位不变**（32/32），单 chunk 编辑生成耗时 **16.5%**；但新 prompt 的作用方向正确却偏弱（平均恢复 full regeneration 的 2.7%），判定 `GO_WEAK_PROMPT_REBINDING`。
+结论：同 prompt 重开 chunk **逐位精确**（24/24），未编辑 chunk 编码前 **逐位不变**（48/48）；**chunk 0（无历史）与新 prompt 的 full regeneration 逐位相同**，证明 prompt 重绑定实现正确；编辑强度随已 committed 的历史衰减（`R_k` 100% → 5.3% → 1.6%），reverse 控制显示是历史而非 prompt 决定 chunk；history recache 是无效的 training-free 干预；成本分三档（compute 0.167 / cache 驻留 0.367 / 冷存储 0.770）。判定 `GO_WEAK_PROMPT_REBINDING`。
 
 ## Reality Memory / R1
 

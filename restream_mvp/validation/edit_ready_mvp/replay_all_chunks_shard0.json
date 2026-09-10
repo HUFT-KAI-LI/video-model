@@ -1,10 +1,13 @@
 {
   "experiment": "A_same_prompt_replay",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,7 +33,7 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789046814.09659,
+    "created_unix": 1789051445.1821408,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 0,
     "shards": 1,
@@ -58,17 +61,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -79,6 +87,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -89,6 +98,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -98,6 +108,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -107,7 +118,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -117,6 +140,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -125,20 +149,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -152,14 +167,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -176,6 +193,18 @@
     "epsilon": 1e-12,
     "cosine_floor": 0.999,
     "cases": [
+      {
+        "sample_id": "replay_dress_red_to_blue_seed42_chunk0",
+        "prompt_id": "dress_red_to_blue",
+        "target_chunk": 0,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
       {
         "sample_id": "replay_dress_red_to_blue_seed42_chunk1",
         "prompt_id": "dress_red_to_blue",
@@ -201,13 +230,93 @@
         "rng_exact": true
       }
     ],
-    "exact_cases": 2,
-    "total_cases": 2,
+    "exact_cases": 3,
+    "total_cases": 3,
     "latent_mse_mean": 0.0,
     "repeat_mse_mean": 0.0,
-    "rng_exact_cases": 2
+    "rng_exact_cases": 3
   },
   "cases": [
+    {
+      "target_chunk": 0,
+      "chunk_latent_sha256": {
+        "original": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "replay_one": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "replay_two": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_all_chunks/replay_dress_red_to_blue_seed42__chunk000.pt",
+        "sha256": "e20ccd0147ad0f0e2f02ea0bd93b9e6c4a9a5b6bc0bfaa3f2107edc8d1959183",
+        "bytes": 1054833722,
+        "chunk_index": 0,
+        "sample_id": "replay_dress_red_to_blue_seed42",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_dress_red_to_blue_seed42",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 42,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051414.7903082
+      },
+      "timings": {
+        "replay_restore_seconds": 0.013334523886442184,
+        "replay_denoise_seconds": 0.4937540851533413
+      },
+      "peak_vram_bytes": 17769635328,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_dress_red_to_blue_seed42_chunk0",
+      "prompt_id": "dress_red_to_blue",
+      "prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+      "seed": 42,
+      "num_chunks": 7,
+      "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
+      "generate_seconds_including_cache_write": 19.288998059928417
+    },
     {
       "target_chunk": 1,
       "chunk_latent_sha256": {
@@ -240,9 +349,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/all_chunks/replay_dress_red_to_blue_seed42__chunk001.pt",
-        "sha256": "6fe2495e90a91c0c6e9259f417dbdd97d74a31897146c612b53f8edbc6f84303",
-        "bytes": 1055165853,
+        "path": "outputs/edit_ready_mvp/cache/rerun_all_chunks/replay_dress_red_to_blue_seed42__chunk001.pt",
+        "sha256": "86ffbc3e0cbc75cc3bf701173bffdad93065f1c79833445ac4cd610a341d6918",
+        "bytes": 1055165917,
         "chunk_index": 1,
         "sample_id": "replay_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -253,7 +362,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 3,
           "latent_shape": [
@@ -264,13 +373,13 @@
             54
           ]
         },
-        "created_unix": 1789046790.5099266
+        "created_unix": 1789051417.6684706
       },
       "timings": {
-        "replay_restore_seconds": 0.011918623000383377,
-        "replay_denoise_seconds": 0.4832366704940796
+        "replay_restore_seconds": 0.011969499289989471,
+        "replay_denoise_seconds": 0.47974589839577675
       },
-      "peak_vram_bytes": 17763413504,
+      "peak_vram_bytes": 17761455616,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -286,7 +395,7 @@
       "seed": 42,
       "num_chunks": 7,
       "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
-      "generate_seconds_including_cache_write": 18.7467668838799
+      "generate_seconds_including_cache_write": 19.288998059928417
     },
     {
       "target_chunk": 4,
@@ -320,9 +429,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/all_chunks/replay_dress_red_to_blue_seed42__chunk004.pt",
-        "sha256": "2d2dc0fb34ffba9a41ac8af9ae6428931a134813597c0f27e42722bf6c136383",
-        "bytes": 1055663517,
+        "path": "outputs/edit_ready_mvp/cache/rerun_all_chunks/replay_dress_red_to_blue_seed42__chunk004.pt",
+        "sha256": "d96de0dd0132532a1b3569b3dd00b39e378970f59615a9ed2e55d92a2ffdbb91",
+        "bytes": 1055663581,
         "chunk_index": 4,
         "sample_id": "replay_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -333,7 +442,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 12,
           "latent_shape": [
@@ -344,13 +453,13 @@
             54
           ]
         },
-        "created_unix": 1789046798.41099
+        "created_unix": 1789051425.8543224
       },
       "timings": {
-        "replay_restore_seconds": 0.013271231204271317,
-        "replay_denoise_seconds": 0.492294542491436
+        "replay_restore_seconds": 0.011907167732715607,
+        "replay_denoise_seconds": 0.4867073781788349
       },
-      "peak_vram_bytes": 17773864448,
+      "peak_vram_bytes": 17771816448,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -366,11 +475,12 @@
       "seed": 42,
       "num_chunks": 7,
       "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
-      "generate_seconds_including_cache_write": 18.7467668838799
+      "generate_seconds_including_cache_write": 19.288998059928417
     }
   ],
   "non_finite_fields": [
     "cases[0].pixel.psnr",
-    "cases[1].pixel.psnr"
+    "cases[1].pixel.psnr",
+    "cases[2].pixel.psnr"
   ]
 }

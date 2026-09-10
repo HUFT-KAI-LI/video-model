@@ -3,20 +3,196 @@
   "cache_bytes_per_chunk": 1049887200,
   "entries": [
     {
-      "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+      "sample_id": "edit_dress_red_to_blue_seed50_chunk0",
       "chunk_index": 0,
       "cache_bytes": 1049887200,
       "disk_bytes": 1054833338,
-      "sha256": "34659247aefa47d8fcc919d753ce304e4f04cce882ca065d342401ea11775e3a",
-      "path": "outputs/edit_ready_mvp/cache/edit_smoke/edit_dress_red_to_blue_seed42__chunk000.pt"
+      "sha256": "169d751dd0638bbc7e88ef9e339c1d4298d1be733832abc2a52f747db0daf90a",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed50__chunk000.pt"
     },
     {
-      "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
+      "sample_id": "edit_dress_red_to_blue_seed50_chunk1",
       "chunk_index": 1,
       "cache_bytes": 1049887200,
       "disk_bytes": 1055165531,
-      "sha256": "95d29df31a743c9e6d3cda12de2a2c10bfa7e62681e275e1df44011e0989fac4",
-      "path": "outputs/edit_ready_mvp/cache/edit_smoke/edit_dress_red_to_blue_seed42__chunk001.pt"
+      "sha256": "0565352908da71442d7a2f8876b2cfaa6854d3cf9f68f805ad69e71def2fc5f7",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed50__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_dress_red_to_blue_seed50_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055663195,
+      "sha256": "9d7af9a03acbe1ba0014fa857cad3d57634444ab87230360284887c52dbafba4",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed50__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed54_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054834298,
+      "sha256": "8df8f277525771aebf4df9abbaac7a9aa226a1bd3b67eb6b1fc32d0d553c7f23",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed54__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed54_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055166496,
+      "sha256": "00a987e5bc4b64ea870db4c97a5b626fbbc4e4325d7c1333b50861dd69a48933",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed54__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed54_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055664160,
+      "sha256": "f389ac1d66a660e8203c2ed381f4ca04db89e857e2d3db541c4b91c0f9884217",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed54__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed51_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054833146,
+      "sha256": "a2cc6ccc24bc9b9aee9ad818cbc8165c6bb704c427c8670a526d81034e5f847b",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_car_red_to_black_seed51__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed51_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055165338,
+      "sha256": "ce96329fef2469933c460b944c73e91ce21cf5d3ab91605da0ca6998d84f5150",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_car_red_to_black_seed51__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_car_red_to_black_seed51_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055663002,
+      "sha256": "13ec8dcce53a25aafb034f01408099a5fb40109b9292aa7ac20dc00a496c8046",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_car_red_to_black_seed51__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_park_light_rain_seed55_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054832954,
+      "sha256": "017226826ffdf68162e91b66d220d495cd85f1a6cbc7b39870cd336f998b21f3",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_park_light_rain_seed55__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_park_light_rain_seed55_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055165145,
+      "sha256": "e1bc08041ce8d4dbd42be294d1d131392dc648fcc4a0f5d049fca53f31183fc2",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_park_light_rain_seed55__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_park_light_rain_seed55_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055662809,
+      "sha256": "987c48fa1f0d6b868dd0fcbe065ead01887be11f65b59a204456bb6411493b40",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_park_light_rain_seed55__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_lighting_darker_seed52_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054832954,
+      "sha256": "f4879a6af92af5dce34f8556d2f698f8516ebb43231897da25c73ef353cd6bfa",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_lighting_darker_seed52_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055165145,
+      "sha256": "aadcc3778eb5be45a6af001d5501c43652684734a961f2f0d5d82cd9b42e89cd",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_lighting_darker_seed52_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055662809,
+      "sha256": "ef67dd5b49ea230aabf215d7db7eeca3d8eef8e2c8b3af9be88c9f44562ed90b",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_brief_smile_seed56_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054832186,
+      "sha256": "4b8c19750ced2783293011cdd8043cf05b5a3c48f257f6e2530df090f0460907",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_brief_smile_seed56_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055164373,
+      "sha256": "2b37a3720c9bcdfcd7a04fd20fa20aeb64e1e1c29c9ad3826ad7daf7696d52a6",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_brief_smile_seed56_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055662037,
+      "sha256": "1b4f96d4fea6e21b548a74e1f63a63802645521ea342d441b8a05cf538b641e3",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_lighting_warm_to_cool_seed53_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054834106,
+      "sha256": "6f0ddc81ca63ce9f605519297d5706e4756d64a8f81d7d6ff52924e5e7cb1fb3",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed53__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_lighting_warm_to_cool_seed53_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055166303,
+      "sha256": "695a0f96b1f89367904eec8ae1f2155bcc5b9998e8b58119899680c45474441b",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed53__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_lighting_warm_to_cool_seed53_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055663967,
+      "sha256": "6d02fac3d61b7d76cb33c3d4877470702c8c1841b0342852c7635a25db38651c",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed53__chunk004.pt"
+    },
+    {
+      "sample_id": "edit_slight_zoom_in_seed57_chunk0",
+      "chunk_index": 0,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1054832762,
+      "sha256": "4a832136215dd8601c578270a86ff604d5f40d48dc7ceb5f67ec8ea3aedf7b2a",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed57__chunk000.pt"
+    },
+    {
+      "sample_id": "edit_slight_zoom_in_seed57_chunk1",
+      "chunk_index": 1,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055164952,
+      "sha256": "a33af191cfedf3c148c6194bae68c72d0465b9a13f5c44b0d0fb5235b7e33a13",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed57__chunk001.pt"
+    },
+    {
+      "sample_id": "edit_slight_zoom_in_seed57_chunk4",
+      "chunk_index": 4,
+      "cache_bytes": 1049887200,
+      "disk_bytes": 1055662616,
+      "sha256": "48f80a0acaec5abe214c8640ae603a95b8a8618711a27dfdc7b43353399be7f5",
+      "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed57__chunk004.pt"
     }
   ]
 }

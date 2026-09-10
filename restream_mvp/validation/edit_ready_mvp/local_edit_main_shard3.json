@@ -1,10 +1,13 @@
 {
   "experiment": "B_local_edit",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,11 +33,11 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789047509.2748077,
+    "created_unix": 1789051853.6045969,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 3,
     "shards": 4,
-    "video_root": "validation/edit_ready_mvp/videos"
+    "video_root": "validation/edit_ready_mvp/rerun/videos"
   },
   "config": {
     "seed": 42,
@@ -57,17 +60,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -78,6 +86,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -88,6 +97,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -97,6 +107,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -106,7 +117,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -116,6 +139,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -124,20 +148,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -151,14 +166,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -172,6 +189,7 @@
   "gates": {
     "gate_b_editability": {
       "passed": true,
+      "semantic_cases": 2,
       "successful_cases": 1,
       "strong_cases": 0,
       "min_full_regeneration_ratio": 0.25,
@@ -180,11 +198,12 @@
           "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
           "prompt_id": "lighting_warm_to_cool",
           "target_chunk": 1,
-          "s_proxy_local_edit": 2.4866174768518517e-05,
-          "s_proxy_same_prompt": 0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": 2.4866174768518517e-05,
+          "s_proxy_replay": 0.0,
           "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.4689564646026234,
-          "ratio_to_full_regeneration": 5.3024484457398845e-05,
+          "s_proxy_full_regeneration": 0.4966106650270061,
+          "R_k": 5.007176953633541e-05,
           "passed": true,
           "strong": false
         },
@@ -192,45 +211,96 @@
           "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
           "prompt_id": "lighting_warm_to_cool",
           "target_chunk": 4,
-          "s_proxy_local_edit": -1.280984760802468e-05,
-          "s_proxy_same_prompt": 0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": -1.280984760802468e-05,
+          "s_proxy_replay": 0.0,
           "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.4574675383391204,
-          "ratio_to_full_regeneration": -2.8001653744727015e-05,
-          "passed": false,
-          "strong": false
-        },
-        {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
-          "prompt_id": "jacket_green_to_yellow",
-          "target_chunk": 1,
-          "s_proxy_local_edit": -0.0003873095100308671,
-          "s_proxy_same_prompt": 0.0,
-          "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.15364432629243827,
-          "ratio_to_full_regeneration": -0.002520818824729546,
-          "passed": false,
-          "strong": false
-        },
-        {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
-          "prompt_id": "jacket_green_to_yellow",
-          "target_chunk": 4,
-          "s_proxy_local_edit": -0.00039032359182100684,
-          "s_proxy_same_prompt": 0.0,
-          "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.13333845727237653,
-          "ratio_to_full_regeneration": -0.002927314443301793,
+          "s_proxy_full_regeneration": 0.47622266227816357,
+          "R_k": -2.689886186168603e-05,
           "passed": false,
           "strong": false
         }
-      ]
+      ],
+      "calibration_cases": 1,
+      "calibration_case_entries": [
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+          "prompt_id": "lighting_warm_to_cool",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.4956004452803498,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.4956004452803498,
+          "s_proxy_full_regeneration": 0.4956004452803498,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        }
+      ],
+      "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k.",
+      "qualitative_cases": 3,
+      "qualitative_case_entries": [
+        {
+          "sample_id": "edit_slight_zoom_in_seed49_chunk0",
+          "prompt_id": "slight_zoom_in",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.13554170727729797,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.13554170727729797,
+          "s_proxy_full_regeneration": 0.13554170727729797,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        },
+        {
+          "sample_id": "edit_slight_zoom_in_seed49_chunk1",
+          "prompt_id": "slight_zoom_in",
+          "target_chunk": 1,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.0033520562574267387,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.13526254892349243,
+          "R_k": 0.024781850439050485,
+          "passed": true,
+          "strong": false
+        },
+        {
+          "sample_id": "edit_slight_zoom_in_seed49_chunk4",
+          "prompt_id": "slight_zoom_in",
+          "target_chunk": 4,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.0034668208099901676,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.1365450918674469,
+          "R_k": 0.025389567377168222,
+          "passed": true,
+          "strong": false
+        }
+      ],
+      "qualitative_consistent_cases": 3,
+      "R_k_by_chunk": {
+        "1": [
+          5.007176953633541e-05
+        ],
+        "4": [
+          -2.689886186168603e-05
+        ]
+      },
+      "note": "Only `evidence: directional` prompts enter this aggregate; qualitative prompts only report a proxy-consistent change count."
     },
     "gate_c_preservation": {
       "passed": true,
       "outside_exact_fraction": 1.0,
       "cases": [
         {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
           "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
           "outside_exact": true,
           "chunks_checked": 6
@@ -241,69 +311,402 @@
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+          "sample_id": "edit_slight_zoom_in_seed49_chunk0",
           "outside_exact": true,
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+          "sample_id": "edit_slight_zoom_in_seed49_chunk1",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_slight_zoom_in_seed49_chunk4",
           "outside_exact": true,
           "chunks_checked": 6
         }
       ]
     },
     "gate_d_cost": {
-      "passed": true,
+      "passed": false,
       "cases": [
+        {
+          "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+          "num_chunks": 7,
+          "R_time_generation": 0.7061416199911212,
+          "R_time_compute": 0.16442357617347267,
+          "R_time_end_to_end": 0.7631491581891521,
+          "partial_generation_seconds": 2.4647974334657192,
+          "full_generation_seconds": 3.490514315664768,
+          "counted": true,
+          "passed": false
+        },
         {
           "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.16530450055894516,
-          "R_time_end_to_end": 0.41046312717899613,
-          "partial_generation_seconds": 0.5766972862184048,
-          "full_generation_seconds": 3.488696824759245,
+          "R_time_generation": 0.7863207670740529,
+          "R_time_compute": 0.16610277283815525,
+          "R_time_end_to_end": 0.8267251991449458,
+          "partial_generation_seconds": 2.744663894176483,
+          "full_generation_seconds": 3.490514315664768,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
           "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
           "num_chunks": 7,
-          "R_time_generation": 0.1655064247818927,
-          "R_time_end_to_end": 0.40172618589795916,
-          "partial_generation_seconds": 0.5774017386138439,
-          "full_generation_seconds": 3.488696824759245,
+          "R_time_generation": 0.6921911016628332,
+          "R_time_compute": 0.16839639707921278,
+          "R_time_end_to_end": 0.7521066398766802,
+          "partial_generation_seconds": 2.4161029495298862,
+          "full_generation_seconds": 3.490514315664768,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
+          "sample_id": "edit_slight_zoom_in_seed49_chunk0",
           "num_chunks": 7,
-          "R_time_generation": 0.16525876228658729,
-          "R_time_end_to_end": 0.4090616316276042,
-          "partial_generation_seconds": 0.5659929402172565,
-          "full_generation_seconds": 3.424889139831066,
+          "R_time_generation": 0.6023113283319876,
+          "R_time_compute": 0.16760758874092002,
+          "R_time_end_to_end": 0.7206497734863672,
+          "partial_generation_seconds": 2.1318155750632286,
+          "full_generation_seconds": 3.539391465485096,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
+          "sample_id": "edit_slight_zoom_in_seed49_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.1694822165515583,
-          "R_time_end_to_end": 0.4075622566503445,
-          "partial_generation_seconds": 0.5804578028619289,
-          "full_generation_seconds": 3.424889139831066,
+          "R_time_generation": 1.027739164282269,
+          "R_time_compute": 0.1667015676218096,
+          "R_time_end_to_end": 1.0159858881876098,
+          "partial_generation_seconds": 3.6375712268054485,
+          "full_generation_seconds": 3.539391465485096,
           "counted": true,
-          "passed": true
+          "passed": false
+        },
+        {
+          "sample_id": "edit_slight_zoom_in_seed49_chunk4",
+          "num_chunks": 7,
+          "R_time_generation": 0.6951668137212963,
+          "R_time_compute": 0.16342186124553307,
+          "R_time_end_to_end": 0.7524645922821968,
+          "partial_generation_seconds": 2.4604674875736237,
+          "full_generation_seconds": 3.539391465485096,
+          "counted": true,
+          "passed": false
         }
       ],
       "max_time_ratio": 0.5,
-      "counted_cases": 4
+      "counted_cases": 6
     }
   },
   "cases": [
     {
+      "sample_id": "edit_lighting_warm_to_cool_seed45_chunk0",
+      "prompt_id": "lighting_warm_to_cool",
+      "evidence": "directional",
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "prompt_hash_old": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+      "prompt_hash_new": "45f88bb5f423615635db9179fa7cfcb609357ee62fd62ba16f96725a1d464b65",
+      "target_chunk": 0,
+      "num_chunks": 7,
+      "seed": 45,
+      "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d",
+        "replay": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d",
+        "text_rebind": "a96d187e1e8c272c8ff4f6ae43d4ac30822f59974ed58661dc31e531ba139c9d",
+        "history_recache": "a96d187e1e8c272c8ff4f6ae43d4ac30822f59974ed58661dc31e531ba139c9d",
+        "reverse": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d",
+        "crossattn_control": "a96d187e1e8c272c8ff4f6ae43d4ac30822f59974ed58661dc31e531ba139c9d",
+        "full_regeneration": "a96d187e1e8c272c8ff4f6ae43d4ac30822f59974ed58661dc31e531ba139c9d"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0000001192092896,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.850546658039093,
+        "rmse": 0.9222508668899536,
+        "max_abs": 4.2109375,
+        "cosine": 0.2508564889431,
+        "relative_l2": 1.3409188985824585,
+        "exact": false
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.850546658039093,
+        "rmse": 0.9222508668899536,
+        "max_abs": 4.2109375,
+        "cosine": 0.2508564889431,
+        "relative_l2": 1.3409188985824585,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.850546658039093,
+        "rmse": 0.9222508668899536,
+        "max_abs": 4.2109375,
+        "cosine": 0.2508564889431,
+        "relative_l2": 1.3409188985824585,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.850546658039093,
+        "rmse": 0.9222508668899536,
+        "max_abs": 4.2109375,
+        "cosine": 0.2508564889431,
+        "relative_l2": 1.1375738382339478,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 2.0093878600823047e-06,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 0.00043201838991769546,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4956004452803498,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 0.4952196662808642,
+            "delta_target_fraction": 0.4952176568930041,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 4.923000257201646e-05,
+            "delta_reference_fraction": -0.000382788387345679,
+            "histogram_distance": 0.5937259753865108,
+            "appearance_change": 0.2711160182952881
+          }
+        },
+        "history_recache": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4956004452803498,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 0.4952196662808642,
+            "delta_target_fraction": 0.4952176568930041,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 4.923000257201646e-05,
+            "delta_reference_fraction": -0.000382788387345679,
+            "histogram_distance": 0.5937259753865108,
+            "appearance_change": 0.2711160182952881
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 2.0093878600823047e-06,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 0.00043201838991769546,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4956004452803498,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 0.4952196662808642,
+            "delta_target_fraction": 0.4952176568930041,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 4.923000257201646e-05,
+            "delta_reference_fraction": -0.000382788387345679,
+            "histogram_distance": 0.5937259753865108,
+            "appearance_change": 0.2711160182952881
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4956004452803498,
+          "measurements": {
+            "target_fraction_base": 2.0093878600823047e-06,
+            "target_fraction_edited": 0.4952196662808642,
+            "delta_target_fraction": 0.4952176568930041,
+            "reference_fraction_base": 0.00043201838991769546,
+            "reference_fraction_edited": 4.923000257201646e-05,
+            "delta_reference_fraction": -0.000382788387345679,
+            "histogram_distance": 0.5937259753865108,
+            "appearance_change": 0.2711160182952881
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.4956004452803498,
+        "S_full_regeneration": 0.4956004452803498,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.91796875,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.03343983739614487
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 1.2340868711471558
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 1.200647033751011
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 9.322771074948832e-05
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.035656508058309555
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.03556328034756007
+          }
+        },
+        "dino": {
+          "right_base": {
+            "mean_cosine": 0.9983798265457153,
+            "mean_cosine_distance": 0.001620173454284668
+          },
+          "right_edited": {
+            "mean_cosine": 0.6534472703933716,
+            "mean_cosine_distance": 0.3465527296066284
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed45__chunk000.pt",
+        "sha256": "c789953829b9f7b572f24b1f8b32036df1ed84165282e2f9657740ee4586d5b0",
+        "bytes": 1054834106,
+        "chunk_index": 0,
+        "sample_id": "edit_lighting_warm_to_cool_seed45",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed45",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 45,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051682.8824391
+      },
+      "cost": {
+        "full_generation_seconds": 3.490514315664768,
+        "base_generation_seconds_including_cache_write": 10.52264217659831,
+        "partial_end_to_end_seconds": 3.3712640069425106,
+        "partial_generation_seconds": 2.4647974334657192,
+        "partial_compute_seconds": 0.5739228464663029,
+        "disk_load_seconds": 1.7741452045738697,
+        "host_to_device_seconds": 0.11672938242554665,
+        "restore_seconds": 0.011977862566709518,
+        "encode_seconds": 0.05982649698853493,
+        "denoise_seconds": 0.5021184869110584,
+        "decode_seconds": 0.9064665734767914,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054834106,
+        "recache_seconds": 0.07139427587389946,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093654016,
+        "R_time_generation": 0.7061416199911212,
+        "R_time_compute": 0.16442357617347267,
+        "R_time_end_to_end": 0.7631491581891521
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
       "sample_id": "edit_lighting_warm_to_cool_seed45_chunk1",
       "prompt_id": "lighting_warm_to_cool",
+      "evidence": "directional",
       "base_prompt": "A person sits at a wooden table in warm sunlight.",
       "edit_prompt": "A person sits at a wooden table in cool blue light.",
       "prompt_hash_old": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
@@ -315,10 +718,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
-        "same_prompt_replay": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
-        "local_edit": "99080f8f694265fc4456cd7dc767826c58aa3d9e70425d8f3ead3116a776cfe5",
+        "replay": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
+        "text_rebind": "99080f8f694265fc4456cd7dc767826c58aa3d9e70425d8f3ead3116a776cfe5",
+        "history_recache": "fb309d34d4bd0667c8261a39bfdaecc661bf8645382bfe31830f7dffb03dc887",
+        "reverse": "c042f7a271b01ee42f55eaccc486838f319d0e935c8ac632459dafe6d57bfa08",
         "crossattn_control": "557d8d2fb603edbcd04cf006468c12b57b9ac53fd449924f73734ce435bd0b54",
-        "full_regeneration": "e675dc2a978951c77c80bda16e8ae057e745db6f4f197bc703912b28c62c8dfb"
+        "full_regeneration": "5fdf4fbc8431d947a97f7e632a20e7b0f7199f35a2c70921060a1827ac27dc7e"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -336,7 +741,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.0002317055914318189,
+        "rmse": 0.01522187888622284,
+        "max_abs": 0.171875,
+        "cosine": 0.9998387098312378,
+        "relative_l2": 0.018140627071261406,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.00015839800471439958,
         "rmse": 0.012585626915097237,
         "max_abs": 0.1640625,
@@ -344,6 +757,39 @@
         "relative_l2": 0.014998882077634335,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.0028012210968881845,
+        "rmse": 0.05292656272649765,
+        "max_abs": 0.4453125,
+        "cosine": 0.9985671639442444,
+        "relative_l2": 0.05362127348780632,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 8.796875,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 7.5,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 13,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -351,7 +797,21 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 1.5070408950617283e-06,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 0.0003172321084104938,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "color_fraction",
           "S_proxy": 2.4866174768518517e-05,
           "measurements": {
@@ -365,18 +825,32 @@
             "appearance_change": 0.0021939859725534916
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "color_fraction",
-          "S_proxy": 0.0,
+          "S_proxy": 3.014081790123459e-05,
           "measurements": {
             "target_fraction_base": 1.5070408950617283e-06,
-            "target_fraction_edited": 1.5070408950617283e-06,
-            "delta_target_fraction": 0.0,
+            "target_fraction_edited": 2.2605613425925925e-06,
+            "delta_target_fraction": 7.535204475308642e-07,
             "reference_fraction_base": 0.0003172321084104938,
-            "reference_fraction_edited": 0.0003172321084104938,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "reference_fraction_edited": 0.0002878448109567901,
+            "delta_reference_fraction": -2.9387297453703726e-05,
+            "histogram_distance": 0.0012573248484472382,
+            "appearance_change": 0.0022418652661144733
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.47918625819830246,
+          "measurements": {
+            "target_fraction_base": 1.5070408950617283e-06,
+            "target_fraction_edited": 0.47889992042824076,
+            "delta_target_fraction": 0.4788984133873457,
+            "reference_fraction_base": 0.0003172321084104938,
+            "reference_fraction_edited": 2.9387297453703702e-05,
+            "delta_reference_fraction": -0.0002878448109567901,
+            "histogram_distance": 0.5828219450702483,
+            "appearance_change": 0.270660400390625
           }
         },
         "crossattn_control": {
@@ -395,18 +869,32 @@
         },
         "full_regeneration": {
           "kind": "color_fraction",
-          "S_proxy": 0.4689564646026234,
+          "S_proxy": 0.4966106650270061,
           "measurements": {
             "target_fraction_base": 1.5070408950617283e-06,
-            "target_fraction_edited": 0.4693196614583333,
-            "delta_target_fraction": 0.46931815441743824,
+            "target_fraction_edited": 0.4963205596547068,
+            "delta_target_fraction": 0.4963190526138117,
             "reference_fraction_base": 0.0003172321084104938,
-            "reference_fraction_edited": 0.0006789219232253087,
-            "delta_reference_fraction": 0.00036168981481481485,
-            "histogram_distance": 0.6640850665836828,
-            "appearance_change": 0.2938157618045807
+            "reference_fraction_edited": 2.561969521604938e-05,
+            "delta_reference_fraction": -0.00029161241319444444,
+            "histogram_distance": 0.5971545527044652,
+            "appearance_change": 0.27217474579811096
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 2.4866174768518517e-05,
+        "S_full_regeneration": 0.4966106650270061,
+        "R_k": 5.007176953633541e-05,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -463,9 +951,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_warm_to_cool_seed45__chunk001.pt",
-        "sha256": "f39faf4051ba1c8f0f63b66fb92493bb7144c774406cee09743dbdab8abe771b",
-        "bytes": 1055166175,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed45__chunk001.pt",
+        "sha256": "f44be0b4f041139b35db118d9627d3b5bfdfead2a029a196e3ff08fb620d3ce5",
+        "bytes": 1055166303,
         "chunk_index": 1,
         "sample_id": "edit_lighting_warm_to_cool_seed45",
         "cache_bytes": 1049887200,
@@ -476,7 +964,7 @@
           "num_chunks": 7,
           "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 45,
           "current_start_frame": 3,
           "latent_shape": [
@@ -487,39 +975,47 @@
             54
           ]
         },
-        "created_unix": 1789047434.6698003
+        "created_unix": 1789051685.7519333
       },
       "cost": {
-        "full_generation_seconds": 3.488696824759245,
-        "base_generation_seconds_including_cache_write": 8.447144914418459,
-        "partial_restore_seconds": 0.07163574174046516,
-        "partial_denoise_seconds": 0.5050615444779396,
-        "partial_generation_seconds": 0.5766972862184048,
-        "cache_load_seconds_cold": 0.3083867318928242,
-        "decode_seconds": 0.9275998957455158,
-        "partial_end_to_end_seconds": 1.8126839138567448,
-        "full_end_to_end_seconds": 4.416191842406988,
+        "full_generation_seconds": 3.490514315664768,
+        "base_generation_seconds_including_cache_write": 10.52264217659831,
+        "partial_end_to_end_seconds": 3.652115549892187,
+        "partial_generation_seconds": 2.744663894176483,
+        "partial_compute_seconds": 0.5797841064631939,
+        "disk_load_seconds": 2.0487898774445057,
+        "host_to_device_seconds": 0.11608991026878357,
+        "restore_seconds": 0.012294650077819824,
+        "encode_seconds": 0.059940021485090256,
+        "denoise_seconds": 0.5075494349002838,
+        "decode_seconds": 0.907451655715704,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055166303,
+        "recache_seconds": 0.180710356682539,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055166175,
-        "R_time_generation": 0.16530450055894516,
-        "R_time_end_to_end": 0.41046312717899613
+        "peak_vram_bytes": 20644277248,
+        "R_time_generation": 0.7863207670740529,
+        "R_time_compute": 0.16610277283815525,
+        "R_time_end_to_end": 0.8267251991449458
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
       "sample_id": "edit_lighting_warm_to_cool_seed45_chunk4",
       "prompt_id": "lighting_warm_to_cool",
+      "evidence": "directional",
       "base_prompt": "A person sits at a wooden table in warm sunlight.",
       "edit_prompt": "A person sits at a wooden table in cool blue light.",
       "prompt_hash_old": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
@@ -531,10 +1027,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
-        "same_prompt_replay": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
-        "local_edit": "ecb79e3ae78cfe9d52ae2ecac9cd6d32b394a38a48ca32caee5debe999ca4217",
+        "replay": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
+        "text_rebind": "ecb79e3ae78cfe9d52ae2ecac9cd6d32b394a38a48ca32caee5debe999ca4217",
+        "history_recache": "7873c345429e041aceae724f6071e59e064fd16f41f7156cc7672448d3c5ce63",
+        "reverse": "e7471bb78295d7d83df7b618db01e06d37b98ad871283b10416eaeedce2beab5",
         "crossattn_control": "2c6de216fae0a0bae546548bb1b3c8e4efded16eb137d9dff64d79a3187cfedf",
-        "full_regeneration": "a550bf14fc8f21cf369b3c149c5c78c6f3af870723e27313b124a688f0f785b1"
+        "full_regeneration": "299c74ee13ae7e1e1059b3ca75ebf9c44f417a9025ac06479fe1b207013bae84"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -552,7 +1050,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.0006517834844999015,
+        "rmse": 0.025530051440000534,
+        "max_abs": 0.4140625,
+        "cosine": 0.9995316863059998,
+        "relative_l2": 0.030614279210567474,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.0004226157034281641,
         "rmse": 0.020557619631290436,
         "max_abs": 0.34375,
@@ -560,6 +1066,39 @@
         "relative_l2": 0.024651603773236275,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.004836997948586941,
+        "rmse": 0.06954853236675262,
+        "max_abs": 1.41015625,
+        "cosine": 0.997429370880127,
+        "relative_l2": 0.07167741656303406,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 12.5625,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 7.5,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 13,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -567,7 +1106,21 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 9.26830150462963e-05,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "color_fraction",
           "S_proxy": -1.280984760802468e-05,
           "measurements": {
@@ -581,18 +1134,32 @@
             "appearance_change": 0.002829337725415826
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "color_fraction",
-          "S_proxy": 0.0,
+          "S_proxy": -3.7676022376543106e-06,
           "measurements": {
             "target_fraction_base": 0.0,
             "target_fraction_edited": 0.0,
             "delta_target_fraction": 0.0,
             "reference_fraction_base": 9.26830150462963e-05,
-            "reference_fraction_edited": 9.26830150462963e-05,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "reference_fraction_edited": 9.645061728395061e-05,
+            "delta_reference_fraction": 3.7676022376543106e-06,
+            "histogram_distance": 0.00525806557567034,
+            "appearance_change": 0.0033284123055636883
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.46358009620949076,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.4635574905960648,
+            "delta_target_fraction": 0.4635574905960648,
+            "reference_fraction_base": 9.26830150462963e-05,
+            "reference_fraction_edited": 7.007740162037037e-05,
+            "delta_reference_fraction": -2.260561342592593e-05,
+            "histogram_distance": 0.5696218810993998,
+            "appearance_change": 0.27373719215393066
           }
         },
         "crossattn_control": {
@@ -611,18 +1178,32 @@
         },
         "full_regeneration": {
           "kind": "color_fraction",
-          "S_proxy": 0.4574675383391204,
+          "S_proxy": 0.47622266227816357,
           "measurements": {
             "target_fraction_base": 0.0,
-            "target_fraction_edited": 0.4584644458912037,
-            "delta_target_fraction": 0.4584644458912037,
+            "target_fraction_edited": 0.4761842327353395,
+            "delta_target_fraction": 0.4761842327353395,
             "reference_fraction_base": 9.26830150462963e-05,
-            "reference_fraction_edited": 0.0010895905671296296,
-            "delta_reference_fraction": 0.0009969075520833333,
-            "histogram_distance": 0.6781779330798099,
-            "appearance_change": 0.29349663853645325
+            "reference_fraction_edited": 5.425347222222222e-05,
+            "delta_reference_fraction": -3.842954282407408e-05,
+            "histogram_distance": 0.5804116822709183,
+            "appearance_change": 0.2739587724208832
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": -1.280984760802468e-05,
+        "S_full_regeneration": 0.47622266227816357,
+        "R_k": -2.689886186168603e-05,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -679,9 +1260,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_warm_to_cool_seed45__chunk004.pt",
-        "sha256": "0716d879e1a241790b40075a7998e213d24455431b1dc116bfcfe3f9b2dc7d32",
-        "bytes": 1055663839,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_warm_to_cool_seed45__chunk004.pt",
+        "sha256": "1d1b9fff5268a64f50c55bbc030ae3e4c382dcf61bf5e690a429751353a453bc",
+        "bytes": 1055663967,
         "chunk_index": 4,
         "sample_id": "edit_lighting_warm_to_cool_seed45",
         "cache_bytes": 1049887200,
@@ -692,7 +1273,7 @@
           "num_chunks": 7,
           "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 45,
           "current_start_frame": 12,
           "latent_shape": [
@@ -703,79 +1284,130 @@
             54
           ]
         },
-        "created_unix": 1789047438.4864168
+        "created_unix": 1789051689.4261167
       },
       "cost": {
-        "full_generation_seconds": 3.488696824759245,
-        "base_generation_seconds_including_cache_write": 8.447144914418459,
-        "partial_restore_seconds": 0.07126360386610031,
-        "partial_denoise_seconds": 0.5061381347477436,
-        "partial_generation_seconds": 0.5774017386138439,
-        "cache_load_seconds_cold": 0.26763956621289253,
-        "decode_seconds": 0.929058600217104,
-        "partial_end_to_end_seconds": 1.7740999050438404,
-        "full_end_to_end_seconds": 4.416191842406988,
+        "full_generation_seconds": 3.490514315664768,
+        "base_generation_seconds_including_cache_write": 10.52264217659831,
+        "partial_end_to_end_seconds": 3.3224829211831093,
+        "partial_generation_seconds": 2.4161029495298862,
+        "partial_compute_seconds": 0.5877900347113609,
+        "disk_load_seconds": 1.7157950662076473,
+        "host_to_device_seconds": 0.11251784861087799,
+        "restore_seconds": 0.01207142323255539,
+        "encode_seconds": 0.05971752107143402,
+        "denoise_seconds": 0.5160010904073715,
+        "decode_seconds": 0.906379971653223,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055663967,
+        "recache_seconds": 0.475378580391407,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18290695168,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055663839,
-        "R_time_generation": 0.1655064247818927,
-        "R_time_end_to_end": 0.40172618589795916
+        "peak_vram_bytes": 20652209152,
+        "R_time_generation": 0.6921911016628332,
+        "R_time_compute": 0.16839639707921278,
+        "R_time_end_to_end": 0.7521066398766802
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_warm_to_cool_seed45_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_warm_to_cool_seed45_chunk4/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_jacket_green_to_yellow_seed49_chunk1",
-      "prompt_id": "jacket_green_to_yellow",
-      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
-      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
-      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
-      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
-      "target_chunk": 1,
+      "sample_id": "edit_slight_zoom_in_seed49_chunk0",
+      "prompt_id": "slight_zoom_in",
+      "evidence": "qualitative",
+      "base_prompt": "A slow shot of a vase of flowers on a table.",
+      "edit_prompt": "A slow close-up shot of a vase of flowers on a table.",
+      "prompt_hash_old": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "prompt_hash_new": "df6a2cbb4076bebe6cbffb8a0895798180f83e20ff2cfe1b1d1b447f0f16cb84",
+      "target_chunk": 0,
       "num_chunks": 7,
       "seed": 49,
       "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
-        "same_prompt_replay": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
-        "local_edit": "13582ec77b9d946fca60c14fd06872ce64d4ab9295061c20ac7815cbe48673fc",
-        "crossattn_control": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
-        "full_regeneration": "1c3bdf68180b5b68901143d14cb3c96996699b61a2c48219ed2346afad09a434"
+        "original": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51",
+        "replay": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51",
+        "text_rebind": "025f5c6105493f2af95977ce2765151b24b7b81cfce754358e181f60a3c77dba",
+        "history_recache": "025f5c6105493f2af95977ce2765151b24b7b81cfce754358e181f60a3c77dba",
+        "reverse": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51",
+        "crossattn_control": "025f5c6105493f2af95977ce2765151b24b7b81cfce754358e181f60a3c77dba",
+        "full_regeneration": "025f5c6105493f2af95977ce2765151b24b7b81cfce754358e181f60a3c77dba"
       },
       "replay_fidelity": {
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 0.9999997615814209,
+        "cosine": 1.0000001192092896,
         "relative_l2": 0.0,
         "exact": true
       },
       "control_fidelity_to_replay": {
-        "mse": 0.0,
-        "rmse": 0.0,
-        "max_abs": 0.0,
-        "cosine": 0.9999997615814209,
-        "relative_l2": 0.0,
-        "exact": true
-      },
-      "edit_vs_replay": {
-        "mse": 0.0035246198531240225,
-        "rmse": 0.05936850979924202,
-        "max_abs": 2.9296875,
-        "cosine": 0.9979772567749023,
-        "relative_l2": 0.06357558071613312,
+        "mse": 0.2617257237434387,
+        "rmse": 0.511591374874115,
+        "max_abs": 3.19921875,
+        "cosine": 0.7627174258232117,
+        "relative_l2": 0.6808272004127502,
         "exact": false
       },
+      "recache_fidelity_to_replay": {
+        "mse": 0.2617257237434387,
+        "rmse": 0.511591374874115,
+        "max_abs": 3.19921875,
+        "cosine": 0.7627174258232117,
+        "relative_l2": 0.6808272004127502,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.2617257237434387,
+        "rmse": 0.511591374874115,
+        "max_abs": 3.19921875,
+        "cosine": 0.7627174258232117,
+        "relative_l2": 0.6808272004127502,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.2617257237434387,
+        "rmse": 0.511591374874115,
+        "max_abs": 3.19921875,
+        "cosine": 0.7627174258232117,
+        "relative_l2": 0.6979482769966125,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -783,132 +1415,403 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "color_fraction",
-          "S_proxy": -0.0003873095100308671,
-          "measurements": {
-            "target_fraction_base": 0.09775948230131173,
-            "target_fraction_edited": 0.0952487521701389,
-            "delta_target_fraction": -0.002510730131172839,
-            "reference_fraction_base": 0.12012622974537036,
-            "reference_fraction_edited": 0.11800280912422839,
-            "delta_reference_fraction": -0.002123420621141972,
-            "histogram_distance": 0.0076413727532707795,
-            "appearance_change": 0.008412125520408154
-          }
-        },
-        "same_prompt_replay": {
-          "kind": "color_fraction",
+        "replay": {
+          "kind": "change",
           "S_proxy": 0.0,
           "measurements": {
-            "target_fraction_base": 0.09775948230131173,
-            "target_fraction_edited": 0.09775948230131173,
-            "delta_target_fraction": 0.0,
-            "reference_fraction_base": 0.12012622974537036,
-            "reference_fraction_edited": 0.12012622974537036,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.13554170727729797,
+          "measurements": {
+            "appearance_change": 0.13554170727729797,
+            "histogram_distance": 0.26203384067521046
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.13554170727729797,
+          "measurements": {
+            "appearance_change": 0.13554170727729797,
+            "histogram_distance": 0.26203384067521046
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.0,
+          "measurements": {
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
           }
         },
         "crossattn_control": {
-          "kind": "color_fraction",
-          "S_proxy": 0.0,
+          "kind": "change",
+          "S_proxy": 0.13554170727729797,
           "measurements": {
-            "target_fraction_base": 0.09775948230131173,
-            "target_fraction_edited": 0.09775948230131173,
-            "delta_target_fraction": 0.0,
-            "reference_fraction_base": 0.12012622974537036,
-            "reference_fraction_edited": 0.12012622974537036,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "appearance_change": 0.13554170727729797,
+            "histogram_distance": 0.26203384067521046
           }
         },
         "full_regeneration": {
-          "kind": "color_fraction",
-          "S_proxy": 0.15364432629243827,
+          "kind": "change",
+          "S_proxy": 0.13554170727729797,
           "measurements": {
-            "target_fraction_base": 0.09775948230131173,
-            "target_fraction_edited": 0.13596522955246915,
-            "delta_target_fraction": 0.03820574725115741,
-            "reference_fraction_base": 0.12012622974537036,
-            "reference_fraction_edited": 0.004687650704089506,
-            "delta_reference_fraction": -0.11543857904128085,
-            "histogram_distance": 0.2673033254555276,
-            "appearance_change": 0.28567713499069214
+            "appearance_change": 0.13554170727729797,
+            "histogram_distance": 0.26203384067521046
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.13554170727729797,
+        "S_full_regeneration": 0.13554170727729797,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.740234375,
+        "outside_max_abs_after_vae": 0.857421875,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.10695558041334152,
-            "right_mse": 0.09875770658254623
+            "left_mse": null,
+            "right_mse": 0.049187351018190384
           },
           "edited": {
-            "left_mse": 0.10733246058225632,
-            "right_mse": 0.1005386933684349
+            "left_mse": null,
+            "right_mse": 0.42790088057518005
           },
           "delta": {
-            "delta_left_mse": 0.0003768801689147949,
-            "delta_right_mse": 0.0017809867858886719
+            "delta_left_mse": null,
+            "delta_right_mse": 0.37871352955698967
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.004569585435092449,
-            "right_mse": 0.00481386249884963
+            "left_mse": null,
+            "right_mse": 0.0003347804013174027
           },
           "edited": {
-            "left_mse": 0.0045530665665864944,
-            "right_mse": 0.0049833497032523155
+            "left_mse": null,
+            "right_mse": 0.015055100433528423
           },
           "delta": {
-            "delta_left_mse": -1.6518868505954742e-05,
-            "delta_right_mse": 0.00016948720440268517
+            "delta_left_mse": null,
+            "delta_right_mse": 0.01472032003221102
           }
         },
         "dino": {
-          "left_base": {
-            "mean_cosine": 0.9954347014427185,
-            "mean_cosine_distance": 0.004565298557281494
-          },
-          "left_edited": {
-            "mean_cosine": 0.9950070977210999,
-            "mean_cosine_distance": 0.0049929022789001465
-          },
           "right_base": {
-            "mean_cosine": 0.9961297512054443,
-            "mean_cosine_distance": 0.003870248794555664
+            "mean_cosine": 0.9985799789428711,
+            "mean_cosine_distance": 0.0014200210571289062
           },
           "right_edited": {
-            "mean_cosine": 0.9950277209281921,
-            "mean_cosine_distance": 0.004972279071807861
+            "mean_cosine": 0.8802760243415833,
+            "mean_cosine_distance": 0.11972397565841675
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_jacket_green_to_yellow_seed49__chunk001.pt",
-        "sha256": "ca225f2ff8f3c277136d2d91a8900d3ce7d7ae73637ffd0284b620c52d3d4ff5",
-        "bytes": 1055166432,
-        "chunk_index": 1,
-        "sample_id": "edit_jacket_green_to_yellow_seed49",
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed49__chunk000.pt",
+        "sha256": "cbd61b0f0297a2ee23d737bab55fb070a6fd2f77dd493da78d1c39a8c02da12c",
+        "bytes": 1054832762,
+        "chunk_index": 0,
+        "sample_id": "edit_slight_zoom_in_seed49",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_jacket_green_to_yellow_seed49",
+          "sample_id": "edit_slight_zoom_in_seed49",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 49,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051770.4115794
+      },
+      "cost": {
+        "full_generation_seconds": 3.539391465485096,
+        "base_generation_seconds_including_cache_write": 10.377277441322803,
+        "partial_end_to_end_seconds": 3.2223577983677387,
+        "partial_generation_seconds": 2.1318155750632286,
+        "partial_compute_seconds": 0.5932288691401482,
+        "disk_load_seconds": 1.417645238339901,
+        "host_to_device_seconds": 0.12094146758317947,
+        "restore_seconds": 0.014133058488368988,
+        "encode_seconds": 0.06011568382382393,
+        "denoise_seconds": 0.5189801268279552,
+        "decode_seconds": 1.0905422233045101,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054832762,
+        "recache_seconds": 0.07157246023416519,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093727744,
+        "R_time_generation": 0.6023113283319876,
+        "R_time_compute": 0.16760758874092002,
+        "R_time_end_to_end": 0.7206497734863672
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_slight_zoom_in_seed49_chunk1",
+      "prompt_id": "slight_zoom_in",
+      "evidence": "qualitative",
+      "base_prompt": "A slow shot of a vase of flowers on a table.",
+      "edit_prompt": "A slow close-up shot of a vase of flowers on a table.",
+      "prompt_hash_old": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "prompt_hash_new": "df6a2cbb4076bebe6cbffb8a0895798180f83e20ff2cfe1b1d1b447f0f16cb84",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "seed": 49,
+      "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81",
+        "replay": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81",
+        "text_rebind": "d85ec896a585aef0c9f03b73961e73ee57683aa08cca7e56c144ba7d0fa4f407",
+        "history_recache": "d0b9254713ffbc0af8c703d250b7970e8f6193b09470015c92c96435d50711cb",
+        "reverse": "c2d822c48a93889fb1fb721286c9891dd3a9755f3fc6b2d2207393abc8f58521",
+        "crossattn_control": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81",
+        "full_regeneration": "a6e2ea42108ce53ca57573dbc4cc47531e38ef57d29d6460bba58f3a6ff75317"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999999403953552,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999999403953552,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.00030002661515027285,
+        "rmse": 0.017321275547146797,
+        "max_abs": 0.3515625,
+        "cosine": 0.9998107552528381,
+        "relative_l2": 0.01957039162516594,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.0002507719909772277,
+        "rmse": 0.015835782513022423,
+        "max_abs": 0.3984375,
+        "cosine": 0.9998399615287781,
+        "relative_l2": 0.017892010509967804,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.00023581324785482138,
+        "rmse": 0.015356211923062801,
+        "max_abs": 0.359375,
+        "cosine": 0.9998491406440735,
+        "relative_l2": 0.017374347895383835,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.5,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 47.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "change",
+          "S_proxy": 0.0,
+          "measurements": {
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.0033520562574267387,
+          "measurements": {
+            "appearance_change": 0.0033520562574267387,
+            "histogram_distance": 0.0017558857534525616
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.0035824126098304987,
+          "measurements": {
+            "appearance_change": 0.0035824126098304987,
+            "histogram_distance": 0.0018447352113049704
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.13532592356204987,
+          "measurements": {
+            "appearance_change": 0.13532592356204987,
+            "histogram_distance": 0.25609530895181754
+          }
+        },
+        "crossattn_control": {
+          "kind": "change",
+          "S_proxy": 0.0,
+          "measurements": {
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "full_regeneration": {
+          "kind": "change",
+          "S_proxy": 0.13526254892349243,
+          "measurements": {
+            "appearance_change": 0.13526254892349243,
+            "histogram_distance": 0.2554971062462541
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.0033520562574267387,
+        "S_full_regeneration": 0.13526254892349243,
+        "R_k": 0.024781850439050485,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.337158203125,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": 0.049187351018190384,
+            "right_mse": 0.04067399725317955
+          },
+          "edited": {
+            "left_mse": 0.04954510182142258,
+            "right_mse": 0.04056444764137268
+          },
+          "delta": {
+            "delta_left_mse": 0.000357750803232193,
+            "delta_right_mse": -0.00010954961180686951
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": 0.0003347804013174027,
+            "right_mse": 0.00023502764815930277
+          },
+          "edited": {
+            "left_mse": 0.00033989056828431785,
+            "right_mse": 0.000240953522734344
+          },
+          "delta": {
+            "delta_left_mse": 5.110166966915131e-06,
+            "delta_right_mse": 5.9258745750412345e-06
+          }
+        },
+        "dino": {
+          "left_base": {
+            "mean_cosine": 0.9985799789428711,
+            "mean_cosine_distance": 0.0014200210571289062
+          },
+          "left_edited": {
+            "mean_cosine": 0.9985899329185486,
+            "mean_cosine_distance": 0.001410067081451416
+          },
+          "right_base": {
+            "mean_cosine": 0.9985320568084717,
+            "mean_cosine_distance": 0.0014679431915283203
+          },
+          "right_edited": {
+            "mean_cosine": 0.9984858632087708,
+            "mean_cosine_distance": 0.001514136791229248
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed49__chunk001.pt",
+        "sha256": "b35b8580cf5a102b2fea097ccc5a57bf77d97461f631c8bfa0e5bb9c3df06f18",
+        "bytes": 1055164952,
+        "chunk_index": 1,
+        "sample_id": "edit_slight_zoom_in_seed49",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_slight_zoom_in_seed49",
           "chunk_index": 1,
           "num_chunks": 7,
-          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 49,
           "current_start_frame": 3,
           "latent_shape": [
@@ -919,60 +1822,70 @@
             54
           ]
         },
-        "created_unix": 1789047471.2510965
+        "created_unix": 1789051773.1970277
       },
       "cost": {
-        "full_generation_seconds": 3.424889139831066,
-        "base_generation_seconds_including_cache_write": 8.058634642511606,
-        "partial_restore_seconds": 0.07116277143359184,
-        "partial_denoise_seconds": 0.4948301687836647,
-        "partial_generation_seconds": 0.5659929402172565,
-        "cache_load_seconds_cold": 0.2840732932090759,
-        "decode_seconds": 0.9321228973567486,
-        "partial_end_to_end_seconds": 1.782189130783081,
-        "full_end_to_end_seconds": 4.356774121522903,
+        "full_generation_seconds": 3.539391465485096,
+        "base_generation_seconds_including_cache_write": 10.377277441322803,
+        "partial_end_to_end_seconds": 4.542941898107529,
+        "partial_generation_seconds": 3.6375712268054485,
+        "partial_compute_seconds": 0.5900221057236195,
+        "disk_load_seconds": 2.9328024238348007,
+        "host_to_device_seconds": 0.11474669724702835,
+        "restore_seconds": 0.012089628726243973,
+        "encode_seconds": 0.05999957025051117,
+        "denoise_seconds": 0.5179329067468643,
+        "decode_seconds": 0.9053706713020802,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055164952,
+        "recache_seconds": 0.183027982711792,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055166432,
-        "R_time_generation": 0.16525876228658729,
-        "R_time_end_to_end": 0.4090616316276042
+        "peak_vram_bytes": 20642376704,
+        "R_time_generation": 1.027739164282269,
+        "R_time_compute": 0.1667015676218096,
+        "R_time_end_to_end": 1.0159858881876098
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_jacket_green_to_yellow_seed49_chunk4",
-      "prompt_id": "jacket_green_to_yellow",
-      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
-      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
-      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
-      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
+      "sample_id": "edit_slight_zoom_in_seed49_chunk4",
+      "prompt_id": "slight_zoom_in",
+      "evidence": "qualitative",
+      "base_prompt": "A slow shot of a vase of flowers on a table.",
+      "edit_prompt": "A slow close-up shot of a vase of flowers on a table.",
+      "prompt_hash_old": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "prompt_hash_new": "df6a2cbb4076bebe6cbffb8a0895798180f83e20ff2cfe1b1d1b447f0f16cb84",
       "target_chunk": 4,
       "num_chunks": 7,
       "seed": 49,
       "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
-        "same_prompt_replay": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
-        "local_edit": "7b261cc9f653e55f76f96800e1fcf928c9d4ee0424004ad662aec7226e448dc0",
-        "crossattn_control": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
-        "full_regeneration": "9991ee2d2d869786cc920fefb6711cb8c918d555e93eba3a6037464bd5a2ab71"
+        "original": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71",
+        "replay": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71",
+        "text_rebind": "5a5e0e86244a7bdd1b12bf73e5b2246982deb7a1d6189a683919368ea3eb6286",
+        "history_recache": "19cb1429fc976c2d8a0ca5f9772b40eabd46e5d601eab0cc499e47b4236ca3af",
+        "reverse": "eb9f0e52dc0a853c8973a5bc7d28825ea0d585471cbe555cb69c224f922a8858",
+        "crossattn_control": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71",
+        "full_regeneration": "200a88e1569084a405e0e08326662716b900c7916dfa3482ab6275c3ab50c1ca"
       },
       "replay_fidelity": {
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0,
+        "cosine": 1.000000238418579,
         "relative_l2": 0.0,
         "exact": true
       },
@@ -980,18 +1893,59 @@
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0,
+        "cosine": 1.000000238418579,
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
-        "mse": 0.002352604176849127,
-        "rmse": 0.04850365221500397,
-        "max_abs": 0.703125,
-        "cosine": 0.9986435174942017,
-        "relative_l2": 0.05210253223776817,
+      "recache_fidelity_to_replay": {
+        "mse": 0.00026186357717961073,
+        "rmse": 0.016182199120521545,
+        "max_abs": 0.259765625,
+        "cosine": 0.9998322129249573,
+        "relative_l2": 0.018363293260335922,
         "exact": false
       },
+      "text_rebind_vs_replay": {
+        "mse": 0.00022053503198549151,
+        "rmse": 0.01485042180866003,
+        "max_abs": 0.2890625,
+        "cosine": 0.9998580813407898,
+        "relative_l2": 0.016852013766765594,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.00034518339089117944,
+        "rmse": 0.018579112365841866,
+        "max_abs": 0.3046875,
+        "cosine": 0.9997808337211609,
+        "relative_l2": 0.02094350755214691,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.5,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 47.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -999,132 +1953,138 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "color_fraction",
-          "S_proxy": -0.00039032359182100684,
-          "measurements": {
-            "target_fraction_base": 0.12199722101658951,
-            "target_fraction_edited": 0.12123616536458333,
-            "delta_target_fraction": -0.0007610556520061817,
-            "reference_fraction_base": 0.12633147063078703,
-            "reference_fraction_edited": 0.12596073857060186,
-            "delta_reference_fraction": -0.0003707320601851749,
-            "histogram_distance": 0.003335948869153776,
-            "appearance_change": 0.008486094884574413
-          }
-        },
-        "same_prompt_replay": {
-          "kind": "color_fraction",
+        "replay": {
+          "kind": "change",
           "S_proxy": 0.0,
           "measurements": {
-            "target_fraction_base": 0.12199722101658951,
-            "target_fraction_edited": 0.12199722101658951,
-            "delta_target_fraction": 0.0,
-            "reference_fraction_base": 0.12633147063078703,
-            "reference_fraction_edited": 0.12633147063078703,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.0034668208099901676,
+          "measurements": {
+            "appearance_change": 0.0034668208099901676,
+            "histogram_distance": 0.0016989165943022688
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.003829990280792117,
+          "measurements": {
+            "appearance_change": 0.003829990280792117,
+            "histogram_distance": 0.0011824770528854286
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.1364530771970749,
+          "measurements": {
+            "appearance_change": 0.1364530771970749,
+            "histogram_distance": 0.24594412649763292
           }
         },
         "crossattn_control": {
-          "kind": "color_fraction",
+          "kind": "change",
           "S_proxy": 0.0,
           "measurements": {
-            "target_fraction_base": 0.12199722101658951,
-            "target_fraction_edited": 0.12199722101658951,
-            "delta_target_fraction": 0.0,
-            "reference_fraction_base": 0.12633147063078703,
-            "reference_fraction_edited": 0.12633147063078703,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
           }
         },
         "full_regeneration": {
-          "kind": "color_fraction",
-          "S_proxy": 0.13333845727237653,
+          "kind": "change",
+          "S_proxy": 0.1365450918674469,
           "measurements": {
-            "target_fraction_base": 0.12199722101658951,
-            "target_fraction_edited": 0.14780906394675927,
-            "delta_target_fraction": 0.025811842930169762,
-            "reference_fraction_base": 0.12633147063078703,
-            "reference_fraction_edited": 0.018804856288580248,
-            "delta_reference_fraction": -0.10752661434220678,
-            "histogram_distance": 0.28548724453523544,
-            "appearance_change": 0.2942599654197693
+            "appearance_change": 0.1365450918674469,
+            "histogram_distance": 0.24586955485790782
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.0034668208099901676,
+        "S_full_regeneration": 0.1365450918674469,
+        "R_k": 0.025389567377168222,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.4951171875,
+        "outside_max_abs_after_vae": 0.4140625,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.08071010559797287,
-            "right_mse": 0.12481261044740677
+            "left_mse": 0.032104648649692535,
+            "right_mse": 0.009554236195981503
           },
           "edited": {
-            "left_mse": 0.0805586725473404,
-            "right_mse": 0.12675319612026215
+            "left_mse": 0.03181672841310501,
+            "right_mse": 0.009865081869065762
           },
           "delta": {
-            "delta_left_mse": -0.0001514330506324768,
-            "delta_right_mse": 0.0019405856728553772
+            "delta_left_mse": -0.0002879202365875244,
+            "delta_right_mse": 0.00031084567308425903
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.0026166357565671206,
-            "right_mse": 0.00426208321005106
+            "left_mse": 0.0002203341427957639,
+            "right_mse": 0.0002980113495141268
           },
           "edited": {
-            "left_mse": 0.0025929517578333616,
-            "right_mse": 0.004677846096456051
+            "left_mse": 0.0002239014720544219,
+            "right_mse": 0.00028667337028309703
           },
           "delta": {
-            "delta_left_mse": -2.3683998733758926e-05,
-            "delta_right_mse": 0.00041576288640499115
+            "delta_left_mse": 3.567329258657992e-06,
+            "delta_right_mse": -1.1337979231029749e-05
           }
         },
         "dino": {
           "left_base": {
-            "mean_cosine": 0.9975031614303589,
-            "mean_cosine_distance": 0.0024968385696411133
+            "mean_cosine": 0.9988152384757996,
+            "mean_cosine_distance": 0.0011847615242004395
           },
           "left_edited": {
-            "mean_cosine": 0.9973374009132385,
-            "mean_cosine_distance": 0.0026625990867614746
+            "mean_cosine": 0.9988232851028442,
+            "mean_cosine_distance": 0.0011767148971557617
           },
           "right_base": {
-            "mean_cosine": 0.9959716200828552,
-            "mean_cosine_distance": 0.004028379917144775
+            "mean_cosine": 0.9985592365264893,
+            "mean_cosine_distance": 0.0014407634735107422
           },
           "right_edited": {
-            "mean_cosine": 0.9959481358528137,
-            "mean_cosine_distance": 0.004051864147186279
+            "mean_cosine": 0.9982156157493591,
+            "mean_cosine_distance": 0.0017843842506408691
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_jacket_green_to_yellow_seed49__chunk004.pt",
-        "sha256": "0de533b59b1af4ddde6c7bf2f11f7ca2f2e5bc1d22cc7f69c5720dc76e93d5d2",
-        "bytes": 1055664096,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_slight_zoom_in_seed49__chunk004.pt",
+        "sha256": "d97873de442f3560ece5e288a0213a7753cc640fd63bee41dc15ff567264716b",
+        "bytes": 1055662616,
         "chunk_index": 4,
-        "sample_id": "edit_jacket_green_to_yellow_seed49",
+        "sample_id": "edit_slight_zoom_in_seed49",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_jacket_green_to_yellow_seed49",
+          "sample_id": "edit_slight_zoom_in_seed49",
           "chunk_index": 4,
           "num_chunks": 7,
-          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 49,
           "current_start_frame": 12,
           "latent_shape": [
@@ -1135,48 +2095,79 @@
             54
           ]
         },
-        "created_unix": 1789047475.0247846
+        "created_unix": 1789051776.973858
       },
       "cost": {
-        "full_generation_seconds": 3.424889139831066,
-        "base_generation_seconds_including_cache_write": 8.058634642511606,
-        "partial_restore_seconds": 0.07125047221779823,
-        "partial_denoise_seconds": 0.5092073306441307,
-        "partial_generation_seconds": 0.5804578028619289,
-        "cache_load_seconds_cold": 0.2630627229809761,
-        "decode_seconds": 0.9321361668407917,
-        "partial_end_to_end_seconds": 1.7756566926836967,
-        "full_end_to_end_seconds": 4.356774121522903,
+        "full_generation_seconds": 3.539391465485096,
+        "base_generation_seconds_including_cache_write": 10.377277441322803,
+        "partial_end_to_end_seconds": 3.3646165393292904,
+        "partial_generation_seconds": 2.4604674875736237,
+        "partial_compute_seconds": 0.5784139409661293,
+        "disk_load_seconds": 1.7665754817426205,
+        "host_to_device_seconds": 0.11547806486487389,
+        "restore_seconds": 0.01196584478020668,
+        "encode_seconds": 0.059740807861089706,
+        "denoise_seconds": 0.5067072883248329,
+        "decode_seconds": 0.9041490517556667,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055662616,
+        "recache_seconds": 0.4801614321768284,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18296560640,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055664096,
-        "R_time_generation": 0.1694822165515583,
-        "R_time_end_to_end": 0.4075622566503445
+        "peak_vram_bytes": 20654859264,
+        "R_time_generation": 0.6951668137212963,
+        "R_time_compute": 0.16342186124553307,
+        "R_time_end_to_end": 0.7524645922821968
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_jacket_green_to_yellow_seed49_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_slight_zoom_in_seed49_chunk4/edited_chunk_strip.mp4"
       }
     }
   ],
   "aggregate": {
-    "cases": 4,
+    "cases": 6,
     "replay_fidelity_mse_mean": 0.0,
-    "s_proxy_local_edit_mean": -0.00019139419367284502,
-    "s_proxy_same_prompt_mean": 0.0,
-    "s_proxy_control_mean": 0.0,
-    "s_proxy_full_regeneration_mean": 0.3033516966266397,
-    "left_boundary_delta_mean": 0.00018877722322940826,
-    "right_boundary_delta_mean": 0.0023653744719922543,
-    "R_time_generation_mean": 0.16638797604474587,
-    "R_time_end_to_end_mean": 0.407203300338726,
+    "recache_fidelity_to_replay_mse_mean": 0.1856196268417989,
+    "s_proxy_text_rebind_mean": 0.1063288476587042,
+    "s_proxy_replay_mean": 0.0,
+    "s_proxy_control_mean": 0.10519035875960796,
+    "s_proxy_full_regeneration_mean": 0.3126305201089595,
+    "R_k_by_chunk": {
+      "1": [
+        5.007176953633541e-05
+      ],
+      "4": [
+        -2.689886186168603e-05
+      ]
+    },
+    "left_boundary_delta_mean": null,
+    "right_boundary_delta_mean": 0.2642169641330838,
+    "R_time_generation_mean": 0.7516451325105934,
+    "R_time_end_to_end_mean": 0.8051802085278252,
     "cache_bytes_per_chunk": 1049887200
-  }
+  },
+  "non_finite_fields": [
+    "cases[0].boundary.latent.base.left_mse",
+    "cases[0].boundary.latent.edited.left_mse",
+    "cases[0].boundary.latent.delta.delta_left_mse",
+    "cases[0].boundary.pixel.base.left_mse",
+    "cases[0].boundary.pixel.edited.left_mse",
+    "cases[0].boundary.pixel.delta.delta_left_mse",
+    "cases[3].boundary.latent.base.left_mse",
+    "cases[3].boundary.latent.edited.left_mse",
+    "cases[3].boundary.latent.delta.delta_left_mse",
+    "cases[3].boundary.pixel.base.left_mse",
+    "cases[3].boundary.pixel.edited.left_mse",
+    "cases[3].boundary.pixel.delta.delta_left_mse",
+    "aggregate.left_boundary_delta_mean"
+  ]
 }

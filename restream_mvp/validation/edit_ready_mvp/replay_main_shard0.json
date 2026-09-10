@@ -1,10 +1,13 @@
 {
   "experiment": "A_same_prompt_replay",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,7 +33,7 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789047044.5058963,
+    "created_unix": 1789051587.1902046,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 0,
     "shards": 4,
@@ -58,17 +61,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -79,6 +87,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -89,6 +98,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -98,6 +108,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -107,7 +118,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -117,6 +140,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -125,20 +149,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -152,14 +167,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -176,6 +193,18 @@
     "epsilon": 1e-12,
     "cosine_floor": 0.999,
     "cases": [
+      {
+        "sample_id": "replay_dress_red_to_blue_seed42_chunk0",
+        "prompt_id": "dress_red_to_blue",
+        "target_chunk": 0,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
       {
         "sample_id": "replay_dress_red_to_blue_seed42_chunk1",
         "prompt_id": "dress_red_to_blue",
@@ -201,8 +230,20 @@
         "rng_exact": true
       },
       {
-        "sample_id": "replay_park_light_rain_seed46_chunk1",
-        "prompt_id": "park_light_rain",
+        "sample_id": "replay_jacket_green_to_yellow_seed46_chunk0",
+        "prompt_id": "jacket_green_to_yellow",
+        "target_chunk": 0,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 0.9999999403953552,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_jacket_green_to_yellow_seed46_chunk1",
+        "prompt_id": "jacket_green_to_yellow",
         "target_chunk": 1,
         "passed": true,
         "mode": "exact",
@@ -213,25 +254,105 @@
         "rng_exact": true
       },
       {
-        "sample_id": "replay_park_light_rain_seed46_chunk4",
-        "prompt_id": "park_light_rain",
+        "sample_id": "replay_jacket_green_to_yellow_seed46_chunk4",
+        "prompt_id": "jacket_green_to_yellow",
         "target_chunk": 4,
         "passed": true,
         "mode": "exact",
         "latent_mse": 0.0,
         "repeat_mse": 0.0,
-        "cosine": 1.0000001192092896,
+        "cosine": 1.0,
         "max_abs": 0.0,
         "rng_exact": true
       }
     ],
-    "exact_cases": 4,
-    "total_cases": 4,
+    "exact_cases": 6,
+    "total_cases": 6,
     "latent_mse_mean": 0.0,
     "repeat_mse_mean": 0.0,
-    "rng_exact_cases": 4
+    "rng_exact_cases": 6
   },
   "cases": [
+    {
+      "target_chunk": 0,
+      "chunk_latent_sha256": {
+        "original": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "replay_one": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "replay_two": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_dress_red_to_blue_seed42__chunk000.pt",
+        "sha256": "5ad271294d63b4a58bad05bba1312e121902db0c45195e0e33919eac29adc687",
+        "bytes": 1054833722,
+        "chunk_index": 0,
+        "sample_id": "replay_dress_red_to_blue_seed42",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_dress_red_to_blue_seed42",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 42,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051543.5603175
+      },
+      "timings": {
+        "replay_restore_seconds": 0.01196795329451561,
+        "replay_denoise_seconds": 0.5002682395279408
+      },
+      "peak_vram_bytes": 17769635328,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_dress_red_to_blue_seed42_chunk0",
+      "prompt_id": "dress_red_to_blue",
+      "prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+      "seed": 42,
+      "num_chunks": 7,
+      "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
+      "generate_seconds_including_cache_write": 10.680380567908287
+    },
     {
       "target_chunk": 1,
       "chunk_latent_sha256": {
@@ -264,9 +385,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_dress_red_to_blue_seed42__chunk001.pt",
-        "sha256": "586f5e93de0448ba1b6f944ba16fb5fa4c5b3dfe1bf5eb083477efe31d9a63c2",
-        "bytes": 1055165853,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_dress_red_to_blue_seed42__chunk001.pt",
+        "sha256": "29593b20a54c61a58f84a45da96785a6b6183a1ea9e9c8d225bc7f12e9d11545",
+        "bytes": 1055165917,
         "chunk_index": 1,
         "sample_id": "replay_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -277,7 +398,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 3,
           "latent_shape": [
@@ -288,13 +409,13 @@
             54
           ]
         },
-        "created_unix": 1789047013.5598364
+        "created_unix": 1789051546.5238316
       },
       "timings": {
-        "replay_restore_seconds": 0.011988595128059387,
-        "replay_denoise_seconds": 0.4879150874912739
+        "replay_restore_seconds": 0.012039676308631897,
+        "replay_denoise_seconds": 0.4907930754125118
       },
-      "peak_vram_bytes": 17762504192,
+      "peak_vram_bytes": 17761455616,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -310,7 +431,7 @@
       "seed": 42,
       "num_chunks": 7,
       "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
-      "generate_seconds_including_cache_write": 8.242355216294527
+      "generate_seconds_including_cache_write": 10.680380567908287
     },
     {
       "target_chunk": 4,
@@ -344,9 +465,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_dress_red_to_blue_seed42__chunk004.pt",
-        "sha256": "b3c6e96c37bdadcdf6618fafbed865a6c6d6ce8d1519b6e2feb60ec09c48ff06",
-        "bytes": 1055663517,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_dress_red_to_blue_seed42__chunk004.pt",
+        "sha256": "a9a51e2751e9348ce82dfb0a5980dc0ffb73de31331a63dba1606d511fda5b05",
+        "bytes": 1055663581,
         "chunk_index": 4,
         "sample_id": "replay_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -357,7 +478,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 12,
           "latent_shape": [
@@ -368,13 +489,13 @@
             54
           ]
         },
-        "created_unix": 1789047017.2697942
+        "created_unix": 1789051550.28347
       },
       "timings": {
-        "replay_restore_seconds": 0.011945243924856186,
-        "replay_denoise_seconds": 0.4942832849919796
+        "replay_restore_seconds": 0.011786319315433502,
+        "replay_denoise_seconds": 0.4928688630461693
       },
-      "peak_vram_bytes": 17772865024,
+      "peak_vram_bytes": 17771816448,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -390,14 +511,94 @@
       "seed": 42,
       "num_chunks": 7,
       "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
-      "generate_seconds_including_cache_write": 8.242355216294527
+      "generate_seconds_including_cache_write": 10.680380567908287
+    },
+    {
+      "target_chunk": 0,
+      "chunk_latent_sha256": {
+        "original": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d",
+        "replay_one": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d",
+        "replay_two": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_jacket_green_to_yellow_seed46__chunk000.pt",
+        "sha256": "d32ce744689d8195d30b8418dafa171c3cdf39c7086ddf087edd983f39aaf604",
+        "bytes": 1054834682,
+        "chunk_index": 0,
+        "sample_id": "replay_jacket_green_to_yellow_seed46",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_jacket_green_to_yellow_seed46",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 46,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051565.6614249
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011911366134881973,
+        "replay_denoise_seconds": 0.5077583864331245
+      },
+      "peak_vram_bytes": 18720896512,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_jacket_green_to_yellow_seed46_chunk0",
+      "prompt_id": "jacket_green_to_yellow",
+      "prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "seed": 46,
+      "num_chunks": 7,
+      "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
+      "generate_seconds_including_cache_write": 10.269222900271416
     },
     {
       "target_chunk": 1,
       "chunk_latent_sha256": {
-        "original": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa",
-        "replay_one": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa",
-        "replay_two": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa"
+        "original": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd",
+        "replay_one": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd",
+        "replay_two": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd"
       },
       "latent": {
         "original_vs_replay": {
@@ -424,20 +625,20 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_park_light_rain_seed46__chunk001.pt",
-        "sha256": "0d38895dbb521694247a98ac77f832d32c66d750762f4945afde15aac713b341",
-        "bytes": 1055165403,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_jacket_green_to_yellow_seed46__chunk001.pt",
+        "sha256": "7d0043c0338e72131870252959af40269d48a95903523a1f5a8e2f1a42c899dc",
+        "bytes": 1055166882,
         "chunk_index": 1,
-        "sample_id": "replay_park_light_rain_seed46",
+        "sample_id": "replay_jacket_green_to_yellow_seed46",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "replay_park_light_rain_seed46",
+          "sample_id": "replay_jacket_green_to_yellow_seed46",
           "chunk_index": 1,
           "num_chunks": 7,
-          "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 46,
           "current_start_frame": 3,
           "latent_shape": [
@@ -448,13 +649,13 @@
             54
           ]
         },
-        "created_unix": 1789047029.4303663
+        "created_unix": 1789051568.395653
       },
       "timings": {
-        "replay_restore_seconds": 0.01215175911784172,
-        "replay_denoise_seconds": 0.4878541901707649
+        "replay_restore_seconds": 0.011951848864555359,
+        "replay_denoise_seconds": 0.4969717115163803
       },
-      "peak_vram_bytes": 18721394176,
+      "peak_vram_bytes": 18720896512,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -463,28 +664,28 @@
         "outside_max_abs_after_vae": 0.0,
         "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
       },
-      "sample_id": "replay_park_light_rain_seed46_chunk1",
-      "prompt_id": "park_light_rain",
-      "prompt": "A dog runs through a green park on a sunny day.",
-      "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+      "sample_id": "replay_jacket_green_to_yellow_seed46_chunk1",
+      "prompt_id": "jacket_green_to_yellow",
+      "prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
       "seed": 46,
       "num_chunks": 7,
       "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
-      "generate_seconds_including_cache_write": 7.89437722414732
+      "generate_seconds_including_cache_write": 10.269222900271416
     },
     {
       "target_chunk": 4,
       "chunk_latent_sha256": {
-        "original": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75",
-        "replay_one": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75",
-        "replay_two": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75"
+        "original": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92",
+        "replay_one": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92",
+        "replay_two": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92"
       },
       "latent": {
         "original_vs_replay": {
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 1.0000001192092896,
+          "cosine": 1.0,
           "relative_l2": 0.0,
           "exact": true
         },
@@ -492,7 +693,7 @@
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 1.0000001192092896,
+          "cosine": 1.0,
           "relative_l2": 0.0,
           "exact": true
         }
@@ -504,20 +705,20 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_park_light_rain_seed46__chunk004.pt",
-        "sha256": "ec15be14305ce64131dcdda4f552d621de41527989e0f54eaaaec98a133f68bc",
-        "bytes": 1055663067,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_jacket_green_to_yellow_seed46__chunk004.pt",
+        "sha256": "818a8dee5318c324846c6b553c5f5a308db7c9cbdd3f544c86f1c18a449c70d7",
+        "bytes": 1055664546,
         "chunk_index": 4,
-        "sample_id": "replay_park_light_rain_seed46",
+        "sample_id": "replay_jacket_green_to_yellow_seed46",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "replay_park_light_rain_seed46",
+          "sample_id": "replay_jacket_green_to_yellow_seed46",
           "chunk_index": 4,
           "num_chunks": 7,
-          "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 46,
           "current_start_frame": 12,
           "latent_shape": [
@@ -528,13 +729,13 @@
             54
           ]
         },
-        "created_unix": 1789047033.089672
+        "created_unix": 1789051572.0949652
       },
       "timings": {
-        "replay_restore_seconds": 0.012593913823366165,
-        "replay_denoise_seconds": 0.4935980923473835
+        "replay_restore_seconds": 0.012928932905197144,
+        "replay_denoise_seconds": 0.5064496248960495
       },
-      "peak_vram_bytes": 18721394176,
+      "peak_vram_bytes": 18720896512,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -543,20 +744,22 @@
         "outside_max_abs_after_vae": 0.0,
         "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
       },
-      "sample_id": "replay_park_light_rain_seed46_chunk4",
-      "prompt_id": "park_light_rain",
-      "prompt": "A dog runs through a green park on a sunny day.",
-      "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+      "sample_id": "replay_jacket_green_to_yellow_seed46_chunk4",
+      "prompt_id": "jacket_green_to_yellow",
+      "prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
       "seed": 46,
       "num_chunks": 7,
       "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
-      "generate_seconds_including_cache_write": 7.89437722414732
+      "generate_seconds_including_cache_write": 10.269222900271416
     }
   ],
   "non_finite_fields": [
     "cases[0].pixel.psnr",
     "cases[1].pixel.psnr",
     "cases[2].pixel.psnr",
-    "cases[3].pixel.psnr"
+    "cases[3].pixel.psnr",
+    "cases[4].pixel.psnr",
+    "cases[5].pixel.psnr"
   ]
 }

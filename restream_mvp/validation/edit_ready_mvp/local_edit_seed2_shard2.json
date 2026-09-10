@@ -1,10 +1,13 @@
 {
   "experiment": "B_local_edit",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,11 +33,11 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789047694.4069834,
+    "created_unix": 1789052126.583049,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 2,
     "shards": 4,
-    "video_root": "validation/edit_ready_mvp/videos"
+    "video_root": "validation/edit_ready_mvp/rerun/videos"
   },
   "config": {
     "seed": 42,
@@ -57,17 +60,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -78,6 +86,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -88,6 +97,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -97,6 +107,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -106,7 +117,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -116,6 +139,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -124,20 +148,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -151,14 +166,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -172,7 +189,8 @@
   "gates": {
     "gate_b_editability": {
       "passed": true,
-      "successful_cases": 4,
+      "semantic_cases": 2,
+      "successful_cases": 2,
       "strong_cases": 0,
       "min_full_regeneration_ratio": 0.25,
       "cases": [
@@ -180,11 +198,12 @@
           "sample_id": "edit_lighting_darker_seed52_chunk1",
           "prompt_id": "lighting_darker",
           "target_chunk": 1,
-          "s_proxy_local_edit": 0.013673871755599976,
-          "s_proxy_same_prompt": -0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.013673871755599976,
+          "s_proxy_replay": -0.0,
           "s_proxy_control": -0.0,
-          "s_proxy_full_regeneration": 0.3151194453239441,
-          "ratio_to_full_regeneration": 0.043392662555442045,
+          "s_proxy_full_regeneration": 0.3138000816106796,
+          "R_k": 0.04357510579797953,
           "passed": true,
           "strong": false
         },
@@ -192,45 +211,96 @@
           "sample_id": "edit_lighting_darker_seed52_chunk4",
           "prompt_id": "lighting_darker",
           "target_chunk": 4,
-          "s_proxy_local_edit": 0.0054295361042022705,
-          "s_proxy_same_prompt": -0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.0054295361042022705,
+          "s_proxy_replay": -0.0,
           "s_proxy_control": -0.0,
-          "s_proxy_full_regeneration": 0.27858205139636993,
-          "ratio_to_full_regeneration": 0.019489899212771108,
-          "passed": true,
-          "strong": false
-        },
-        {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk1",
-          "prompt_id": "slight_zoom_in",
-          "target_chunk": 1,
-          "s_proxy_local_edit": 0.0024695752654224634,
-          "s_proxy_same_prompt": 0.0,
-          "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.2394583523273468,
-          "ratio_to_full_regeneration": 0.010313172380166049,
-          "passed": true,
-          "strong": false
-        },
-        {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk4",
-          "prompt_id": "slight_zoom_in",
-          "target_chunk": 4,
-          "s_proxy_local_edit": 0.0023173473309725523,
-          "s_proxy_same_prompt": 0.0,
-          "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.2423706352710724,
-          "ratio_to_full_regeneration": 0.00956117199751027,
+          "s_proxy_full_regeneration": 0.28619831800460815,
+          "R_k": 0.018971236945266912,
           "passed": true,
           "strong": false
         }
-      ]
+      ],
+      "calibration_cases": 1,
+      "calibration_case_entries": [
+        {
+          "sample_id": "edit_lighting_darker_seed52_chunk0",
+          "prompt_id": "lighting_darker",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.3165759891271591,
+          "s_proxy_replay": -0.0,
+          "s_proxy_control": 0.3165759891271591,
+          "s_proxy_full_regeneration": 0.3165759891271591,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        }
+      ],
+      "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k.",
+      "qualitative_cases": 3,
+      "qualitative_case_entries": [
+        {
+          "sample_id": "edit_brief_smile_seed56_chunk0",
+          "prompt_id": "brief_smile",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.15250596404075623,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.15250596404075623,
+          "s_proxy_full_regeneration": 0.15250596404075623,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        },
+        {
+          "sample_id": "edit_brief_smile_seed56_chunk1",
+          "prompt_id": "brief_smile",
+          "target_chunk": 1,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.003610798856243491,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.1481548249721527,
+          "R_k": 0.024371793877939377,
+          "passed": true,
+          "strong": false
+        },
+        {
+          "sample_id": "edit_brief_smile_seed56_chunk4",
+          "prompt_id": "brief_smile",
+          "target_chunk": 4,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.003883627476170659,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.14517426490783691,
+          "R_k": 0.02675148710851857,
+          "passed": true,
+          "strong": false
+        }
+      ],
+      "qualitative_consistent_cases": 3,
+      "R_k_by_chunk": {
+        "1": [
+          0.04357510579797953
+        ],
+        "4": [
+          0.018971236945266912
+        ]
+      },
+      "note": "Only `evidence: directional` prompts enter this aggregate; qualitative prompts only report a proxy-consistent change count."
     },
     "gate_c_preservation": {
       "passed": true,
       "outside_exact_fraction": 1.0,
       "cases": [
         {
+          "sample_id": "edit_lighting_darker_seed52_chunk0",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
           "sample_id": "edit_lighting_darker_seed52_chunk1",
           "outside_exact": true,
           "chunks_checked": 6
@@ -241,69 +311,378 @@
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk1",
+          "sample_id": "edit_brief_smile_seed56_chunk0",
           "outside_exact": true,
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk4",
+          "sample_id": "edit_brief_smile_seed56_chunk1",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_brief_smile_seed56_chunk4",
           "outside_exact": true,
           "chunks_checked": 6
         }
       ]
     },
     "gate_d_cost": {
-      "passed": true,
+      "passed": false,
       "cases": [
+        {
+          "sample_id": "edit_lighting_darker_seed52_chunk0",
+          "num_chunks": 7,
+          "R_time_generation": 0.7126341922883564,
+          "R_time_compute": 0.16543143810190847,
+          "R_time_end_to_end": 0.7680983570142436,
+          "partial_generation_seconds": 2.4991481751203537,
+          "full_generation_seconds": 3.506915893405676,
+          "counted": true,
+          "passed": false
+        },
         {
           "sample_id": "edit_lighting_darker_seed52_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.16311585821054717,
-          "R_time_end_to_end": 0.4089214934332057,
-          "partial_generation_seconds": 0.5694927126169205,
-          "full_generation_seconds": 3.491338726133108,
+          "R_time_generation": 0.723985284901255,
+          "R_time_compute": 0.17333860260151301,
+          "R_time_end_to_end": 0.7773000703903357,
+          "partial_generation_seconds": 2.5389555022120476,
+          "full_generation_seconds": 3.506915893405676,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
           "sample_id": "edit_lighting_darker_seed52_chunk4",
           "num_chunks": 7,
-          "R_time_generation": 0.1694725096210426,
-          "R_time_end_to_end": 0.3977310875966061,
-          "partial_generation_seconds": 0.5916859358549118,
-          "full_generation_seconds": 3.491338726133108,
+          "R_time_generation": 0.7130310880955332,
+          "R_time_compute": 0.1714234281617585,
+          "R_time_end_to_end": 0.7685295886495521,
+          "partial_generation_seconds": 2.500540055334568,
+          "full_generation_seconds": 3.506915893405676,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk1",
+          "sample_id": "edit_brief_smile_seed56_chunk0",
           "num_chunks": 7,
-          "R_time_generation": 0.1621065798706331,
-          "R_time_end_to_end": 0.397248568869722,
-          "partial_generation_seconds": 0.5763173438608646,
-          "full_generation_seconds": 3.555175516754389,
+          "R_time_generation": 0.66968733521193,
+          "R_time_compute": 0.16259701268386306,
+          "R_time_end_to_end": 0.7322884015320815,
+          "partial_generation_seconds": 2.3917338214814663,
+          "full_generation_seconds": 3.57141862437129,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_slight_zoom_in_seed56_chunk4",
+          "sample_id": "edit_brief_smile_seed56_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.16682702734453686,
-          "R_time_end_to_end": 0.39537030975071497,
-          "partial_generation_seconds": 0.5930993631482124,
-          "full_generation_seconds": 3.555175516754389,
+          "R_time_generation": 0.8821002254389694,
+          "R_time_compute": 0.1653106775614432,
+          "R_time_end_to_end": 0.9007661282713512,
+          "partial_generation_seconds": 3.150349173694849,
+          "full_generation_seconds": 3.57141862437129,
           "counted": true,
-          "passed": true
+          "passed": false
+        },
+        {
+          "sample_id": "edit_brief_smile_seed56_chunk4",
+          "num_chunks": 7,
+          "R_time_generation": 0.6917002751782303,
+          "R_time_compute": 0.17282706608037532,
+          "R_time_end_to_end": 0.750055672925645,
+          "partial_generation_seconds": 2.470351245254278,
+          "full_generation_seconds": 3.57141862437129,
+          "counted": true,
+          "passed": false
         }
       ],
       "max_time_ratio": 0.5,
-      "counted_cases": 4
+      "counted_cases": 6
     }
   },
   "cases": [
     {
+      "sample_id": "edit_lighting_darker_seed52_chunk0",
+      "prompt_id": "lighting_darker",
+      "evidence": "directional",
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "prompt_hash_old": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+      "prompt_hash_new": "98a4c8ebdadbc9fe955c9c68ee2e1ac0320666c45cac1c2bad3abc8fd0696754",
+      "target_chunk": 0,
+      "num_chunks": 7,
+      "seed": 52,
+      "noise_sha256": "18f1ef4a4e804f9d6f59cc6ef8ee65c797c05e6abe058c46cfcdacdb6e6b822f",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "311ad99ab55ccabfe42b29be8c751ea638124d4eccacbf75a27787567cdbdd5f",
+        "replay": "311ad99ab55ccabfe42b29be8c751ea638124d4eccacbf75a27787567cdbdd5f",
+        "text_rebind": "28bee3486a3154b390ea47d8c34cc52031ad3f07a3ba0480a11a4f85a7ac501d",
+        "history_recache": "28bee3486a3154b390ea47d8c34cc52031ad3f07a3ba0480a11a4f85a7ac501d",
+        "reverse": "311ad99ab55ccabfe42b29be8c751ea638124d4eccacbf75a27787567cdbdd5f",
+        "crossattn_control": "28bee3486a3154b390ea47d8c34cc52031ad3f07a3ba0480a11a4f85a7ac501d",
+        "full_regeneration": "28bee3486a3154b390ea47d8c34cc52031ad3f07a3ba0480a11a4f85a7ac501d"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.747156023979187,
+        "rmse": 0.8643818497657776,
+        "max_abs": 4.28125,
+        "cosine": 0.284148246049881,
+        "relative_l2": 1.2003611326217651,
+        "exact": false
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.747156023979187,
+        "rmse": 0.8643818497657776,
+        "max_abs": 4.28125,
+        "cosine": 0.284148246049881,
+        "relative_l2": 1.2003611326217651,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.747156023979187,
+        "rmse": 0.8643818497657776,
+        "max_abs": 4.28125,
+        "cosine": 0.284148246049881,
+        "relative_l2": 1.2003611326217651,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.747156023979187,
+        "rmse": 0.8643818497657776,
+        "max_abs": 4.28125,
+        "cosine": 0.284148246049881,
+        "relative_l2": 1.1927608251571655,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.0,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.4919295310974121,
+            "delta_luma": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.3165759891271591,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.175353541970253,
+            "delta_luma": -0.3165759891271591,
+            "appearance_change": 0.3218453824520111
+          }
+        },
+        "history_recache": {
+          "kind": "luma",
+          "S_proxy": 0.3165759891271591,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.175353541970253,
+            "delta_luma": -0.3165759891271591,
+            "appearance_change": 0.3218453824520111
+          }
+        },
+        "reverse": {
+          "kind": "luma",
+          "S_proxy": -0.0,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.4919295310974121,
+            "delta_luma": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "luma",
+          "S_proxy": 0.3165759891271591,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.175353541970253,
+            "delta_luma": -0.3165759891271591,
+            "appearance_change": 0.3218453824520111
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.3165759891271591,
+          "measurements": {
+            "luma_base": 0.4919295310974121,
+            "luma_edited": 0.175353541970253,
+            "delta_luma": -0.3165759891271591,
+            "appearance_change": 0.3218453824520111
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.3165759891271591,
+        "S_full_regeneration": 0.3165759891271591,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.970703125,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.18182623386383057
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 1.2241523265838623
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 1.0423260927200317
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.006332593038678169
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.050742749124765396
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.04441015608608723
+          }
+        },
+        "dino": {
+          "right_base": {
+            "mean_cosine": 0.9929996132850647,
+            "mean_cosine_distance": 0.007000386714935303
+          },
+          "right_edited": {
+            "mean_cosine": 0.8661332130432129,
+            "mean_cosine_distance": 0.1338667869567871
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk000.pt",
+        "sha256": "f4879a6af92af5dce34f8556d2f698f8516ebb43231897da25c73ef353cd6bfa",
+        "bytes": 1054832954,
+        "chunk_index": 0,
+        "sample_id": "edit_lighting_darker_seed52",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed52",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 52,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051960.9271235
+      },
+      "cost": {
+        "full_generation_seconds": 3.506915893405676,
+        "base_generation_seconds_including_cache_write": 10.992599569261074,
+        "partial_end_to_end_seconds": 3.4003379233181477,
+        "partial_generation_seconds": 2.4991481751203537,
+        "partial_compute_seconds": 0.5801541395485401,
+        "disk_load_seconds": 1.8044513873755932,
+        "host_to_device_seconds": 0.1145426481962204,
+        "restore_seconds": 0.011956803500652313,
+        "encode_seconds": 0.05975066497921944,
+        "denoise_seconds": 0.5084466710686684,
+        "decode_seconds": 0.901189748197794,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054832954,
+        "recache_seconds": 0.07142698392271996,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093654016,
+        "R_time_generation": 0.7126341922883564,
+        "R_time_compute": 0.16543143810190847,
+        "R_time_end_to_end": 0.7680983570142436
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
       "sample_id": "edit_lighting_darker_seed52_chunk1",
       "prompt_id": "lighting_darker",
+      "evidence": "directional",
       "base_prompt": "A cat walks across a bright living room floor in daylight.",
       "edit_prompt": "A cat walks across a dim living room floor at night.",
       "prompt_hash_old": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
@@ -315,10 +694,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "befbceb36b2386a05d55d99fd605719cd09b992856b4ed89395bc705851aff92",
-        "same_prompt_replay": "befbceb36b2386a05d55d99fd605719cd09b992856b4ed89395bc705851aff92",
-        "local_edit": "26ee1a62f6383437f448b4b6b4a41c63efdadeeebefa98f5be12f684a86c838c",
+        "replay": "befbceb36b2386a05d55d99fd605719cd09b992856b4ed89395bc705851aff92",
+        "text_rebind": "26ee1a62f6383437f448b4b6b4a41c63efdadeeebefa98f5be12f684a86c838c",
+        "history_recache": "c65bec15d837d3e0c25cb8a19e7f2f208e245b26322d5e7c0761411288c51cdf",
+        "reverse": "661ae2146056ef1e24eda5fb467af0508cdbc247f85cdc4d7878dddf0de7dd32",
         "crossattn_control": "befbceb36b2386a05d55d99fd605719cd09b992856b4ed89395bc705851aff92",
-        "full_regeneration": "af38833f67cf859853595e42805d12c4b1100c46707d97b429f5097bd3206b80"
+        "full_regeneration": "04316315d0cd3f528331e7e2778137c019f91d4505dd4da5dd3739e41234028b"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -336,7 +717,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.011279050260782242,
+        "rmse": 0.1062028706073761,
+        "max_abs": 1.57373046875,
+        "cosine": 0.9932908415794373,
+        "relative_l2": 0.11567363142967224,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.008566171862185001,
         "rmse": 0.09255361557006836,
         "max_abs": 1.48046875,
@@ -344,6 +733,39 @@
         "relative_l2": 0.10080718994140625,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.045438844710588455,
+        "rmse": 0.21316389739513397,
+        "max_abs": 2.23046875,
+        "cosine": 0.9718167185783386,
+        "relative_l2": 0.23574285209178925,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 10.171875,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 16.5546875,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 14,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -351,7 +773,17 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.0,
+          "measurements": {
+            "luma_base": 0.4894128441810608,
+            "luma_edited": 0.4894128441810608,
+            "delta_luma": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "luma",
           "S_proxy": 0.013673871755599976,
           "measurements": {
@@ -361,14 +793,24 @@
             "appearance_change": 0.01811971329152584
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "luma",
-          "S_proxy": -0.0,
+          "S_proxy": 0.014064520597457886,
           "measurements": {
             "luma_base": 0.4894128441810608,
-            "luma_edited": 0.4894128441810608,
-            "delta_luma": 0.0,
-            "appearance_change": 0.0
+            "luma_edited": 0.4753483235836029,
+            "delta_luma": -0.014064520597457886,
+            "appearance_change": 0.019927354529500008
+          }
+        },
+        "reverse": {
+          "kind": "luma",
+          "S_proxy": 0.27231578528881073,
+          "measurements": {
+            "luma_base": 0.4894128441810608,
+            "luma_edited": 0.21709705889225006,
+            "delta_luma": -0.27231578528881073,
+            "appearance_change": 0.2839965522289276
           }
         },
         "crossattn_control": {
@@ -383,14 +825,28 @@
         },
         "full_regeneration": {
           "kind": "luma",
-          "S_proxy": 0.3151194453239441,
+          "S_proxy": 0.3138000816106796,
           "measurements": {
             "luma_base": 0.4894128441810608,
-            "luma_edited": 0.1742933988571167,
-            "delta_luma": -0.3151194453239441,
-            "appearance_change": 0.32010069489479065
+            "luma_edited": 0.17561276257038116,
+            "delta_luma": -0.3138000816106796,
+            "appearance_change": 0.315971314907074
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.013673871755599976,
+        "S_full_regeneration": 0.3138000816106796,
+        "R_k": 0.04357510579797953,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -447,9 +903,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_darker_seed52__chunk001.pt",
-        "sha256": "54bc5493270a0307c780f580f38bbe16e47beb999547fc013b3cd8551d69a215",
-        "bytes": 1055165017,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk001.pt",
+        "sha256": "aadcc3778eb5be45a6af001d5501c43652684734a961f2f0d5d82cd9b42e89cd",
+        "bytes": 1055165145,
         "chunk_index": 1,
         "sample_id": "edit_lighting_darker_seed52",
         "cache_bytes": 1049887200,
@@ -460,7 +916,7 @@
           "num_chunks": 7,
           "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 52,
           "current_start_frame": 3,
           "latent_shape": [
@@ -471,39 +927,47 @@
             54
           ]
         },
-        "created_unix": 1789047627.268545
+        "created_unix": 1789051963.9128933
       },
       "cost": {
-        "full_generation_seconds": 3.491338726133108,
-        "base_generation_seconds_including_cache_write": 8.313650075346231,
-        "partial_restore_seconds": 0.07106957212090492,
-        "partial_denoise_seconds": 0.49842314049601555,
-        "partial_generation_seconds": 0.5694927126169205,
-        "cache_load_seconds_cold": 0.3144197538495064,
-        "decode_seconds": 0.9198449552059174,
-        "partial_end_to_end_seconds": 1.8037574216723442,
-        "full_end_to_end_seconds": 4.411011528223753,
+        "full_generation_seconds": 3.506915893405676,
+        "base_generation_seconds_including_cache_write": 10.992599569261074,
+        "partial_end_to_end_seconds": 3.4410735070705414,
+        "partial_generation_seconds": 2.5389555022120476,
+        "partial_compute_seconds": 0.6078839004039764,
+        "disk_load_seconds": 1.8107015676796436,
+        "host_to_device_seconds": 0.1203700341284275,
+        "restore_seconds": 0.013887792825698853,
+        "encode_seconds": 0.060109302401542664,
+        "denoise_seconds": 0.5338868051767349,
+        "decode_seconds": 0.9021180048584938,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055165145,
+        "recache_seconds": 0.18634718656539917,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055165017,
-        "R_time_generation": 0.16311585821054717,
-        "R_time_end_to_end": 0.4089214934332057
+        "peak_vram_bytes": 20644277248,
+        "R_time_generation": 0.723985284901255,
+        "R_time_compute": 0.17333860260151301,
+        "R_time_end_to_end": 0.7773000703903357
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
       "sample_id": "edit_lighting_darker_seed52_chunk4",
       "prompt_id": "lighting_darker",
+      "evidence": "directional",
       "base_prompt": "A cat walks across a bright living room floor in daylight.",
       "edit_prompt": "A cat walks across a dim living room floor at night.",
       "prompt_hash_old": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
@@ -515,10 +979,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "7e4bcca087cf8d880528100e7680bc9b3c3825c94dea7b5eb1f0b81b836a8497",
-        "same_prompt_replay": "7e4bcca087cf8d880528100e7680bc9b3c3825c94dea7b5eb1f0b81b836a8497",
-        "local_edit": "13d642351e6051edb1ee204f83a24c516f066a9f329b72960538ca7dc93aae08",
+        "replay": "7e4bcca087cf8d880528100e7680bc9b3c3825c94dea7b5eb1f0b81b836a8497",
+        "text_rebind": "13d642351e6051edb1ee204f83a24c516f066a9f329b72960538ca7dc93aae08",
+        "history_recache": "de41569299f54ea7d17ee418b86487d6a278246f485b8847030e9bfc98eca558",
+        "reverse": "f92bf6cfd8644e6151872a562d334f398353ba60a7487a443d8258a45519c8fc",
         "crossattn_control": "7e4bcca087cf8d880528100e7680bc9b3c3825c94dea7b5eb1f0b81b836a8497",
-        "full_regeneration": "7747cc9a9d25c9342894ac6ec6e48c0a3d9c265f6b5dd86787f1d58d52b431d1"
+        "full_regeneration": "46a144db8cf770dc20ff7d4124a749d8a54c5fd5874d2bf5b2304fd1d7c6f34d"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -536,7 +1002,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.0045435563661158085,
+        "rmse": 0.06740590929985046,
+        "max_abs": 0.974609375,
+        "cosine": 0.9971349239349365,
+        "relative_l2": 0.0756697878241539,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.002481257077306509,
         "rmse": 0.04981221631169319,
         "max_abs": 0.927734375,
@@ -544,6 +1018,39 @@
         "relative_l2": 0.055919136852025986,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.004176594782620668,
+        "rmse": 0.06462658196687698,
+        "max_abs": 0.890625,
+        "cosine": 0.9974541664123535,
+        "relative_l2": 0.07200182974338531,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 10.171875,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 16.5546875,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 14,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -551,7 +1058,17 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.0,
+          "measurements": {
+            "luma_base": 0.46397513151168823,
+            "luma_edited": 0.46397513151168823,
+            "delta_luma": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "luma",
           "S_proxy": 0.0054295361042022705,
           "measurements": {
@@ -561,14 +1078,24 @@
             "appearance_change": 0.009213650599122047
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "luma",
-          "S_proxy": -0.0,
+          "S_proxy": 0.005802720785140991,
           "measurements": {
             "luma_base": 0.46397513151168823,
-            "luma_edited": 0.46397513151168823,
-            "delta_luma": 0.0,
-            "appearance_change": 0.0
+            "luma_edited": 0.45817241072654724,
+            "delta_luma": -0.005802720785140991,
+            "appearance_change": 0.011340015567839146
+          }
+        },
+        "reverse": {
+          "kind": "luma",
+          "S_proxy": 0.28027383983135223,
+          "measurements": {
+            "luma_base": 0.46397513151168823,
+            "luma_edited": 0.183701291680336,
+            "delta_luma": -0.28027383983135223,
+            "appearance_change": 0.30058765411376953
           }
         },
         "crossattn_control": {
@@ -583,14 +1110,28 @@
         },
         "full_regeneration": {
           "kind": "luma",
-          "S_proxy": 0.27858205139636993,
+          "S_proxy": 0.28619831800460815,
           "measurements": {
             "luma_base": 0.46397513151168823,
-            "luma_edited": 0.1853930801153183,
-            "delta_luma": -0.27858205139636993,
-            "appearance_change": 0.2975015342235565
+            "luma_edited": 0.17777681350708008,
+            "delta_luma": -0.28619831800460815,
+            "appearance_change": 0.3045988380908966
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.0054295361042022705,
+        "S_full_regeneration": 0.28619831800460815,
+        "R_k": 0.018971236945266912,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -647,9 +1188,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_lighting_darker_seed52__chunk004.pt",
-        "sha256": "8cbe5a932635405409b53cf1cd8a857ea1bf143770472bb5bcbf66ea407b0ec5",
-        "bytes": 1055662681,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_lighting_darker_seed52__chunk004.pt",
+        "sha256": "ef67dd5b49ea230aabf215d7db7eeca3d8eef8e2c8b3af9be88c9f44562ed90b",
+        "bytes": 1055662809,
         "chunk_index": 4,
         "sample_id": "edit_lighting_darker_seed52",
         "cache_bytes": 1049887200,
@@ -660,7 +1201,7 @@
           "num_chunks": 7,
           "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 52,
           "current_start_frame": 12,
           "latent_shape": [
@@ -671,79 +1212,130 @@
             54
           ]
         },
-        "created_unix": 1789047631.023029
+        "created_unix": 1789051967.8595104
       },
       "cost": {
-        "full_generation_seconds": 3.491338726133108,
-        "base_generation_seconds_including_cache_write": 8.313650075346231,
-        "partial_restore_seconds": 0.07152007520198822,
-        "partial_denoise_seconds": 0.5201658606529236,
-        "partial_generation_seconds": 0.5916859358549118,
-        "cache_load_seconds_cold": 0.24272096902132034,
-        "decode_seconds": 0.9199895076453686,
-        "partial_end_to_end_seconds": 1.7543964125216007,
-        "full_end_to_end_seconds": 4.411011528223753,
+        "full_generation_seconds": 3.506915893405676,
+        "base_generation_seconds_including_cache_write": 10.992599569261074,
+        "partial_end_to_end_seconds": 3.402246966958046,
+        "partial_generation_seconds": 2.500540055334568,
+        "partial_compute_seconds": 0.6011675447225571,
+        "disk_load_seconds": 1.7735841162502766,
+        "host_to_device_seconds": 0.1257883943617344,
+        "restore_seconds": 0.012369997799396515,
+        "encode_seconds": 0.0598800852894783,
+        "denoise_seconds": 0.5289174616336823,
+        "decode_seconds": 0.9017069116234779,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055662809,
+        "recache_seconds": 0.4833410046994686,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18290695168,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055662681,
-        "R_time_generation": 0.1694725096210426,
-        "R_time_end_to_end": 0.3977310875966061
+        "peak_vram_bytes": 20652209152,
+        "R_time_generation": 0.7130310880955332,
+        "R_time_compute": 0.1714234281617585,
+        "R_time_end_to_end": 0.7685295886495521
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_lighting_darker_seed52_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_lighting_darker_seed52_chunk4/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_slight_zoom_in_seed56_chunk1",
-      "prompt_id": "slight_zoom_in",
-      "base_prompt": "A slow shot of a vase of flowers on a table.",
-      "edit_prompt": "A slow close-up shot of a vase of flowers on a table.",
-      "prompt_hash_old": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
-      "prompt_hash_new": "df6a2cbb4076bebe6cbffb8a0895798180f83e20ff2cfe1b1d1b447f0f16cb84",
-      "target_chunk": 1,
+      "sample_id": "edit_brief_smile_seed56_chunk0",
+      "prompt_id": "brief_smile",
+      "evidence": "qualitative",
+      "base_prompt": "A man looks at the camera with a neutral expression.",
+      "edit_prompt": "A man looks at the camera and smiles briefly.",
+      "prompt_hash_old": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
+      "prompt_hash_new": "96a8912f1e08a9a32a768c7d56f99e57297bd60015f14bdf94419672b5d7b635",
+      "target_chunk": 0,
       "num_chunks": 7,
       "seed": 56,
       "noise_sha256": "cfb3477aac3a17ba23e9ce180e05053f26ec8702d69f4b6b2cb7a1dba68f0fa0",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "12c9905c05443592caced8aa6e98239c4c3e9547a590aa001e770d6b48f1d7b7",
-        "same_prompt_replay": "12c9905c05443592caced8aa6e98239c4c3e9547a590aa001e770d6b48f1d7b7",
-        "local_edit": "0685af92bcb566353f6432167b10c2efeb76bee41e27fe7b5d1f9b09b6898faa",
-        "crossattn_control": "12c9905c05443592caced8aa6e98239c4c3e9547a590aa001e770d6b48f1d7b7",
-        "full_regeneration": "07346b8c4b9495a19a655e2d52aff8917351d997f565825d61aeeccecfeee786"
+        "original": "4468c8bb3ad2c6528f5c511ad186cf0daa059f0b292b29224ae7b4dc105b2581",
+        "replay": "4468c8bb3ad2c6528f5c511ad186cf0daa059f0b292b29224ae7b4dc105b2581",
+        "text_rebind": "bba90fac81de4d9a316d491ae7d8ca323888e5193f19765de01c477c3d7c1f2e",
+        "history_recache": "bba90fac81de4d9a316d491ae7d8ca323888e5193f19765de01c477c3d7c1f2e",
+        "reverse": "4468c8bb3ad2c6528f5c511ad186cf0daa059f0b292b29224ae7b4dc105b2581",
+        "crossattn_control": "bba90fac81de4d9a316d491ae7d8ca323888e5193f19765de01c477c3d7c1f2e",
+        "full_regeneration": "bba90fac81de4d9a316d491ae7d8ca323888e5193f19765de01c477c3d7c1f2e"
       },
       "replay_fidelity": {
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.000000238418579,
+        "cosine": 1.0,
         "relative_l2": 0.0,
         "exact": true
       },
       "control_fidelity_to_replay": {
-        "mse": 0.0,
-        "rmse": 0.0,
-        "max_abs": 0.0,
-        "cosine": 1.000000238418579,
-        "relative_l2": 0.0,
-        "exact": true
-      },
-      "edit_vs_replay": {
-        "mse": 0.0002139929129043594,
-        "rmse": 0.014628496952354908,
-        "max_abs": 0.234375,
-        "cosine": 0.9998891949653625,
-        "relative_l2": 0.014903008006513119,
+        "mse": 0.2555817663669586,
+        "rmse": 0.5055509805679321,
+        "max_abs": 3.625,
+        "cosine": 0.852654755115509,
+        "relative_l2": 0.5777552723884583,
         "exact": false
       },
+      "recache_fidelity_to_replay": {
+        "mse": 0.2555817663669586,
+        "rmse": 0.5055509805679321,
+        "max_abs": 3.625,
+        "cosine": 0.852654755115509,
+        "relative_l2": 0.5777552723884583,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.2555817663669586,
+        "rmse": 0.5055509805679321,
+        "max_abs": 3.625,
+        "cosine": 0.852654755115509,
+        "relative_l2": 0.5777552723884583,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.2555817663669586,
+        "rmse": 0.5055509805679321,
+        "max_abs": 3.625,
+        "cosine": 0.852654755115509,
+        "relative_l2": 0.5255786776542664,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -751,20 +1343,301 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "change",
-          "S_proxy": 0.0024695752654224634,
-          "measurements": {
-            "appearance_change": 0.0024695752654224634,
-            "histogram_distance": 0.0010104665338872068
-          }
-        },
-        "same_prompt_replay": {
+        "replay": {
           "kind": "change",
           "S_proxy": 0.0,
           "measurements": {
             "appearance_change": 0.0,
             "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.15250596404075623,
+          "measurements": {
+            "appearance_change": 0.15250596404075623,
+            "histogram_distance": 0.19736983993464344
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.15250596404075623,
+          "measurements": {
+            "appearance_change": 0.15250596404075623,
+            "histogram_distance": 0.19736983993464344
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.0,
+          "measurements": {
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "change",
+          "S_proxy": 0.15250596404075623,
+          "measurements": {
+            "appearance_change": 0.15250596404075623,
+            "histogram_distance": 0.19736983993464344
+          }
+        },
+        "full_regeneration": {
+          "kind": "change",
+          "S_proxy": 0.15250596404075623,
+          "measurements": {
+            "appearance_change": 0.15250596404075623,
+            "histogram_distance": 0.19736983993464344
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.15250596404075623,
+        "S_full_regeneration": 0.15250596404075623,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.66796875,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.04051799327135086
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.38868141174316406
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.3481634184718132
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.00022143822570797056
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.022838003933429718
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.022616565707721747
+          }
+        },
+        "dino": {
+          "right_base": {
+            "mean_cosine": 0.9956169128417969,
+            "mean_cosine_distance": 0.004383087158203125
+          },
+          "right_edited": {
+            "mean_cosine": 0.8342500329017639,
+            "mean_cosine_distance": 0.16574996709823608
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk000.pt",
+        "sha256": "4b8c19750ced2783293011cdd8043cf05b5a3c48f257f6e2530df090f0460907",
+        "bytes": 1054832186,
+        "chunk_index": 0,
+        "sample_id": "edit_brief_smile_seed56",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_brief_smile_seed56",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 56,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789052044.1523142
+      },
+      "cost": {
+        "full_generation_seconds": 3.57141862437129,
+        "base_generation_seconds_including_cache_write": 10.336775127798319,
+        "partial_end_to_end_seconds": 3.2895455546677113,
+        "partial_generation_seconds": 2.3917338214814663,
+        "partial_compute_seconds": 0.5807019993662834,
+        "disk_load_seconds": 1.6965334080159664,
+        "host_to_device_seconds": 0.11449841409921646,
+        "restore_seconds": 0.013258039951324463,
+        "encode_seconds": 0.05981146916747093,
+        "denoise_seconds": 0.507632490247488,
+        "decode_seconds": 0.897811733186245,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054832186,
+        "recache_seconds": 0.07151588797569275,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093727744,
+        "R_time_generation": 0.66968733521193,
+        "R_time_compute": 0.16259701268386306,
+        "R_time_end_to_end": 0.7322884015320815
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_brief_smile_seed56_chunk1",
+      "prompt_id": "brief_smile",
+      "evidence": "qualitative",
+      "base_prompt": "A man looks at the camera with a neutral expression.",
+      "edit_prompt": "A man looks at the camera and smiles briefly.",
+      "prompt_hash_old": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
+      "prompt_hash_new": "96a8912f1e08a9a32a768c7d56f99e57297bd60015f14bdf94419672b5d7b635",
+      "target_chunk": 1,
+      "num_chunks": 7,
+      "seed": 56,
+      "noise_sha256": "cfb3477aac3a17ba23e9ce180e05053f26ec8702d69f4b6b2cb7a1dba68f0fa0",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "ec1b266be15661aad3308834b7914cd39283a4b41f79d04650c91970e171d947",
+        "replay": "ec1b266be15661aad3308834b7914cd39283a4b41f79d04650c91970e171d947",
+        "text_rebind": "e432a08d9c4e13e771f638e0c68b3f50bb8ead356a0e2fc26b16bf9016e75a93",
+        "history_recache": "7aef0fe8e75999853bc383c0bfecc43202f9a9ef134714f8faf7826a681a0ca0",
+        "reverse": "580163cdbac8e4431b9f8f0ecf644e024595492023c2272656fbdd914f8fc037",
+        "crossattn_control": "ec1b266be15661aad3308834b7914cd39283a4b41f79d04650c91970e171d947",
+        "full_regeneration": "ea54ff170942754a9d58a4a8b72d1e14990ad1e78b0a2c3fe01ae98dcd761262"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0000001192092896,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0000001192092896,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.000984478392638266,
+        "rmse": 0.03137639909982681,
+        "max_abs": 0.279296875,
+        "cosine": 0.9996199607849121,
+        "relative_l2": 0.027622230350971222,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.001061260118149221,
+        "rmse": 0.03257698938250542,
+        "max_abs": 0.359375,
+        "cosine": 0.9995900988578796,
+        "relative_l2": 0.028679171577095985,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.002135622315108776,
+        "rmse": 0.04621279239654541,
+        "max_abs": 0.51171875,
+        "cosine": 0.9993215799331665,
+        "relative_l2": 0.03683644160628319,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 8.5625,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 47.375,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 12,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "change",
+          "S_proxy": 0.0,
+          "measurements": {
+            "appearance_change": 0.0,
+            "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.003610798856243491,
+          "measurements": {
+            "appearance_change": 0.003610798856243491,
+            "histogram_distance": 0.0001253148500495868
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.00318093691021204,
+          "measurements": {
+            "appearance_change": 0.00318093691021204,
+            "histogram_distance": 0.00010452688468004462
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.147722527384758,
+          "measurements": {
+            "appearance_change": 0.147722527384758,
+            "histogram_distance": 0.2767579286854947
           }
         },
         "crossattn_control": {
@@ -777,82 +1650,96 @@
         },
         "full_regeneration": {
           "kind": "change",
-          "S_proxy": 0.2394583523273468,
+          "S_proxy": 0.1481548249721527,
           "measurements": {
-            "appearance_change": 0.2394583523273468,
-            "histogram_distance": 0.1886195552023304
+            "appearance_change": 0.1481548249721527,
+            "histogram_distance": 0.2772347185135449
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.003610798856243491,
+        "S_full_regeneration": 0.1481548249721527,
+        "R_k": 0.024371793877939377,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.2275390625,
+        "outside_max_abs_after_vae": 0.2802734375,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.04626968502998352,
-            "right_mse": 0.04310768470168114
+            "left_mse": 0.04051799327135086,
+            "right_mse": 0.03126300871372223
           },
           "edited": {
-            "left_mse": 0.046575430780649185,
-            "right_mse": 0.042848777025938034
+            "left_mse": 0.041196584701538086,
+            "right_mse": 0.03156417980790138
           },
           "delta": {
-            "delta_left_mse": 0.00030574575066566467,
-            "delta_right_mse": -0.00025890767574310303
+            "delta_left_mse": 0.0006785914301872253,
+            "delta_right_mse": 0.00030117109417915344
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.00016613648040220141,
-            "right_mse": 0.00012696351041086018
+            "left_mse": 0.00022143822570797056,
+            "right_mse": 0.00014244395424611866
           },
           "edited": {
-            "left_mse": 0.00017136390670202672,
-            "right_mse": 0.00011316464224364609
+            "left_mse": 0.0002564284368418157,
+            "right_mse": 0.00023610897187609226
           },
           "delta": {
-            "delta_left_mse": 5.227426299825311e-06,
-            "delta_right_mse": -1.3798868167214096e-05
+            "delta_left_mse": 3.499021113384515e-05,
+            "delta_right_mse": 9.366501762997359e-05
           }
         },
         "dino": {
           "left_base": {
-            "mean_cosine": 0.9988822937011719,
-            "mean_cosine_distance": 0.001117706298828125
+            "mean_cosine": 0.9956169128417969,
+            "mean_cosine_distance": 0.004383087158203125
           },
           "left_edited": {
-            "mean_cosine": 0.9989878535270691,
-            "mean_cosine_distance": 0.0010121464729309082
+            "mean_cosine": 0.9952270984649658,
+            "mean_cosine_distance": 0.00477290153503418
           },
           "right_base": {
-            "mean_cosine": 0.9991188645362854,
-            "mean_cosine_distance": 0.0008811354637145996
+            "mean_cosine": 0.9968239068984985,
+            "mean_cosine_distance": 0.003176093101501465
           },
           "right_edited": {
-            "mean_cosine": 0.999070405960083,
-            "mean_cosine_distance": 0.0009295940399169922
+            "mean_cosine": 0.9959495067596436,
+            "mean_cosine_distance": 0.004050493240356445
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_slight_zoom_in_seed56__chunk001.pt",
-        "sha256": "a8a3f368e2d40255aef031fcf70bb4c018ad25f203f3506b5c276eff02c5946e",
-        "bytes": 1055164824,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk001.pt",
+        "sha256": "2b37a3720c9bcdfcd7a04fd20fa20aeb64e1e1c29c9ad3826ad7daf7696d52a6",
+        "bytes": 1055164373,
         "chunk_index": 1,
-        "sample_id": "edit_slight_zoom_in_seed56",
+        "sample_id": "edit_brief_smile_seed56",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_slight_zoom_in_seed56",
+          "sample_id": "edit_brief_smile_seed56",
           "chunk_index": 1,
           "num_chunks": 7,
-          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "prompt_hash": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 56,
           "current_start_frame": 3,
           "latent_shape": [
@@ -863,60 +1750,70 @@
             54
           ]
         },
-        "created_unix": 1789047661.4709692
+        "created_unix": 1789052046.9453208
       },
       "cost": {
-        "full_generation_seconds": 3.555175516754389,
-        "base_generation_seconds_including_cache_write": 7.9551782310009,
-        "partial_restore_seconds": 0.0709317997097969,
-        "partial_denoise_seconds": 0.5053855441510677,
-        "partial_generation_seconds": 0.5763173438608646,
-        "cache_load_seconds_cold": 0.281590361148119,
-        "decode_seconds": 0.9201001077890396,
-        "partial_end_to_end_seconds": 1.7780078127980232,
-        "full_end_to_end_seconds": 4.475806716829538,
+        "full_generation_seconds": 3.57141862437129,
+        "base_generation_seconds_including_cache_write": 10.336775127798319,
+        "partial_end_to_end_seconds": 4.046371903270483,
+        "partial_generation_seconds": 3.150349173694849,
+        "partial_compute_seconds": 0.5903936326503754,
+        "disk_load_seconds": 2.4043290838599205,
+        "host_to_device_seconds": 0.15562645718455315,
+        "restore_seconds": 0.012928690761327744,
+        "encode_seconds": 0.0601125992834568,
+        "denoise_seconds": 0.5173523426055908,
+        "decode_seconds": 0.896022729575634,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055164373,
+        "recache_seconds": 0.1893210932612419,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055164824,
-        "R_time_generation": 0.1621065798706331,
-        "R_time_end_to_end": 0.397248568869722
+        "peak_vram_bytes": 20642376704,
+        "R_time_generation": 0.8821002254389694,
+        "R_time_compute": 0.1653106775614432,
+        "R_time_end_to_end": 0.9007661282713512
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_slight_zoom_in_seed56_chunk4",
-      "prompt_id": "slight_zoom_in",
-      "base_prompt": "A slow shot of a vase of flowers on a table.",
-      "edit_prompt": "A slow close-up shot of a vase of flowers on a table.",
-      "prompt_hash_old": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
-      "prompt_hash_new": "df6a2cbb4076bebe6cbffb8a0895798180f83e20ff2cfe1b1d1b447f0f16cb84",
+      "sample_id": "edit_brief_smile_seed56_chunk4",
+      "prompt_id": "brief_smile",
+      "evidence": "qualitative",
+      "base_prompt": "A man looks at the camera with a neutral expression.",
+      "edit_prompt": "A man looks at the camera and smiles briefly.",
+      "prompt_hash_old": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
+      "prompt_hash_new": "96a8912f1e08a9a32a768c7d56f99e57297bd60015f14bdf94419672b5d7b635",
       "target_chunk": 4,
       "num_chunks": 7,
       "seed": 56,
       "noise_sha256": "cfb3477aac3a17ba23e9ce180e05053f26ec8702d69f4b6b2cb7a1dba68f0fa0",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "13cb5663b7551a60e17432f416e9872aab612837a3967d0be41ae7f9832c77cf",
-        "same_prompt_replay": "13cb5663b7551a60e17432f416e9872aab612837a3967d0be41ae7f9832c77cf",
-        "local_edit": "a91b88b0d9225e836b593ade6eb150b1f8b30e68db03cfd5f44a7dd21ca6a600",
-        "crossattn_control": "13cb5663b7551a60e17432f416e9872aab612837a3967d0be41ae7f9832c77cf",
-        "full_regeneration": "eae7f614b01fec41484f5d094c64813d6a5aa6e564a47928be2873d2341b711c"
+        "original": "63b7f572399a2c5c28ffefed9e8ca2273f1083de4618a26026728032fcd6c4d3",
+        "replay": "63b7f572399a2c5c28ffefed9e8ca2273f1083de4618a26026728032fcd6c4d3",
+        "text_rebind": "d9957e684f6260ae7494afca16446b6100caeb7a72b66c328b7be3bb8caa1a40",
+        "history_recache": "498ff49c346b998f6a18bb3549d9414dac1c05149b54d2418a258666d6cd0b6a",
+        "reverse": "274be0b69ead70c6ff42678a6d07318f05162bb76cc7dce5e0cacc57483a91e1",
+        "crossattn_control": "63b7f572399a2c5c28ffefed9e8ca2273f1083de4618a26026728032fcd6c4d3",
+        "full_regeneration": "f1ea764789523ef1c92a110b60b13caa76cdc154bf57ca21fbbdf8d32e9f01c0"
       },
       "replay_fidelity": {
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0000001192092896,
+        "cosine": 1.0,
         "relative_l2": 0.0,
         "exact": true
       },
@@ -924,18 +1821,59 @@
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0000001192092896,
+        "cosine": 1.0,
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
-        "mse": 0.00022317064576782286,
-        "rmse": 0.0149388974532485,
-        "max_abs": 0.296875,
-        "cosine": 0.9998855590820312,
-        "relative_l2": 0.015147191472351551,
+      "recache_fidelity_to_replay": {
+        "mse": 0.001739664003252983,
+        "rmse": 0.04170927777886391,
+        "max_abs": 0.7275390625,
+        "cosine": 0.9993066787719727,
+        "relative_l2": 0.03723512217402458,
         "exact": false
       },
+      "text_rebind_vs_replay": {
+        "mse": 0.0019994936883449554,
+        "rmse": 0.044715698808431625,
+        "max_abs": 0.7783203125,
+        "cosine": 0.9992032051086426,
+        "relative_l2": 0.039919041097164154,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.0009117639856413007,
+        "rmse": 0.030195429921150208,
+        "max_abs": 0.484375,
+        "cosine": 0.9996984004974365,
+        "relative_l2": 0.024561285972595215,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 12.0625,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 47.375,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 12,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -943,20 +1881,36 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "change",
-          "S_proxy": 0.0023173473309725523,
-          "measurements": {
-            "appearance_change": 0.0023173473309725523,
-            "histogram_distance": 0.000681707400776397
-          }
-        },
-        "same_prompt_replay": {
+        "replay": {
           "kind": "change",
           "S_proxy": 0.0,
           "measurements": {
             "appearance_change": 0.0,
             "histogram_distance": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "change",
+          "S_proxy": 0.003883627476170659,
+          "measurements": {
+            "appearance_change": 0.003883627476170659,
+            "histogram_distance": 0.0001266161455875993
+          }
+        },
+        "history_recache": {
+          "kind": "change",
+          "S_proxy": 0.0037413521204143763,
+          "measurements": {
+            "appearance_change": 0.0037413521204143763,
+            "histogram_distance": 0.0002127851485855239
+          }
+        },
+        "reverse": {
+          "kind": "change",
+          "S_proxy": 0.14471544325351715,
+          "measurements": {
+            "appearance_change": 0.14471544325351715,
+            "histogram_distance": 0.32326519546502613
           }
         },
         "crossattn_control": {
@@ -969,82 +1923,96 @@
         },
         "full_regeneration": {
           "kind": "change",
-          "S_proxy": 0.2423706352710724,
+          "S_proxy": 0.14517426490783691,
           "measurements": {
-            "appearance_change": 0.2423706352710724,
-            "histogram_distance": 0.17744802724975256
+            "appearance_change": 0.14517426490783691,
+            "histogram_distance": 0.3235639029627719
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.003883627476170659,
+        "S_full_regeneration": 0.14517426490783691,
+        "R_k": 0.02675148710851857,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.173828125,
+        "outside_max_abs_after_vae": 0.451171875,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.026778366416692734,
-            "right_mse": 0.010548434220254421
+            "left_mse": 0.02107902429997921,
+            "right_mse": 0.01955949328839779
           },
           "edited": {
-            "left_mse": 0.02687254175543785,
-            "right_mse": 0.010064475238323212
+            "left_mse": 0.021886618807911873,
+            "right_mse": 0.02851506695151329
           },
           "delta": {
-            "delta_left_mse": 9.417533874511719e-05,
-            "delta_right_mse": -0.00048395898193120956
+            "delta_left_mse": 0.000807594507932663,
+            "delta_right_mse": 0.008955573663115501
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.00010767923231469467,
-            "right_mse": 0.0001214373842230998
+            "left_mse": 0.00017144937010016292,
+            "right_mse": 0.00011332017311360687
           },
           "edited": {
-            "left_mse": 0.00010484022641321644,
-            "right_mse": 0.0001261272991541773
+            "left_mse": 0.00018354272469878197,
+            "right_mse": 0.0005406883428804576
           },
           "delta": {
-            "delta_left_mse": -2.839005901478231e-06,
-            "delta_right_mse": 4.68991493107751e-06
+            "delta_left_mse": 1.2093354598619044e-05,
+            "delta_right_mse": 0.00042736816976685077
           }
         },
         "dino": {
           "left_base": {
-            "mean_cosine": 0.9987398982048035,
-            "mean_cosine_distance": 0.0012601017951965332
+            "mean_cosine": 0.9926345944404602,
+            "mean_cosine_distance": 0.007365405559539795
           },
           "left_edited": {
-            "mean_cosine": 0.9988406896591187,
-            "mean_cosine_distance": 0.0011593103408813477
+            "mean_cosine": 0.9928988814353943,
+            "mean_cosine_distance": 0.007101118564605713
           },
           "right_base": {
-            "mean_cosine": 0.9983518719673157,
-            "mean_cosine_distance": 0.0016481280326843262
+            "mean_cosine": 0.9910057783126831,
+            "mean_cosine_distance": 0.008994221687316895
           },
           "right_edited": {
-            "mean_cosine": 0.9984166622161865,
-            "mean_cosine_distance": 0.0015833377838134766
+            "mean_cosine": 0.9892477989196777,
+            "mean_cosine_distance": 0.010752201080322266
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_slight_zoom_in_seed56__chunk004.pt",
-        "sha256": "aa9f09f539d4186347a040c00e952989b3993c066dab13c6f37af487b3ab580d",
-        "bytes": 1055662488,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_brief_smile_seed56__chunk004.pt",
+        "sha256": "1b4f96d4fea6e21b548a74e1f63a63802645521ea342d441b8a05cf538b641e3",
+        "bytes": 1055662037,
         "chunk_index": 4,
-        "sample_id": "edit_slight_zoom_in_seed56",
+        "sample_id": "edit_brief_smile_seed56",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_slight_zoom_in_seed56",
+          "sample_id": "edit_brief_smile_seed56",
           "chunk_index": 4,
           "num_chunks": 7,
-          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "prompt_hash": "2ec127ed8beab0c08fec0c61219a2912c2ced346640738ab87eb5f3d5b970aa7",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 56,
           "current_start_frame": 12,
           "latent_shape": [
@@ -1055,48 +2023,79 @@
             54
           ]
         },
-        "created_unix": 1789047665.1903217
+        "created_unix": 1789052050.68364
       },
       "cost": {
-        "full_generation_seconds": 3.555175516754389,
-        "base_generation_seconds_including_cache_write": 7.9551782310009,
-        "partial_restore_seconds": 0.07279505208134651,
-        "partial_denoise_seconds": 0.5203043110668659,
-        "partial_generation_seconds": 0.5930993631482124,
-        "cache_load_seconds_cold": 0.25588685274124146,
-        "decode_seconds": 0.9206148721277714,
-        "partial_end_to_end_seconds": 1.7696010880172253,
-        "full_end_to_end_seconds": 4.475806716829538,
+        "full_generation_seconds": 3.57141862437129,
+        "base_generation_seconds_including_cache_write": 10.336775127798319,
+        "partial_end_to_end_seconds": 3.3693587109446526,
+        "partial_generation_seconds": 2.470351245254278,
+        "partial_compute_seconds": 0.6172378025949001,
+        "disk_load_seconds": 1.722613364458084,
+        "host_to_device_seconds": 0.13050007820129395,
+        "restore_seconds": 0.012414209544658661,
+        "encode_seconds": 0.05997377634048462,
+        "denoise_seconds": 0.5448498167097569,
+        "decode_seconds": 0.8990074656903744,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055662037,
+        "recache_seconds": 0.5098907090723515,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18296560640,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055662488,
-        "R_time_generation": 0.16682702734453686,
-        "R_time_end_to_end": 0.39537030975071497
+        "peak_vram_bytes": 20654859264,
+        "R_time_generation": 0.6917002751782303,
+        "R_time_compute": 0.17282706608037532,
+        "R_time_end_to_end": 0.750055672925645
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_slight_zoom_in_seed56_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_brief_smile_seed56_chunk4/edited_chunk_strip.mp4"
       }
     }
   ],
   "aggregate": {
-    "cases": 4,
+    "cases": 6,
     "replay_fidelity_mse_mean": 0.0,
-    "s_proxy_local_edit_mean": 0.0059725826140493155,
-    "s_proxy_same_prompt_mean": 0.0,
-    "s_proxy_control_mean": 0.0,
-    "s_proxy_full_regeneration_mean": 0.2688826210796833,
-    "left_boundary_delta_mean": 0.0008139247074723244,
-    "right_boundary_delta_mean": 0.0003068821970373392,
-    "R_time_generation_mean": 0.16538049376168992,
-    "R_time_end_to_end_mean": 0.3998178649125622,
+    "recache_fidelity_to_replay_mse_mean": 0.17021408989482248,
+    "s_proxy_text_rebind_mean": 0.0826132978933553,
+    "s_proxy_replay_mean": 0.0,
+    "s_proxy_control_mean": 0.07818032552798589,
+    "s_proxy_full_regeneration_mean": 0.22706824044386545,
+    "R_k_by_chunk": {
+      "1": [
+        0.04357510579797953
+      ],
+      "4": [
+        0.018971236945266912
+      ]
+    },
+    "left_boundary_delta_mean": null,
+    "right_boundary_delta_mean": 0.23361944189916053,
+    "R_time_generation_mean": 0.7321897335190458,
+    "R_time_end_to_end_mean": 0.7828397031305349,
     "cache_bytes_per_chunk": 1049887200
-  }
+  },
+  "non_finite_fields": [
+    "cases[0].boundary.latent.base.left_mse",
+    "cases[0].boundary.latent.edited.left_mse",
+    "cases[0].boundary.latent.delta.delta_left_mse",
+    "cases[0].boundary.pixel.base.left_mse",
+    "cases[0].boundary.pixel.edited.left_mse",
+    "cases[0].boundary.pixel.delta.delta_left_mse",
+    "cases[3].boundary.latent.base.left_mse",
+    "cases[3].boundary.latent.edited.left_mse",
+    "cases[3].boundary.latent.delta.delta_left_mse",
+    "cases[3].boundary.pixel.base.left_mse",
+    "cases[3].boundary.pixel.edited.left_mse",
+    "cases[3].boundary.pixel.delta.delta_left_mse",
+    "aggregate.left_boundary_delta_mean"
+  ]
 }

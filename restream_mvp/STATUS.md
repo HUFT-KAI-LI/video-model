@@ -4,13 +4,20 @@
 
 按 [EDIT_READY_VIDEO_FEASIBILITY_PLAN.md](EDIT_READY_VIDEO_FEASIBILITY_PLAN.md) 完成 Generation-Time Edit Cache 的纯推理可行性测试，**不训练任何模型、不改 R0/R1 逻辑**。完整报告见 [EDIT_READY_MVP.md](EDIT_READY_MVP.md)，机器可读汇总见 `validation/edit_ready_mvp/summary.json`。
 
-- **Q1 缓存是否够用：够，而且逐位精确**。镜像 chunk 循环与上游 `inference()` 逐位一致（`max_abs=0.0`）；8 prompt × 2 target = 16 个 case 从 `S_{k-1}` 用原 prompt 重开目标 chunk 全部 `torch.equal`，checkpoint 内的 RNG state 也 16/16 精确重现 chunk 内 3 次噪声抽样。第一版 cache 体积 1.0499e9 B ≈ 0.978 GiB/chunk；保存全部 7 个 chunk 边界共 6.9 GB。
-- **Q2 新 prompt 能否只影响重开 chunk：能，但作用弱**。32 个编辑 case（2 seed）未编辑 chunk 编码前全部 `torch.equal`；若沿用旧文本 K/V，结果与同 prompt replay 逐位相同（32/32），说明新 prompt 的唯一入口是 text cross-attention。重绑定后 chunk 确实变化，但平均只恢复 full regeneration 响应幅度的 **2.7%**（`S_proxy` 0.00577 vs 0.21382），23/32 方向正确、仅 1/32 达到 ≥25%。
-- **Q3 边界**：latent 左边界断裂 MSE 0.0764→0.0817（+7.0%，31/32 在 2× 规则内），右边界 0.0698→0.0950（+36.0%，29/32），方向与预期一致（右边界更差）。新发现：Wan VAE 时间因果解码会让编辑点**之后**的像素产生小幅、随距离衰减的泄漏（均值 0.0045、p99 0.092、max≈1.0；紧邻帧 0.047 → 片尾 ≈0.0005），编辑点之前为 0；同 prompt replay 解码后仍逐位精确。
-- **Q4 成本**：整条重生成 3.507 s vs 单 chunk 编辑生成 0.578 s（`R_time=0.165`），端到端 0.401，峰值显存 18.3 GB。代价是首轮生成时 cache 落盘约 2.2 s/个，与 chunk 生成本身同量级。
-- **判定 `GO_WEAK_PROMPT_REBINDING`**：状态复用问题解决，下一步做轻量 prompt-rebinding post-training，而不是先做 propagation。
+**本段全部数字来自 commit `4c4d52f` 在 `git dirty = false` 的清洁工作树上的封存重跑**（`summary.json["run_provenance"]` 聚合了每个 run 自己记录的 commit / dirty / `code_tree_sha256`）。第一版 `251b0ed+dirty` 的结果已废弃。
 
-本轮工程验证：CPU 测试 **94 项通过**（新增 23 项 Edit Cache 回归测试）。发现并修复了一个真实 bug——镜像循环曾把干净预测而非带噪 latent 送进下一次 forward，导致与上游 `max_abs_diff=11.06`；已定位、修复并加入逐步等价性检查脚本。
+- **Q1 缓存是否够用：够，而且逐位精确**。镜像 chunk 循环与上游 `inference()` 逐位一致（`max_abs=0.0`）；8 prompt × target {0,1,4} = 24 个 case 从 `S_{k-1}` 用原 prompt 重开全部 `torch.equal`，RNG state 24/24 精确重现 chunk 内 3 次噪声抽样，repeat-noise baseline 为 0。cache 体积 1.0499e9 B ≈ 0.978 GiB/chunk；保存全部 7 个 chunk 边界共 6.88 GiB（这是 *sufficient* 而非已证明 minimal）。
+- **Q2 新 prompt 能否只影响重开 chunk：能，而且这次找到了"为什么弱"**。48 个编辑 case（2 seed）未编辑 chunk 编码前全部 `torch.equal`；沿用旧文本 K/V 时结果与同 prompt replay 逐位相同（k>0 32/32）。关键是新增的 **chunk 0 无历史 control**：`cache@chunk0 + P1 + 重绑定` 与 full regeneration 的 chunk 0 **逐位相同（16/16，directional 10/10）**，证明重绑定实现本身完全正确。
+- **编辑强度随历史衰减**：`R_k = S_text_rebind / S_full` 在 chunk 0/1/4 分别为 **1.000 / 0.053 / 0.016**（directional，2 seed）。**1 个 chunk 的历史就压掉约 95% 的 prompt 作用。**
+- **reverse 控制证明是历史在说话**：P1 历史 + **P0** 文本仍恢复 full regeneration 响应的 **94.7%（k=1）/ 97.4%（k=4）**，与 full-regen chunk 的 latent MSE 只有 0.037 / 0.009。这是本轮最有价值的结论。
+- **history recache（审阅建议的 training-free 干预）被检验且为否定**：保持 P0 latent 不变、用 P1 重建 cache **不能**解锁编辑（`S` 与纯文本重绑定持平）。同时发现重建出的 cache 与 checkpoint cache 不同，差异全部落在被保护的 sink 区（k=1: token [0,1295]；k=4: [0,5183]）——**生成期 KV cache 是路径相关的，不是 (latent, timestep, prompt) 的纯函数**，这是 compact cache 的工程约束。
+- **Q3 边界**：左边界几乎无损（k=1 +8.9%、k=4 +1.5%）；右边界在 **chunk 0 处严重破坏（+1258%）**，k≥1 为 +37%/+19%，与预期一致。
+- **Q4 成本必须分三档**：device 端计算 `R=0.167`；端到端在 cache 驻留时 `R=0.367`（通过）；**冷存储读 1 GiB checkpoint 时端到端 `R=0.770`（不通过 Gate D）**。瓶颈是 cache 体积与 I/O，不是重算。
+- **Gate B 口径收紧**：自动聚合只统计 `directional` prompt 且 k>0（15/20 方向正确，strong 1/20）；雨/微笑/推镜三类只报"探针一致的变化"（15/18），不计入任何"语义编辑成功"。
+- **判定 `GO_WEAK_PROMPT_REBINDING`**：状态复用已解决、重绑定实现已证明正确，瓶颈是历史压制。**下一阶段先做 training-free 的"历史衰减 / 局部重算"与右 context 条件，再考虑训练 adapter**；同时必须做 cache 压缩与 staging。
+
+本轮工程验证：CPU 测试 **103 项通过**（新增 32 项 Edit Cache 回归测试）。修复了两个真实协议缺陷——镜像循环曾把干净预测而非带噪 latent 送进下一次 forward（与上游 `max_abs_diff=11.06`）；full regeneration baseline 曾继承 base 的 RNG 流（噪声混淆），并被 chunk 0 control 抓出来。
+
 
 ## 第三轮：prefix-aware 检索 gate 与 matched control（R0 冻结为基线）
 

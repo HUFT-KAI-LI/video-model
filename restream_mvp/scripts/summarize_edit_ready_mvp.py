@@ -114,6 +114,21 @@ def decision(replay_passed, edit_passed, strong_cases, successful_cases, boundar
     return "GO" if right_ok else "GO_WITH_BOUNDARY_RISK"
 
 
+def warm_cache_ratio(case):
+    """Same user path with the checkpoint already resident (no cold storage read).
+
+    The run records ``R_time_end_to_end = partial / full`` and the partial
+    end-to-end seconds, so the full end-to-end denominator is recoverable exactly;
+    no extra measurement or approximation is needed.
+    """
+    cost = case["cost"]
+    partial, ratio = cost.get("partial_end_to_end_seconds"), cost.get("R_time_end_to_end")
+    disk = cost.get("disk_load_seconds")
+    if not partial or not ratio or disk is None:
+        return None
+    return ratio * (1.0 - disk / partial)
+
+
 def summary_cost_gate_failed(efficiency, config) -> bool:
     ratio = efficiency.get("R_time_end_to_end")
     if ratio is None:
@@ -361,11 +376,7 @@ def main() -> None:
         # Same user path but with the checkpoint already resident (RAM/staging),
         # i.e. without the cold storage read.  Derived from the per-case timings,
         # so no extra run is needed.
-        "R_time_end_to_end_warm_cache": mean([
-            ((case["cost"]["partial_end_to_end_seconds"] - case["cost"]["disk_load_seconds"])
-             / case["cost"]["full_end_to_end_seconds"])
-            if case["cost"].get("full_end_to_end_seconds") else None
-            for case in edit_cases]),
+        "R_time_end_to_end_warm_cache": mean([warm_cache_ratio(case) for case in edit_cases]),
         "cache_read_seconds_per_gib": mean([
             (case["cost"]["disk_load_seconds"] / (case["cost"]["cache_disk_bytes"] / 2 ** 30))
             if case["cost"].get("cache_disk_bytes") else None for case in edit_cases]),
@@ -437,12 +448,10 @@ def main() -> None:
                           if case["num_chunks"] >= int(config["gates"]["cost"]["min_chunks"]))
             if edit_cases else None,
             "passed_warm_cache": all(
-                ((case["cost"]["partial_end_to_end_seconds"] - case["cost"]["disk_load_seconds"])
-                 / case["cost"]["full_end_to_end_seconds"])
-                < float(config["gates"]["cost"]["max_time_ratio"])
+                warm_cache_ratio(case) < float(config["gates"]["cost"]["max_time_ratio"])
                 for case in edit_cases
                 if case["num_chunks"] >= int(config["gates"]["cost"]["min_chunks"])
-                and case["cost"].get("full_end_to_end_seconds"))
+                and warm_cache_ratio(case) is not None)
             if edit_cases else None,
             "max_time_ratio": float(config["gates"]["cost"]["max_time_ratio"]),
             "cold_read_note": "Gate D is evaluated on the full user path including a cold "

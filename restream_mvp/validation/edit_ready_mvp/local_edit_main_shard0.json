@@ -1,10 +1,13 @@
 {
   "experiment": "B_local_edit",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,11 +33,11 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789047507.0510867,
+    "created_unix": 1789051860.2843094,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 0,
     "shards": 4,
-    "video_root": "validation/edit_ready_mvp/videos"
+    "video_root": "validation/edit_ready_mvp/rerun/videos"
   },
   "config": {
     "seed": 42,
@@ -57,17 +60,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -78,6 +86,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -88,6 +97,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -97,6 +107,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -106,7 +117,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -116,6 +139,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -124,20 +148,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -151,14 +166,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -172,6 +189,7 @@
   "gates": {
     "gate_b_editability": {
       "passed": true,
+      "semantic_cases": 4,
       "successful_cases": 1,
       "strong_cases": 0,
       "min_full_regeneration_ratio": 0.25,
@@ -180,11 +198,12 @@
           "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
           "prompt_id": "dress_red_to_blue",
           "target_chunk": 1,
-          "s_proxy_local_edit": -0.0001363872010030848,
-          "s_proxy_same_prompt": 0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": -0.0001363872010030848,
+          "s_proxy_replay": 0.0,
           "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.10830650800540123,
-          "ratio_to_full_regeneration": -0.0012592705970751379,
+          "s_proxy_full_regeneration": 0.09669475790895062,
+          "R_k": -0.0014104921916398949,
           "passed": false,
           "strong": false
         },
@@ -192,45 +211,97 @@
           "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
           "prompt_id": "dress_red_to_blue",
           "target_chunk": 4,
-          "s_proxy_local_edit": 0.0013284565489969148,
-          "s_proxy_same_prompt": 0.0,
+          "control_informative": true,
+          "s_proxy_text_rebind": 0.0013284565489969148,
+          "s_proxy_replay": 0.0,
           "s_proxy_control": 0.0,
-          "s_proxy_full_regeneration": 0.11379816502700617,
-          "ratio_to_full_regeneration": 0.011673795870800292,
+          "s_proxy_full_regeneration": 0.10101318359375,
+          "R_k": 0.01315131848868003,
           "passed": true,
           "strong": false
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk1",
-          "prompt_id": "park_light_rain",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk1",
+          "prompt_id": "jacket_green_to_yellow",
           "target_chunk": 1,
-          "s_proxy_local_edit": -0.0011273026466369629,
-          "s_proxy_same_prompt": -0.0,
-          "s_proxy_control": -0.0,
-          "s_proxy_full_regeneration": 0.14425715804100037,
-          "ratio_to_full_regeneration": -0.007814535250421086,
+          "control_informative": true,
+          "s_proxy_text_rebind": -0.0015213577835647835,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.28813943745177467,
+          "R_k": -0.005279935981756785,
           "passed": false,
           "strong": false
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk4",
-          "prompt_id": "park_light_rain",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk4",
+          "prompt_id": "jacket_green_to_yellow",
           "target_chunk": 4,
-          "s_proxy_local_edit": -0.0007635354995727539,
-          "s_proxy_same_prompt": -0.0,
-          "s_proxy_control": -0.0,
-          "s_proxy_full_regeneration": 0.13200435042381287,
-          "ratio_to_full_regeneration": -0.005784169212009669,
+          "control_informative": true,
+          "s_proxy_text_rebind": -0.0005108868634259162,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.0,
+          "s_proxy_full_regeneration": 0.2652075496720679,
+          "R_k": -0.0019263662141505153,
           "passed": false,
           "strong": false
         }
-      ]
+      ],
+      "calibration_cases": 2,
+      "calibration_case_entries": [
+        {
+          "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+          "prompt_id": "dress_red_to_blue",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.09352092978395062,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.09352092978395062,
+          "s_proxy_full_regeneration": 0.09352092978395062,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
+          "prompt_id": "jacket_green_to_yellow",
+          "target_chunk": 0,
+          "control_informative": false,
+          "s_proxy_text_rebind": 0.28118971836419754,
+          "s_proxy_replay": 0.0,
+          "s_proxy_control": 0.28118971836419754,
+          "s_proxy_full_regeneration": 0.28118971836419754,
+          "R_k": 1.0,
+          "passed": true,
+          "strong": true
+        }
+      ],
+      "calibration_note": "Chunk 0 has no visual history; text rebind there equals the full-regeneration chunk bit-for-bit and calibrates R_k.",
+      "qualitative_cases": 0,
+      "qualitative_case_entries": [],
+      "qualitative_consistent_cases": 0,
+      "R_k_by_chunk": {
+        "1": [
+          -0.0014104921916398949,
+          -0.005279935981756785
+        ],
+        "4": [
+          0.01315131848868003,
+          -0.0019263662141505153
+        ]
+      },
+      "note": "Only `evidence: directional` prompts enter this aggregate; qualitative prompts only report a proxy-consistent change count."
     },
     "gate_c_preservation": {
       "passed": true,
       "outside_exact_fraction": 1.0,
       "cases": [
         {
+          "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
           "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
           "outside_exact": true,
           "chunks_checked": 6
@@ -241,69 +312,402 @@
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk1",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
           "outside_exact": true,
           "chunks_checked": 6
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk4",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk1",
+          "outside_exact": true,
+          "chunks_checked": 6
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk4",
           "outside_exact": true,
           "chunks_checked": 6
         }
       ]
     },
     "gate_d_cost": {
-      "passed": true,
+      "passed": false,
       "cases": [
+        {
+          "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+          "num_chunks": 7,
+          "R_time_generation": 0.6933458936425912,
+          "R_time_compute": 0.16448442218415535,
+          "R_time_end_to_end": 0.7518876695840706,
+          "partial_generation_seconds": 2.473348665982485,
+          "full_generation_seconds": 3.5672651827335358,
+          "counted": true,
+          "passed": false
+        },
         {
           "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.16191564077647255,
-          "R_time_end_to_end": 0.39840833230888073,
-          "partial_generation_seconds": 0.5755870752036572,
-          "full_generation_seconds": 3.5548577792942524,
+          "R_time_generation": 0.6813329886924927,
+          "R_time_compute": 0.15992838621593589,
+          "R_time_end_to_end": 0.7418219083139659,
+          "partial_generation_seconds": 2.430495448410511,
+          "full_generation_seconds": 3.5672651827335358,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
           "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
           "num_chunks": 7,
-          "R_time_generation": 0.15949518249292,
-          "R_time_end_to_end": 0.3927762928979852,
-          "partial_generation_seconds": 0.5669826902449131,
-          "full_generation_seconds": 3.5548577792942524,
+          "R_time_generation": 0.6770220924391965,
+          "R_time_compute": 0.1668722768920004,
+          "R_time_end_to_end": 0.7388802200209722,
+          "partial_generation_seconds": 2.4151173382997513,
+          "full_generation_seconds": 3.5672651827335358,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk1",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
           "num_chunks": 7,
-          "R_time_generation": 0.16303608372579215,
-          "R_time_end_to_end": 0.4012077221420319,
-          "partial_generation_seconds": 0.5816328264772892,
-          "full_generation_seconds": 3.567509800195694,
+          "R_time_generation": 0.5959073999844863,
+          "R_time_compute": 0.1642020703732968,
+          "R_time_end_to_end": 0.7186476581119325,
+          "partial_generation_seconds": 2.1115021966397762,
+          "full_generation_seconds": 3.5433394461870193,
           "counted": true,
-          "passed": true
+          "passed": false
         },
         {
-          "sample_id": "edit_park_light_rain_seed46_chunk4",
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk1",
           "num_chunks": 7,
-          "R_time_generation": 0.1636229737974608,
-          "R_time_end_to_end": 0.3964379299401332,
-          "partial_generation_seconds": 0.5837265625596046,
-          "full_generation_seconds": 3.567509800195694,
+          "R_time_generation": 0.7027582390785698,
+          "R_time_compute": 0.16750316882178368,
+          "R_time_end_to_end": 0.7584714360014607,
+          "partial_generation_seconds": 2.4901109896600246,
+          "full_generation_seconds": 3.5433394461870193,
           "counted": true,
-          "passed": true
+          "passed": false
+        },
+        {
+          "sample_id": "edit_jacket_green_to_yellow_seed46_chunk4",
+          "num_chunks": 7,
+          "R_time_generation": 0.6738671466065878,
+          "R_time_compute": 0.1646790542483407,
+          "R_time_end_to_end": 0.7347478695268111,
+          "partial_generation_seconds": 2.3877400420606136,
+          "full_generation_seconds": 3.5433394461870193,
+          "counted": true,
+          "passed": false
         }
       ],
       "max_time_ratio": 0.5,
-      "counted_cases": 4
+      "counted_cases": 6
     }
   },
   "cases": [
     {
+      "sample_id": "edit_dress_red_to_blue_seed42_chunk0",
+      "prompt_id": "dress_red_to_blue",
+      "evidence": "directional",
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "prompt_hash_old": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+      "prompt_hash_new": "5dffdb10bf26db8ea1dfefac6a5fe296a8b6876a426d27ea4ac95b9169813fc6",
+      "target_chunk": 0,
+      "num_chunks": 7,
+      "seed": 42,
+      "noise_sha256": "09bf8942142de647aede702d7c1cdbcd3aa427ec8e342256b5d183efecbd2009",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "replay": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "text_rebind": "720e655d8178e201eaea4df874e399a5477bf69ce05d2e3523a334cde3ab0b99",
+        "history_recache": "720e655d8178e201eaea4df874e399a5477bf69ce05d2e3523a334cde3ab0b99",
+        "reverse": "2166e56ef5bb356f388f18846c768e031ea61a649f66a334ca3022c37e9c6eb8",
+        "crossattn_control": "720e655d8178e201eaea4df874e399a5477bf69ce05d2e3523a334cde3ab0b99",
+        "full_regeneration": "720e655d8178e201eaea4df874e399a5477bf69ce05d2e3523a334cde3ab0b99"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 1.0,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.35238102078437805,
+        "rmse": 0.5936169028282166,
+        "max_abs": 4.3125,
+        "cosine": 0.7123649716377258,
+        "relative_l2": 0.7927934527397156,
+        "exact": false
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.35238102078437805,
+        "rmse": 0.5936169028282166,
+        "max_abs": 4.3125,
+        "cosine": 0.7123649716377258,
+        "relative_l2": 0.7927934527397156,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.35238102078437805,
+        "rmse": 0.5936169028282166,
+        "max_abs": 4.3125,
+        "cosine": 0.7123649716377258,
+        "relative_l2": 0.7927934527397156,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.35238102078437805,
+        "rmse": 0.5936169028282166,
+        "max_abs": 4.3125,
+        "cosine": 0.7123649716377258,
+        "relative_l2": 0.7333031296730042,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.014219433191872428,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.09352092978395062,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09625671135545268,
+            "delta_target_fraction": 0.09625671135545268,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.016955214763374485,
+            "delta_reference_fraction": 0.002735781571502057,
+            "histogram_distance": 0.35609917914775335,
+            "appearance_change": 0.13539302349090576
+          }
+        },
+        "history_recache": {
+          "kind": "color_fraction",
+          "S_proxy": 0.09352092978395062,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09625671135545268,
+            "delta_target_fraction": 0.09625671135545268,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.016955214763374485,
+            "delta_reference_fraction": 0.002735781571502057,
+            "histogram_distance": 0.35609917914775335,
+            "appearance_change": 0.13539302349090576
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.014219433191872428,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.09352092978395062,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09625671135545268,
+            "delta_target_fraction": 0.09625671135545268,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.016955214763374485,
+            "delta_reference_fraction": 0.002735781571502057,
+            "histogram_distance": 0.35609917914775335,
+            "appearance_change": 0.13539302349090576
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.09352092978395062,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09625671135545268,
+            "delta_target_fraction": 0.09625671135545268,
+            "reference_fraction_base": 0.014219433191872428,
+            "reference_fraction_edited": 0.016955214763374485,
+            "delta_reference_fraction": 0.002735781571502057,
+            "histogram_distance": 0.35609917914775335,
+            "appearance_change": 0.13539302349090576
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.09352092978395062,
+        "S_full_regeneration": 0.09352092978395062,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.77734375,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.048979274928569794
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.5314841866493225
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.4825049117207527
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.0005191982490941882
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.01983804814517498
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.019318849896080792
+          }
+        },
+        "dino": {
+          "right_base": {
+            "mean_cosine": 0.9973953366279602,
+            "mean_cosine_distance": 0.002604663372039795
+          },
+          "right_edited": {
+            "mean_cosine": 0.8443108201026917,
+            "mean_cosine_distance": 0.15568917989730835
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed42__chunk000.pt",
+        "sha256": "4a0a49ca766c84ddec0ad4e77e9b64ebdbfedf00ab210b4946eabf22d9887fa0",
+        "bytes": 1054833338,
+        "chunk_index": 0,
+        "sample_id": "edit_dress_red_to_blue_seed42",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed42",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 42,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051683.071587
+      },
+      "cost": {
+        "full_generation_seconds": 3.5672651827335358,
+        "base_generation_seconds_including_cache_write": 10.577173862606287,
+        "partial_end_to_end_seconds": 3.3774801306426525,
+        "partial_generation_seconds": 2.473348665982485,
+        "partial_compute_seconds": 0.586759552359581,
+        "disk_load_seconds": 1.769735611975193,
+        "host_to_device_seconds": 0.1168535016477108,
+        "restore_seconds": 0.012250453233718872,
+        "encode_seconds": 0.059775516390800476,
+        "denoise_seconds": 0.5147335827350616,
+        "decode_seconds": 0.9041314646601677,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054833338,
+        "recache_seconds": 0.07215829566121101,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093654016,
+        "R_time_generation": 0.6933458936425912,
+        "R_time_compute": 0.16448442218415535,
+        "R_time_end_to_end": 0.7518876695840706
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
       "sample_id": "edit_dress_red_to_blue_seed42_chunk1",
       "prompt_id": "dress_red_to_blue",
+      "evidence": "directional",
       "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
       "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
       "prompt_hash_old": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
@@ -315,10 +719,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
-        "same_prompt_replay": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
-        "local_edit": "9efae6a376785b42731ee3e8184ac1151c66758caf6a3354e0ced0747303d1e5",
+        "replay": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
+        "text_rebind": "9efae6a376785b42731ee3e8184ac1151c66758caf6a3354e0ced0747303d1e5",
+        "history_recache": "cc7a158c240de1f834e228c59f61bc395461fac56b0abb610951921e6dd7758d",
+        "reverse": "9951d589b30df9aaeaf630c226f4b0857ed33ec9d5b72adbccc42803572d6106",
         "crossattn_control": "7aa04408a0dd59aa2a0f65f887f0957bff875f7058aaeca5512a38dcf1793afa",
-        "full_regeneration": "0e8c1e1d0aa44be4392c3daf9936d5cb5821c6ae0cef23bcae11f2f07667399f"
+        "full_regeneration": "2185d66fc99e57e768aeef38844f8f781feef46e12dcc91af59d4bbab72912d9"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -336,7 +742,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.0032081520184874535,
+        "rmse": 0.05664055049419403,
+        "max_abs": 0.994140625,
+        "cosine": 0.9980757832527161,
+        "relative_l2": 0.062047507613897324,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.006960602477192879,
         "rmse": 0.0834302231669426,
         "max_abs": 1.4140625,
@@ -344,6 +758,39 @@
         "relative_l2": 0.09139454364776611,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.0007561313104815781,
+        "rmse": 0.02749784104526043,
+        "max_abs": 0.5703125,
+        "cosine": 0.9996235966682434,
+        "relative_l2": 0.027620062232017517,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 5.015625,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.599609375,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -351,7 +798,21 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.01483907817322531,
+            "reference_fraction_edited": 0.01483907817322531,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "color_fraction",
           "S_proxy": -0.0001363872010030848,
           "measurements": {
@@ -365,18 +826,32 @@
             "appearance_change": 0.007968075573444366
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "color_fraction",
-          "S_proxy": 0.0,
+          "S_proxy": -0.0008047598379629633,
           "measurements": {
             "target_fraction_base": 0.0,
             "target_fraction_edited": 0.0,
             "delta_target_fraction": 0.0,
             "reference_fraction_base": 0.01483907817322531,
-            "reference_fraction_edited": 0.01483907817322531,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "reference_fraction_edited": 0.015643838011188273,
+            "delta_reference_fraction": 0.0008047598379629633,
+            "histogram_distance": 0.011415977837318523,
+            "appearance_change": 0.006245600990951061
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0964038990162037,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09985879026813271,
+            "delta_target_fraction": 0.09985879026813271,
+            "reference_fraction_base": 0.01483907817322531,
+            "reference_fraction_edited": 0.01829396942515432,
+            "delta_reference_fraction": 0.0034548912519290122,
+            "histogram_distance": 0.39347287421263505,
+            "appearance_change": 0.13241098821163177
           }
         },
         "crossattn_control": {
@@ -395,18 +870,32 @@
         },
         "full_regeneration": {
           "kind": "color_fraction",
-          "S_proxy": 0.10830650800540123,
+          "S_proxy": 0.09669475790895062,
           "measurements": {
             "target_fraction_base": 0.0,
-            "target_fraction_edited": 0.10296103395061729,
-            "delta_target_fraction": 0.10296103395061729,
+            "target_fraction_edited": 0.10011121961805555,
+            "delta_target_fraction": 0.10011121961805555,
             "reference_fraction_base": 0.01483907817322531,
-            "reference_fraction_edited": 0.009493604118441358,
-            "delta_reference_fraction": -0.005345474054783951,
-            "histogram_distance": 0.29526672004448284,
-            "appearance_change": 0.18815121054649353
+            "reference_fraction_edited": 0.018255539882330248,
+            "delta_reference_fraction": 0.003416461709104939,
+            "histogram_distance": 0.39443298508513935,
+            "appearance_change": 0.13327103853225708
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": -0.0001363872010030848,
+        "S_full_regeneration": 0.09669475790895062,
+        "R_k": -0.0014104921916398949,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -463,9 +952,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_dress_red_to_blue_seed42__chunk001.pt",
-        "sha256": "2cab94eae0a1be1830e849629451d64c0c99ce81d1b7644187f52328545fc539",
-        "bytes": 1055165467,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed42__chunk001.pt",
+        "sha256": "64a43da81b815117d6c5386dab6eae31dbaef35a98abd47174419f6ebae15862",
+        "bytes": 1055165531,
         "chunk_index": 1,
         "sample_id": "edit_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -476,7 +965,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 3,
           "latent_shape": [
@@ -487,39 +976,47 @@
             54
           ]
         },
-        "created_unix": 1789047435.3974497
+        "created_unix": 1789051685.9761395
       },
       "cost": {
-        "full_generation_seconds": 3.5548577792942524,
-        "base_generation_seconds_including_cache_write": 8.440377824008465,
-        "partial_restore_seconds": 0.07093144208192825,
-        "partial_denoise_seconds": 0.5046556331217289,
-        "partial_generation_seconds": 0.5755870752036572,
-        "cache_load_seconds_cold": 0.2853260561823845,
-        "decode_seconds": 0.9235013462603092,
-        "partial_end_to_end_seconds": 1.7844144776463509,
-        "full_end_to_end_seconds": 4.478858329355717,
+        "full_generation_seconds": 3.5672651827335358,
+        "base_generation_seconds_including_cache_write": 10.577173862606287,
+        "partial_end_to_end_seconds": 3.332264721393585,
+        "partial_generation_seconds": 2.430495448410511,
+        "partial_compute_seconds": 0.57050696387887,
+        "disk_load_seconds": 1.7428868599236012,
+        "host_to_device_seconds": 0.11710162460803986,
+        "restore_seconds": 0.012116823345422745,
+        "encode_seconds": 0.059676192700862885,
+        "denoise_seconds": 0.4987139478325844,
+        "decode_seconds": 0.9017692729830742,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055165531,
+        "recache_seconds": 0.19058271124958992,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055165467,
-        "R_time_generation": 0.16191564077647255,
-        "R_time_end_to_end": 0.39840833230888073
+        "peak_vram_bytes": 20644277248,
+        "R_time_generation": 0.6813329886924927,
+        "R_time_compute": 0.15992838621593589,
+        "R_time_end_to_end": 0.7418219083139659
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
       "sample_id": "edit_dress_red_to_blue_seed42_chunk4",
       "prompt_id": "dress_red_to_blue",
+      "evidence": "directional",
       "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
       "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
       "prompt_hash_old": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
@@ -531,10 +1028,12 @@
       "noise_source": "global",
       "chunk_latent_sha256": {
         "original": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
-        "same_prompt_replay": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
-        "local_edit": "f0aa876e6a130035bc62955c37237ee6732954171b72c5ba167c3f5d806c11ee",
+        "replay": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
+        "text_rebind": "f0aa876e6a130035bc62955c37237ee6732954171b72c5ba167c3f5d806c11ee",
+        "history_recache": "1ae4475816c8fb63f994773bbcc26c1bb3a6fcea56679d94a78da990f52bec04",
+        "reverse": "f8642146f53fcc41c7bab0ba1c8ed67037b01562bc05d2c13eb012d9c82419b9",
         "crossattn_control": "4a7244b700a301611460e179eca59b03555d96f8f2d2c67b64f0fc7ad19cbf25",
-        "full_regeneration": "556dd6a54628f9376eb87ecdb7bab9b2ace00be3514d8da9a458651dc5995ecf"
+        "full_regeneration": "d18ccb4e0c5643f3af51241734694792292b1559ef8fed99c4333c2d3a771d1d"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -552,7 +1051,15 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
+      "recache_fidelity_to_replay": {
+        "mse": 0.0028059373144060373,
+        "rmse": 0.05297109857201576,
+        "max_abs": 1.3359375,
+        "cosine": 0.9983598589897156,
+        "relative_l2": 0.05727975443005562,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
         "mse": 0.005700468551367521,
         "rmse": 0.075501449406147,
         "max_abs": 1.7734375,
@@ -560,6 +1067,39 @@
         "relative_l2": 0.08164271712303162,
         "exact": false
       },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.0004314457473810762,
+        "rmse": 0.020771272480487823,
+        "max_abs": 0.447265625,
+        "cosine": 0.9997802972793579,
+        "relative_l2": 0.02109920233488083,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 8.017578125,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.599609375,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -567,7 +1107,21 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.007313669463734568,
+            "reference_fraction_edited": 0.007313669463734568,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
           "kind": "color_fraction",
           "S_proxy": 0.0013284565489969148,
           "measurements": {
@@ -581,18 +1135,32 @@
             "appearance_change": 0.006624856032431126
           }
         },
-        "same_prompt_replay": {
+        "history_recache": {
           "kind": "color_fraction",
-          "S_proxy": 0.0,
+          "S_proxy": -0.00028332368827160473,
           "measurements": {
             "target_fraction_base": 0.0,
-            "target_fraction_edited": 0.0,
-            "delta_target_fraction": 0.0,
+            "target_fraction_edited": 3.466194058641975e-05,
+            "delta_target_fraction": 3.466194058641975e-05,
             "reference_fraction_base": 0.007313669463734568,
-            "reference_fraction_edited": 0.007313669463734568,
-            "delta_reference_fraction": 0.0,
-            "histogram_distance": 0.0,
-            "appearance_change": 0.0
+            "reference_fraction_edited": 0.007631655092592593,
+            "delta_reference_fraction": 0.0003179856288580245,
+            "histogram_distance": 0.017432347178105705,
+            "appearance_change": 0.005038436036556959
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10092728226273148,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.10341013213734568,
+            "delta_target_fraction": 0.10341013213734568,
+            "reference_fraction_base": 0.007313669463734568,
+            "reference_fraction_edited": 0.009796519338348766,
+            "delta_reference_fraction": 0.0024828498746141976,
+            "histogram_distance": 0.3402705356448715,
+            "appearance_change": 0.15347954630851746
           }
         },
         "crossattn_control": {
@@ -611,18 +1179,32 @@
         },
         "full_regeneration": {
           "kind": "color_fraction",
-          "S_proxy": 0.11379816502700617,
+          "S_proxy": 0.10101318359375,
           "measurements": {
             "target_fraction_base": 0.0,
-            "target_fraction_edited": 0.11033046392746913,
-            "delta_target_fraction": 0.11033046392746913,
+            "target_fraction_edited": 0.10380949797453703,
+            "delta_target_fraction": 0.10380949797453703,
             "reference_fraction_base": 0.007313669463734568,
-            "reference_fraction_edited": 0.003845968364197531,
-            "delta_reference_fraction": -0.003467701099537037,
-            "histogram_distance": 0.3183831667265777,
-            "appearance_change": 0.19072456657886505
+            "reference_fraction_edited": 0.010109983844521605,
+            "delta_reference_fraction": 0.0027963143807870367,
+            "histogram_distance": 0.3404650246660318,
+            "appearance_change": 0.15384826064109802
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": 0.0013284565489969148,
+        "S_full_regeneration": 0.10101318359375,
+        "R_k": 0.01315131848868003,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
@@ -679,9 +1261,9 @@
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_dress_red_to_blue_seed42__chunk004.pt",
-        "sha256": "a80fa9ffd190de8ba2e816fb38266bb8db50ddef0ee19ba030e6e6e46444b2ea",
-        "bytes": 1055663131,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_dress_red_to_blue_seed42__chunk004.pt",
+        "sha256": "6884e2471099ecf4be34d3df46821364f2478091d9935c871a22a9100e32a9ed",
+        "bytes": 1055663195,
         "chunk_index": 4,
         "sample_id": "edit_dress_red_to_blue_seed42",
         "cache_bytes": 1049887200,
@@ -692,7 +1274,7 @@
           "num_chunks": 7,
           "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 42,
           "current_start_frame": 12,
           "latent_shape": [
@@ -703,54 +1285,365 @@
             54
           ]
         },
-        "created_unix": 1789047439.2184627
+        "created_unix": 1789051689.6951644
       },
       "cost": {
-        "full_generation_seconds": 3.5548577792942524,
-        "base_generation_seconds_including_cache_write": 8.440377824008465,
-        "partial_restore_seconds": 0.07061068341135979,
-        "partial_denoise_seconds": 0.4963720068335533,
-        "partial_generation_seconds": 0.5669826902449131,
-        "cache_load_seconds_cold": 0.2695494145154953,
-        "decode_seconds": 0.9226572662591934,
-        "partial_end_to_end_seconds": 1.7591893710196018,
-        "full_end_to_end_seconds": 4.478858329355717,
+        "full_generation_seconds": 3.5672651827335358,
+        "base_generation_seconds_including_cache_write": 10.577173862606287,
+        "partial_end_to_end_seconds": 3.319050654768944,
+        "partial_generation_seconds": 2.4151173382997513,
+        "partial_compute_seconds": 0.595277663320303,
+        "disk_load_seconds": 1.7077040486037731,
+        "host_to_device_seconds": 0.1121356263756752,
+        "restore_seconds": 0.01234341412782669,
+        "encode_seconds": 0.06002822145819664,
+        "denoise_seconds": 0.5229060277342796,
+        "decode_seconds": 0.9039333164691925,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055663195,
+        "recache_seconds": 0.49598345160484314,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18290695168,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055663131,
-        "R_time_generation": 0.15949518249292,
-        "R_time_end_to_end": 0.3927762928979852
+        "peak_vram_bytes": 20652209152,
+        "R_time_generation": 0.6770220924391965,
+        "R_time_compute": 0.1668722768920004,
+        "R_time_end_to_end": 0.7388802200209722
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_dress_red_to_blue_seed42_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_dress_red_to_blue_seed42_chunk4/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_park_light_rain_seed46_chunk1",
-      "prompt_id": "park_light_rain",
-      "base_prompt": "A dog runs through a green park on a sunny day.",
-      "edit_prompt": "A dog runs through a green park in light rain.",
-      "prompt_hash_old": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
-      "prompt_hash_new": "d5c5686c85cdb30217c049ee9a427bf13098b8a42bc218072fc8733be7cb5f39",
+      "sample_id": "edit_jacket_green_to_yellow_seed46_chunk0",
+      "prompt_id": "jacket_green_to_yellow",
+      "evidence": "directional",
+      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
+      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
+      "target_chunk": 0,
+      "num_chunks": 7,
+      "seed": 46,
+      "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "original": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d",
+        "replay": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d",
+        "text_rebind": "7d5aec8c6be5f41eef4b37f88e71bb32a578933a2934846b243ca9945c2cb9dd",
+        "history_recache": "7d5aec8c6be5f41eef4b37f88e71bb32a578933a2934846b243ca9945c2cb9dd",
+        "reverse": "24e967e63ea463f90eead9337e23f42c4e450ed051f08066d28719c3e434742d",
+        "crossattn_control": "7d5aec8c6be5f41eef4b37f88e71bb32a578933a2934846b243ca9945c2cb9dd",
+        "full_regeneration": "7d5aec8c6be5f41eef4b37f88e71bb32a578933a2934846b243ca9945c2cb9dd"
+      },
+      "replay_fidelity": {
+        "mse": 0.0,
+        "rmse": 0.0,
+        "max_abs": 0.0,
+        "cosine": 0.9999999403953552,
+        "relative_l2": 0.0,
+        "exact": true
+      },
+      "control_fidelity_to_replay": {
+        "mse": 0.5607840418815613,
+        "rmse": 0.7488551735877991,
+        "max_abs": 3.875,
+        "cosine": 0.5736116766929626,
+        "relative_l2": 0.9184534549713135,
+        "exact": false
+      },
+      "recache_fidelity_to_replay": {
+        "mse": 0.5607840418815613,
+        "rmse": 0.7488551735877991,
+        "max_abs": 3.875,
+        "cosine": 0.5736116766929626,
+        "relative_l2": 0.9184534549713135,
+        "exact": false
+      },
+      "text_rebind_vs_replay": {
+        "mse": 0.5607840418815613,
+        "rmse": 0.7488551735877991,
+        "max_abs": 3.875,
+        "cosine": 0.5736116766929626,
+        "relative_l2": 0.9184534549713135,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.5607840418815613,
+        "rmse": 0.7488551735877991,
+        "max_abs": 3.875,
+        "cosine": 0.5736116766929626,
+        "relative_l2": 0.9286239147186279,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": true,
+        "max_abs_diff": 0.0,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 0,
+        "differing_tensors": 0,
+        "first_differing_token": null,
+        "last_differing_token": null,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.066650390625,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.1835224167309671,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.28118971836419754,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.1682249469521605,
+            "delta_target_fraction": 0.1015745563271605,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.003907254693930041,
+            "delta_reference_fraction": -0.17961516203703703,
+            "histogram_distance": 0.3742821132809749,
+            "appearance_change": 0.24200154840946198
+          }
+        },
+        "history_recache": {
+          "kind": "color_fraction",
+          "S_proxy": 0.28118971836419754,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.1682249469521605,
+            "delta_target_fraction": 0.1015745563271605,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.003907254693930041,
+            "delta_reference_fraction": -0.17961516203703703,
+            "histogram_distance": 0.3742821132809749,
+            "appearance_change": 0.24200154840946198
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.066650390625,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.1835224167309671,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.28118971836419754,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.1682249469521605,
+            "delta_target_fraction": 0.1015745563271605,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.003907254693930041,
+            "delta_reference_fraction": -0.17961516203703703,
+            "histogram_distance": 0.3742821132809749,
+            "appearance_change": 0.24200154840946198
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.28118971836419754,
+          "measurements": {
+            "target_fraction_base": 0.066650390625,
+            "target_fraction_edited": 0.1682249469521605,
+            "delta_target_fraction": 0.1015745563271605,
+            "reference_fraction_base": 0.1835224167309671,
+            "reference_fraction_edited": 0.003907254693930041,
+            "delta_reference_fraction": -0.17961516203703703,
+            "histogram_distance": 0.3742821132809749,
+            "appearance_change": 0.24200154840946198
+          }
+        }
+      },
+      "editability": {
+        "S_text_rebind": 0.28118971836419754,
+        "S_full_regeneration": 0.28118971836419754,
+        "R_k": 1.0,
+        "chunk0_matches_full_regeneration": true
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": true,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": null,
+        "control_equals_text_rebind": true,
+        "recache_equals_text_rebind": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": 0.962890625,
+        "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
+      },
+      "boundary": {
+        "latent": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.12696504592895508
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.8024174571037292
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.6754524111747742
+          }
+        },
+        "pixel": {
+          "base": {
+            "left_mse": null,
+            "right_mse": 0.007534762844443321
+          },
+          "edited": {
+            "left_mse": null,
+            "right_mse": 0.06233061105012894
+          },
+          "delta": {
+            "delta_left_mse": null,
+            "delta_right_mse": 0.054795848205685616
+          }
+        },
+        "dino": {
+          "right_base": {
+            "mean_cosine": 0.9916259050369263,
+            "mean_cosine_distance": 0.00837409496307373
+          },
+          "right_edited": {
+            "mean_cosine": 0.8287123441696167,
+            "mean_cosine_distance": 0.1712876558303833
+          }
+        }
+      },
+      "cache": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed46__chunk000.pt",
+        "sha256": "6e8628b78ca7692df06ea2a544f616e72188f6c520079708c204084f0d30a7b8",
+        "bytes": 1054834298,
+        "chunk_index": 0,
+        "sample_id": "edit_jacket_green_to_yellow_seed46",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_jacket_green_to_yellow_seed46",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 46,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051771.7017097
+      },
+      "cost": {
+        "full_generation_seconds": 3.5433394461870193,
+        "base_generation_seconds_including_cache_write": 10.247871451079845,
+        "partial_end_to_end_seconds": 3.212148819118738,
+        "partial_generation_seconds": 2.1115021966397762,
+        "partial_compute_seconds": 0.5818236730992794,
+        "disk_load_seconds": 1.4171724021434784,
+        "host_to_device_seconds": 0.11250612139701843,
+        "restore_seconds": 0.012001559138298035,
+        "encode_seconds": 0.059714797884225845,
+        "denoise_seconds": 0.5101073160767555,
+        "decode_seconds": 1.100646622478962,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1054834298,
+        "recache_seconds": 0.07152402400970459,
+        "full_generated_chunks": 7,
+        "partial_regenerated_chunks": 1,
+        "peak_vram_bytes": 20093727744,
+        "R_time_generation": 0.5959073999844863,
+        "R_time_compute": 0.1642020703732968,
+        "R_time_end_to_end": 0.7186476581119325
+      },
+      "videos": {
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk0/edited_chunk_strip.mp4"
+      }
+    },
+    {
+      "sample_id": "edit_jacket_green_to_yellow_seed46_chunk1",
+      "prompt_id": "jacket_green_to_yellow",
+      "evidence": "directional",
+      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
+      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
       "target_chunk": 1,
       "num_chunks": 7,
       "seed": 46,
       "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa",
-        "same_prompt_replay": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa",
-        "local_edit": "c606b7e859b640d2693fcbb9e95614f476b91946c1af19be1774778edb0800f3",
-        "crossattn_control": "befc5d580cea9b469d36a44edd4c0b635d41efcf9f9356757494cb3bac0800fa",
-        "full_regeneration": "73a647158e378250646d85f7779b1a2ab3f234b12bdcfebca1cf18aaa0fa2e96"
+        "original": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd",
+        "replay": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd",
+        "text_rebind": "b23a65fad17b1107cadc4c85cb27210c49cae9ad49fde6e0d7324b9bdbbe73e6",
+        "history_recache": "c0f799ba5ba8d6102ab0dbd31a9d30682a55d75f828b5acfbaa4a986df0c76b3",
+        "reverse": "d9a9cbbd217f71f9dff7e780fafd63888a0ca778e5cf2ae0fa25208b97fab435",
+        "crossattn_control": "d6cbbcce50685114a7ae16c5bee98e7631d3ecfe9850e5212cddbc4a42e8fdcd",
+        "full_regeneration": "0de35245b6f81312eb357167a7b13509f54fb0146ea6358f3318ed1bea30b9f7"
       },
       "replay_fidelity": {
         "mse": 0.0,
@@ -768,14 +1661,55 @@
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
-        "mse": 0.010154095478355885,
-        "rmse": 0.10076753050088882,
-        "max_abs": 1.953125,
-        "cosine": 0.9957889914512634,
-        "relative_l2": 0.09181971102952957,
+      "recache_fidelity_to_replay": {
+        "mse": 0.009680483490228653,
+        "rmse": 0.09838944673538208,
+        "max_abs": 1.7080078125,
+        "cosine": 0.9942623376846313,
+        "relative_l2": 0.10722044855356216,
         "exact": false
       },
+      "text_rebind_vs_replay": {
+        "mse": 0.0056481752544641495,
+        "rmse": 0.07515434175729752,
+        "max_abs": 1.01953125,
+        "cosine": 0.9966455101966858,
+        "relative_l2": 0.08189986646175385,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.0117948604747653,
+        "rmse": 0.10860414803028107,
+        "max_abs": 2.19140625,
+        "cosine": 0.9931839108467102,
+        "relative_l2": 0.11661349982023239,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 6.3828125,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 1295,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.8125,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -783,116 +1717,174 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "luma",
-          "S_proxy": -0.0011273026466369629,
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
           "measurements": {
-            "luma_base": 0.6047691702842712,
-            "luma_edited": 0.6058964729309082,
-            "delta_luma": 0.0011273026466369629,
-            "appearance_change": 0.015859516337513924
-          }
-        },
-        "same_prompt_replay": {
-          "kind": "luma",
-          "S_proxy": -0.0,
-          "measurements": {
-            "luma_base": 0.6047691702842712,
-            "luma_edited": 0.6047691702842712,
-            "delta_luma": 0.0,
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.07009699315200617,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.1890989703896605,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
             "appearance_change": 0.0
           }
         },
-        "crossattn_control": {
-          "kind": "luma",
-          "S_proxy": -0.0,
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0015213577835647835,
           "measurements": {
-            "luma_base": 0.6047691702842712,
-            "luma_edited": 0.6047691702842712,
-            "delta_luma": 0.0,
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.0665622287326389,
+            "delta_target_fraction": -0.003534764419367273,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.18708556375385801,
+            "delta_reference_fraction": -0.0020134066358024894,
+            "histogram_distance": 0.011788524557557582,
+            "appearance_change": 0.01198375504463911
+          }
+        },
+        "history_recache": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0003194926697530631,
+          "measurements": {
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.06766990379050926,
+            "delta_target_fraction": -0.002427089361496909,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.18699137369791666,
+            "delta_reference_fraction": -0.002107596691743846,
+            "histogram_distance": 0.020507587827615793,
+            "appearance_change": 0.014625001698732376
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.2880264093846451,
+          "measurements": {
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.17557478539737653,
+            "delta_target_fraction": 0.10547779224537036,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.0065503532503858024,
+            "delta_reference_fraction": -0.1825486171392747,
+            "histogram_distance": 0.3804632700780578,
+            "appearance_change": 0.2471180111169815
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.07009699315200617,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.1890989703896605,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
             "appearance_change": 0.0
           }
         },
         "full_regeneration": {
-          "kind": "luma",
-          "S_proxy": 0.14425715804100037,
+          "kind": "color_fraction",
+          "S_proxy": 0.28813943745177467,
           "measurements": {
-            "luma_base": 0.6047691702842712,
-            "luma_edited": 0.4605120122432709,
-            "delta_luma": -0.14425715804100037,
-            "appearance_change": 0.26514026522636414
+            "target_fraction_base": 0.07009699315200617,
+            "target_fraction_edited": 0.17458164544753085,
+            "delta_target_fraction": 0.10448465229552469,
+            "reference_fraction_base": 0.1890989703896605,
+            "reference_fraction_edited": 0.005444185233410494,
+            "delta_reference_fraction": -0.18365478515625,
+            "histogram_distance": 0.3765448086464667,
+            "appearance_change": 0.2466246634721756
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": -0.0015213577835647835,
+        "S_full_regeneration": 0.28813943745177467,
+        "R_k": -0.005279935981756785,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.435546875,
+        "outside_max_abs_after_vae": 0.630859375,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.0984857901930809,
-            "right_mse": 0.09070563316345215
+            "left_mse": 0.12696504592895508,
+            "right_mse": 0.11241769045591354
           },
           "edited": {
-            "left_mse": 0.09747673571109772,
-            "right_mse": 0.10353157669305801
+            "left_mse": 0.12490583211183548,
+            "right_mse": 0.13049037754535675
           },
           "delta": {
-            "delta_left_mse": -0.0010090544819831848,
-            "delta_right_mse": 0.012825943529605865
+            "delta_left_mse": -0.0020592138171195984,
+            "delta_right_mse": 0.018072687089443207
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.002259564585983753,
-            "right_mse": 0.0023573508951812983
+            "left_mse": 0.007534762844443321,
+            "right_mse": 0.004394718911498785
           },
           "edited": {
-            "left_mse": 0.0021401578560471535,
-            "right_mse": 0.003684275783598423
+            "left_mse": 0.0075331744737923145,
+            "right_mse": 0.0062256306409835815
           },
           "delta": {
-            "delta_left_mse": -0.00011940672993659973,
-            "delta_right_mse": 0.0013269248884171247
+            "delta_left_mse": -1.5883706510066986e-06,
+            "delta_right_mse": 0.0018309117294847965
           }
         },
         "dino": {
           "left_base": {
-            "mean_cosine": 0.9974890947341919,
-            "mean_cosine_distance": 0.0025109052658081055
+            "mean_cosine": 0.9916259050369263,
+            "mean_cosine_distance": 0.00837409496307373
           },
           "left_edited": {
-            "mean_cosine": 0.9973055124282837,
-            "mean_cosine_distance": 0.0026944875717163086
+            "mean_cosine": 0.9914061427116394,
+            "mean_cosine_distance": 0.008593857288360596
           },
           "right_base": {
-            "mean_cosine": 0.9986273050308228,
-            "mean_cosine_distance": 0.001372694969177246
+            "mean_cosine": 0.9951316118240356,
+            "mean_cosine_distance": 0.0048683881759643555
           },
           "right_edited": {
-            "mean_cosine": 0.997299313545227,
-            "mean_cosine_distance": 0.0027006864547729492
+            "mean_cosine": 0.9942528009414673,
+            "mean_cosine_distance": 0.005747199058532715
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_park_light_rain_seed46__chunk001.pt",
-        "sha256": "0322e3cfc513172477b40506a21bd46d449831b4dccf305bc6d54821dc2ba45b",
-        "bytes": 1055165017,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed46__chunk001.pt",
+        "sha256": "d59e88baa816d2ba884d31ad4dc7ddfee04dea86d292cc2687cc861365c41d87",
+        "bytes": 1055166496,
         "chunk_index": 1,
-        "sample_id": "edit_park_light_rain_seed46",
+        "sample_id": "edit_jacket_green_to_yellow_seed46",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_park_light_rain_seed46",
+          "sample_id": "edit_jacket_green_to_yellow_seed46",
           "chunk_index": 1,
           "num_chunks": 7,
-          "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 46,
           "current_start_frame": 3,
           "latent_shape": [
@@ -903,60 +1895,70 @@
             54
           ]
         },
-        "created_unix": 1789047472.511766
+        "created_unix": 1789051774.450587
       },
       "cost": {
-        "full_generation_seconds": 3.567509800195694,
-        "base_generation_seconds_including_cache_write": 8.206098604947329,
-        "partial_restore_seconds": 0.07252269983291626,
-        "partial_denoise_seconds": 0.5091101266443729,
-        "partial_generation_seconds": 0.5816328264772892,
-        "cache_load_seconds_cold": 0.2953169457614422,
-        "decode_seconds": 0.9253404922783375,
-        "partial_end_to_end_seconds": 1.8022902645170689,
-        "full_end_to_end_seconds": 4.492162451148033,
+        "full_generation_seconds": 3.5433394461870193,
+        "base_generation_seconds_including_cache_write": 10.247871451079845,
+        "partial_end_to_end_seconds": 3.3901496790349483,
+        "partial_generation_seconds": 2.4901109896600246,
+        "partial_compute_seconds": 0.5935205854475498,
+        "disk_load_seconds": 1.7797908075153828,
+        "host_to_device_seconds": 0.11679959669709206,
+        "restore_seconds": 0.012118484824895859,
+        "encode_seconds": 0.059728167951107025,
+        "denoise_seconds": 0.5216739326715469,
+        "decode_seconds": 0.9000386893749237,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055166496,
+        "recache_seconds": 0.1849932074546814,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 17956369408,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055165017,
-        "R_time_generation": 0.16303608372579215,
-        "R_time_end_to_end": 0.4012077221420319
+        "peak_vram_bytes": 20642376704,
+        "R_time_generation": 0.7027582390785698,
+        "R_time_compute": 0.16750316882178368,
+        "R_time_end_to_end": 0.7584714360014607
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk1/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk1/edited_chunk_strip.mp4"
       }
     },
     {
-      "sample_id": "edit_park_light_rain_seed46_chunk4",
-      "prompt_id": "park_light_rain",
-      "base_prompt": "A dog runs through a green park on a sunny day.",
-      "edit_prompt": "A dog runs through a green park in light rain.",
-      "prompt_hash_old": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
-      "prompt_hash_new": "d5c5686c85cdb30217c049ee9a427bf13098b8a42bc218072fc8733be7cb5f39",
+      "sample_id": "edit_jacket_green_to_yellow_seed46_chunk4",
+      "prompt_id": "jacket_green_to_yellow",
+      "evidence": "directional",
+      "base_prompt": "A cyclist in a green jacket rides along a coastal road.",
+      "edit_prompt": "A cyclist in a yellow jacket rides along a coastal road.",
+      "prompt_hash_old": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "prompt_hash_new": "f524b578c4b8559667f9c22106ad2a18c7274cce688d0a3ef30df7b07aa95d4a",
       "target_chunk": 4,
       "num_chunks": 7,
       "seed": 46,
       "noise_sha256": "c9745786a00b12f0a53e672d8de487456ffcfc18b228c274d24560176f9f0ad5",
       "noise_source": "global",
       "chunk_latent_sha256": {
-        "original": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75",
-        "same_prompt_replay": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75",
-        "local_edit": "3a783e788c043551c6b2266ff39100b84ba345140d9834e2b0dc10accd7abf17",
-        "crossattn_control": "382602fd574e02c36756353077340e30dd900e409e9c8503b7d9c57a9b119c75",
-        "full_regeneration": "2e556a10be8e33dbf2ee161aa5dcfddb6286fe01d801e2c22c4256f887e03ecd"
+        "original": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92",
+        "replay": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92",
+        "text_rebind": "a301c29fcc1b92f79cd9ad730cdbff8036d5b0570e1bc744eed02b02e7759488",
+        "history_recache": "e75203f9ae764d0a5f75f77901b240f981fece6cb5b9739fea1b6746d2d5c314",
+        "reverse": "fa7b72d17fe71aa4221b27350cceb8b14ae88fcf3e6b7f1cb532b09b36c5fb4f",
+        "crossattn_control": "d1268a506bf754363dc6e51856a620e1cb97a06b06876cfc7038649ff1d2cd92",
+        "full_regeneration": "3ed1e47e2973e993582a34e2de5700c9e06ab9415879e715b6373a24838e0eb5"
       },
       "replay_fidelity": {
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0000001192092896,
+        "cosine": 1.0,
         "relative_l2": 0.0,
         "exact": true
       },
@@ -964,18 +1966,59 @@
         "mse": 0.0,
         "rmse": 0.0,
         "max_abs": 0.0,
-        "cosine": 1.0000001192092896,
+        "cosine": 1.0,
         "relative_l2": 0.0,
         "exact": true
       },
-      "edit_vs_replay": {
-        "mse": 0.010298057459294796,
-        "rmse": 0.10147934406995773,
-        "max_abs": 1.64453125,
-        "cosine": 0.9957503080368042,
-        "relative_l2": 0.09236395359039307,
+      "recache_fidelity_to_replay": {
+        "mse": 0.001240704208612442,
+        "rmse": 0.03522363305091858,
+        "max_abs": 0.669921875,
+        "cosine": 0.9992154240608215,
+        "relative_l2": 0.03960578516125679,
         "exact": false
       },
+      "text_rebind_vs_replay": {
+        "mse": 0.0011773594887927175,
+        "rmse": 0.03431267291307449,
+        "max_abs": 0.619140625,
+        "cosine": 0.9992556571960449,
+        "relative_l2": 0.038581497967243195,
+        "exact": false
+      },
+      "reverse_vs_full_regeneration": {
+        "mse": 0.00295801879838109,
+        "rmse": 0.05438767001032829,
+        "max_abs": 1.08203125,
+        "cosine": 0.9982244968414307,
+        "relative_l2": 0.05957425758242607,
+        "exact": false
+      },
+      "recache_cache_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 6.3828125,
+        "tensors": 120,
+        "kv_blocks": 30,
+        "differing_blocks": 29,
+        "differing_tensors": 58,
+        "first_differing_token": 0,
+        "last_differing_token": 5183,
+        "cache_len": 5184
+      },
+      "recache_crossattn_matches_checkpoint": {
+        "comparable": true,
+        "exact": false,
+        "max_abs_diff": 13.8125,
+        "tensors": 60,
+        "kv_blocks": 30,
+        "differing_blocks": 30,
+        "differing_tensors": 60,
+        "first_differing_token": 0,
+        "last_differing_token": 15,
+        "cache_len": 512
+      },
+      "recache_note": "recache rebuilds the cache from unchanged latents under the new prompt; the self-attention K/V are prompt-independent, so this should reproduce the checkpoint cache exactly.",
       "rng": {
         "comparable": true,
         "steps": 3,
@@ -983,116 +2026,174 @@
         "exact": true
       },
       "responsiveness": {
-        "local_edit": {
-          "kind": "luma",
-          "S_proxy": -0.0007635354995727539,
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
           "measurements": {
-            "luma_base": 0.5918880701065063,
-            "luma_edited": 0.5926516056060791,
-            "delta_luma": 0.0007635354995727539,
-            "appearance_change": 0.019638245925307274
-          }
-        },
-        "same_prompt_replay": {
-          "kind": "luma",
-          "S_proxy": -0.0,
-          "measurements": {
-            "luma_base": 0.5918880701065063,
-            "luma_edited": 0.5918880701065063,
-            "delta_luma": 0.0,
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.04422411506558642,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.16081708743248457,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
             "appearance_change": 0.0
           }
         },
-        "crossattn_control": {
-          "kind": "luma",
-          "S_proxy": -0.0,
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0005108868634259162,
           "measurements": {
-            "luma_base": 0.5918880701065063,
-            "luma_edited": 0.5918880701065063,
-            "delta_luma": 0.0,
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.04376748167438271,
+            "delta_target_fraction": -0.0004566333912037063,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.16087134090470678,
+            "delta_reference_fraction": 5.4253472222209886e-05,
+            "histogram_distance": 0.0027137797604103826,
+            "appearance_change": 0.0056511759757995605
+          }
+        },
+        "history_recache": {
+          "kind": "color_fraction",
+          "S_proxy": 0.00011227454668210485,
+          "measurements": {
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.04396415051118827,
+            "delta_target_fraction": -0.00025996455439814686,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.16044484833140432,
+            "delta_reference_fraction": -0.0003722391010802517,
+            "histogram_distance": 0.0036793122021743217,
+            "appearance_change": 0.005844843573868275
+          }
+        },
+        "reverse": {
+          "kind": "color_fraction",
+          "S_proxy": 0.2656709647472994,
+          "measurements": {
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.15199411651234568,
+            "delta_target_fraction": 0.10777000144675926,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.0029161241319444445,
+            "delta_reference_fraction": -0.15790096330054013,
+            "histogram_distance": 0.3679582318567868,
+            "appearance_change": 0.2516029179096222
+          }
+        },
+        "crossattn_control": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.04422411506558642,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.16081708743248457,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
             "appearance_change": 0.0
           }
         },
         "full_regeneration": {
-          "kind": "luma",
-          "S_proxy": 0.13200435042381287,
+          "kind": "color_fraction",
+          "S_proxy": 0.2652075496720679,
           "measurements": {
-            "luma_base": 0.5918880701065063,
-            "luma_edited": 0.4598837196826935,
-            "delta_luma": -0.13200435042381287,
-            "appearance_change": 0.26529282331466675
+            "target_fraction_base": 0.04422411506558642,
+            "target_fraction_edited": 0.15142822265625,
+            "delta_target_fraction": 0.10720410759066358,
+            "reference_fraction_base": 0.16081708743248457,
+            "reference_fraction_edited": 0.002813645351080247,
+            "delta_reference_fraction": -0.15800344208140432,
+            "histogram_distance": 0.3690172078985662,
+            "appearance_change": 0.25165045261383057
           }
         }
+      },
+      "editability": {
+        "S_text_rebind": -0.0005108868634259162,
+        "S_full_regeneration": 0.2652075496720679,
+        "R_k": -0.0019263662141505153,
+        "chunk0_matches_full_regeneration": null
+      },
+      "sanity": {
+        "chunk0_text_rebind_equals_full_regeneration": null,
+        "base_and_full_regen_share_rng_stream": true,
+        "base_and_full_regen_share_initial_noise": true,
+        "control_equals_replay": true,
+        "control_equals_text_rebind": null,
+        "recache_equals_text_rebind": false
       },
       "preservation": {
         "outside_exact": true,
         "chunks_checked": 6,
-        "outside_max_abs_after_vae": 0.5673828125,
+        "outside_max_abs_after_vae": 0.302734375,
         "note": "Gate C is asserted on pre-decode latents; the VAE is causal, so any post-decode leak is reported here separately."
       },
       "boundary": {
         "latent": {
           "base": {
-            "left_mse": 0.18405118584632874,
-            "right_mse": 0.09655757993459702
+            "left_mse": 0.090633325278759,
+            "right_mse": 0.08050636947154999
           },
           "edited": {
-            "left_mse": 0.17890509963035583,
-            "right_mse": 0.13582879304885864
+            "left_mse": 0.08959393203258514,
+            "right_mse": 0.08182962238788605
           },
           "delta": {
-            "delta_left_mse": -0.0051460862159729,
-            "delta_right_mse": 0.03927121311426163
+            "delta_left_mse": -0.0010393932461738586,
+            "delta_right_mse": 0.0013232529163360596
           }
         },
         "pixel": {
           "base": {
-            "left_mse": 0.0076502240262925625,
-            "right_mse": 0.0040601082146167755
+            "left_mse": 0.004162494093179703,
+            "right_mse": 0.0022407439537346363
           },
           "edited": {
-            "left_mse": 0.007361711002886295,
-            "right_mse": 0.008326728828251362
+            "left_mse": 0.004041616339236498,
+            "right_mse": 0.0023417531047016382
           },
           "delta": {
-            "delta_left_mse": -0.00028851302340626717,
-            "delta_right_mse": 0.004266620613634586
+            "delta_left_mse": -0.00012087775394320488,
+            "delta_right_mse": 0.00010100915096700191
           }
         },
         "dino": {
           "left_base": {
-            "mean_cosine": 0.994722843170166,
-            "mean_cosine_distance": 0.005277156829833984
+            "mean_cosine": 0.9949404001235962,
+            "mean_cosine_distance": 0.005059599876403809
           },
           "left_edited": {
-            "mean_cosine": 0.9951834082603455,
-            "mean_cosine_distance": 0.004816591739654541
+            "mean_cosine": 0.9952119588851929,
+            "mean_cosine_distance": 0.004788041114807129
           },
           "right_base": {
-            "mean_cosine": 0.9976638555526733,
-            "mean_cosine_distance": 0.00233614444732666
+            "mean_cosine": 0.9955438375473022,
+            "mean_cosine_distance": 0.004456162452697754
           },
           "right_edited": {
-            "mean_cosine": 0.9957889914512634,
-            "mean_cosine_distance": 0.004211008548736572
+            "mean_cosine": 0.9956148266792297,
+            "mean_cosine_distance": 0.004385173320770264
           }
         }
       },
       "cache": {
-        "path": "outputs/edit_ready_mvp/cache/edit_main/edit_park_light_rain_seed46__chunk004.pt",
-        "sha256": "7553953fa3264d2d1dfe68d5ab9f2a8e2642abb8960075e2075f59c7f8c907d0",
-        "bytes": 1055662681,
+        "path": "outputs/edit_ready_mvp/cache/rerun_edit/edit_jacket_green_to_yellow_seed46__chunk004.pt",
+        "sha256": "564eb5f3a1c2ef43c74c7b99be9865bb0f7ac81583e96bbc0d3c7f94af8092c9",
+        "bytes": 1055664160,
         "chunk_index": 4,
-        "sample_id": "edit_park_light_rain_seed46",
+        "sample_id": "edit_jacket_green_to_yellow_seed46",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "edit_park_light_rain_seed46",
+          "sample_id": "edit_jacket_green_to_yellow_seed46",
           "chunk_index": 4,
           "num_chunks": 7,
-          "prompt_hash": "2684e2d057bee38116d92aca8c79361ba8888434877ec2ebad29f0739a0a6ab3",
+          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 46,
           "current_start_frame": 12,
           "latent_shape": [
@@ -1103,48 +2204,81 @@
             54
           ]
         },
-        "created_unix": 1789047476.352826
+        "created_unix": 1789051778.151102
       },
       "cost": {
-        "full_generation_seconds": 3.567509800195694,
-        "base_generation_seconds_including_cache_write": 8.206098604947329,
-        "partial_restore_seconds": 0.07109152153134346,
-        "partial_denoise_seconds": 0.5126350410282612,
-        "partial_generation_seconds": 0.5837265625596046,
-        "cache_load_seconds_cold": 0.27242692559957504,
-        "decode_seconds": 0.9247100949287415,
-        "partial_end_to_end_seconds": 1.7808635830879211,
-        "full_end_to_end_seconds": 4.492162451148033,
+        "full_generation_seconds": 3.5433394461870193,
+        "base_generation_seconds_including_cache_write": 10.247871451079845,
+        "partial_end_to_end_seconds": 3.2841121442615986,
+        "partial_generation_seconds": 2.3877400420606136,
+        "partial_compute_seconds": 0.5835137888789177,
+        "disk_load_seconds": 1.6919588632881641,
+        "host_to_device_seconds": 0.1122673898935318,
+        "restore_seconds": 0.012097455561161041,
+        "encode_seconds": 0.05971076712012291,
+        "denoise_seconds": 0.5117055661976337,
+        "decode_seconds": 0.896372102200985,
+        "page_cache_dropped": true,
+        "cache_bytes_per_chunk": 1049887200,
+        "cache_disk_bytes": 1055664160,
+        "recache_seconds": 0.520394466817379,
         "full_generated_chunks": 7,
         "partial_regenerated_chunks": 1,
-        "peak_vram_bytes": 18296560640,
-        "cache_bytes_per_chunk": 1049887200,
-        "cache_disk_bytes": 1055662681,
-        "R_time_generation": 0.1636229737974608,
-        "R_time_end_to_end": 0.3964379299401332
+        "peak_vram_bytes": 20654859264,
+        "R_time_generation": 0.6738671466065878,
+        "R_time_compute": 0.1646790542483407,
+        "R_time_end_to_end": 0.7347478695268111
       },
       "videos": {
-        "original": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/original.mp4",
-        "full_regeneration": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/full_regeneration.mp4",
-        "same_prompt_replay": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/same_prompt_replay.mp4",
-        "local_edit": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/local_edit.mp4",
-        "crossattn_control": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/crossattn_control.mp4",
-        "comparison": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/comparison.mp4",
-        "edited_chunk_strip": "validation/edit_ready_mvp/videos/edit_park_light_rain_seed46_chunk4/edited_chunk_strip.mp4"
+        "original": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/original.mp4",
+        "full_regeneration": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/full_regeneration.mp4",
+        "text_rebind": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/text_rebind.mp4",
+        "replay": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/replay.mp4",
+        "history_recache": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/history_recache.mp4",
+        "reverse": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/reverse.mp4",
+        "crossattn_control": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/crossattn_control.mp4",
+        "comparison": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/comparison.mp4",
+        "edited_chunk_strip": "validation/edit_ready_mvp/rerun/videos/edit_jacket_green_to_yellow_seed46_chunk4/edited_chunk_strip.mp4"
       }
     }
   ],
   "aggregate": {
-    "cases": 4,
+    "cases": 6,
     "replay_fidelity_mse_mean": 0.0,
-    "s_proxy_local_edit_mean": -0.0001746921995539717,
-    "s_proxy_same_prompt_mean": 0.0,
-    "s_proxy_control_mean": 0.0,
-    "s_proxy_full_regeneration_mean": 0.12459154537430515,
-    "left_boundary_delta_mean": -0.00035883858799934387,
-    "right_boundary_delta_mean": 0.018827972933650017,
-    "R_time_generation_mean": 0.16201747019816137,
-    "R_time_end_to_end_mean": 0.39720756932225776,
+    "recache_fidelity_to_replay_mse_mean": 0.15501672328294566,
+    "s_proxy_text_rebind_mean": 0.06231174547485854,
+    "s_proxy_replay_mean": 0.0,
+    "s_proxy_control_mean": 0.06245177469135802,
+    "s_proxy_full_regeneration_mean": 0.1876275961291152,
+    "R_k_by_chunk": {
+      "1": [
+        -0.0014104921916398949,
+        -0.005279935981756785
+      ],
+      "4": [
+        0.01315131848868003,
+        -0.0019263662141505153
+      ]
+    },
+    "left_boundary_delta_mean": null,
+    "right_boundary_delta_mean": 0.20009466633200645,
+    "R_time_generation_mean": 0.670705626740654,
+    "R_time_end_to_end_mean": 0.7407427935932022,
     "cache_bytes_per_chunk": 1049887200
-  }
+  },
+  "non_finite_fields": [
+    "cases[0].boundary.latent.base.left_mse",
+    "cases[0].boundary.latent.edited.left_mse",
+    "cases[0].boundary.latent.delta.delta_left_mse",
+    "cases[0].boundary.pixel.base.left_mse",
+    "cases[0].boundary.pixel.edited.left_mse",
+    "cases[0].boundary.pixel.delta.delta_left_mse",
+    "cases[3].boundary.latent.base.left_mse",
+    "cases[3].boundary.latent.edited.left_mse",
+    "cases[3].boundary.latent.delta.delta_left_mse",
+    "cases[3].boundary.pixel.base.left_mse",
+    "cases[3].boundary.pixel.edited.left_mse",
+    "cases[3].boundary.pixel.delta.delta_left_mse",
+    "aggregate.left_boundary_delta_mean"
+  ]
 }

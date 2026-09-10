@@ -1,9 +1,12 @@
 {
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
-    "config_sha256": "0e735a0286bf88a072d350a82e1e01b332e1fd4a55b430c4e89847c09d92aa2a",
-    "config_hash": "2665dcc6a8545ec722a38d7f7ed3b60cc741d62238dcd48b4016e406aba00034",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "22f576a70d133783eddb091a236aa612b1e4064a68cd189d5bc496fe48b395c6",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -29,7 +32,7 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789046047.7921076,
+    "created_unix": 1789051324.4139636,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "latent_frames": 6
   },

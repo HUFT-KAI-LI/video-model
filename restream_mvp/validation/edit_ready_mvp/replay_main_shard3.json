@@ -1,10 +1,13 @@
 {
   "experiment": "A_same_prompt_replay",
   "provenance": {
-    "git_commit": "251b0ed522c09a0da20930222f67f8a5b7612039+dirty",
+    "git_commit": "4c4d52f2d6b244da7566f4518edf5bcead4b1640",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "f4482c5e5b95ef48a3aba38cccce80b18908a8bcf0f2f2f39aa16de50b45ef00",
     "config_path": "configs/edit_ready_mvp.yaml",
-    "config_sha256": "a94d8dfedaf0e4a84078b7120c323f824522a643af1a6d728ecf743945e13374",
-    "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
     "model_identity": {
       "longlive": {
         "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
@@ -30,7 +33,7 @@
     "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
     "torch": "2.5.1+cu124",
     "cuda": "12.4",
-    "created_unix": 1789047045.2370138,
+    "created_unix": 1789051587.5871165,
     "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
     "shard": 3,
     "shards": 4,
@@ -58,17 +61,22 @@
     },
     "edit": {
       "targets": [
+        0,
         1,
         4
       ],
       "variants": [
-        "same_prompt_replay",
-        "local_edit",
-        "crossattn_control"
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
       ],
       "prompts": [
         {
           "id": "dress_red_to_blue",
+          "evidence": "directional",
           "base": "A woman in a red dress walks slowly through a bright living room.",
           "edit": "A woman in a blue dress walks slowly through a bright living room.",
           "probe": {
@@ -79,6 +87,7 @@
         },
         {
           "id": "car_red_to_black",
+          "evidence": "directional",
           "base": "A red car drives down a sunny city street.",
           "edit": "A black car drives down a sunny city street.",
           "probe": {
@@ -89,6 +98,7 @@
         },
         {
           "id": "lighting_darker",
+          "evidence": "directional",
           "base": "A cat walks across a bright living room floor in daylight.",
           "edit": "A cat walks across a dim living room floor at night.",
           "probe": {
@@ -98,6 +108,7 @@
         },
         {
           "id": "lighting_warm_to_cool",
+          "evidence": "directional",
           "base": "A person sits at a wooden table in warm sunlight.",
           "edit": "A person sits at a wooden table in cool blue light.",
           "probe": {
@@ -107,7 +118,19 @@
           }
         },
         {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
           "id": "park_light_rain",
+          "evidence": "qualitative",
           "base": "A dog runs through a green park on a sunny day.",
           "edit": "A dog runs through a green park in light rain.",
           "probe": {
@@ -117,6 +140,7 @@
         },
         {
           "id": "brief_smile",
+          "evidence": "qualitative",
           "base": "A man looks at the camera with a neutral expression.",
           "edit": "A man looks at the camera and smiles briefly.",
           "probe": {
@@ -125,20 +149,11 @@
         },
         {
           "id": "slight_zoom_in",
+          "evidence": "qualitative",
           "base": "A slow shot of a vase of flowers on a table.",
           "edit": "A slow close-up shot of a vase of flowers on a table.",
           "probe": {
             "kind": "change"
-          }
-        },
-        {
-          "id": "jacket_green_to_yellow",
-          "base": "A cyclist in a green jacket rides along a coastal road.",
-          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
-          "probe": {
-            "kind": "color_fraction",
-            "color": "yellow",
-            "reference_color": "green"
           }
         }
       ]
@@ -152,14 +167,16 @@
       },
       "edit": {
         "min_s_proxy": 0.0,
-        "min_full_regeneration_ratio": 0.25
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
       },
       "preservation": {
         "require_exact": true
       },
       "boundary": {
         "max_relative_increase": 1.0,
-        "absolute_slack": 0.0001
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
       },
       "cost": {
         "max_time_ratio": 0.5,
@@ -176,6 +193,18 @@
     "epsilon": 1e-12,
     "cosine_floor": 0.999,
     "cases": [
+      {
+        "sample_id": "replay_lighting_warm_to_cool_seed45_chunk0",
+        "prompt_id": "lighting_warm_to_cool",
+        "target_chunk": 0,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
       {
         "sample_id": "replay_lighting_warm_to_cool_seed45_chunk1",
         "prompt_id": "lighting_warm_to_cool",
@@ -201,37 +230,129 @@
         "rng_exact": true
       },
       {
-        "sample_id": "replay_jacket_green_to_yellow_seed49_chunk1",
-        "prompt_id": "jacket_green_to_yellow",
+        "sample_id": "replay_slight_zoom_in_seed49_chunk0",
+        "prompt_id": "slight_zoom_in",
+        "target_chunk": 0,
+        "passed": true,
+        "mode": "exact",
+        "latent_mse": 0.0,
+        "repeat_mse": 0.0,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "rng_exact": true
+      },
+      {
+        "sample_id": "replay_slight_zoom_in_seed49_chunk1",
+        "prompt_id": "slight_zoom_in",
         "target_chunk": 1,
         "passed": true,
         "mode": "exact",
         "latent_mse": 0.0,
         "repeat_mse": 0.0,
-        "cosine": 0.9999997615814209,
+        "cosine": 0.9999999403953552,
         "max_abs": 0.0,
         "rng_exact": true
       },
       {
-        "sample_id": "replay_jacket_green_to_yellow_seed49_chunk4",
-        "prompt_id": "jacket_green_to_yellow",
+        "sample_id": "replay_slight_zoom_in_seed49_chunk4",
+        "prompt_id": "slight_zoom_in",
         "target_chunk": 4,
         "passed": true,
         "mode": "exact",
         "latent_mse": 0.0,
         "repeat_mse": 0.0,
-        "cosine": 1.0,
+        "cosine": 1.000000238418579,
         "max_abs": 0.0,
         "rng_exact": true
       }
     ],
-    "exact_cases": 4,
-    "total_cases": 4,
+    "exact_cases": 6,
+    "total_cases": 6,
     "latent_mse_mean": 0.0,
     "repeat_mse_mean": 0.0,
-    "rng_exact_cases": 4
+    "rng_exact_cases": 6
   },
   "cases": [
+    {
+      "target_chunk": 0,
+      "chunk_latent_sha256": {
+        "original": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d",
+        "replay_one": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d",
+        "replay_two": "3059dae30d07853dbf3fcfbf4d967eee08b8e32bbfa885ec01b33d21b402785d"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0000001192092896,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_lighting_warm_to_cool_seed45__chunk000.pt",
+        "sha256": "09572662a81e678c4e57e62724e5c4cd4467a05fee09787ecc15bd85a9356fee",
+        "bytes": 1054834490,
+        "chunk_index": 0,
+        "sample_id": "replay_lighting_warm_to_cool_seed45",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_lighting_warm_to_cool_seed45",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 45,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051543.5339057
+      },
+      "timings": {
+        "replay_restore_seconds": 0.011703968048095703,
+        "replay_denoise_seconds": 0.5107568614184856
+      },
+      "peak_vram_bytes": 17769635328,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_lighting_warm_to_cool_seed45_chunk0",
+      "prompt_id": "lighting_warm_to_cool",
+      "prompt": "A person sits at a wooden table in warm sunlight.",
+      "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+      "seed": 45,
+      "num_chunks": 7,
+      "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
+      "generate_seconds_including_cache_write": 10.86958223581314
+    },
     {
       "target_chunk": 1,
       "chunk_latent_sha256": {
@@ -264,9 +385,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_lighting_warm_to_cool_seed45__chunk001.pt",
-        "sha256": "995bb091064e8869bc8c7e99550e85c5df03bbc7ef24e6c0e84eadbaf74abecf",
-        "bytes": 1055166625,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_lighting_warm_to_cool_seed45__chunk001.pt",
+        "sha256": "92122a3f284a2ab438b1312c264632aab9936c46d585824014c69d0710e08160",
+        "bytes": 1055166689,
         "chunk_index": 1,
         "sample_id": "replay_lighting_warm_to_cool_seed45",
         "cache_bytes": 1049887200,
@@ -277,7 +398,7 @@
           "num_chunks": 7,
           "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 45,
           "current_start_frame": 3,
           "latent_shape": [
@@ -288,13 +409,13 @@
             54
           ]
         },
-        "created_unix": 1789047014.2975314
+        "created_unix": 1789051546.5654087
       },
       "timings": {
-        "replay_restore_seconds": 0.012246169149875641,
-        "replay_denoise_seconds": 0.4886675886809826
+        "replay_restore_seconds": 0.013261303305625916,
+        "replay_denoise_seconds": 0.49417227506637573
       },
-      "peak_vram_bytes": 17762504192,
+      "peak_vram_bytes": 17761455616,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -310,7 +431,7 @@
       "seed": 45,
       "num_chunks": 7,
       "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
-      "generate_seconds_including_cache_write": 8.228025279939175
+      "generate_seconds_including_cache_write": 10.86958223581314
     },
     {
       "target_chunk": 4,
@@ -344,9 +465,9 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_lighting_warm_to_cool_seed45__chunk004.pt",
-        "sha256": "13bdf094c21f50cddd7d7be237f53fdf837632c7a82fe4b6c7593922466e0598",
-        "bytes": 1055664289,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_lighting_warm_to_cool_seed45__chunk004.pt",
+        "sha256": "b1f51e5355bbe3206be19931833d82353741fb0f0c24f0f543db0124a67920fb",
+        "bytes": 1055664353,
         "chunk_index": 4,
         "sample_id": "replay_lighting_warm_to_cool_seed45",
         "cache_bytes": 1049887200,
@@ -357,7 +478,7 @@
           "num_chunks": 7,
           "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 45,
           "current_start_frame": 12,
           "latent_shape": [
@@ -368,13 +489,13 @@
             54
           ]
         },
-        "created_unix": 1789047017.972853
+        "created_unix": 1789051550.3959122
       },
       "timings": {
-        "replay_restore_seconds": 0.012084990739822388,
-        "replay_denoise_seconds": 0.5001275204122066
+        "replay_restore_seconds": 0.011921603232622147,
+        "replay_denoise_seconds": 0.4979381486773491
       },
-      "peak_vram_bytes": 17772865024,
+      "peak_vram_bytes": 17771816448,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -390,21 +511,21 @@
       "seed": 45,
       "num_chunks": 7,
       "noise_sha256": "58092c5d18f5ecf53110d79726a32766e54e7495315f038c7b81a457daa93542",
-      "generate_seconds_including_cache_write": 8.228025279939175
+      "generate_seconds_including_cache_write": 10.86958223581314
     },
     {
-      "target_chunk": 1,
+      "target_chunk": 0,
       "chunk_latent_sha256": {
-        "original": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
-        "replay_one": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5",
-        "replay_two": "1b6aa4e0f5c763ea402052f89a345f195fde751fd6dc665b848c30fab6f493b5"
+        "original": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51",
+        "replay_one": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51",
+        "replay_two": "d78b8e6f46e34ccab09cb262ba02702df3da542e1098e1b86e99d72fa9ebaa51"
       },
       "latent": {
         "original_vs_replay": {
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 0.9999997615814209,
+          "cosine": 1.0000001192092896,
           "relative_l2": 0.0,
           "exact": true
         },
@@ -412,7 +533,7 @@
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 0.9999997615814209,
+          "cosine": 1.0000001192092896,
           "relative_l2": 0.0,
           "exact": true
         }
@@ -424,20 +545,100 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_jacket_green_to_yellow_seed49__chunk001.pt",
-        "sha256": "8b3e7631e82dfdea5780de9d72492a1dd23291914482dd1a92747de2885e6a4d",
-        "bytes": 1055166818,
-        "chunk_index": 1,
-        "sample_id": "replay_jacket_green_to_yellow_seed49",
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_slight_zoom_in_seed49__chunk000.pt",
+        "sha256": "9cb87ed956ec0d7304367c94de68776a6f3b14acfe50653b7ce5f3a7f769d0e9",
+        "bytes": 1054833146,
+        "chunk_index": 0,
+        "sample_id": "replay_slight_zoom_in_seed49",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "replay_jacket_green_to_yellow_seed49",
+          "sample_id": "replay_slight_zoom_in_seed49",
+          "chunk_index": 0,
+          "num_chunks": 7,
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 49,
+          "current_start_frame": 0,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789051565.8392158
+      },
+      "timings": {
+        "replay_restore_seconds": 0.01192743331193924,
+        "replay_denoise_seconds": 0.5194416604936123
+      },
+      "peak_vram_bytes": 18720896512,
+      "pixel": {
+        "mse": 0.0,
+        "psnr": null,
+        "max_abs": 0.0,
+        "exact": true,
+        "outside_max_abs_after_vae": 0.0,
+        "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
+      },
+      "sample_id": "replay_slight_zoom_in_seed49_chunk0",
+      "prompt_id": "slight_zoom_in",
+      "prompt": "A slow shot of a vase of flowers on a table.",
+      "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
+      "seed": 49,
+      "num_chunks": 7,
+      "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
+      "generate_seconds_including_cache_write": 10.283257231116295
+    },
+    {
+      "target_chunk": 1,
+      "chunk_latent_sha256": {
+        "original": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81",
+        "replay_one": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81",
+        "replay_two": "f3fe66ed49bdbca4fed90af80fe13d64c38470bf67aae74e0307cb4fa8cccc81"
+      },
+      "latent": {
+        "original_vs_replay": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "repeat_baseline": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 0.9999999403953552,
+          "relative_l2": 0.0,
+          "exact": true
+        }
+      },
+      "rng": {
+        "comparable": true,
+        "steps": 3,
+        "max_abs": 0.0,
+        "exact": true
+      },
+      "checkpoint": {
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_slight_zoom_in_seed49__chunk001.pt",
+        "sha256": "47d7054f2d7d5d046e72a13fd89b3da6cb5ea484e34c9ff0dee920cde4d4f7a1",
+        "bytes": 1055165338,
+        "chunk_index": 1,
+        "sample_id": "replay_slight_zoom_in_seed49",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "replay_slight_zoom_in_seed49",
           "chunk_index": 1,
           "num_chunks": 7,
-          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 49,
           "current_start_frame": 3,
           "latent_shape": [
@@ -448,13 +649,13 @@
             54
           ]
         },
-        "created_unix": 1789047030.1804779
+        "created_unix": 1789051568.588706
       },
       "timings": {
-        "replay_restore_seconds": 0.012112408876419067,
-        "replay_denoise_seconds": 0.4820363223552704
+        "replay_restore_seconds": 0.01189132034778595,
+        "replay_denoise_seconds": 0.4941176474094391
       },
-      "peak_vram_bytes": 18721394176,
+      "peak_vram_bytes": 18720896512,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -463,28 +664,28 @@
         "outside_max_abs_after_vae": 0.0,
         "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
       },
-      "sample_id": "replay_jacket_green_to_yellow_seed49_chunk1",
-      "prompt_id": "jacket_green_to_yellow",
-      "prompt": "A cyclist in a green jacket rides along a coastal road.",
-      "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "sample_id": "replay_slight_zoom_in_seed49_chunk1",
+      "prompt_id": "slight_zoom_in",
+      "prompt": "A slow shot of a vase of flowers on a table.",
+      "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
       "seed": 49,
       "num_chunks": 7,
       "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
-      "generate_seconds_including_cache_write": 7.874409478157759
+      "generate_seconds_including_cache_write": 10.283257231116295
     },
     {
       "target_chunk": 4,
       "chunk_latent_sha256": {
-        "original": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
-        "replay_one": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78",
-        "replay_two": "0aebca447aae633c19c6a834ecaecae00bc7bc4a76d22d6df4039a9a3ffb2f78"
+        "original": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71",
+        "replay_one": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71",
+        "replay_two": "b3a68ced69041c684a0ddeb6115416b283998c5226e6b67057d507de33809f71"
       },
       "latent": {
         "original_vs_replay": {
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 1.0,
+          "cosine": 1.000000238418579,
           "relative_l2": 0.0,
           "exact": true
         },
@@ -492,7 +693,7 @@
           "mse": 0.0,
           "rmse": 0.0,
           "max_abs": 0.0,
-          "cosine": 1.0,
+          "cosine": 1.000000238418579,
           "relative_l2": 0.0,
           "exact": true
         }
@@ -504,20 +705,20 @@
         "exact": true
       },
       "checkpoint": {
-        "path": "outputs/edit_ready_mvp/cache/replay_main/replay_jacket_green_to_yellow_seed49__chunk004.pt",
-        "sha256": "b81499a7d1f51566ba46feb483eae427905fc05eb034d92329a7cc997b842cf5",
-        "bytes": 1055664482,
+        "path": "outputs/edit_ready_mvp/cache/rerun_replay/replay_slight_zoom_in_seed49__chunk004.pt",
+        "sha256": "9e5cb73722e6ff7164e2dbad1d0564a2a5d82b838191158107c5d0a0723086b5",
+        "bytes": 1055663002,
         "chunk_index": 4,
-        "sample_id": "replay_jacket_green_to_yellow_seed49",
+        "sample_id": "replay_slight_zoom_in_seed49",
         "cache_bytes": 1049887200,
         "identity": {
           "schema_version": 1,
-          "sample_id": "replay_jacket_green_to_yellow_seed49",
+          "sample_id": "replay_slight_zoom_in_seed49",
           "chunk_index": 4,
           "num_chunks": 7,
-          "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+          "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
           "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
-          "config_hash": "fe8d8629569a5653a6f44fef90b5c5cf6353920a69285cadc02855589d1bc0b2",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
           "seed": 49,
           "current_start_frame": 12,
           "latent_shape": [
@@ -528,13 +729,13 @@
             54
           ]
         },
-        "created_unix": 1789047033.8308725
+        "created_unix": 1789051572.289264
       },
       "timings": {
-        "replay_restore_seconds": 0.012132268399000168,
-        "replay_denoise_seconds": 0.48803528398275375
+        "replay_restore_seconds": 0.011793673038482666,
+        "replay_denoise_seconds": 0.4980154410004616
       },
-      "peak_vram_bytes": 18721394176,
+      "peak_vram_bytes": 18720896512,
       "pixel": {
         "mse": 0.0,
         "psnr": null,
@@ -543,20 +744,22 @@
         "outside_max_abs_after_vae": 0.0,
         "outside_note": "Outside preservation is asserted pre-decode (Gate C); this value is the causal VAE temporal-propagation leak after full-video decode."
       },
-      "sample_id": "replay_jacket_green_to_yellow_seed49_chunk4",
-      "prompt_id": "jacket_green_to_yellow",
-      "prompt": "A cyclist in a green jacket rides along a coastal road.",
-      "prompt_hash": "d4cb60e4f6dc6a53260cf677a0f5eef60e1c2d6124b2f0d59d479869359973b5",
+      "sample_id": "replay_slight_zoom_in_seed49_chunk4",
+      "prompt_id": "slight_zoom_in",
+      "prompt": "A slow shot of a vase of flowers on a table.",
+      "prompt_hash": "1f09932050020b5a53be298a736a071b27e8d8ed56f3b41aaabe29bdd8a96901",
       "seed": 49,
       "num_chunks": 7,
       "noise_sha256": "8906944e3c75e5e64b96c84bfde667d4088c828c1cad5df5637334081f6b93a8",
-      "generate_seconds_including_cache_write": 7.874409478157759
+      "generate_seconds_including_cache_write": 10.283257231116295
     }
   ],
   "non_finite_fields": [
     "cases[0].pixel.psnr",
     "cases[1].pixel.psnr",
     "cases[2].pixel.psnr",
-    "cases[3].pixel.psnr"
+    "cases[3].pixel.psnr",
+    "cases[4].pixel.psnr",
+    "cases[5].pixel.psnr"
   ]
 }

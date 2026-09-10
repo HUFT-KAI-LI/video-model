@@ -55,14 +55,23 @@ run_edit_shards() {
 
 case "$MODE" in
   smoke)
+    # Writes into the git-ignored scratch directory first so the working tree
+    # stays clean while the jobs run (and the recorded provenance stays sealable),
+    # then copies the artifacts into validation/edit_ready_mvp/.
     SHARDS=1
-    mkdir -p "$OUT" "$CACHE/replay_smoke" "$CACHE/edit_smoke"
-    run_replay_shards replay_smoke "$OUT/replay_smoke" "$CACHE/replay_smoke" --cases 1 --targets 0 1
-    run_edit_shards edit_smoke "$OUT/local_edit_smoke" "$CACHE/edit_smoke" "$OUT/videos_smoke" \
-      --cases 1 --targets 0 1
+    SMOKE_OUT="$OUT/rerun_smoke"
+    mkdir -p "$SMOKE_OUT" "$CACHE/replay_smoke" "$CACHE/edit_smoke"
+    run_replay_shards replay_smoke "$SMOKE_OUT/replay_smoke" "$CACHE/replay_smoke" \
+      --cases 2 --targets 0 1
+    run_edit_shards edit_smoke "$SMOKE_OUT/local_edit_smoke" "$CACHE/edit_smoke" \
+      "$SMOKE_OUT/videos_smoke" --cases 2 --targets 0 1
     "$RESTREAM_PYTHON" scripts/summarize_edit_ready_mvp.py \
-      --config "$CONFIG" --replay "$OUT/replay_smoke_shard0.json" \
-      --edit "$OUT/local_edit_smoke_shard0.json" --output "$OUT/summary_smoke.json"
+      --config "$CONFIG" --replay "$SMOKE_OUT/replay_smoke_shard0.json" \
+      --edit "$SMOKE_OUT/local_edit_smoke_shard0.json" --output "$SMOKE_OUT/summary_smoke.json"
+    cp "$SMOKE_OUT/replay_smoke_shard0.json" "$SMOKE_OUT/local_edit_smoke_shard0.json" \
+       "$SMOKE_OUT/summary_smoke.json" "$OUT/"
+    rm -rf "$OUT/videos_smoke"
+    cp -r "$SMOKE_OUT/videos_smoke" "$OUT/videos_smoke"
     ;;
   all-chunks)
     SHARDS=1
