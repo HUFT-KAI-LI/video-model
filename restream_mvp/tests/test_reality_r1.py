@@ -47,7 +47,7 @@ class R1InputsTests(unittest.TestCase):
         global_features, _, _ = select_r1_memory('global_async', prefix, candidates, global_async=features[3][0])
         torch.testing.assert_close(routed[0, 0], features[0][0])
         torch.testing.assert_close(correct[0], features[0])
-        torch.testing.assert_close(global_features[0], features[3])
+        torch.testing.assert_close(global_features[0], features[3][:1])
         with self.assertRaises(ValueError):
             select_r1_memory('global_async', prefix, candidates)
 

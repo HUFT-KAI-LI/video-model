@@ -25,7 +25,7 @@ from restream.runtime import load_pipeline
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=ROOT / 'configs/reality_memory_r1_top1.yaml')
-    parser.add_argument('--branch', choices=('routed', 'correct_only', 'global_async'), default='routed')
+    parser.add_argument('--branch', choices=('routed', 'correct_top1', 'correct_all2', 'correct_only', 'global_async'), default='routed')
     parser.add_argument('--output', type=Path, default=ROOT / 'validation/reality_memory/r1_top1/real_backward.json')
     args = parser.parse_args()
     config = read_reality_config(args.config)

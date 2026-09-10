@@ -1,0 +1,142 @@
+{
+  "status": "passed",
+  "optimizer_updates_per_branch": 10,
+  "matched_schedule": true,
+  "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+  "batch_steps_per_branch": 13,
+  "no_memory_batches": 3,
+  "test_eligible_targets": 0,
+  "branches": {
+    "global_async": {
+      "metrics": {
+        "G_content_matched": {
+          "mean": -0.0005092797800898552,
+          "low": -0.0007422463968396187,
+          "high": -0.00027719559147953987,
+          "n": 8,
+          "positive": 1
+        },
+        "S_route": {
+          "mean": -9.613856673240662e-05,
+          "low": -0.00026416266337037086,
+          "high": 3.8111116737127304e-05,
+          "n": 8,
+          "positive": 3
+        },
+        "routed_minus_oracle": {
+          "mean": -2.5101006031036377e-05,
+          "low": -7.530301809310913e-05,
+          "high": 0.0,
+          "n": 8,
+          "positive": 0
+        },
+        "routed_gain_over_global": {
+          "mean": -0.0004841787740588188,
+          "low": -0.0007046679966151714,
+          "high": -0.0002707298845052719,
+          "n": 8,
+          "positive": 1
+        }
+      },
+      "mean_video_loss": {
+        "none": 0.1350392526946962,
+        "global_async": 0.13393274741247296,
+        "correct_top1": 0.13444202719256282,
+        "correct_all2": 0.1344235218130052,
+        "routed": 0.13441692618653178,
+        "wrong_top1": 0.13432078761979938
+      }
+    },
+    "correct_top1": {
+      "metrics": {
+        "G_content_matched": {
+          "mean": -8.369050920009613e-05,
+          "low": -0.00018614716827869415,
+          "high": 1.9385945051908493e-05,
+          "n": 8,
+          "positive": 3
+        },
+        "S_route": {
+          "mean": 1.696869730949402e-05,
+          "low": -8.071400225162506e-05,
+          "high": 0.00011822767555713654,
+          "n": 8,
+          "positive": 4
+        },
+        "routed_minus_oracle": {
+          "mean": -3.859400749206543e-06,
+          "low": -1.1578202247619629e-05,
+          "high": 0.0,
+          "n": 8,
+          "positive": 0
+        },
+        "routed_gain_over_global": {
+          "mean": -7.983110845088959e-05,
+          "low": -0.00017726654186844826,
+          "high": 2.0332634449005127e-05,
+          "n": 8,
+          "positive": 3
+        }
+      },
+      "mean_video_loss": {
+        "none": 0.1350392526946962,
+        "global_async": 0.13452805066481233,
+        "correct_top1": 0.13461174117401242,
+        "correct_all2": 0.13469585962593555,
+        "routed": 0.13460788177326322,
+        "wrong_top1": 0.1346248504705727
+      }
+    },
+    "routed": {
+      "metrics": {
+        "G_content_matched": {
+          "mean": -0.0004883771762251854,
+          "low": -0.0007931147702038288,
+          "high": -0.0002260003238916397,
+          "n": 8,
+          "positive": 1
+        },
+        "S_route": {
+          "mean": -4.677753895521164e-05,
+          "low": -0.00024801352992653847,
+          "high": 0.00013339100405573845,
+          "n": 8,
+          "positive": 4
+        },
+        "routed_minus_oracle": {
+          "mean": -8.028000593185425e-07,
+          "low": -2.4084001779556274e-06,
+          "high": 0.0,
+          "n": 8,
+          "positive": 0
+        },
+        "routed_gain_over_global": {
+          "mean": -0.00048757437616586685,
+          "low": -0.0007931147702038288,
+          "high": -0.00022519752383232117,
+          "n": 8,
+          "positive": 1
+        }
+      },
+      "mean_video_loss": {
+        "none": 0.1350392526946962,
+        "global_async": 0.1339754918590188,
+        "correct_top1": 0.134463869035244,
+        "correct_all2": 0.13440440967679024,
+        "routed": 0.13446306623518467,
+        "wrong_top1": 0.13441628869622946
+      }
+    }
+  },
+  "report_sha256": {
+    "global_async": "43efa8a9df336daee33c412b4923bdd6f285afc60d18cf51d7077e61f766ac42",
+    "correct_top1": "db5d9e7a6c1e75266b19d2421c16650b88cd8ed042e0bde98da4ae1e6b51e8b3",
+    "routed": "5e77eeb7ddfe8086c5095a3b10c9fff7b29db3909b7116dbae6852b888b1f1db"
+  },
+  "no_memory_loss_max_cross_run_difference": 0.0,
+  "dev_unique_targets": 8,
+  "noise_seeds": [
+    50000
+  ],
+  "interpretation": "Preliminary 8-target Dev mechanism experiment. Inspect each trained checkpoint counterfactually; no untouched Test exists under the sealed rules. Do not infer quality from training loss alone."
+}

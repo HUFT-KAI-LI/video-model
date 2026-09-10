@@ -54,12 +54,21 @@ def select_r1_memory(branch, prefix, candidates, reference_count=2, global_async
         raise ValueError('Expected correct async K + hard wrong K candidate bank')
     if branch == 'routed':
         return FrozenStateRouter(temperature=temperature)(prefix, candidates)
-    if branch == 'correct_only':
+    if branch in ('correct_top1', 'wrong_top1'):
+        offset = 0 if branch == 'correct_top1' else reference_count
+        features, mask, stats = FrozenStateRouter(temperature=temperature)(prefix, candidates[:, offset:offset+reference_count])
+        stats['selected_indices'] = stats['selected_indices'] + offset
+        return features, mask, stats
+    if branch in ('correct_only', 'correct_all2'):
         features = candidates[:, :reference_count]
     elif branch == 'global_async':
         if global_async is None or global_async.shape != candidates.shape[-2:] or not torch.isfinite(global_async).all():
             raise ValueError('Global baseline requires a finite train-only async mean')
-        features = global_async[None, None].expand(candidates.shape[0], reference_count, -1, -1)
+        features = global_async[None, None].expand(candidates.shape[0], 1, -1, -1)
+    elif branch == 'none':
+        features = torch.zeros_like(candidates[:, :1])
+        mask = torch.zeros(features.shape[:2], device=features.device, dtype=torch.bool)
+        return features, mask, {'active': mask.any(-1)}
     else:
         raise ValueError('Unknown R1 branch')
     mask = torch.ones(features.shape[:2], device=features.device, dtype=torch.bool)

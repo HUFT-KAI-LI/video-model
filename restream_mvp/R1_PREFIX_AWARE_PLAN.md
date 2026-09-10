@@ -1,5 +1,7 @@
 # R1 计划：Prefix-State-Aware Reality Memory
 
+最新阶段见 [R1_MATCHED_EXPERIMENTS.md](R1_MATCHED_EXPERIMENTS.md)：Test 资格已封存（0/100 eligible）、K=1 oracle、专用 trainer 和 2→10 update matched 实验。下面保留前一轮工程验收背景；“尚未执行/尚未封存”均描述该历史阶段。
+
 R0 作为基线**冻结**：不再加 loss、不扩训练步数。R0 的无更新反事实 probe 已定位问题——text-only query 主要学到通用视觉条件 prior，而不是“按当前世界选择现实照片”的能力（[R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)）。
 
 R1 分三阶段推进，每阶段都有独立、可证伪的 gate；本轮完成检索脚本修复、Top-1 路由、Train/Dev/Test source 固定、strict-online Train 与真实 LongLive 单次 forward/backward 验证。仅验证梯度连通性，optimizer updates 固定为 0。

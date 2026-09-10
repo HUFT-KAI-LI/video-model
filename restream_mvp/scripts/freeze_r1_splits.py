@@ -25,8 +25,15 @@ def main():
     rows = {name: read_manifest(path) for name, path in inputs.items()}
     # Only reports predating R1 participate; generated R1 checks cannot change
     # the frozen membership on a deterministic replay.
-    reports = sorted(p for p in (ROOT / 'validation').rglob('*.json')
-                     if 'r1_top1' not in p.parts)
+    lock_path = ROOT/'data/r1_split_lock.json'
+    if lock_path.exists():
+        prior = json.loads(lock_path.read_text())['prior_diagnostic_reports']
+        reports = [ROOT/name for name in sorted(prior)]
+        if any(digest(path) != prior[str(path.relative_to(ROOT))] for path in reports):
+            raise ValueError('Historical diagnostic report changed after the source lock')
+    else:
+        reports = sorted(p for p in (ROOT / 'validation').rglob('*.json')
+                         if 'r1_top1' not in p.parts)
     diagnostic_sources = diagnostic_source_ids(rows['train'] + rows['val'],
                                                [json.loads(p.read_text()) for p in reports])
     train, dev, test = freeze_sources(rows['train'], rows['val'],

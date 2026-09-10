@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "optimizer_updates_per_branch": 2,
+  "matched_schedule": true,
+  "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+  "batch_steps_per_branch": 3,
+  "no_memory_batches": 1,
+  "test_eligible_targets": 0,
+  "branches": {
+    "global_async": {
+      "second_update_projector_grad_norm": 0.00014029075997853513,
+      "parameter_change_norms": {
+        "projector.net.0.weight": 0.00021755503257736564,
+        "projector.net.0.bias": 0.0002529488119762391,
+        "projector.net.1.weight": 0.0036265745293349028,
+        "projector.net.1.bias": 0.00020907980797346681,
+        "projector.net.3.weight": 0.003015748457983136,
+        "projector.net.3.bias": 0.0002280924963997677,
+        "query.0.weight": 0.0002694980357773602,
+        "query.0.bias": 0.0005228736554272473,
+        "query.1.weight": 0.00927699450403452,
+        "query.1.bias": 0.00020307718659751117,
+        "key.weight": 0.0006190274143591523,
+        "key.bias": 7.473861387552461e-07,
+        "value.weight": 0.003307472914457321,
+        "value.bias": 0.00023567338939756155,
+        "output.weight": 0.02397705614566803,
+        "output.bias": 0.001498711877502501,
+        "gate.0.weight": 0.002663161139935255,
+        "gate.0.bias": 0.00015870117931626737,
+        "gate.2.weight": 0.00016291727661155164,
+        "gate.2.bias": 1.5497207641601562e-05
+      }
+    },
+    "correct_top1": {
+      "second_update_projector_grad_norm": 0.00014072843099550682,
+      "parameter_change_norms": {
+        "projector.net.0.weight": 0.00022883251949679106,
+        "projector.net.0.bias": 0.00025522735086269677,
+        "projector.net.1.weight": 0.003808241570368409,
+        "projector.net.1.bias": 0.00021651454153470695,
+        "projector.net.3.weight": 0.0031243637204170227,
+        "projector.net.3.bias": 0.0002307094109710306,
+        "query.0.weight": 0.0002313709119334817,
+        "query.0.bias": 0.00046724278945475817,
+        "query.1.weight": 0.008608984760940075,
+        "query.1.bias": 0.00019576448539737612,
+        "key.weight": 0.000957653799559921,
+        "key.bias": 1.2716731134787551e-06,
+        "value.weight": 0.00336046633310616,
+        "value.bias": 0.00023622367007192224,
+        "output.weight": 0.023870393633842468,
+        "output.bias": 0.0014996175887063146,
+        "gate.0.weight": 0.0024714863393455744,
+        "gate.0.bias": 0.00015638039621990174,
+        "gate.2.weight": 0.00016235848306678236,
+        "gate.2.bias": 1.5497207641601562e-05
+      }
+    },
+    "routed": {
+      "second_update_projector_grad_norm": 0.00013488463642096816,
+      "parameter_change_norms": {
+        "projector.net.0.weight": 0.00022618236835114658,
+        "projector.net.0.bias": 0.0002534795203246176,
+        "projector.net.1.weight": 0.003712132340297103,
+        "projector.net.1.bias": 0.0002120753488270566,
+        "projector.net.3.weight": 0.003042919095605612,
+        "projector.net.3.bias": 0.00022824022744316608,
+        "query.0.weight": 0.00019395026902202517,
+        "query.0.bias": 0.00040927919326350093,
+        "query.1.weight": 0.007858430035412312,
+        "query.1.bias": 0.00018592082778923213,
+        "key.weight": 0.0010802526958286762,
+        "key.bias": 1.2075853419446503e-06,
+        "value.weight": 0.0033209684770554304,
+        "value.bias": 0.00023598743428010494,
+        "output.weight": 0.02385883405804634,
+        "output.bias": 0.001498995115980506,
+        "gate.0.weight": 0.0022918605245649815,
+        "gate.0.bias": 0.00015332682232838124,
+        "gate.2.weight": 0.00016058686014730483,
+        "gate.2.bias": 1.5497207641601562e-05
+      }
+    }
+  },
+  "report_sha256": {
+    "global_async": "a8f91268f0f643f69a0d2155f2e595c00b7822f78332fad62f82a8cc29ca0340",
+    "correct_top1": "211c92dfdc15a39a5d7c99db9327174c9e55da035771010d5248ae21f2167554",
+    "routed": "cf1182cf937d415cd769f771ef5be866c6d66d38fa557005433e575cca6a0758"
+  }
+}

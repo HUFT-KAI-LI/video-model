@@ -1,0 +1,301 @@
+{
+  "status": "passed",
+  "stage": "r1a_matched",
+  "branch": "global_async",
+  "optimizer_steps": 2,
+  "batch_steps": 3,
+  "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+  "final_adapter_sha256": "3b118b6c5a6e468ca43d68c1d0e73c2411b0c3b08e735a2fc06b70975b25cb64",
+  "records": [
+    {
+      "batch_step": 1,
+      "optimizer_steps": 0,
+      "updated": false,
+      "index": 163,
+      "no_memory": true,
+      "noise_seed": 1707723745,
+      "sample_id": "2122a19036c3050458eadd66",
+      "donor_sample_id": "6a39f08078fe3a466a1288c9",
+      "loss": 0.09032543003559113,
+      "video_loss": 0.09032543003559113,
+      "delta_square": 0.0,
+      "learning_rate": 1e-05,
+      "gradient_norm": 0.0,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.0,
+        "output.bias": 0.0,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [],
+      "no_memory_unchanged": true
+    },
+    {
+      "batch_step": 2,
+      "optimizer_steps": 1,
+      "updated": true,
+      "index": 347,
+      "no_memory": false,
+      "noise_seed": 547378779,
+      "sample_id": "335db5d97fbf24fc4058e9ad",
+      "donor_sample_id": "c82dfd7f4f0f50e166b398eb",
+      "loss": 0.403644323348999,
+      "video_loss": 0.403644323348999,
+      "delta_square": 0.0,
+      "learning_rate": 1e-05,
+      "gradient_norm": 1.1633517742156982,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.9761351346969604,
+        "output.bias": 0.6328881978988647,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 3,
+      "optimizer_steps": 2,
+      "updated": true,
+      "index": 57,
+      "no_memory": false,
+      "noise_seed": 66272455,
+      "sample_id": "a4b26861f7487b573d02a82e",
+      "donor_sample_id": "279b46fb356d82a67a3bbfa4",
+      "loss": 0.11333826184272766,
+      "video_loss": 0.11333826184272766,
+      "delta_square": 1.399577564953347e-09,
+      "learning_rate": 2e-05,
+      "gradient_norm": 0.01759776845574379,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 4.896758127870271e-06,
+        "projector.net.0.bias": 4.591731340042315e-06,
+        "projector.net.1.weight": 0.00011807878036051989,
+        "projector.net.1.bias": 7.623529199918266e-06,
+        "projector.net.3.weight": 7.308897329494357e-05,
+        "projector.net.3.bias": 1.7138276234618388e-05,
+        "query.0.weight": 7.157854042816325e-07,
+        "query.0.bias": 1.6495249610670726e-06,
+        "query.1.weight": 7.336201088037342e-05,
+        "query.1.bias": 2.822545184244518e-06,
+        "key.weight": 8.769604846747825e-07,
+        "key.bias": 7.030334647772918e-10,
+        "value.weight": 5.693140337825753e-05,
+        "value.bias": 2.2686564989271574e-05,
+        "output.weight": 0.014766780659556389,
+        "output.bias": 0.009570425376296043,
+        "gate.0.weight": 2.7990654416498728e-05,
+        "gate.0.bias": 6.64594108457095e-06,
+        "gate.2.weight": 1.664290903136134e-05,
+        "gate.2.bias": 2.574920654296875e-05
+      },
+      "selected_indices": [],
+      "no_memory_unchanged": false
+    }
+  ],
+  "parameter_change_norms": {
+    "projector.net.0.weight": 0.00021755503257736564,
+    "projector.net.0.bias": 0.0002529488119762391,
+    "projector.net.1.weight": 0.0036265745293349028,
+    "projector.net.1.bias": 0.00020907980797346681,
+    "projector.net.3.weight": 0.003015748457983136,
+    "projector.net.3.bias": 0.0002280924963997677,
+    "query.0.weight": 0.0002694980357773602,
+    "query.0.bias": 0.0005228736554272473,
+    "query.1.weight": 0.00927699450403452,
+    "query.1.bias": 0.00020307718659751117,
+    "key.weight": 0.0006190274143591523,
+    "key.bias": 7.473861387552461e-07,
+    "value.weight": 0.003307472914457321,
+    "value.bias": 0.00023567338939756155,
+    "output.weight": 0.02397705614566803,
+    "output.bias": 0.001498711877502501,
+    "gate.0.weight": 0.002663161139935255,
+    "gate.0.bias": 0.00015870117931626737,
+    "gate.2.weight": 0.00016291727661155164,
+    "gate.2.bias": 1.5497207641601562e-05
+  },
+  "signature": {
+    "config": {
+      "seed": 42,
+      "data": {
+        "train_manifest": "data/reality_train_online.jsonl",
+        "val_manifest": "data/reality_val_online.jsonl",
+        "frames": 57,
+        "fps": 16,
+        "height": 256,
+        "width": 432,
+        "workers": 4,
+        "selection_seed": 42,
+        "temporal_sampling": "causal_previous",
+        "source_train_manifest": "data/r1_train_sources.jsonl",
+        "source_val_manifest": "data/r1_dev_sources.jsonl",
+        "r1_split_lock": "data/r1_split_lock.json",
+        "test_eligibility": "data/r1_test_eligibility.json"
+      },
+      "model": {
+        "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+        "wan": "models/Wan2.1-T2V-1.3B",
+        "longlive": "models/LongLive-1.3B"
+      },
+      "reality_memory": {
+        "stage": "r1a",
+        "encoder": {
+          "type": "dinov2",
+          "path": "models/dinov2-small",
+          "feature_dim": 384,
+          "image_size": 224,
+          "frozen": true
+        },
+        "feature_cache": "data/reality_features",
+        "references": {
+          "selection_protocol": "strict_online",
+          "async_direction": "past_only",
+          "global_constant_features": "data/reality_global_mean_features_online.pt",
+          "pool_size": 8,
+          "allow_legacy_offline_manifest": false,
+          "min_count": 1,
+          "max_count": 4,
+          "async_probability": 0.5,
+          "aligned_probability": 0.2,
+          "no_memory_probability": 0.15,
+          "wrong_memory_probability": 0.15,
+          "per_reference_dropout": 0.0,
+          "min_gap_sec": 1.5,
+          "near_radius_sec": 0.5,
+          "boundary_margin_sec": 0.2
+        },
+        "filter": {
+          "histogram_cut": 0.5,
+          "pixel_jump": 0.35,
+          "black_level": 16,
+          "black_fraction": 0.95,
+          "scene_similarity": 0.65,
+          "workers": 8
+        },
+        "projector": {
+          "num_memory_tokens": 8,
+          "memory_dim": 256
+        },
+        "guidance": {
+          "mode": "context",
+          "context_dim": 4096,
+          "heads": 4,
+          "gate_init_logit": -2.0,
+          "zero_init": true
+        },
+        "regularization": {
+          "delta_weight": 1e-05,
+          "wrong_gate_weight": 0.0
+        },
+        "objective": {
+          "prefix_latents": 6,
+          "future_blocks": 1
+        },
+        "router": {
+          "mode": "top1",
+          "temperature": 0.1,
+          "reference_count": 2,
+          "prefix_frames": 3
+        }
+      },
+      "train": {
+        "backbone_frozen": true,
+        "max_steps": 100,
+        "lr": 0.0001,
+        "weight_decay": 0.01,
+        "warmup_steps": 10,
+        "save_every": 10,
+        "eval_every": 50,
+        "grad_clip": 1.0,
+        "world_size": 1,
+        "no_memory_probability": 0.25
+      },
+      "eval": {
+        "cases": 8,
+        "reference_counts": [
+          0,
+          1,
+          2,
+          4,
+          8
+        ],
+        "target_seed": 20260911,
+        "noise_seeds": [
+          50000
+        ]
+      }
+    },
+    "branch": "global_async",
+    "encoder": {
+      "schema": 1,
+      "weights": {
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1",
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "preprocessor_config.json": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828"
+      },
+      "image_size": 224,
+      "num_tokens": 8,
+      "preprocess": "AutoImageProcessor/PIL-RGB/transformers-4.49.0",
+      "pool": "spatial-adaptive-average-patch-tokens/no-cls"
+    },
+    "manifests": {
+      "train": "97e3dae7bfd819465caf8bffe4547c23d8a27f273bcf0b447cbd421b39ff77d6",
+      "val": "5f0533ccdb344c0e8c6096798c6c294ae3da57cebb026c575e1e0f03542573f9"
+    },
+    "split_lock": "14c4d153aa39cc6dd92bc8070bb9cdcc9c56e07310a69e307f640e8c6d4be2fe",
+    "global_mean": "79562edf0583d16b094dc6b6d63544dcd4c582ec4f2562b599d0cb0fae2f17a8",
+    "test_seal": {
+      "report_sha256": "c848cb85766f762328cf832c5e8c4391c324fad6a260a8ba840441ef0ea3e3a6",
+      "policy_sha256": "858f96d76a689853d495221486f664adcb367d2750bf1570aeb33fc1bee81bf6",
+      "test_manifest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "eligible_targets": 0
+    },
+    "implementation": {
+      "train_reality_r1.py": "fd4eb4211bbdee9fb7ee715f36079a47e5c60a1d187dd909b62cc23dad9231b4",
+      "restream/reality_r1_training.py": "a0b10530bbc15295334da405f71c1550aaa5b19d90ce5215633945adb7010293",
+      "restream/reality_r1.py": "cee8c0fd56683d899c272f11bb4a21c24d3b4bd84e6892be444a94c8f04889a9",
+      "restream/reality_router.py": "c81e0f664e77dd7afdabb9e60f7ce688719fa59cb440d2f91b03b47fb7658e96",
+      "restream/reality_memory.py": "542f8fd66da0dfa0764cb0d8a83bc9b920c127616212a97020fa20cb7bd1fd33",
+      "restream/objective.py": "3c261c0f043b8398ec4b38bf38fdd1e1903f01524350e156920fb948647972dd",
+      "restream/reality_runtime.py": "ab787ce000878bdd5d341f772f09a68b183ce3767a74a104cb2db1a27b8bcafe",
+      "restream/runtime.py": "7ee64b028fe3c2d4c6ac0632aac81268087a16a6fcfb8cb89cf96dc2cf04d2d9"
+    }
+  },
+  "backbones_frozen": true,
+  "peak_vram_bytes": 45115405312,
+  "gpu": "NVIDIA A800-SXM4-80GB",
+  "checkpoint": "/workspace/video-model/restream_mvp/checkpoints/r1_matched_v1/global_async/update_0002.pt"
+}

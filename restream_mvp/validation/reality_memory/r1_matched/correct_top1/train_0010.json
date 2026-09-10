@@ -1,0 +1,743 @@
+{
+  "status": "passed",
+  "stage": "r1a_matched",
+  "branch": "correct_top1",
+  "optimizer_steps": 10,
+  "batch_steps": 13,
+  "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+  "final_adapter_sha256": "59f253e510c8af53646b348f5d6c4c573b72c051097d438020b5b483943947b9",
+  "records": [
+    {
+      "batch_step": 1,
+      "optimizer_steps": 0,
+      "updated": false,
+      "index": 163,
+      "no_memory": true,
+      "noise_seed": 1707723745,
+      "sample_id": "2122a19036c3050458eadd66",
+      "donor_sample_id": "6a39f08078fe3a466a1288c9",
+      "loss": 0.09032543003559113,
+      "video_loss": 0.09032543003559113,
+      "delta_square": 0.0,
+      "learning_rate": 1e-05,
+      "gradient_norm": 0.0,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.0,
+        "output.bias": 0.0,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": true
+    },
+    {
+      "batch_step": 2,
+      "optimizer_steps": 1,
+      "updated": true,
+      "index": 347,
+      "no_memory": false,
+      "noise_seed": 547378779,
+      "sample_id": "335db5d97fbf24fc4058e9ad",
+      "donor_sample_id": "c82dfd7f4f0f50e166b398eb",
+      "loss": 0.403644323348999,
+      "video_loss": 0.403644323348999,
+      "delta_square": 0.0,
+      "learning_rate": 1e-05,
+      "gradient_norm": 1.1415417194366455,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.9479914307594299,
+        "output.bias": 0.6359479427337646,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 3,
+      "optimizer_steps": 2,
+      "updated": true,
+      "index": 57,
+      "no_memory": false,
+      "noise_seed": 66272455,
+      "sample_id": "a4b26861f7487b573d02a82e",
+      "donor_sample_id": "279b46fb356d82a67a3bbfa4",
+      "loss": 0.11349263787269592,
+      "video_loss": 0.11349263787269592,
+      "delta_square": 4.732553238184778e-10,
+      "learning_rate": 2e-05,
+      "gradient_norm": 0.017839280888438225,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 3.6044541502633365e-06,
+        "projector.net.0.bias": 4.818394245376112e-06,
+        "projector.net.1.weight": 0.00011150993668707088,
+        "projector.net.1.bias": 8.01718942966545e-06,
+        "projector.net.3.weight": 8.27881958684884e-05,
+        "projector.net.3.bias": 2.038763341261074e-05,
+        "query.0.weight": 5.499343274095736e-07,
+        "query.0.bias": 1.2363911991997156e-06,
+        "query.1.weight": 5.560519275604747e-05,
+        "query.1.bias": 2.1155469767109025e-06,
+        "key.weight": 2.116395762641332e-06,
+        "key.bias": 1.215149203481758e-09,
+        "value.weight": 6.501694588223472e-05,
+        "value.bias": 2.9324721253942698e-05,
+        "output.weight": 0.014244946651160717,
+        "output.bias": 0.010737434960901737,
+        "gate.0.weight": 2.0671062884503044e-05,
+        "gate.0.bias": 4.995028120902134e-06,
+        "gate.2.weight": 1.2234559108037502e-05,
+        "gate.2.bias": 1.9311904907226562e-05
+      },
+      "selected_indices": [
+        [
+          0
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 4,
+      "optimizer_steps": 3,
+      "updated": true,
+      "index": 715,
+      "no_memory": false,
+      "noise_seed": 1310881432,
+      "sample_id": "cca84f25e7efc80c5fab8c39",
+      "donor_sample_id": "9705eed01f9877632950e51e",
+      "loss": 0.026620041579008102,
+      "video_loss": 0.026620041579008102,
+      "delta_square": 2.3460235976102695e-09,
+      "learning_rate": 3e-05,
+      "gradient_norm": 0.061266981065273285,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 1.8411206838209182e-05,
+        "projector.net.0.bias": 2.2133135644253343e-05,
+        "projector.net.1.weight": 0.0005959113477729261,
+        "projector.net.1.bias": 3.629227285273373e-05,
+        "projector.net.3.weight": 0.0004302332818042487,
+        "projector.net.3.bias": 8.944636647356674e-05,
+        "query.0.weight": 1.8200736349172075e-06,
+        "query.0.bias": 4.437766165210633e-06,
+        "query.1.weight": 0.000187023586477153,
+        "query.1.bias": 7.588468633912271e-06,
+        "key.weight": 1.8309342522115912e-06,
+        "key.bias": 1.7694297138604043e-09,
+        "value.weight": 0.0003565049555618316,
+        "value.bias": 0.00012681051157414913,
+        "output.weight": 0.05291852355003357,
+        "output.bias": 0.030863136053085327,
+        "gate.0.weight": 6.891084194649011e-05,
+        "gate.0.bias": 1.7899326849146746e-05,
+        "gate.2.weight": 4.079546852153726e-05,
+        "gate.2.bias": 7.009506225585938e-05
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 5,
+      "optimizer_steps": 4,
+      "updated": true,
+      "index": 444,
+      "no_memory": false,
+      "noise_seed": 1173492417,
+      "sample_id": "f50caaf4c5c1cf68f566a96d",
+      "donor_sample_id": "393c9281853e94b2abc70c96",
+      "loss": 0.10756532847881317,
+      "video_loss": 0.10756532847881317,
+      "delta_square": 8.543628915447243e-09,
+      "learning_rate": 4e-05,
+      "gradient_norm": 0.12362731993198395,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 7.227520109154284e-05,
+        "projector.net.0.bias": 9.355508518638089e-05,
+        "projector.net.1.weight": 0.0021987291984260082,
+        "projector.net.1.bias": 0.00015506119234487414,
+        "projector.net.3.weight": 0.0015198808396235108,
+        "projector.net.3.bias": 0.0004088473506271839,
+        "query.0.weight": 1.0187582120124716e-05,
+        "query.0.bias": 2.5003748305607587e-05,
+        "query.1.weight": 0.0010312835220247507,
+        "query.1.bias": 4.276844265405089e-05,
+        "key.weight": 2.6267895009368658e-05,
+        "key.bias": 1.7839747457060184e-08,
+        "value.weight": 0.001395681407302618,
+        "value.bias": 0.0005809266585856676,
+        "output.weight": 0.10444281995296478,
+        "output.bias": 0.06606295704841614,
+        "gate.0.weight": 0.00040322463610209525,
+        "gate.0.bias": 0.00010092143929796293,
+        "gate.2.weight": 0.0002630980161484331,
+        "gate.2.bias": 0.0003910064697265625
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 6,
+      "optimizer_steps": 4,
+      "updated": false,
+      "index": 134,
+      "no_memory": true,
+      "noise_seed": 1731112113,
+      "sample_id": "1824b3eaa9130e5e84c13917",
+      "donor_sample_id": "2dc6bfa98dd4c070585840f2",
+      "loss": 0.2042197436094284,
+      "video_loss": 0.2042197436094284,
+      "delta_square": 0.0,
+      "learning_rate": 5e-05,
+      "gradient_norm": 0.0,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.0,
+        "output.bias": 0.0,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": true
+    },
+    {
+      "batch_step": 7,
+      "optimizer_steps": 5,
+      "updated": true,
+      "index": 160,
+      "no_memory": false,
+      "noise_seed": 1951822619,
+      "sample_id": "84f2b608225b272848ecd049",
+      "donor_sample_id": "3d88b98e5b5b2e986f051452",
+      "loss": 0.10120071470737457,
+      "video_loss": 0.10120071470737457,
+      "delta_square": 3.709699569753866e-08,
+      "learning_rate": 5e-05,
+      "gradient_norm": 0.03191796690225601,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 1.8760651073534973e-05,
+        "projector.net.0.bias": 2.2179161533131264e-05,
+        "projector.net.1.weight": 0.0005767176044173539,
+        "projector.net.1.bias": 3.6977213312638924e-05,
+        "projector.net.3.weight": 0.0004157548537477851,
+        "projector.net.3.bias": 8.784810052020475e-05,
+        "query.0.weight": 3.063609483433538e-06,
+        "query.0.bias": 7.250883754750248e-06,
+        "query.1.weight": 0.00031211005989462137,
+        "query.1.bias": 1.2406319910951424e-05,
+        "key.weight": 5.182330369279953e-06,
+        "key.bias": 4.03842648211139e-09,
+        "value.weight": 0.00036830478347837925,
+        "value.bias": 0.00012408346810843796,
+        "output.weight": 0.027791842818260193,
+        "output.bias": 0.015670806169509888,
+        "gate.0.weight": 0.00011852710304083303,
+        "gate.0.bias": 2.899810715462081e-05,
+        "gate.2.weight": 6.507380749098957e-05,
+        "gate.2.bias": 0.0001125335693359375
+      },
+      "selected_indices": [
+        [
+          0
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 8,
+      "optimizer_steps": 6,
+      "updated": true,
+      "index": 556,
+      "no_memory": false,
+      "noise_seed": 1793004547,
+      "sample_id": "1572dc1a1511b1e4aea0d0ef",
+      "donor_sample_id": "e1e3cadbf84e1b9f2eb13d66",
+      "loss": 1.0938467979431152,
+      "video_loss": 1.0938467979431152,
+      "delta_square": 3.919580038314052e-08,
+      "learning_rate": 6e-05,
+      "gradient_norm": 0.01831752248108387,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 4.6034783736104146e-06,
+        "projector.net.0.bias": 5.598029019893147e-06,
+        "projector.net.1.weight": 0.0001385898212902248,
+        "projector.net.1.bias": 8.852072824083734e-06,
+        "projector.net.3.weight": 9.850905189523473e-05,
+        "projector.net.3.bias": 2.125191895174794e-05,
+        "query.0.weight": 1.3000465060031274e-07,
+        "query.0.bias": 1.6526546176010015e-07,
+        "query.1.weight": 1.8150947653339244e-05,
+        "query.1.bias": 2.8333974455563293e-07,
+        "key.weight": 4.126152362005087e-06,
+        "key.bias": 2.559237932686642e-09,
+        "value.weight": 8.15662497188896e-05,
+        "value.bias": 2.9381000786088407e-05,
+        "output.weight": 0.015683118253946304,
+        "output.bias": 0.009462242014706135,
+        "gate.0.weight": 2.5915280730259838e-06,
+        "gate.0.bias": 6.175106364025851e-07,
+        "gate.2.weight": 1.6899374486456509e-06,
+        "gate.2.bias": 2.3990869522094727e-06
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 9,
+      "optimizer_steps": 7,
+      "updated": true,
+      "index": 304,
+      "no_memory": false,
+      "noise_seed": 193690018,
+      "sample_id": "06d8cc79e58e8ce5a2fb0238",
+      "donor_sample_id": "2b6e2accdc7e7cb491c810b7",
+      "loss": 0.2399531453847885,
+      "video_loss": 0.2399531453847885,
+      "delta_square": 8.123944184035281e-08,
+      "learning_rate": 7e-05,
+      "gradient_norm": 0.02132345922291279,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 1.9619294107542373e-05,
+        "projector.net.0.bias": 2.2916216039448045e-05,
+        "projector.net.1.weight": 0.0005660015158355236,
+        "projector.net.1.bias": 3.664245014078915e-05,
+        "projector.net.3.weight": 0.0004151230677962303,
+        "projector.net.3.bias": 9.437149856239557e-05,
+        "query.0.weight": 3.1725883218314266e-06,
+        "query.0.bias": 7.225463377835695e-06,
+        "query.1.weight": 0.00031433519325219095,
+        "query.1.bias": 1.2317398613959085e-05,
+        "key.weight": 1.4816512702964246e-05,
+        "key.bias": 5.706097372382146e-09,
+        "value.weight": 0.0003400465939193964,
+        "value.bias": 0.00013153741019777954,
+        "output.weight": 0.017928319051861763,
+        "output.bias": 0.011510813608765602,
+        "gate.0.weight": 0.0001119524531532079,
+        "gate.0.bias": 2.88888350041816e-05,
+        "gate.2.weight": 6.621831562370062e-05,
+        "gate.2.bias": 0.0001125335693359375
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 10,
+      "optimizer_steps": 8,
+      "updated": true,
+      "index": 575,
+      "no_memory": false,
+      "noise_seed": 2010074437,
+      "sample_id": "db4750fef8d34d9bb2c954b9",
+      "donor_sample_id": "270b5a9c892b212bcfd44548",
+      "loss": 0.23581041395664215,
+      "video_loss": 0.23581041395664215,
+      "delta_square": 1.3721250979870092e-07,
+      "learning_rate": 8e-05,
+      "gradient_norm": 0.08124662190675735,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0001902300864458084,
+        "projector.net.0.bias": 0.00023789600527379662,
+        "projector.net.1.weight": 0.006254842504858971,
+        "projector.net.1.bias": 0.0004001743800472468,
+        "projector.net.3.weight": 0.0038842575158923864,
+        "projector.net.3.bias": 0.001018222887068987,
+        "query.0.weight": 2.054749165836256e-05,
+        "query.0.bias": 5.053804852650501e-05,
+        "query.1.weight": 0.002132709138095379,
+        "query.1.bias": 8.580663416069001e-05,
+        "key.weight": 3.4108456020476297e-05,
+        "key.bias": 3.065373377353353e-08,
+        "value.weight": 0.0033437181264162064,
+        "value.bias": 0.0014344017254188657,
+        "output.weight": 0.06547733396291733,
+        "output.bias": 0.04731810837984085,
+        "gate.0.weight": 0.0007624432910233736,
+        "gate.0.bias": 0.0002014724595937878,
+        "gate.2.weight": 0.00043792190263047814,
+        "gate.2.bias": 0.00078582763671875
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 11,
+      "optimizer_steps": 9,
+      "updated": true,
+      "index": 601,
+      "no_memory": false,
+      "noise_seed": 1653990342,
+      "sample_id": "20069e9fea82affdf9ec1ed2",
+      "donor_sample_id": "83331f777cee5974b908f300",
+      "loss": 0.0586981475353241,
+      "video_loss": 0.0586981475353241,
+      "delta_square": 9.942475287516572e-08,
+      "learning_rate": 9e-05,
+      "gradient_norm": 0.01809637062251568,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 5.3001189371570945e-05,
+        "projector.net.0.bias": 6.648887210758403e-05,
+        "projector.net.1.weight": 0.0015908032655715942,
+        "projector.net.1.bias": 0.00011003957479260862,
+        "projector.net.3.weight": 0.0011679681483656168,
+        "projector.net.3.bias": 0.00028039366588927805,
+        "query.0.weight": 7.876661584305111e-06,
+        "query.0.bias": 1.777012221282348e-05,
+        "query.1.weight": 0.0008204169571399689,
+        "query.1.bias": 3.0121684176265262e-05,
+        "key.weight": 7.4400973062438425e-06,
+        "key.bias": 5.524540380719145e-09,
+        "value.weight": 0.001018622308038175,
+        "value.bias": 0.0003946556826122105,
+        "output.weight": 0.015325363725423813,
+        "output.bias": 0.009302597492933273,
+        "gate.0.weight": 0.00031293233041651547,
+        "gate.0.bias": 7.07239523762837e-05,
+        "gate.2.weight": 0.0001833186688600108,
+        "gate.2.bias": 0.0002765655517578125
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    },
+    {
+      "batch_step": 12,
+      "optimizer_steps": 9,
+      "updated": false,
+      "index": 328,
+      "no_memory": true,
+      "noise_seed": 1658972155,
+      "sample_id": "30bb4f21c71c23bb9398fe0f",
+      "donor_sample_id": "c7234c3af9de9a4dc7ba8d89",
+      "loss": 0.11028318107128143,
+      "video_loss": 0.11028318107128143,
+      "delta_square": 0.0,
+      "learning_rate": 0.0001,
+      "gradient_norm": 0.0,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.0,
+        "output.bias": 0.0,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": true
+    },
+    {
+      "batch_step": 13,
+      "optimizer_steps": 10,
+      "updated": true,
+      "index": 648,
+      "no_memory": false,
+      "noise_seed": 1081647701,
+      "sample_id": "503dcc28abeffcf5e206ebd3",
+      "donor_sample_id": "1e7742a89f702d5dbb7b53f2",
+      "loss": 0.06109464913606644,
+      "video_loss": 0.06109464913606644,
+      "delta_square": 1.699788612086195e-07,
+      "learning_rate": 0.0001,
+      "gradient_norm": 0.009306687861680984,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 8.162325684679672e-06,
+        "projector.net.0.bias": 8.581456313550007e-06,
+        "projector.net.1.weight": 0.00022259840625338256,
+        "projector.net.1.bias": 1.3882776329410262e-05,
+        "projector.net.3.weight": 0.00015782083210069686,
+        "projector.net.3.bias": 3.6078625271329656e-05,
+        "query.0.weight": 1.3844531849827035e-06,
+        "query.0.bias": 2.927490641013719e-06,
+        "query.1.weight": 0.00013793498510494828,
+        "query.1.bias": 4.9134018809127156e-06,
+        "key.weight": 1.0075125828734599e-05,
+        "key.bias": 5.209464415401044e-09,
+        "value.weight": 0.0001306812046095729,
+        "value.bias": 4.878237086813897e-05,
+        "output.weight": 0.008013686165213585,
+        "output.bias": 0.004719626624137163,
+        "gate.0.weight": 5.1040926337009296e-05,
+        "gate.0.bias": 1.1481624824227765e-05,
+        "gate.2.weight": 3.0488554330077022e-05,
+        "gate.2.bias": 4.506111145019531e-05
+      },
+      "selected_indices": [
+        [
+          1
+        ]
+      ],
+      "no_memory_unchanged": false
+    }
+  ],
+  "parameter_change_norms": {
+    "projector.net.0.weight": 0.0034023544285446405,
+    "projector.net.0.bias": 0.0030312524177134037,
+    "projector.net.1.weight": 0.0543372742831707,
+    "projector.net.1.bias": 0.0023563008289784193,
+    "projector.net.3.weight": 0.044945161789655685,
+    "projector.net.3.bias": 0.0019453339045867324,
+    "query.0.weight": 0.007407192140817642,
+    "query.0.bias": 0.006901934277266264,
+    "query.1.weight": 0.15634071826934814,
+    "query.1.bias": 0.002001377521082759,
+    "key.weight": 0.03202531486749649,
+    "key.bias": 0.00014963728608563542,
+    "value.weight": 0.043287474662065506,
+    "value.bias": 0.0018334363121539354,
+    "output.weight": 0.17892421782016754,
+    "output.bias": 0.011260394006967545,
+    "gate.0.weight": 0.03853166848421097,
+    "gate.0.bias": 0.0013578771613538265,
+    "gate.2.weight": 0.0015342703554779291,
+    "gate.2.bias": 0.00013315677642822266
+  },
+  "signature": {
+    "config": {
+      "seed": 42,
+      "data": {
+        "train_manifest": "data/reality_train_online.jsonl",
+        "val_manifest": "data/reality_val_online.jsonl",
+        "frames": 57,
+        "fps": 16,
+        "height": 256,
+        "width": 432,
+        "workers": 4,
+        "selection_seed": 42,
+        "temporal_sampling": "causal_previous",
+        "source_train_manifest": "data/r1_train_sources.jsonl",
+        "source_val_manifest": "data/r1_dev_sources.jsonl",
+        "r1_split_lock": "data/r1_split_lock.json",
+        "test_eligibility": "data/r1_test_eligibility.json"
+      },
+      "model": {
+        "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+        "wan": "models/Wan2.1-T2V-1.3B",
+        "longlive": "models/LongLive-1.3B"
+      },
+      "reality_memory": {
+        "stage": "r1a",
+        "encoder": {
+          "type": "dinov2",
+          "path": "models/dinov2-small",
+          "feature_dim": 384,
+          "image_size": 224,
+          "frozen": true
+        },
+        "feature_cache": "data/reality_features",
+        "references": {
+          "selection_protocol": "strict_online",
+          "async_direction": "past_only",
+          "global_constant_features": "data/reality_global_mean_features_online.pt",
+          "pool_size": 8,
+          "allow_legacy_offline_manifest": false,
+          "min_count": 1,
+          "max_count": 4,
+          "async_probability": 0.5,
+          "aligned_probability": 0.2,
+          "no_memory_probability": 0.15,
+          "wrong_memory_probability": 0.15,
+          "per_reference_dropout": 0.0,
+          "min_gap_sec": 1.5,
+          "near_radius_sec": 0.5,
+          "boundary_margin_sec": 0.2
+        },
+        "filter": {
+          "histogram_cut": 0.5,
+          "pixel_jump": 0.35,
+          "black_level": 16,
+          "black_fraction": 0.95,
+          "scene_similarity": 0.65,
+          "workers": 8
+        },
+        "projector": {
+          "num_memory_tokens": 8,
+          "memory_dim": 256
+        },
+        "guidance": {
+          "mode": "context",
+          "context_dim": 4096,
+          "heads": 4,
+          "gate_init_logit": -2.0,
+          "zero_init": true
+        },
+        "regularization": {
+          "delta_weight": 1e-05,
+          "wrong_gate_weight": 0.0
+        },
+        "objective": {
+          "prefix_latents": 6,
+          "future_blocks": 1
+        },
+        "router": {
+          "mode": "top1",
+          "temperature": 0.1,
+          "reference_count": 2,
+          "prefix_frames": 3
+        }
+      },
+      "train": {
+        "backbone_frozen": true,
+        "max_steps": 100,
+        "lr": 0.0001,
+        "weight_decay": 0.01,
+        "warmup_steps": 10,
+        "save_every": 10,
+        "eval_every": 50,
+        "grad_clip": 1.0,
+        "world_size": 1,
+        "no_memory_probability": 0.25
+      },
+      "eval": {
+        "cases": 8,
+        "reference_counts": [
+          0,
+          1,
+          2,
+          4,
+          8
+        ],
+        "target_seed": 20260911,
+        "noise_seeds": [
+          50000
+        ]
+      }
+    },
+    "branch": "correct_top1",
+    "encoder": {
+      "schema": 1,
+      "weights": {
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1",
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "preprocessor_config.json": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828"
+      },
+      "image_size": 224,
+      "num_tokens": 8,
+      "preprocess": "AutoImageProcessor/PIL-RGB/transformers-4.49.0",
+      "pool": "spatial-adaptive-average-patch-tokens/no-cls"
+    },
+    "manifests": {
+      "train": "97e3dae7bfd819465caf8bffe4547c23d8a27f273bcf0b447cbd421b39ff77d6",
+      "val": "5f0533ccdb344c0e8c6096798c6c294ae3da57cebb026c575e1e0f03542573f9"
+    },
+    "split_lock": "14c4d153aa39cc6dd92bc8070bb9cdcc9c56e07310a69e307f640e8c6d4be2fe",
+    "global_mean": "79562edf0583d16b094dc6b6d63544dcd4c582ec4f2562b599d0cb0fae2f17a8",
+    "test_seal": {
+      "report_sha256": "c848cb85766f762328cf832c5e8c4391c324fad6a260a8ba840441ef0ea3e3a6",
+      "policy_sha256": "858f96d76a689853d495221486f664adcb367d2750bf1570aeb33fc1bee81bf6",
+      "test_manifest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "eligible_targets": 0
+    },
+    "implementation": {
+      "train_reality_r1.py": "fd4eb4211bbdee9fb7ee715f36079a47e5c60a1d187dd909b62cc23dad9231b4",
+      "restream/reality_r1_training.py": "a0b10530bbc15295334da405f71c1550aaa5b19d90ce5215633945adb7010293",
+      "restream/reality_r1.py": "cee8c0fd56683d899c272f11bb4a21c24d3b4bd84e6892be444a94c8f04889a9",
+      "restream/reality_router.py": "c81e0f664e77dd7afdabb9e60f7ce688719fa59cb440d2f91b03b47fb7658e96",
+      "restream/reality_memory.py": "542f8fd66da0dfa0764cb0d8a83bc9b920c127616212a97020fa20cb7bd1fd33",
+      "restream/objective.py": "3c261c0f043b8398ec4b38bf38fdd1e1903f01524350e156920fb948647972dd",
+      "restream/reality_runtime.py": "ab787ce000878bdd5d341f772f09a68b183ce3767a74a104cb2db1a27b8bcafe",
+      "restream/runtime.py": "7ee64b028fe3c2d4c6ac0632aac81268087a16a6fcfb8cb89cf96dc2cf04d2d9"
+    }
+  },
+  "backbones_frozen": true,
+  "peak_vram_bytes": 45113080832,
+  "gpu": "NVIDIA A800-SXM4-80GB",
+  "checkpoint": "/workspace/video-model/restream_mvp/checkpoints/r1_matched_v1/correct_top1/update_0010.pt"
+}

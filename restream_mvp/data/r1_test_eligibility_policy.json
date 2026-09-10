@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "selection_identity": {
+    "schema": 3,
+    "protocol": "strict_online",
+    "async_direction": "past_only",
+    "min_gap_sec": 1.5,
+    "near_radius_sec": 0.5,
+    "boundary_margin_sec": 0.2,
+    "prefix_latents": 6,
+    "frames": 57,
+    "fps": 16,
+    "scene_similarity": 0.65,
+    "pool_size": 8,
+    "min_count": 1,
+    "selection_seed": 42,
+    "temporal_sampling": "causal_previous",
+    "shot_filter_hash": "b4aefc833721dddd779c440f818a6f47f2e9a7fe42130d866ebbf68e17fc46dc"
+  },
+  "selection_config_hash": "98d31a907d3a976a2e3481dbac3763dbc813602a96e5107296ab506b589a3ef7",
+  "filter": {
+    "histogram_cut": 0.5,
+    "pixel_jump": 0.35,
+    "black_level": 16,
+    "black_fraction": 0.95,
+    "scene_similarity": 0.65,
+    "workers": 8
+  },
+  "input_sha256": {
+    "data/r1_split_lock.json": "14c4d153aa39cc6dd92bc8070bb9cdcc9c56e07310a69e307f640e8c6d4be2fe",
+    "data/r1_test_sources.jsonl": "33811b07acbc87e5a4dd1dc1c0c8ec31066fb63848255f431e47ae124c1b9ffb",
+    "data/reality_shots.jsonl": "dd3278b70b0aafab1c887c48c80dafbbd7b55221204a92c0be5797d92228f9c8"
+  },
+  "implementation_sha256": {
+    "scripts/build_reality_manifest.py": "c0f0fbc1a04ca5eea1e3b7ab3637f5a0c9545840b36e9481a444cd3f0a122853",
+    "scripts/seal_r1_test.py": "a98e4bde4aea8185ae0bf84232ad5ef8158bf87fedddc651848d7c9e9eac771c",
+    "restream/dataset.py": "cc8ae9e5fcc0cb5bbb3293275e8e9938ba86c0b4d1cf08d14da16d4f02dae8d5",
+    "restream/reality_dataset.py": "e6b1e3a7bec45cc737a8f1af613b525ecc7217fbe5978bb7d95767d2bc8ca30d",
+    "restream/reality_data.py": "7a38867282725d2a03c361b6edc026b916953cb62006017e936e92c50e0cccc1",
+    "restream/reality_temporal.py": "241afea271aaf55bc9b0a182241f22468b4c12ad9ca6ccc098f59fea1c859fc2"
+  },
+  "rules": "Same Train/Dev candidate builder, unchanged RNG/gap/pool/scene/shot thresholds; validate full target decode and strict prefix invariant. No source replacement. Unexpected runtime/provenance failures abort rather than silently reject. Same-split donors require >=2 targets; retain a singleton with no wrong bank.",
+  "models_run": false
+}

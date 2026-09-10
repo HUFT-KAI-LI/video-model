@@ -1,0 +1,315 @@
+{
+  "status": "passed",
+  "optimizer_steps": 0,
+  "backward_steps": 5,
+  "identical_input_repeat_gradient_difference_norm": 0.004463796969503164,
+  "base_loss": 0.3283647298812866,
+  "sample_id": "d68aece999b6a13f66b2598c",
+  "noise_seed": 123,
+  "adapter_seed": 42,
+  "prefix_frames": [
+    0,
+    10,
+    20
+  ],
+  "branches": {
+    "global_async": {
+      "loss": 0.3283647298812866,
+      "base_loss_exact_equal": true,
+      "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+      "memory_shape": [
+        1,
+        1,
+        8,
+        384
+      ],
+      "memory_sha256": "72399ae9afe92692bc6a17af4d031f68ff47a8d531be0265dff7eb5fbff95b2b",
+      "output_weight_gradient_sha256": "382162f72c024e9ccf62cdef5db2d05794a70f67fdde28d9e3fbf340d8c07927",
+      "output_weight_gradient_norm": 0.29699304699897766,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.29699328541755676,
+        "output.bias": 0.19258414208889008,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "routing": {
+        "active": [
+          true
+        ]
+      }
+    },
+    "correct_top1": {
+      "loss": 0.3283647298812866,
+      "base_loss_exact_equal": true,
+      "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+      "memory_shape": [
+        1,
+        1,
+        8,
+        384
+      ],
+      "memory_sha256": "ec579cdb1bd3f9b77aa61b800bfb085cb6f9b2443390ad0c3288738f4e53c5bf",
+      "output_weight_gradient_sha256": "138e2919c95d45bb9dfa6bfb45dd2398c2f05e6165a27866e10bd6aa642444a5",
+      "output_weight_gradient_norm": 0.3259914815425873,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.3259904682636261,
+        "output.bias": 0.19220475852489471,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "routing": {
+        "router_scores": [
+          [
+            0.5202910900115967,
+            0.7216531038284302
+          ]
+        ],
+        "router_weights": [
+          [
+            0.11778029799461365,
+            0.882219672203064
+          ]
+        ],
+        "active": [
+          true
+        ],
+        "selected_indices": [
+          [
+            1
+          ]
+        ],
+        "selected_weights": [
+          [
+            1.0
+          ]
+        ]
+      }
+    },
+    "correct_all2": {
+      "loss": 0.3283647298812866,
+      "base_loss_exact_equal": true,
+      "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+      "memory_shape": [
+        1,
+        2,
+        8,
+        384
+      ],
+      "memory_sha256": "0f58413636ecb804f88847f529f0e7753978ea7a6a9b347d613a4cf2c57f8082",
+      "output_weight_gradient_sha256": "e0d98545e7f7312f1e9c16be5d820cf9819437d065aea22eff58d06d3a408262",
+      "output_weight_gradient_norm": 0.31796905398368835,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.31796926259994507,
+        "output.bias": 0.19320841133594513,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "routing": {
+        "active": [
+          true
+        ]
+      }
+    },
+    "routed": {
+      "loss": 0.3283647298812866,
+      "base_loss_exact_equal": true,
+      "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+      "memory_shape": [
+        1,
+        1,
+        8,
+        384
+      ],
+      "memory_sha256": "ec579cdb1bd3f9b77aa61b800bfb085cb6f9b2443390ad0c3288738f4e53c5bf",
+      "output_weight_gradient_sha256": "3f7e163265b2754e6893554fc120b590e892a5b264405e56a14dc9af15f5668e",
+      "output_weight_gradient_norm": 0.32609856128692627,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.32609695196151733,
+        "output.bias": 0.1922643482685089,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "routing": {
+        "router_scores": [
+          [
+            0.5202910900115967,
+            0.7216531038284302,
+            0.3814117908477783,
+            0.3695763349533081
+          ]
+        ],
+        "router_weights": [
+          [
+            0.1115909293293953,
+            0.8358590006828308,
+            0.027828114107251167,
+            0.024721967056393623
+          ]
+        ],
+        "active": [
+          true
+        ],
+        "selected_indices": [
+          [
+            1
+          ]
+        ],
+        "selected_weights": [
+          [
+            1.0
+          ]
+        ]
+      }
+    },
+    "routed_repeat": {
+      "loss": 0.3283647298812866,
+      "base_loss_exact_equal": true,
+      "initial_adapter_sha256": "1360749ba3de349c02666051c643110c54b5146f63ca65933624c7f3df6febe0",
+      "memory_shape": [
+        1,
+        1,
+        8,
+        384
+      ],
+      "memory_sha256": "ec579cdb1bd3f9b77aa61b800bfb085cb6f9b2443390ad0c3288738f4e53c5bf",
+      "output_weight_gradient_sha256": "c4b0e29915306dbdda3da149a9fd7474e1dfa2825cbd0a7479e973746ca76735",
+      "output_weight_gradient_norm": 0.3258174657821655,
+      "parameter_gradient_norms": {
+        "projector.net.0.weight": 0.0,
+        "projector.net.0.bias": 0.0,
+        "projector.net.1.weight": 0.0,
+        "projector.net.1.bias": 0.0,
+        "projector.net.3.weight": 0.0,
+        "projector.net.3.bias": 0.0,
+        "query.0.weight": 0.0,
+        "query.0.bias": 0.0,
+        "query.1.weight": 0.0,
+        "query.1.bias": 0.0,
+        "key.weight": 0.0,
+        "key.bias": 0.0,
+        "value.weight": 0.0,
+        "value.bias": 0.0,
+        "output.weight": 0.32581639289855957,
+        "output.bias": 0.19208842515945435,
+        "gate.0.weight": 0.0,
+        "gate.0.bias": 0.0,
+        "gate.2.weight": 0.0,
+        "gate.2.bias": 0.0
+      },
+      "routing": {
+        "router_scores": [
+          [
+            0.5202910900115967,
+            0.7216531038284302,
+            0.3814117908477783,
+            0.3695763349533081
+          ]
+        ],
+        "router_weights": [
+          [
+            0.1115909293293953,
+            0.8358590006828308,
+            0.027828114107251167,
+            0.024721967056393623
+          ]
+        ],
+        "active": [
+          true
+        ],
+        "selected_indices": [
+          [
+            1
+          ]
+        ],
+        "selected_weights": [
+          [
+            1.0
+          ]
+        ]
+      }
+    }
+  },
+  "comparisons_to_routed": {
+    "global_async": {
+      "same_memory_as_routed": false,
+      "gradient_difference_norm": 0.32646462321281433
+    },
+    "correct_top1": {
+      "same_memory_as_routed": true,
+      "gradient_difference_norm": 0.0041059269569814205
+    },
+    "correct_all2": {
+      "same_memory_as_routed": false,
+      "gradient_difference_norm": 0.12494920194149017
+    }
+  },
+  "train_manifest_sha256": "97e3dae7bfd819465caf8bffe4547c23d8a27f273bcf0b447cbd421b39ff77d6",
+  "test_eligibility_sha256": "c848cb85766f762328cf832c5e8c4391c324fad6a260a8ba840441ef0ea3e3a6",
+  "backbone_gradients_none": true,
+  "peak_vram_bytes": 45011971072,
+  "interpretation": "Identical memory matches within measured BF16/FlexAttention repeat noise; cross-branch difference <=3x repeat norm and <5% gradient norm. Global/correct content gradients differ."
+}

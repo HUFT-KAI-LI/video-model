@@ -33,7 +33,7 @@ def selection_times(start, length, arrival, protocol):
     raise ValueError("Unknown reference selection protocol")
 
 
-def candidate(row, shots, config):
+def candidate(row, shots, config, rejection_reasons=None):
     refs = config["reality_memory"]["references"]
     length = (config["data"]["frames"] - 1) / config["data"]["fps"]
     margin, gap = refs["boundary_margin_sec"], refs["min_gap_sec"]
@@ -41,6 +41,8 @@ def candidate(row, shots, config):
     # Require room for past observations, even when 'both' is enabled.
     eligible = [(i, shot) for i, shot in enumerate(shots)
                 if shot["end"] - shot["start"] >= length + 2 * margin + gap + .5]
+    if not eligible and rejection_reasons is not None:
+        rejection_reasons.append("no_continuous_shot_long_enough")
     rng.shuffle(eligible)
     max_k = refs["pool_size"]
     for shot_id, shot in eligible:
@@ -67,6 +69,8 @@ def candidate(row, shots, config):
                 sampled.append(actual)
             visible_until = sampled[-1]
             if visible_until < start - 1e-6:
+                if rejection_reasons is not None:
+                    rejection_reasons.append("no_frame_inside_prefix")
                 continue  # No frame inside the prefix window at this frame rate.
             target_hist = np.mean(histograms, axis=0)
         else:
@@ -90,12 +94,16 @@ def candidate(row, shots, config):
             if len(async_refs) == max_k:
                 break
         if len(async_refs) != max_k:
+            if rejection_reasons is not None:
+                rejection_reasons.append("insufficient_async_pool_after_gap_time_similarity_checks")
             continue
         radius = refs["near_radius_sec"]
         strict = protocol == "strict_online"
         upper = visible_until if strict else min(start + length, start + arrival + radius)
         low = max(start, start + arrival - radius)
         if upper < low:
+            if rejection_reasons is not None:
+                rejection_reasons.append("no_causal_aligned_interval")
             continue  # Coarse or missing frames leave no room for a near-aligned reference.
         aligned = []
         for _ in range(max_k * 8):
@@ -112,6 +120,8 @@ def candidate(row, shots, config):
             if len(aligned) == max_k:
                 break
         if len(aligned) != max_k:
+            if rejection_reasons is not None:
+                rejection_reasons.append("insufficient_aligned_pool_after_time_similarity_checks")
             continue
         if strict:
             if any(ref["time"] > visible_until + 1e-6 for ref in async_refs + aligned):
