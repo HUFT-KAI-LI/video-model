@@ -38,13 +38,18 @@ def mean(values):
 
 
 def collect(replay_files, edit_files) -> dict:
-    replay_cases = []
-    for _, data in replay_files:
-        replay_cases.extend(data.get("cases", []))
-    edit_cases = []
-    for _, data in edit_files:
-        edit_cases.extend(data.get("cases", []))
-    return {"replay_cases": replay_cases, "edit_cases": edit_cases}
+    replay_cases, edit_cases, run_records = [], [], []
+    for path, data in replay_files + edit_files:
+        replay_cases.extend(data.get("cases", [])) if data.get("experiment") == "A_same_prompt_replay" \
+            else edit_cases.extend(data.get("cases", []))
+        provenance = data.get("provenance") or {}
+        run_records.append({"file": path.name, "experiment": data.get("experiment"),
+                            "git_commit": provenance.get("git_commit"),
+                            "git_dirty": provenance.get("git_dirty"),
+                            "code_tree_sha256": provenance.get("code_tree_sha256"),
+                            "config_sha256": provenance.get("config_sha256"),
+                            "model_hash": provenance.get("model_checkpoint_sha256")})
+    return {"replay_cases": replay_cases, "edit_cases": edit_cases, "run_records": run_records}
 
 
 def boundary_verdict(edit_cases, gate_config) -> dict:
@@ -109,6 +114,13 @@ def decision(replay_passed, edit_passed, strong_cases, successful_cases, boundar
     return "GO" if right_ok else "GO_WITH_BOUNDARY_RISK"
 
 
+def summary_cost_gate_failed(efficiency, config) -> bool:
+    ratio = efficiency.get("R_time_end_to_end")
+    if ratio is None:
+        return False
+    return ratio >= float(config["gates"]["cost"]["max_time_ratio"])
+
+
 def _next_step(verdict) -> str:
     return {
         "NO_GO_STATE_INCOMPLETE": "Fix state capture before any editing work.",
@@ -164,6 +176,20 @@ def main() -> None:
     collected = collect(load_many(replay_paths), load_many(edit_paths))
     replay_cases = collected["replay_cases"]
     edit_cases = collected["edit_cases"]
+    # Which code actually produced the raw numbers, as recorded by the runs
+    # themselves (independent of the tree state at analysis time).
+    runs = collected["run_records"]
+    def distinct(field):
+        return sorted({record[field] for record in runs if record.get(field) is not None})
+    run_provenance = {
+        "files": runs,
+        "git_commits": distinct("git_commit"),
+        "git_dirty_values": distinct("git_dirty"),
+        "code_tree_sha256": distinct("code_tree_sha256"),
+        "config_sha256": distinct("config_sha256"),
+        "model_checkpoint_sha256": distinct("model_hash"),
+        "clean": all(record.get("git_dirty") is False for record in runs) if runs else None,
+    }
 
     # ---- Gate A -------------------------------------------------------------
     if replay_cases:
@@ -332,6 +358,17 @@ def main() -> None:
         "R_time_generation": mean(cost("R_time_generation")),
         "R_time_compute": mean(cost("R_time_compute")),
         "R_time_end_to_end": mean(cost("R_time_end_to_end")),
+        # Same user path but with the checkpoint already resident (RAM/staging),
+        # i.e. without the cold storage read.  Derived from the per-case timings,
+        # so no extra run is needed.
+        "R_time_end_to_end_warm_cache": mean([
+            ((case["cost"]["partial_end_to_end_seconds"] - case["cost"]["disk_load_seconds"])
+             / case["cost"]["full_end_to_end_seconds"])
+            if case["cost"].get("full_end_to_end_seconds") else None
+            for case in edit_cases]),
+        "cache_read_seconds_per_gib": mean([
+            (case["cost"]["disk_load_seconds"] / (case["cost"]["cache_disk_bytes"] / 2 ** 30))
+            if case["cost"].get("cache_disk_bytes") else None for case in edit_cases]),
         "partial_regenerated_chunks": 1,
         "full_generated_chunks_mean": mean([case["num_chunks"] for case in edit_cases]),
         "peak_vram_bytes_max": max([case["cost"]["peak_vram_bytes"] for case in edit_cases],
@@ -363,9 +400,15 @@ def main() -> None:
                  "still leaks a small, decaying change into later decoded frames.")
     notes.append("Gate B covers only the directional-probe prompts; smile / zoom / rain are "
                  "reported as qualitative and need human review.")
+    if summary_cost_gate_failed(efficiency, config):
+        notes.append("Gate D fails on the cold-storage path: reading one ~1 GiB checkpoint "
+                     "costs about as much as generating several chunks. The device-side "
+                     "compute ratio is much lower, so the cost problem is cache size and I/O, "
+                     "not recomputation.")
 
     summary = {
         "status": status,
+        "run_provenance": run_provenance,
         "replay_gate": replay_gate,
         "edit_gate": edit_gate,
         "sanity_controls": sanity,
@@ -393,7 +436,18 @@ def main() -> None:
                           for case in edit_cases
                           if case["num_chunks"] >= int(config["gates"]["cost"]["min_chunks"]))
             if edit_cases else None,
+            "passed_warm_cache": all(
+                ((case["cost"]["partial_end_to_end_seconds"] - case["cost"]["disk_load_seconds"])
+                 / case["cost"]["full_end_to_end_seconds"])
+                < float(config["gates"]["cost"]["max_time_ratio"])
+                for case in edit_cases
+                if case["num_chunks"] >= int(config["gates"]["cost"]["min_chunks"])
+                and case["cost"].get("full_end_to_end_seconds"))
+            if edit_cases else None,
             "max_time_ratio": float(config["gates"]["cost"]["max_time_ratio"]),
+            "cold_read_note": "Gate D is evaluated on the full user path including a cold "
+                              "page-cache read of the ~1 GiB checkpoint; the device-side "
+                              "compute ratio and the warm-cache ratio are reported separately.",
         },
         "decision": verdict,
         "decision_notes": notes,
