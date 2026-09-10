@@ -11,6 +11,7 @@ from restream.dataset import read_manifest
 from restream.reality_data import read_reference, write_json
 from restream.reality_encoder import RealityEncoder
 from restream.reality_runtime import read_reality_config, make_cache
+from restream.reality_splits import validate_r1_split
 from restream.reality_selection import (GLOBAL_MEAN_ROLES, GLOBAL_MEAN_SCHEMA, manifest_digest,
                                         reference_keys_digest, role_reference_pool,
                                         selection_config_hash)
@@ -71,6 +72,7 @@ def main():
     refs = {}
     for split in args.splits:
         rows = read_manifest(ROOT / config["data"][f"{split}_manifest"])
+        validate_r1_split(ROOT, config, split, rows)
         overfit = set()
         if split == "train" and args.overfit_samples:
             from types import SimpleNamespace

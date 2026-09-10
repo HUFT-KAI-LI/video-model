@@ -12,13 +12,27 @@ from .reality_memory import RealityMemory, reference_dropout, memory_regularizat
 from .reality_selection import (selection_config_hash, validate_selection_protocol,
                                 validate_temporal_sampling)
 from .runtime import ROOT, read_config
+from .reality_splits import validate_r1_split
+from .dataset import read_manifest
 
 
 def read_reality_config(path):
     config = read_config(path)
     memory = config["reality_memory"]
-    if memory["stage"] != "r0" or memory["guidance"]["mode"] != "context":
-        raise ValueError("Only R0 context guidance is implemented; R1 awaits R0 results")
+    if memory["stage"] not in ("r0", "r1a") or memory["guidance"]["mode"] != "context":
+        raise ValueError("Only R0/R1-A context guidance is implemented")
+    if memory["stage"] == "r1a":
+        router = memory.get('router', {})
+        if (router.get('mode') != 'top1' or memory['references'].get('selection_protocol') != 'strict_online'
+                or not config['data'].get('r1_split_lock') or 'paired' in memory['objective']
+                or memory['regularization']['wrong_gate_weight'] != 0):
+            raise ValueError('R1-A requires Top-1, strict-online frozen splits and an unpaired video objective')
+        from .reality_router import FrozenStateRouter
+        from .reality_temporal import pixel_count_for_latent_prefix
+        FrozenStateRouter(temperature=router.get('temperature', .1))
+        if (type(router.get('reference_count')) is not int or not 1 <= router['reference_count'] <= memory['references']['pool_size']
+                or type(router.get('prefix_frames')) is not int or not 1 <= router['prefix_frames'] <= pixel_count_for_latent_prefix(memory['objective']['prefix_latents'])):
+            raise ValueError('Invalid R1-A candidate/query counts')
     if not config["train"]["backbone_frozen"] or not memory["encoder"]["frozen"] or not memory["guidance"]["zero_init"]:
         raise ValueError("R0 requires frozen backbones and zero-initialized residual output")
     if memory["encoder"]["type"] != "dinov2":
@@ -61,6 +75,7 @@ def make_cache(config):
 
 def make_dataset(config, split, cache=None):
     data = config["data"]
+    validate_r1_split(ROOT, config, split, read_manifest(ROOT / data[f"{split}_manifest"]))
     memory = config["reality_memory"]
     references = memory["references"]
     protocol = references.get("selection_protocol", "offline_target_filtered")

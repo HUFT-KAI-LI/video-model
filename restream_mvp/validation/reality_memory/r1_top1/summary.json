@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "base_commit": "450d6f2ddd84c2ad8fb6cc75ef1264b6859e6453",
+  "unit_tests": 66,
+  "runtime_decoded_targets": {
+    "train": 728,
+    "dev": 83
+  },
+  "reserved_test_sources": 100,
+  "seeded_regression": {
+    "targets": 7,
+    "dataset_rows": 83,
+    "seed": 17,
+    "null_permutations": 1000
+  },
+  "longlive_forward_backward_steps": 1,
+  "optimizer_steps": 0,
+  "loss": 0.3283647298812866,
+  "output_weight_grad_norm": 0.32586854696273804,
+  "peak_vram_bytes": 45018524672,
+  "reports": {
+    "data_audit.json": "180379f4247cf841e74d2081156b60674b4a4ae20f55952f9cfdea099a0bdfa4",
+    "gate_recheck.json": "e9d3344ef16a436de1aa82126350dcd39b68ffaabccbdc89c5d7d3d6f5a1c5ca",
+    "real_backward.json": "cfdb60eb2f6f9f2ed6d46bd6dc6d93ba52c93dd4abc1673e1c6faf37933718e0",
+    "seeded_retrieval.json": "6518b71eb1774289018f4bd1092f454bcd70ed7e06c6665cf8c2cbe5cecc3800",
+    "split_audit.json": "efbf0c6fc30bfe634e6469f0e6d54c641e4112e154e536b64d7d857fcb00bb10",
+    "unit_tests.log": "0b98ae1d5dfb390bd4ffb8f3f089d8f8eb3c2f502b35068e1e6b18310318dc31"
+  },
+  "limitations": [
+    "No R1 effect training or optimizer updates performed.",
+    "Test source membership reserved; usable test target count has not been established.",
+    "Same-source/different-shot fingerprint diagnostic is deferred."
+  ]
+}

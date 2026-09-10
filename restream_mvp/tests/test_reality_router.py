@@ -42,76 +42,81 @@ class TemporalMappingTests(unittest.TestCase):
 class RouterTests(unittest.TestCase):
     def setUp(self):
         torch.manual_seed(3)
-        self.tokens, self.dim = 4, 8
-        self.prefix = torch.randn(self.tokens, self.dim)
-        self.candidates = torch.randn(3, self.tokens, self.dim)
+        self.tokens, self.dim = 8, 12
+        # Opposite pooled directions guarantee that the two prefixes switch IDs.
+        first = torch.randn(self.tokens, self.dim)
+        self.candidates = torch.stack([first, -first, torch.randn_like(first)])
+        self.router = FrozenStateRouter()
 
-    def test_router_has_no_trainable_parameters(self):
-        self.assertEqual(list(FrozenStateRouter().parameters()), [])
+    def test_top1_preserves_selected_tokens_exactly(self):
+        self.assertEqual(list(self.router.parameters()), [])
+        for index in (0, 1):
+            memory, mask, stats = self.router(self.candidates[index], self.candidates)
+            self.assertEqual(stats['selected_indices'].tolist(), [[index]])
+            self.assertEqual(memory.shape, (1, 1, 8, 12))
+            self.assertTrue(mask.all())
+            torch.testing.assert_close(memory[0, 0], self.candidates[index], rtol=0, atol=0)
+            self.assertFalse(memory.requires_grad)
+        # Temperature only affects diagnostic probabilities, not memory scaling.
+        cold = FrozenStateRouter(temperature=.001)(self.candidates[0], self.candidates)
+        hot = FrozenStateRouter(temperature=10)(self.candidates[0], self.candidates)
+        self.assertFalse(torch.allclose(cold[2]['router_weights'], hot[2]['router_weights']))
+        torch.testing.assert_close(cold[0], hot[0], rtol=0, atol=0)
 
-    def test_soft_routing_weights_and_weighted_sum(self):
-        router = FrozenStateRouter(temperature=0.05, mode="soft")
-        aligned = self.prefix.clone()
-        candidates = torch.stack([torch.randn(self.tokens, self.dim), aligned, torch.randn(self.tokens, self.dim)])
-        memory, mask, stats = router(self.prefix, candidates)
-        self.assertEqual(memory.shape, (1, 1, self.tokens, self.dim))
-        self.assertEqual(mask.shape, (1, 1))
-        self.assertTrue(bool(mask.all()))
-        self.assertAlmostEqual(float(stats["router_weights"].sum()), 1.0, places=5)
-        self.assertEqual(int(stats["router_weights"].argmax()), 1)
-        expected = (stats["router_weights"][..., None, None] * candidates.float()).sum(1, keepdim=True)
-        torch.testing.assert_close(memory, expected.to(memory.dtype))
+    def test_masked_nan_padding_and_empty_rows_are_inert(self):
+        candidates = self.candidates.repeat(2, 1, 1, 1)
+        candidates[0, 0] = float('nan')
+        candidates[1] = float('nan')
+        masks = torch.tensor([[False, True, True], [False, False, False]])
+        memory, mask, stats = self.router(self.candidates[0].repeat(2, 1, 1), candidates, masks)
+        self.assertTrue(torch.isfinite(memory).all())
+        self.assertTrue(torch.isfinite(stats['router_weights']).all())
+        self.assertNotEqual(stats['selected_indices'][0, 0], 0)
+        self.assertEqual(stats['selected_indices'][1, 0], -1)
+        self.assertEqual(mask.tolist(), [[True], [False]])
+        self.assertTrue(torch.equal(memory[1], torch.zeros_like(memory[1])))
+        model = RealityMemory(self.dim, 8, 16, 2)
+        torch.nn.init.normal_(model.output.weight, std=.1)
+        context = torch.randn(2, 3, 16)
+        fused, _ = model(context, memory, mask)
+        torch.testing.assert_close(fused[1], context[1], rtol=0, atol=0)
 
-    def test_mask_removes_candidates_from_the_residual(self):
-        router = FrozenStateRouter(temperature=0.05, mode="soft")
-        _, output_mask, stats = router(self.prefix, self.candidates, torch.tensor([True, False, True]))
-        self.assertAlmostEqual(float(stats["router_weights"][0, 1]), 0.0, places=6)
-        self.assertAlmostEqual(float(stats["router_weights"].sum()), 1.0, places=5)
-        self.assertTrue(bool(output_mask.all()))
-        memory, output_mask, stats = router(self.prefix, self.candidates, torch.zeros(3, dtype=torch.bool))
-        self.assertFalse(bool(output_mask.any()))
-        self.assertFalse(bool(stats["active"].any()))
-        self.assertTrue(torch.equal(memory, torch.zeros_like(memory)))
+    def test_selected_reference_survives_projector_and_changes_context(self):
+        model = RealityMemory(self.dim, 8, 16, 2)
+        torch.nn.init.normal_(model.output.weight, std=.1)
+        context = torch.randn(1, 3, 16)
+        routed = [self.router(self.candidates[i], self.candidates) for i in (0, 1)]
+        fused = [model(context, *r[:2])[0] for r in routed]
+        for index in (0, 1):
+            direct, _ = model(context, self.candidates[index][None, None], torch.ones(1, 1, dtype=torch.bool))
+            torch.testing.assert_close(fused[index], direct, rtol=0, atol=0)
+        self.assertFalse(torch.allclose(fused[0], fused[1]))
+        self.assertFalse(torch.allclose(model.projector(routed[0][0]), model.projector(routed[1][0])))
+        fused[0].square().mean().backward()
+        self.assertGreater(model.projector.net[1].weight.grad.norm().item(), 0)
 
-    def test_topk_selects_the_highest_scoring_candidates(self):
-        router = FrozenStateRouter(temperature=0.05, mode="topk", top_k=2)
-        memory, mask, stats = router(self.prefix, self.candidates)
-        self.assertEqual(memory.shape, (1, 2, self.tokens, self.dim))
-        expected = torch.topk(stats["router_scores"][0], 2).indices.tolist()
-        self.assertEqual(stats["selected_indices"][0].tolist(), expected)
-        self.assertAlmostEqual(float(stats["selected_weights"].sum()), 1.0, places=5)
-        self.assertTrue(bool(mask.all()))
-
-    def test_routing_is_structurally_coupled_to_generation(self):
-        memory_model = RealityMemory(self.dim, 6, 12, 2)
-        torch.nn.init.normal_(memory_model.output.weight, std=.05)
-        torch.nn.init.normal_(memory_model.output.bias, std=.05)
-        context = torch.randn(1, 3, 12)
-        router = FrozenStateRouter(temperature=0.1, mode="soft")
-        first_memory, first_mask, first_stats = router(self.prefix, self.candidates)
-        second_memory, second_mask, second_stats = router(torch.randn(self.tokens, self.dim), self.candidates)
-        self.assertFalse(torch.allclose(first_memory, second_memory))
-        self.assertFalse(torch.allclose(first_stats["router_weights"], second_stats["router_weights"]))
-        fused_first, _ = memory_model(context, first_memory, first_mask)
-        fused_second, _ = memory_model(context, second_memory, second_mask)
-        self.assertEqual(fused_first.shape, context.shape)
-        self.assertFalse(torch.allclose(fused_first, fused_second))
-        topk = FrozenStateRouter(mode="topk", top_k=2)
-        fused_topk, _ = memory_model(context, *topk(self.prefix, self.candidates)[:2])
-        self.assertEqual(fused_topk.shape, context.shape)
+    def test_fresh_zero_init_has_reference_specific_output_gradients(self):
+        model = RealityMemory(self.dim, 8, 16, 2)
+        context = torch.randn(1, 3, 16)
+        gradients = []
+        for index in (0, 1):
+            memory, mask, _ = self.router(self.candidates[index], self.candidates)
+            fused, _ = model(context, memory, mask)
+            torch.testing.assert_close(fused, context, rtol=0, atol=0)
+            gradients.append(torch.autograd.grad(fused.square().mean(), model.output.weight)[0])
+        self.assertGreater(gradients[0].norm().item(), 0)
+        self.assertFalse(torch.allclose(*gradients))
 
     def test_invalid_router_inputs_raise(self):
-        router = FrozenStateRouter()
-        for kwargs in ({"mode": "bad"}, {"temperature": 0}, {"mode": "topk", "top_k": 0}):
+        for kwargs in ({'mode': 'soft'}, {'mode': 'topk'}, {'temperature': 0}, {'temperature': float('nan')}):
             with self.assertRaises(ValueError):
                 FrozenStateRouter(**kwargs)
-        with self.assertRaises(ValueError):
-            router(self.prefix, torch.randn(0, self.tokens, self.dim))
-        with self.assertRaises(ValueError):
-            router(torch.randn(self.tokens, self.dim + 1), self.candidates)
-        with self.assertRaises(ValueError):
-            router(self.prefix, self.candidates, torch.ones(2, dtype=torch.bool))
+        for candidates, mask in ((torch.randn(0, self.tokens, self.dim), None),
+                                 (self.candidates, torch.ones(2, dtype=torch.bool)),
+                                 (torch.full_like(self.candidates, float('nan')), None)):
+            with self.assertRaises(ValueError):
+                self.router(self.candidates[0], candidates, mask)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

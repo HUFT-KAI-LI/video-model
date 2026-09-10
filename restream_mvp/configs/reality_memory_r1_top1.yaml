@@ -1,4 +1,4 @@
-# Strict-online train and Dev (historical val alias); Test sources are sealed.
+# R1-A structural smoke only: fresh zero-init, one backward, zero optimizer steps.
 seed: 42
 data:
   train_manifest: data/reality_train_online.jsonl
@@ -18,7 +18,7 @@ model:
   wan: models/Wan2.1-T2V-1.3B
   longlive: models/LongLive-1.3B
 reality_memory:
-  stage: r0
+  stage: r1a
   encoder:
     type: dinov2
     path: models/dinov2-small
@@ -64,23 +64,14 @@ reality_memory:
   objective:
     prefix_latents: 6
     future_blocks: 1
-    paired:
-      correct_kind: async
-      reference_count: 2
-      contrast_weight: 0.01
-      temperature: 0.1
-      degradation:
-        mode: mild
-        sigma: 0.05
-        protected_prefix: 3
-      diagnostic_gradients: true
-      diagnostic_interval: 5
-      probe_noise_seeds:
-      - 50000
-      - 60000
+  router:
+    mode: top1
+    temperature: 0.1
+    reference_count: 2
+    prefix_frames: 3
 train:
   backbone_frozen: true
-  max_steps: 100
+  max_steps: 1
   lr: 0.0001
   weight_decay: 0.01
   warmup_steps: 10
@@ -88,7 +79,7 @@ train:
   eval_every: 50
   grad_clip: 1.0
   world_size: 1
-  max_updates: 50
+  max_updates: 0
 eval:
   cases: 4
   reference_counts:

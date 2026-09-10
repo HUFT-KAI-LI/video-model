@@ -5,7 +5,7 @@ data/sdk_cache/
 data/reality_features/
 # Derived, manifest-bound control asset; regenerate with scripts/cache_reality_features.py
 # and record its digest in data/reality_overfit_feature_stats.json.
-data/reality_global_mean_features.pt
+data/reality_global_mean_features*.pt
 checkpoints/
 outputs/
 logs/

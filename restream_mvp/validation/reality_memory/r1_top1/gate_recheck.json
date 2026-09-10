@@ -1,0 +1,44 @@
+{
+  "offline": {
+    "input_report": "validation/reality_memory/prefix_retrieval/summary.json",
+    "input_sha256": "db28ebd43b3d30977c9e3d45f45053122f6fde93cc5a5cdfc4f9a8d297998307",
+    "gate": {
+      "accuracy_threshold": 0.7,
+      "easy": {
+        "pair_accuracy_pass": true,
+        "margin_positive": true,
+        "margin_ci_excludes_zero": true,
+        "pass": true
+      },
+      "hard": {
+        "pair_accuracy_pass": true,
+        "margin_positive": true,
+        "margin_ci_excludes_zero": true,
+        "pass": true
+      },
+      "pass": true
+    },
+    "scope": "Recheck saved aggregates only; no retrieval rerun"
+  },
+  "strict_online": {
+    "input_report": "validation/reality_memory/prefix_retrieval_online/summary.json",
+    "input_sha256": "3bbc6d9c028e2e5f1f34a08252d689981978ac629c9377cbb199f4c16c6dd2cd",
+    "gate": {
+      "accuracy_threshold": 0.7,
+      "easy": {
+        "pair_accuracy_pass": true,
+        "margin_positive": true,
+        "margin_ci_excludes_zero": true,
+        "pass": true
+      },
+      "hard": {
+        "pair_accuracy_pass": true,
+        "margin_positive": true,
+        "margin_ci_excludes_zero": true,
+        "pass": true
+      },
+      "pass": true
+    },
+    "scope": "Recheck saved aggregates only; no retrieval rerun"
+  }
+}

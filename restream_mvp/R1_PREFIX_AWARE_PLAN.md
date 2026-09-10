@@ -2,7 +2,7 @@
 
 R0 作为基线**冻结**：不再加 loss、不扩训练步数。R0 的无更新反事实 probe 已定位问题——text-only query 主要学到通用视觉条件 prior，而不是“按当前世界选择现实照片”的能力（[R0_ACTIVE_ZERO_PROBE.md](R0_ACTIVE_ZERO_PROBE.md)）。
 
-R1 分三阶段推进，每阶段都有独立、可证伪的 gate；本仓库当前提交**不训练任何视频模型**，只完成第一阶段的诊断、必要的控制变量、以及 R1-A 路由模块的结构实现（仅 CPU forward 测试）。
+R1 分三阶段推进，每阶段都有独立、可证伪的 gate；本轮完成检索脚本修复、Top-1 路由、Train/Dev/Test source 固定、strict-online Train 与真实 LongLive 单次 forward/backward 验证。仅验证梯度连通性，optimizer updates 固定为 0。
 
 ## 0. 已修复的协议 bug（prefix 检索的可见帧数）
 
@@ -41,9 +41,9 @@ $$
 
 指标（唯一 target 为统计单位）：pair accuracy、margin 的 target-level bootstrap 95% CI、AUROC、Recall@1/K、top-1，以及 **1000 个确定性 derangement 的 null test**（query target ≠ reference target 且 source 互斥）。
 
-**通过标准**：pair accuracy > 70%、margin > 0、CI 不跨 0。
+**通过标准**：easy **和** hard 各自满足 pair accuracy > 70%、margin > 0、margin CI 下界 > 0；最终 `gate.pass = gate.easy.pass AND gate.hard.pass`。旧报告保留当时的 gate 字段，历史 aggregate 的重新审核见 `validation/reality_memory/r1_top1/gate_recheck.json`。
 
-### 结果（全部 83 个 val target，2026-09-10，query 帧 `[0, 10, 20]`）
+### 历史结果（全部 83 个 Dev target，旧文件名仍为 val，2026-09-10，query 帧 `[0, 10, 20]`）
 
 | 指标 | offline_target_filtered | strict_online + causal_previous |
 |---|---:|---:|
@@ -60,49 +60,79 @@ $$
 
 **局限**：correct 仍是 same-source / same-shot 过去参考，hard negative 由一个正确参考的相似度选出；这证明的是 **source/scene 身份可检索**，还不是“同一 world 内该查哪一块记忆”（within-world / different-view retrieval），后者需要多视角数据（例如 Ego-Exo4D）。检索也不涉及生成质量。
 
-## 第二阶段：R1-A = Frozen DINO State Router（本提交只实现模块 + CPU 测试）
+## 第二阶段：R1-A = Frozen DINO Top-1 Router
 
-修完泄漏后 frozen DINO prefix query 已经是 90%+ 的可靠状态信号，因此**不再**先训练一个新的 `Q(text, prefix)` MLP——那会重新引入一个没必要的不确定变量。
-
-结构（`restream/reality_router.py::FrozenStateRouter`，**无可训练参数**）：
+结构（`restream/reality_router.py::FrozenStateRouter`，无可训练参数）：
 
 ```text
-Visible Prefix → frozen DINO → q_t = Pool(tokens)
-Candidate Memory Bank {M_k}  → m_k = Pool(M_k)
-s_k = cos(q_t, m_k);  w = softmax(s_k / τ)
-soft 模式:  M~ = Σ_k w_k M_k         （一个有效 memory slot）
-topk 模式:  取权重最高的 k 个候选并重新归一化
-        ↓
-M~ 直接作为 RealityMemory 的输入 → Memory Projector → Gated Context Residual → frozen LongLive
+Visible Prefix [0,10,20] → frozen DINO → pooled query
+Candidate references (correct async ×2 + hard wrong ×2) → pooled keys
+cosine argmax → 一张 reference 的全部 8 个原始 DINO tokens
+→ RealityMemory projector → gated context residual → frozen LongLive
 ```
 
-关键点：**权重直接决定哪些 reference token 进入 residual**，retrieval 与 generation 在结构上耦合，而不是只记录一个“好看的 accuracy”。这与 R0 的教训（会分类 ≠ 会利用）直接对应。
+只支持 `mode: top1`。`soft`/`topk` 显式拒绝：旧 top-k 的 raw-token scaling 会被 projector 首层 LayerNorm 基本消除；旧 soft 融合把不同图片同一 patch index 混合，缺乏跨视角空间对应。Top-1 不缩放、不融合 patch，temperature 只改变诊断用 softmax probabilities，不能改变选中 reference 或生成输入。全 mask 时返回零 memory、false mask 和 selected index −1。
 
-本提交包含：模块实现、mask 处理（无效候选权重为 0、全 mask 时输出恒等）、top-k 选择、以及“不同 prefix → 不同 routed memory → 不同 fused context”的 CPU 前向测试。**没有** optimizer 训练、没有接入训练循环。
+测试不仅检查 router 输出：还比较 routed 与直接输入选中 reference 的 projector/context 结果完全一致，切换 reference 后 context 和 output-layer 梯度会改变。fresh zero-init 时输出必须等于基础 context，但 video loss 仍能向 output.weight 回传梯度；上游 projector/gate 首次 backward 梯度为零是零初始化的预期行为。
 
-### R1-A 第一轮训练设计（尚未执行）
+### Train / Dev / Test source 隔离
 
-- 冻结 LongLive 与 DINO；只训练 memory-to-context adapter（现有 `RealityMemory` 参数）。
-- 单次前向面对一个 **candidate bank**（例如 correct async ×2 + hard wrong ×2），由 router 加权，而不是“correct forward / wrong forward 两套输入”。
-- 目标函数只保留
-  $$
-  L = L_{\text{video}}^{\text{routed}} + \lambda_\Delta L_\Delta
-  $$
-  加 20–30% No-Memory dropout；**暂时不加** InfoNCE / retrieval loss（上一轮已验证“单独把 score 学好”不等于 generation 有用），**也不给 wrong reference 单独的 GT video loss**。先看 frozen router 自己能否让 wrong 权重低。
-- 短程 10 / 30 / 100 updates，之后才考虑更长。
+`data/r1_split_lock.json` 固定 seed、输入清单和历史诊断报告的 SHA-256、各 split 名单与 SHA-256：
 
-### 成功标准
+- R1 Train：867 个 source 候选；strict-online 筛选后 728 个 target，`data/reality_train_online.jsonl`。
+- R1 Dev：当前反复使用的 83 个 target。仍沿用 `data/reality_val_online.jsonl` 和 CLI `val` 名称以兼容已有工具；这些结果不能称为 untouched test。
+- R1 Test：`data/r1_test_sources.txt` 固定 100 个 source，排除所有旧 Reality Train/Val（包括 global mean 的贡献者）及早期 ReAnchor、VAE、Reality 诊断报告显式出现的 source、video path 和内容 SHA。source 和已知内容 SHA 均不与 Train/Dev 相交。
 
-**Retrieval 层**：held-out target 上 $s_{\text{correct}} > s_{\text{wrong}}$，hard negative 也能区分（第一阶段已满足）。
-**Generation 层**：role-matched $G_{\text{content}}^{matched} = L_{\text{global\_async}} - L_{\text{correct}} > 0$ 且 $S_{\text{reference}} = L_{\text{wrong}} - L_{\text{correct}} > 0$。两者同时成立，才能第一次说“当前视频状态确实选择并利用了匹配的现实照片”。
+**Test 的当前状态是 source 预留，不是已就绪的 100 个有效评测 target。** 现有 1068 个已下载 source 中未进入旧实验的部分主要是过去质量筛选未保留的 source；它们可能仍不满足固定的 shot/reference 规则。后续必须先固定资格规则再构造 Test target，记录淘汰率，不按模型结果替换 source。这里未解码 Test、未构造 Test features、未运行 Test 指标，不能据此声称最终 held-out test 已完成。
+
+`freeze_r1_splits.py` 可幂等重放，但拒绝改写已有不同内容的冻结名单。builder、Dataset、特征缓存都验证冻结文件哈希、target membership 和全部 donor membership。既验证 source ID，也验证 video SHA；Test 不用于 architecture、temperature、top-k、loss weight 或 smoke 的选择。
+
+Train 和 Dev 均为 `strict_online + causal_previous`。builder 用冻结的 source manifests 选 donor，并在写入前验证 split。`check_r1_data.py` 对 Train/Dev 逐条实际解码，确认所有 prefix 帧不超过 visible_until 且边界 sampled_time 与之相等。offline R0 manifests 与其统计结果保留为历史记录。
+
+### 本轮验证与复现
+
+在 `restream_mvp` 目录，已有本机模型和原始视频资产时执行：
+
+```bash
+.venv/bin/python scripts/freeze_r1_splits.py
+.venv/bin/python scripts/build_reality_manifest.py --config configs/reality_memory_paired_online.yaml --splits train --stats-output data/reality_train_stats_online.json
+.venv/bin/python scripts/cache_reality_features.py --config configs/reality_memory_r1_top1.yaml --device cuda --report data/reality_feature_stats_r1_online.json
+.venv/bin/python scripts/check_r1_data.py
+OMP_NUM_THREADS=1 .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/check_prefix_reference_retrieval.py --config configs/reality_memory_paired_online.yaml --cases 7 --target-seed 17 --null-samples 1000 --output validation/reality_memory/r1_top1/seeded_retrieval.json
+.venv/bin/python scripts/check_r1_backward.py
+```
+
+seeded null regression 覆盖 83 行中选 7 个非连续 index、完整三套 similarity matrices 及 1000 个 derangement；局部 query row 与全局 dataset index 分离。实际 7-target Dev 运行的报告是工程回归证据，不能替代历史 83-target 统计。
+
+`check_r1_backward.py` 使用真实训练 target 的可见 prefix、冻结 DINO、完整 mixed bank、Top-1、fresh zero-init RealityMemory 和真实 frozen LongLive teacher forcing。只做一次 video-loss forward/backward，不创建 optimizer、不接受 resume、不保存训练 checkpoint。报告记录模型初始化哈希、输入 provenance、选择结果、每个 adapter 参数梯度、主干冻结状态及 optimizer_steps=0。
+
+本机验证结果见 [summary.json](validation/reality_memory/r1_top1/summary.json)：66 项 CPU 测试通过，728 Train + 83 Dev 的实际解码 invariant 全部通过，7-target seeded 检索完成 1000 个 null permutations。真实 A800 单次 backward 的 video loss = 0.328365，output.weight gradient norm = 0.325869，峰值显存 41.93 GiB，optimizer updates = 0。这只证明 routed memory → adapter 的 video-loss 梯度路径工作，不是效果结果。
+
+R1 config 不含 paired/contrast objective。旧 `train_reality_memory.py` 显式拒绝 R1 config，避免误走 R0 输入路径；正式 R1 训练循环不在此提交中。
+
+### 下一轮训练设计（尚未执行）
+
+只比较三个 fresh matched runs：
+
+| 分支 | 输入 |
+|---|---|
+| Global-Async Constant | 从本次 strict-online Train 的 async pool 去重计算的固定均值 |
+| Correct-Only Oracle | 同 target 的 correct async references |
+| Frozen-Router Mixed Bank | correct async ×2 + hard wrong ×2，经 Top-1 选完整一张 |
+
+`restream/reality_r1.py::select_r1_memory` 提供三组输入；单步脚本也支持 `--branch correct_only` / `--branch global_async`。同一个 seed 在加载 backbone 后重置，再创建 adapter，以保持完全相同的 fresh initialization。R0 checkpoint 只做历史 baseline，不做 warm-start。
+
+下一轮须保持相同 train targets、sample order、noise seeds、initialization、learning rate 和有效 optimizer update 预算。仅用 routed video loss + delta regularization，统一 20–30% No-Memory dropout；不加 retrieval loss、不单独给 wrong references GT video loss。先 10 / 30 / 100 updates，不能用本轮零更新 smoke 推断生成质量。
+
+### 成功标准与停止条件
+
+期望 `L_CorrectOnly < L_Global` 且 `L_Routed ≈ L_CorrectOnly < L_Global`；若 Correct-Only 也无法优于 Global，停止调 router，先审视视觉信息注入 LongLive 的位置。若 Oracle 有效而 Routed 落后，再定位 routing 问题。
+
+role-matched `G_content = L_global_async − L_correct > 0` 且 `S_reference = L_wrong − L_correct > 0`，才能支持场景内容利用；在 Dev 上的架构选择不能包装为最终 Test 结论。
+
+same-source/same-shot proxy 仍可能依赖 watermark、字幕、logo 或编码风格；shuffled-query null 无法排除 source fingerprint。论文前补充 **same source + different shot** hard negative，与现有 different-source/DINO-similar hard negative 并列。此诊断不在本轮范围，也不把当前结果称为 world-level retrieval。
 
 ## 第三阶段：AR 与长时（尚未开始）
 
 等 R1-A 在 teacher forcing 下成立后，先做 3 / 6 个 AR block（10–15 秒）对比 No Memory / Global Mean / Correct / Wrong，再考虑 30s / 60s / 100s。人工 mild corruption 降级为 stress test，不再作为主要科学任务；真正的 drift 来自 self-rollout 自然积累。
-
-## 本提交的边界
-
-- 不训练 R1 视频模型、不改 R0 objective、不扩训练预算、不跑 50/200 updates。
-- 数据不重新下载；新增 strict-online **retrieval-only** val manifest（`data/reality_val_online.jsonl`，83 行，schema 3，`causal_previous`），offline manifest 未改动。
-- strict-online 仍**没有**视频训练结果、没有 global mean/role means（该配置不生成 role means）。
-- 旧的 `1.000/0.940` 报告已标记 superseded，但仍保留在仓库中。

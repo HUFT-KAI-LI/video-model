@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "seed": 20260910,
+  "counts": {
+    "train": 867,
+    "dev": 83,
+    "test_reserved": 100
+  },
+  "source_manifests": {
+    "train": "data/r1_train_sources.jsonl",
+    "val": "data/r1_dev_sources.jsonl"
+  },
+  "inputs": {
+    "data/train.jsonl": "eef8e970f939952e8fa824ed13b33fe3370477ec51679ec37491eabe57b4b78f",
+    "data/val.jsonl": "4f0938e7163c65320ef97ba2ffa7c260589183dddaa365c04e0bd483e943f3e7",
+    "data/reality_train.jsonl": "5ef1bab68a8707ed2fb9b353dfa797e60fef8f0d05106c4ffa8871f0370a1501",
+    "data/reality_val.jsonl": "723e05fc2530e7501f0ecbe232a23fd1318eea71fb990ac191107b8cfb60658f",
+    "data/reality_val_online.jsonl": "5f0533ccdb344c0e8c6096798c6c294ae3da57cebb026c575e1e0f03542573f9"
+  },
+  "prior_diagnostic_reports": {
+    "validation/anchor_latent_alignment.json": "5ae817e109d5f939273ee4ec41e39a7c7388158ff8ae7acf5b85994d482a9052",
+    "validation/longlive_patch.json": "aa42f7cd9530f1f6b9fa8de7c3fc4d6865acb23dcda0c72ebe37b1910c03e4aa",
+    "validation/pretrain_anchor_ablation.json": "e7dd33f925d7bf90b0eb9afc58e2f1e3e61a426e417d4df254d8467b4974ccf2",
+    "validation/readiness.json": "3f847a9d50b215336e35fff877608bdcc73307eb4fc37478e24dda567c90ced0",
+    "validation/real_backward.json": "db0ca1163cad85d4788dff44e0498b34802300a87ca355c1a9cd2319554b5ce9",
+    "validation/reality_memory/active_zero_probe/paired_existing_val.json": "49f00410917a2b03daeaae95042387c4a2cb869d03e82ce56e20bf7650cda0d0",
+    "validation/reality_memory/active_zero_probe/summary.json": "7d591643606ac77d6c6267a60d550727ae9a4ecd3016cce237f5c0e4bff1f8dc",
+    "validation/reality_memory/active_zero_probe/verification.json": "923949ddd9d2105514df674b4bbabb08d4e5568adfdf7f2af49f0c77eb745343",
+    "validation/reality_memory/ddp_check.json": "f66c78fbce9a39d9ac11b055b8ada5340ef6281d7b7e8582fe0ba3c501ac413c",
+    "validation/reality_memory/encoder_check.json": "c749e8e63b43f106beb7e42b132005fed99014c1f27dba61f259876c9dc91fdc",
+    "validation/reality_memory/encoder_provenance.json": "d476d7deab99ca22f3a1612e0a90987b870b2b9dbf0b6e95e3313df7c398413f",
+    "validation/reality_memory/full_val_controls/summary.json": "f825ad9ec89bc1cec07b9210ed9a18111a1b4e04c54307090afa224c1a1671e9",
+    "validation/reality_memory/full_val_controls/verification.json": "6ee138ab4fd7cfb77ca91c9931473c6810ce86a80a0d14c6fb373ec65d0609b7",
+    "validation/reality_memory/overfit_review/ar_validation.json": "09d9f37200d57b8d8348c85fe8d9e1eec55e07731365f7eda77755d0a4e37654",
+    "validation/reality_memory/overfit_review/nccl_resume.json": "8e06e849268324149910b0f5dda1a6dc245ad40bcb823cc740e267061dc769bb",
+    "validation/reality_memory/overfit_review/optimizer_sanity.json": "8919e49ebe77d3d21e4fd7d012c982a25f201f14c1a7fec5d6484e35e64ea4ce",
+    "validation/reality_memory/overfit_review/probe_after.json": "ebaa9f5e6d20ae720c6d9d649bdf0d2d75088c261cd3e34d8e0ebe1a776300e7",
+    "validation/reality_memory/overfit_review/probe_before.json": "d8b4e897d824b4f677bbebfc60bce80c5e890a230122e01938a3b7da95743d40",
+    "validation/reality_memory/overfit_review/run_manifest.json": "b4b6a946e5dd3c2c09238e334771a4e12033ba199321d1eedf92af67c16e2561",
+    "validation/reality_memory/overfit_review/summary.json": "b70907eb186d1e4f958126ceaccc1e0a693b77fec11b12d82a2d2da33a4f50c3",
+    "validation/reality_memory/overfit_review/target_seek.json": "475f1c2d8678f264c8d1774514272725a37b0213625d9868acb6962ea8f1135f",
+    "validation/reality_memory/paired_review/resume_update_budget.json": "6e248e5851c815ac48f450c53e4233eb3543c0d525b82598890a8515f4b51ca8",
+    "validation/reality_memory/paired_review/run_manifest.json": "bde750edef71ccdd4089ea6feab6b50ee31eab99009ba266067f4a23411c1d14",
+    "validation/reality_memory/paired_review/summary.json": "beb0a7cc3e495c897f6bc67bac86b68c685fab4fdf7c59956e2d2934c855b727",
+    "validation/reality_memory/paired_review/train_after.json": "e814ee6f5b7a7a629dfc88a7d353564dc22a72269f04968182e58ded5ee3ed2f",
+    "validation/reality_memory/paired_review/train_before.json": "b38d59445c7f456355c747b34532537f54c3d74c148e510395761bfd89a447f4",
+    "validation/reality_memory/paired_review/val_after.json": "8a054b665a7ceaef505b0e93e297a2ab65e18d26d4276351a8332b5671c95804",
+    "validation/reality_memory/paired_review/val_before.json": "1ac7b7d646f9bc5d299e23d5d7a957ca56d55e499bcbd5fc0d023e6737e33d8a",
+    "validation/reality_memory/prefix_retrieval/summary.json": "db28ebd43b3d30977c9e3d45f45053122f6fde93cc5a5cdfc4f9a8d297998307",
+    "validation/reality_memory/prefix_retrieval/summary_superseded_pixel_count_bug.json": "5d18fc2e61651486e8b0da64e91cf08847d388828b54eaf6e284add71b3b37a8",
+    "validation/reality_memory/prefix_retrieval_online/summary.json": "3bbc6d9c028e2e5f1f34a08252d689981978ac629c9377cbb199f4c16c6dd2cd",
+    "validation/reality_memory/readiness.json": "a1a7584c5109927f0a93fc2bb107f0e46ca0d3fbd0828742a0e8675130ff446d",
+    "validation/reality_memory/real_backward.json": "d54cebb66faee03ef24ba6248814b49ab20d71ea5b055ab4ea49e289c2eb635f",
+    "validation/reality_memory/run_manifest.json": "f9209eab482878386d45990e5490f75a10d605e444cfc29d34d4950c0cd3bf6b",
+    "validation/run_manifest.json": "a29529c412948f6b55505ead78ddb88816ab2f1877bfe9099933bf1ff2c15347"
+  },
+  "diagnostic_source_count": 115,
+  "files": {
+    "data/r1_train_sources.jsonl": "3dda159e6ee9bfc89e9d30c2502cf03103cb71a495e503059e0579a227d2bae7",
+    "data/r1_train_sources.txt": "9bcfa4e7c85df9966a264ca0f8c0628c61e0f7bc29f627710fd6a50d483c25ad",
+    "data/r1_dev_sources.jsonl": "ccedb64798aa6c17fd94d32dbdc91627572caddff4f005ef270dc481dd436b44",
+    "data/r1_dev_sources.txt": "df5ff00ade5661f7daccfd7aa375c145f1af7e81776d7a2d426487818daeb537",
+    "data/r1_test_sources.jsonl": "33811b07acbc87e5a4dd1dc1c0c8ec31066fb63848255f431e47ae124c1b9ffb",
+    "data/r1_test_sources.txt": "8ea0ab8b6ac6fd5edb74d5769e8dce917783521f56576e31f47b8d8b1d454571"
+  },
+  "test_status": "source membership reserved; eligibility has not been evaluated",
+  "policy": "Exclude every old Reality Train/Val source and video SHA, including contributors to global means, and explicit sources/video paths/SHAs from prior ReAnchor, VAE and Reality diagnostic reports. Current 83 val targets are Dev. Test is forbidden for architecture, temperature, top-k, loss tuning or smoke tests. Source quality filtering predates this split; reserved sources may fail fixed test eligibility. Do not replace rejected test sources using model results."
+}

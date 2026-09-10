@@ -18,9 +18,8 @@ The query uses only causally visible pixel frames: ``L`` prefix latents expose
 Reported per unique target: pair accuracy, margins with target-level bootstrap
 95% CI, AUROC, Recall@1/K in a per-target gallery, and a deterministic
 derangement null test (query target != reference target and source-disjoint)
-that replaces the earlier single cyclic shuffle. The gate passes when pair
-accuracy > 70% and the correct-minus-wrong margin is positive with a CI that
-excludes zero.
+that replaces the earlier single cyclic shuffle. Both easy and hard comparisons
+must have pair accuracy > 70% and a positive margin whose CI excludes zero.
 """
 import argparse
 import random
@@ -107,14 +106,35 @@ def derangements(sources, samples, seed):
     return permutations
 
 
-def similarity_columns(queries, banks, key, indices):
-    """matrix[j, i] = mean cosine between query j and target i's bank `key`."""
+def similarity_columns(query_matrix, banks, key, indices):
+    """Local query rows are already ordered by indices; banks use dataset IDs.
+
+    matrix[j, i] = mean cosine between local query j and target indices[i].
+    """
+    if query_matrix.ndim != 2 or query_matrix.shape[0] != len(indices):
+        raise ValueError("Expected one pooled query row per selected target")
     matrix = torch.zeros(len(indices), len(indices), dtype=torch.float64)
-    query_matrix = torch.stack([queries[index] for index in indices])  # (N, D), already token-pooled
     for column, index in enumerate(indices):
         bank = banks[index][key]
         matrix[:, column] = cosine(query_matrix[:, None, :], bank[None, :, :]).mean(1)
     return matrix
+
+
+def retrieval_gate(aggregate, accuracy_threshold=.70):
+    if not 0 <= accuracy_threshold <= 1:
+        raise ValueError("Accuracy threshold must be within [0,1]")
+    gate = {"accuracy_threshold": accuracy_threshold}
+    for kind in ("easy", "hard"):
+        accuracy = aggregate[f"accuracy_{kind}"]
+        margin = aggregate[f"margin_{kind}"]
+        checks = {
+            "pair_accuracy_pass": accuracy is not None and accuracy > accuracy_threshold,
+            "margin_positive": margin["mean"] is not None and margin["mean"] > 0,
+            "margin_ci_excludes_zero": margin["low"] is not None and margin["low"] > 0,
+        }
+        gate[kind] = {**checks, "pass": all(checks.values())}
+    gate["pass"] = gate["easy"]["pass"] and gate["hard"]["pass"]
+    return gate
 
 
 def main():
@@ -241,11 +261,7 @@ def main():
                                           if aggregate["accuracy_easy"] is not None else None)
     null_test["signal_over_null_hard"] = (aggregate["accuracy_hard"] - null_test["null_accuracy_hard_mean"]
                                           if aggregate["accuracy_hard"] is not None else None)
-    gate = {"accuracy_threshold": args.accuracy_threshold,
-            "pair_accuracy_pass": aggregate["accuracy_easy"] is not None and aggregate["accuracy_easy"] > args.accuracy_threshold,
-            "margin_positive": aggregate["margin_easy"]["mean"] is not None and aggregate["margin_easy"]["mean"] > 0,
-            "margin_ci_excludes_zero": aggregate["margin_easy"]["low"] is not None and aggregate["margin_easy"]["low"] > 0}
-    gate["pass"] = all(gate[key] for key in ("pair_accuracy_pass", "margin_positive", "margin_ci_excludes_zero"))
+    gate = retrieval_gate(aggregate, args.accuracy_threshold)
     report = {"split": args.split, "correct_kind": correct_kind, "reference_count": reference_count,
               "prefix_frames": frame_ids, "prefix_latents": prefix_latents,
               "visible_pixel_frames": visible_pixel_frames,

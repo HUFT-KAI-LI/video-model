@@ -1,0 +1,136 @@
+{
+  "config": {
+    "seed": 42,
+    "data": {
+      "train_manifest": "data/reality_train_online.jsonl",
+      "val_manifest": "data/reality_val_online.jsonl",
+      "frames": 57,
+      "fps": 16,
+      "height": 256,
+      "width": 432,
+      "workers": 4,
+      "selection_seed": 42,
+      "temporal_sampling": "causal_previous",
+      "source_train_manifest": "data/r1_train_sources.jsonl",
+      "source_val_manifest": "data/r1_dev_sources.jsonl",
+      "r1_split_lock": "data/r1_split_lock.json"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B"
+    },
+    "reality_memory": {
+      "stage": "r0",
+      "encoder": {
+        "type": "dinov2",
+        "path": "models/dinov2-small",
+        "feature_dim": 384,
+        "image_size": 224,
+        "frozen": true
+      },
+      "feature_cache": "data/reality_features",
+      "references": {
+        "selection_protocol": "strict_online",
+        "async_direction": "past_only",
+        "global_constant_features": "data/reality_global_mean_features_online.pt",
+        "pool_size": 8,
+        "allow_legacy_offline_manifest": false,
+        "min_count": 1,
+        "max_count": 4,
+        "async_probability": 0.5,
+        "aligned_probability": 0.2,
+        "no_memory_probability": 0.15,
+        "wrong_memory_probability": 0.15,
+        "per_reference_dropout": 0.0,
+        "min_gap_sec": 1.5,
+        "near_radius_sec": 0.5,
+        "boundary_margin_sec": 0.2
+      },
+      "filter": {
+        "histogram_cut": 0.5,
+        "pixel_jump": 0.35,
+        "black_level": 16,
+        "black_fraction": 0.95,
+        "scene_similarity": 0.65,
+        "workers": 8
+      },
+      "projector": {
+        "num_memory_tokens": 8,
+        "memory_dim": 256
+      },
+      "guidance": {
+        "mode": "context",
+        "context_dim": 4096,
+        "heads": 4,
+        "gate_init_logit": -2.0,
+        "zero_init": true
+      },
+      "regularization": {
+        "delta_weight": 1e-05,
+        "wrong_gate_weight": 0.0
+      },
+      "objective": {
+        "prefix_latents": 6,
+        "future_blocks": 1,
+        "paired": {
+          "correct_kind": "async",
+          "reference_count": 2,
+          "contrast_weight": 0.01,
+          "temperature": 0.1,
+          "degradation": {
+            "mode": "mild",
+            "sigma": 0.05,
+            "protected_prefix": 3
+          },
+          "diagnostic_gradients": true,
+          "diagnostic_interval": 5,
+          "probe_noise_seeds": [
+            50000,
+            60000
+          ]
+        }
+      }
+    },
+    "train": {
+      "backbone_frozen": true,
+      "max_steps": 100,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "warmup_steps": 10,
+      "save_every": 10,
+      "eval_every": 50,
+      "grad_clip": 1.0,
+      "world_size": 1,
+      "max_updates": 50
+    },
+    "eval": {
+      "cases": 4,
+      "reference_counts": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  },
+  "splits": {
+    "train": {
+      "input_sources": 867,
+      "retained_sources": 728,
+      "rejected_sources": 139,
+      "reference_kinds": {
+        "async": 364,
+        "none": 109,
+        "wrong": 109,
+        "aligned": 146
+      }
+    }
+  },
+  "notes": [
+    "Ratios apply to retained rows; per-reference dropout is applied during training.",
+    "Same-shot and histogram checks are heuristics; scene identity and captions still need human review.",
+    "Reference timestamps are metadata only; async defaults to past-only outside a 1.5s gap."
+  ]
+}

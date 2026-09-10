@@ -15,6 +15,7 @@ from restream.reality_data import canonical_hash, histogram, read_reference, sce
 from restream.reality_selection import (SELECTION_IDENTITY_SCHEMA, selection_config_hash,
                                         validate_selection_protocol, validate_temporal_sampling)
 from restream.reality_temporal import prefix_visible_seconds
+from restream.reality_splits import validate_r1_split
 from restream.runtime import read_config
 
 
@@ -183,8 +184,15 @@ def main():
         "Same-shot and histogram checks are heuristics; scene identity and captions still need human review.",
         "Reference timestamps are metadata only; async defaults to past-only outside a 1.5s gap."]}
     sources = {}
+    source_rows = {split: read_manifest(ROOT / config['data'].get(f'source_{split}_manifest', f'data/{split}.jsonl'))
+                   for split in ('train', 'val')}
+    if ({r['source_id'] for r in source_rows['train']} & {r['source_id'] for r in source_rows['val']} or
+            {r['sha256'] for r in source_rows['train']} & {r['sha256'] for r in source_rows['val']}):
+        raise ValueError('Source manifests leak source IDs or video content across splits')
+    for split, rows in source_rows.items():
+        validate_r1_split(ROOT, config, split, rows)
     for split in args.splits:
-        rows = read_manifest(ROOT / f"data/{split}.jsonl")
+        rows = source_rows[split]
         sources[split] = {r["source_id"] for r in rows}
         def make(row):
             record = shots[row["source_id"]]
@@ -201,6 +209,7 @@ def main():
                 if (i + 1) % 50 == 0:
                     print(f"{split}: examined {i + 1}/{len(rows)}, retained {len(retained)}", flush=True)
         attach_references(retained, config)
+        validate_r1_split(ROOT, config, split, retained)
         path = ROOT / config["data"][f"{split}_manifest"]
         temporary = path.with_suffix(".tmp")
         temporary.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in retained))

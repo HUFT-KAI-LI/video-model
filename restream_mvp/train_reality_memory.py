@@ -68,6 +68,8 @@ def main():
     if args.probe_overfit and not args.overfit_samples:
         parser.error("--probe-overfit requires --overfit-samples")
     config = read_reality_config(args.config)
+    if config['reality_memory']['stage'] != 'r0':
+        parser.error('This trainer implements R0; use scripts/check_r1_backward.py for the bounded R1-A smoke')
     budget = TrainingBudget(args.max_steps, args.max_updates)
     requested = args.max_steps if args.max_steps is not None else args.max_updates
     limit = config["train"].get("max_updates", config["train"]["max_steps"]) if args.max_updates is not None else config["train"]["max_steps"]

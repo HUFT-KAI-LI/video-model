@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "source_counts": {
+    "train": 867,
+    "dev": 83,
+    "test_reserved": 100
+  },
+  "old_reality_sources_excluded": 813,
+  "prior_diagnostic_sources_excluded": 115,
+  "test_overlap_source_ids": 0,
+  "test_overlap_video_sha256": 0,
+  "split_lock_sha256": "14c4d153aa39cc6dd92bc8070bb9cdcc9c56e07310a69e307f640e8c6d4be2fe",
+  "test_status": "Source reservation only; test target eligibility not evaluated. No Test decode/features/metrics performed."
+}
