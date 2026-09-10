@@ -4,6 +4,7 @@ import torch
 from torch.utils.data._utils.collate import default_collate
 from .dataset import VideoDataset
 from .reality_selection import SELECTION_IDENTITY_SCHEMA
+from .reality_temporal import latent_prefix_boundary_index, prefix_visible_seconds
 
 
 class RealityDataset(VideoDataset):
@@ -76,7 +77,7 @@ class RealityDataset(VideoDataset):
         if self.prefix_latents is None:
             raise ValueError("strict_online rows require prefix_latents to bound visible_until")
         start = float(row["target_start"])
-        arrival = 4 * (self.prefix_latents - 1) / self.fps
+        arrival = prefix_visible_seconds(self.prefix_latents, self.fps)
         if not start - 1e-6 <= visible_until <= start + arrival + 1e-6:
             raise ValueError(f"visible_until {visible_until} outside [target_start, target_start+arrival] = [{start}, {start + arrival}]")
         for kind in ("async", "aligned"):
@@ -95,7 +96,7 @@ class RealityDataset(VideoDataset):
         visible_until under causal_previous, so a manifest cannot claim a boundary
         the Dataset does not actually consume."""
         times = sample["sampled_times"]
-        boundary = 4 * (self.prefix_latents - 1)
+        boundary = latent_prefix_boundary_index(self.prefix_latents)
         if times.numel() <= boundary:
             raise ValueError("Sampled window shorter than the strict prefix boundary")
         end = float(times[boundary])

@@ -4,13 +4,10 @@
   "reference_count": 2,
   "prefix_frames": [
     0,
-    10,
-    20
+    12,
+    23
   ],
   "prefix_latents": 6,
-  "visible_pixel_frames": 21,
-  "prefix_latent_boundary_index": 20,
-  "temporal_mapping": "pixel_frames = 4*(prefix_latents-1)+1",
   "target_selection": {
     "mode": "all",
     "count": 83,
@@ -114,10 +111,7 @@
     "pool": "spatial-adaptive-average-patch-tokens/no-cls"
   },
   "train_manifest_sha256": "5ef1bab68a8707ed2fb9b353dfa797e60fef8f0d05106c4ffa8871f0370a1501",
-  "val_manifest_sha256": "723e05fc2530e7501f0ecbe232a23fd1318eea71fb990ac191107b8cfb60658f",
   "selection_config_hash": "1c7b08269065472fe310c8242dfcb5a0585fbbb3a2b1656f7cf28bc2a6b92a7c",
-  "selection_protocol": "offline_target_filtered",
-  "temporal_sampling": "first_at_or_after",
   "entries": [
     {
       "index": 0,
@@ -127,22 +121,21 @@
       "hard_negative_source_id": "14111B1211bF1-77b17ACCbbE5E48J347J227YaEJ3Ba51E3a-A-2a7B5Yb3-F1F13aTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.083333333333333,
-        6.708333333333333,
-        7.333333333333333
+        6.833333333333333,
+        7.5
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6798742413520813,
-        "easy_wrong": 0.22216206789016724,
-        "hard_wrong": 0.7330386638641357
+        "correct": 0.6687865257263184,
+        "easy_wrong": 0.22905296087265015,
+        "hard_wrong": 0.7160481214523315
       },
-      "margin_easy": 0.45771217346191406,
-      "margin_hard": -0.05316442251205444,
+      "margin_easy": 0.4397335648536682,
+      "margin_hard": -0.047261595726013184,
       "correct_gt_easy": true,
       "correct_gt_hard": false,
       "correct_gt_both": false,
@@ -158,22 +151,21 @@
       "hard_negative_source_id": "14111B1211bE7-4YbBJ3bF177J73CYCF554b7EaY73Aa5b3baCEE1a3A3b2Yb888YBaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         9.291666666666666,
-        9.916666666666666,
-        10.541666666666666
+        10.041666666666666,
+        10.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5800666809082031,
-        "easy_wrong": 0.15692749619483948,
-        "hard_wrong": 0.29879313707351685
+        "correct": 0.5607960224151611,
+        "easy_wrong": 0.16816642880439758,
+        "hard_wrong": 0.2742152512073517
       },
-      "margin_easy": 0.42313918471336365,
-      "margin_hard": 0.2812735438346863,
+      "margin_easy": 0.39262959361076355,
+      "margin_hard": 0.28658077120780945,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -189,22 +181,21 @@
       "hard_negative_source_id": "14111B121171bb-J71ABEE1F-3JF13827AJ-EEa8CF7a5313aCBA3aF8F-542JbC1EaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.75,
-        6.375,
-        7.0
+        6.5,
+        7.166666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6695605516433716,
-        "easy_wrong": 0.23061223328113556,
-        "hard_wrong": 0.34123697876930237
+        "correct": 0.663920521736145,
+        "easy_wrong": 0.23535221815109253,
+        "hard_wrong": 0.34870269894599915
       },
-      "margin_easy": 0.438948318362236,
-      "margin_hard": 0.3283235728740692,
+      "margin_easy": 0.4285683035850525,
+      "margin_hard": 0.3152178227901459,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -220,22 +211,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         3.75,
-        4.375,
-        5.0
+        4.5,
+        5.208333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8116212487220764,
-        "easy_wrong": 0.01659296080470085,
-        "hard_wrong": 0.44872963428497314
+        "correct": 0.8259971141815186,
+        "easy_wrong": 0.006245594471693039,
+        "hard_wrong": 0.45771121978759766
       },
-      "margin_easy": 0.7950282879173756,
-      "margin_hard": 0.36289161443710327,
+      "margin_easy": 0.8197515197098255,
+      "margin_hard": 0.3682858943939209,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -251,22 +241,21 @@
       "hard_negative_source_id": "14111B121174-3BJBE2YY1bE1E8B15J4Y11C82aAYA-a52-baCCCEa4J1AC4b838B5aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.291666666666667,
-        5.916666666666667,
-        6.541666666666667
+        6.041666666666667,
+        6.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9165773987770081,
-        "easy_wrong": 0.10217571258544922,
-        "hard_wrong": 0.48666203022003174
+        "correct": 0.9177938103675842,
+        "easy_wrong": 0.1131700873374939,
+        "hard_wrong": 0.49263995885849
       },
-      "margin_easy": 0.8144016861915588,
-      "margin_hard": 0.4299153685569763,
+      "margin_easy": 0.8046237230300903,
+      "margin_hard": 0.42515385150909424,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -282,22 +271,21 @@
       "hard_negative_source_id": "14111B1211bF-7A5E712-857-2E8C7Y-74-YJ3a58Eba5131aB2-4aY8B124EJ-A7AaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         15.708333333333334,
-        16.333333333333332,
-        16.958333333333332
+        16.458333333333332,
+        17.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6227782964706421,
-        "easy_wrong": 0.25727373361587524,
-        "hard_wrong": 0.5936099290847778
+        "correct": 0.6659802794456482,
+        "easy_wrong": 0.2356414496898651,
+        "hard_wrong": 0.6296299695968628
       },
-      "margin_easy": 0.36550456285476685,
-      "margin_hard": 0.029168367385864258,
+      "margin_easy": 0.4303388297557831,
+      "margin_hard": 0.0363503098487854,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -313,22 +301,21 @@
       "hard_negative_source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         10.041666666666666,
-        10.666666666666666,
-        11.291666666666666
+        10.791666666666666,
+        11.458333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8374303579330444,
-        "easy_wrong": 0.329378604888916,
-        "hard_wrong": 0.5646914839744568
+        "correct": 0.8498076796531677,
+        "easy_wrong": 0.32248759269714355,
+        "hard_wrong": 0.5843234062194824
       },
-      "margin_easy": 0.5080517530441284,
-      "margin_hard": 0.27273887395858765,
+      "margin_easy": 0.5273200869560242,
+      "margin_hard": 0.2654842734336853,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -344,22 +331,21 @@
       "hard_negative_source_id": "14111B1211bFCbBY1bb1J5b7C3AAACYYY7E3bba88B-a53AEaCFFJa4bJ2273BJ23AaTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.875,
-        7.5,
-        8.125
+        7.625,
+        8.291666666666666
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9642906188964844,
-        "easy_wrong": 0.34006792306900024,
-        "hard_wrong": 0.5277247428894043
+        "correct": 0.967160701751709,
+        "easy_wrong": 0.34331250190734863,
+        "hard_wrong": 0.5320334434509277
       },
-      "margin_easy": 0.6242226958274841,
-      "margin_hard": 0.4365658760070801,
+      "margin_easy": 0.6238481998443604,
+      "margin_hard": 0.43512725830078125,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -375,22 +361,21 @@
       "hard_negative_source_id": "14111B12117Y371CbA7A4AJ57b441J14bAA37Ya7F-1a5B15a-AF4aBAYF-27bFbF-aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.25,
-        2.875,
-        3.5
+        3.0,
+        3.6666666666666665
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7809324860572815,
-        "easy_wrong": 0.1566818356513977,
-        "hard_wrong": 0.404556006193161
+        "correct": 0.7824138402938843,
+        "easy_wrong": 0.154726043343544,
+        "hard_wrong": 0.407644122838974
       },
-      "margin_easy": 0.6242506504058838,
-      "margin_hard": 0.3763764798641205,
+      "margin_easy": 0.6276877969503403,
+      "margin_hard": 0.3747697174549103,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -406,22 +391,21 @@
       "hard_negative_source_id": "14111B1211bFCbBY1bb1J5b7C3AAACYYY7E3bba88B-a53AEaCFFJa4bJ2273BJ23AaTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.25,
-        6.875,
-        7.5
+        7.0,
+        7.708333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7588522434234619,
-        "easy_wrong": 0.14956115186214447,
-        "hard_wrong": 0.5769461989402771
+        "correct": 0.7558584809303284,
+        "easy_wrong": 0.14262960851192474,
+        "hard_wrong": 0.5645914077758789
       },
-      "margin_easy": 0.6092910915613174,
-      "margin_hard": 0.18190604448318481,
+      "margin_easy": 0.6132288724184036,
+      "margin_hard": 0.19126707315444946,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -437,22 +421,21 @@
       "hard_negative_source_id": "14111B1211bE7-4YbBJ3bF177J73CYCF554b7EaY73Aa5b3baCEE1a3A3b2Yb888YBaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         17.708333333333332,
-        18.333333333333332,
-        18.958333333333332
+        18.458333333333332,
+        19.166666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.34772253036499023,
-        "easy_wrong": 0.11830255389213562,
-        "hard_wrong": 0.3930845260620117
+        "correct": 0.34499403834342957,
+        "easy_wrong": 0.11655314266681671,
+        "hard_wrong": 0.38491320610046387
       },
-      "margin_easy": 0.22941997647285461,
-      "margin_hard": -0.045361995697021484,
+      "margin_easy": 0.22844089567661285,
+      "margin_hard": -0.0399191677570343,
       "correct_gt_easy": true,
       "correct_gt_hard": false,
       "correct_gt_both": false,
@@ -468,22 +451,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.75,
-        7.375,
-        8.0
+        7.5,
+        8.166666666666666
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9798250198364258,
-        "easy_wrong": 0.20501264929771423,
-        "hard_wrong": 0.6618300676345825
+        "correct": 0.9808741807937622,
+        "easy_wrong": 0.2043631374835968,
+        "hard_wrong": 0.6617261171340942
       },
-      "margin_easy": 0.7748123705387115,
-      "margin_hard": 0.31799495220184326,
+      "margin_easy": 0.7765110433101654,
+      "margin_hard": 0.31914806365966797,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -499,22 +481,21 @@
       "hard_negative_source_id": "14111B1211bJBbF41-8YF8YbFE8b8E754B-5-3a8F7-a5-1ba-72JaJ5Y884JEB7bbaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         66.66666666666667,
-        67.29166666666667,
-        67.91666666666667
+        67.41666666666667,
+        68.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8517730236053467,
-        "easy_wrong": 0.0639326274394989,
-        "hard_wrong": 0.6388841867446899
+        "correct": 0.8470158576965332,
+        "easy_wrong": 0.06357419490814209,
+        "hard_wrong": 0.648245096206665
       },
-      "margin_easy": 0.7878403961658478,
-      "margin_hard": 0.21288883686065674,
+      "margin_easy": 0.7834416627883911,
+      "margin_hard": 0.19877076148986816,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -530,22 +511,21 @@
       "hard_negative_source_id": "14111B1211bA38AFbC5E-2FJE2EF31JJ74AAFCa2C47a5JY7aC371aE3E237A77AB3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         3.0416666666666665,
-        3.6666666666666665,
-        4.291666666666667
+        3.7916666666666665,
+        4.5
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7294514179229736,
-        "easy_wrong": 0.44970983266830444,
-        "hard_wrong": 0.4378621578216553
+        "correct": 0.7224442958831787,
+        "easy_wrong": 0.4372480511665344,
+        "hard_wrong": 0.39406681060791016
       },
-      "margin_easy": 0.2797415852546692,
-      "margin_hard": 0.29158926010131836,
+      "margin_easy": 0.2851962447166443,
+      "margin_hard": 0.32837748527526855,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -561,22 +541,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         8.291666666666666,
-        8.916666666666666,
-        9.541666666666666
+        9.041666666666666,
+        9.708333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.609375536441803,
-        "easy_wrong": 0.08296021819114685,
-        "hard_wrong": 0.46789097785949707
+        "correct": 0.6765021085739136,
+        "easy_wrong": 0.07271800935268402,
+        "hard_wrong": 0.5192526578903198
       },
-      "margin_easy": 0.5264153182506561,
-      "margin_hard": 0.1414845585823059,
+      "margin_easy": 0.6037840992212296,
+      "margin_hard": 0.15724945068359375,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -592,22 +571,21 @@
       "hard_negative_source_id": "14111B1211bE-C4b3AFJAEA5YE1bCY7AF8148-a7Y2Ya5C22a-Y38a5JJ34B2B1EB4aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         8.791666666666666,
-        9.416666666666666,
-        10.041666666666666
+        9.541666666666666,
+        10.208333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9284605383872986,
-        "easy_wrong": 0.3050673007965088,
-        "hard_wrong": 0.584632933139801
+        "correct": 0.9280830025672913,
+        "easy_wrong": 0.3103525936603546,
+        "hard_wrong": 0.5848680734634399
       },
-      "margin_easy": 0.6233932375907898,
-      "margin_hard": 0.34382760524749756,
+      "margin_easy": 0.6177304089069366,
+      "margin_hard": 0.3432149291038513,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -623,22 +601,21 @@
       "hard_negative_source_id": "14111B121174BC7AFE734Ebb28EAYE8Eb-B4YYa7BJ3a5JJ-aBY2Ya-YbA51E5A1JAaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         18.916666666666668,
-        19.541666666666668,
-        20.166666666666668
+        19.666666666666668,
+        20.333333333333332
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7598770260810852,
-        "easy_wrong": 0.14542025327682495,
-        "hard_wrong": 0.5129022598266602
+        "correct": 0.7830156087875366,
+        "easy_wrong": 0.14857041835784912,
+        "hard_wrong": 0.4317137598991394
       },
-      "margin_easy": 0.6144567728042603,
-      "margin_hard": 0.24697476625442505,
+      "margin_easy": 0.6344451904296875,
+      "margin_hard": 0.3513018488883972,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -654,22 +631,21 @@
       "hard_negative_source_id": "14111B1211bE-Jb558BFAYb74J54A3F--b38B4a5E-Fa5E5CaCCCAaE55Y74Y2FC-3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         4.291666666666667,
-        4.916666666666667,
-        5.541666666666667
+        5.041666666666667,
+        5.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5480614304542542,
-        "easy_wrong": 0.2155132293701172,
-        "hard_wrong": 0.25076407194137573
+        "correct": 0.5437326431274414,
+        "easy_wrong": 0.22596372663974762,
+        "hard_wrong": 0.25584495067596436
       },
-      "margin_easy": 0.33254820108413696,
-      "margin_hard": 0.2972973585128784,
+      "margin_easy": 0.3177689164876938,
+      "margin_hard": 0.28788769245147705,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -685,22 +661,21 @@
       "hard_negative_source_id": "14111B1211bE31B3YF-7bF7728F3433-51C782aAE24a5381aCCbCa1B5E7J54BC13aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.125,
-        5.75,
-        6.375
+        5.875,
+        6.541666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7235269546508789,
-        "easy_wrong": 0.2985203266143799,
-        "hard_wrong": 0.4284311830997467
+        "correct": 0.7277607321739197,
+        "easy_wrong": 0.3069225549697876,
+        "hard_wrong": 0.42296749353408813
       },
-      "margin_easy": 0.425006628036499,
-      "margin_hard": 0.2950957715511322,
+      "margin_easy": 0.4208381772041321,
+      "margin_hard": 0.30479323863983154,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -716,22 +691,21 @@
       "hard_negative_source_id": "14111B1211bJCE7-Bb5753Y725bE2-C-B58853aE54ba5AF5a-45ba1ABEJ2337BbJaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         17.958333333333332,
-        18.583333333333332,
-        19.208333333333332
+        18.708333333333332,
+        19.375
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5527287721633911,
-        "easy_wrong": 0.21076273918151855,
-        "hard_wrong": 0.3745487332344055
+        "correct": 0.571092963218689,
+        "easy_wrong": 0.19803832471370697,
+        "hard_wrong": 0.38205456733703613
       },
-      "margin_easy": 0.34196603298187256,
-      "margin_hard": 0.1781800389289856,
+      "margin_easy": 0.373054638504982,
+      "margin_hard": 0.18903839588165283,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -747,22 +721,21 @@
       "hard_negative_source_id": "14111B1211745227-F15ACEJ474JYC7bE13ECYa8B5Ja51AFa-F8BaEYFYJJ1EY4J2aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         14.208333333333334,
-        14.833333333333334,
-        15.458333333333334
+        14.958333333333334,
+        15.625
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.830147385597229,
-        "easy_wrong": 0.23736754059791565,
-        "hard_wrong": 0.3967013657093048
+        "correct": 0.8337859511375427,
+        "easy_wrong": 0.23384366929531097,
+        "hard_wrong": 0.3586626350879669
       },
-      "margin_easy": 0.5927798449993134,
-      "margin_hard": 0.4334460198879242,
+      "margin_easy": 0.5999422818422318,
+      "margin_hard": 0.4751233160495758,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -778,22 +751,21 @@
       "hard_negative_source_id": "14111B1211bFb8bF1-7823A7F4FCF75FAC74JEaF57ba5Y4Fa33C1aY3215244Jb3-aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         40.375,
-        41.0,
-        41.625
+        41.125,
+        41.791666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.982211172580719,
-        "easy_wrong": 0.08154978603124619,
-        "hard_wrong": 0.4680449366569519
+        "correct": 0.9835524559020996,
+        "easy_wrong": 0.08080049604177475,
+        "hard_wrong": 0.4704124927520752
       },
-      "margin_easy": 0.9006613865494728,
-      "margin_hard": 0.5141662359237671,
+      "margin_easy": 0.9027519598603249,
+      "margin_hard": 0.5131399631500244,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -809,22 +781,21 @@
       "hard_negative_source_id": "14111B1211bAB7154bBC-AFCFbJ3EBCC8Y1C7Ya7378a58C5a-b-Fa281EEYJ-7FE-aTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.7083333333333335,
-        3.3333333333333335,
-        3.9583333333333335
+        3.4583333333333335,
+        4.166666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5335677862167358,
-        "easy_wrong": 0.270725280046463,
-        "hard_wrong": 0.30518701672554016
+        "correct": 0.5255547761917114,
+        "easy_wrong": 0.2685779929161072,
+        "hard_wrong": 0.30322137475013733
       },
-      "margin_easy": 0.2628425061702728,
-      "margin_hard": 0.22838076949119568,
+      "margin_easy": 0.25697678327560425,
+      "margin_hard": 0.2223334014415741,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -840,22 +811,21 @@
       "hard_negative_source_id": "14111B121171FJ5571FAY77AAb3C525Y5-742YaBb7Ea5b55aB325aAB2bbF41E2-CaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         25.541666666666668,
-        26.166666666666668,
-        26.791666666666668
+        26.291666666666668,
+        27.0
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.921394407749176,
-        "easy_wrong": 0.25206857919692993,
-        "hard_wrong": 0.39472001791000366
+        "correct": 0.9197272062301636,
+        "easy_wrong": 0.24952006340026855,
+        "hard_wrong": 0.38493043184280396
       },
-      "margin_easy": 0.6693258285522461,
-      "margin_hard": 0.5266743898391724,
+      "margin_easy": 0.670207142829895,
+      "margin_hard": 0.5347967743873596,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -871,22 +841,21 @@
       "hard_negative_source_id": "14111B1211bE31B3YF-7bF7728F3433-51C782aAE24a5381aCCbCa1B5E7J54BC13aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         15.666666666666666,
-        16.291666666666668,
-        16.916666666666668
+        16.416666666666668,
+        17.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9317628145217896,
-        "easy_wrong": 0.3170376420021057,
-        "hard_wrong": 0.5383161306381226
+        "correct": 0.9342641234397888,
+        "easy_wrong": 0.3142183721065521,
+        "hard_wrong": 0.5378166437149048
       },
-      "margin_easy": 0.6147251725196838,
-      "margin_hard": 0.393446683883667,
+      "margin_easy": 0.6200457513332367,
+      "margin_hard": 0.39644747972488403,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -902,22 +871,21 @@
       "hard_negative_source_id": "14111B1211bE7-4YbBJ3bF177J73CYCF554b7EaY73Aa5b3baCEE1a3A3b2Yb888YBaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         12.125,
-        12.75,
-        13.375
+        12.875,
+        13.583333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5993630886077881,
-        "easy_wrong": 0.18079125881195068,
-        "hard_wrong": 0.5120728015899658
+        "correct": 0.601435661315918,
+        "easy_wrong": 0.17336732149124146,
+        "hard_wrong": 0.5111356973648071
       },
-      "margin_easy": 0.4185718297958374,
-      "margin_hard": 0.08729028701782227,
+      "margin_easy": 0.4280683398246765,
+      "margin_hard": 0.09029996395111084,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -933,22 +901,21 @@
       "hard_negative_source_id": "14111B121174BC7AFE734Ebb28EAYE8Eb-B4YYa7BJ3a5JJ-aBY2Ya-YbA51E5A1JAaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         21.583333333333332,
-        22.208333333333332,
-        22.833333333333332
+        22.333333333333332,
+        23.0
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9008301496505737,
-        "easy_wrong": 0.42152833938598633,
-        "hard_wrong": 0.6771125793457031
+        "correct": 0.8990432024002075,
+        "easy_wrong": 0.4193909168243408,
+        "hard_wrong": 0.6756847500801086
       },
-      "margin_easy": 0.4793018102645874,
-      "margin_hard": 0.2237175703048706,
+      "margin_easy": 0.4796522855758667,
+      "margin_hard": 0.22335845232009888,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -964,22 +931,21 @@
       "hard_negative_source_id": "14111B1211bE7-4YbBJ3bF177J73CYCF554b7EaY73Aa5b3baCEE1a3A3b2Yb888YBaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         17.333333333333332,
-        17.958333333333332,
-        18.583333333333332
+        18.083333333333332,
+        18.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6382489204406738,
-        "easy_wrong": 0.27860093116760254,
-        "hard_wrong": 0.4026981592178345
+        "correct": 0.6488048434257507,
+        "easy_wrong": 0.2870177626609802,
+        "hard_wrong": 0.4042198061943054
       },
-      "margin_easy": 0.3596479892730713,
-      "margin_hard": 0.23555076122283936,
+      "margin_easy": 0.3617870807647705,
+      "margin_hard": 0.2445850372314453,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -995,22 +961,21 @@
       "hard_negative_source_id": "14111B121172FB5E2B48FAYA755-5J1AE2bC44a4-4Aa5C53aCC4Ba4CY13J7-3832aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         3.7083333333333335,
-        4.333333333333333,
-        4.958333333333333
+        4.458333333333333,
+        5.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.802093505859375,
-        "easy_wrong": 0.21745695173740387,
-        "hard_wrong": 0.3665273189544678
+        "correct": 0.8044480681419373,
+        "easy_wrong": 0.21531066298484802,
+        "hard_wrong": 0.36433494091033936
       },
-      "margin_easy": 0.5846365541219711,
-      "margin_hard": 0.4355661869049072,
+      "margin_easy": 0.5891374051570892,
+      "margin_hard": 0.4401131272315979,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1026,22 +991,21 @@
       "hard_negative_source_id": "14111B1211bJYEEA73Cb5J311J572bEA22333Ba-FECa5B8CaB-J-aF2-E4b573EJ-aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         37.875,
-        38.5,
-        39.125
+        38.625,
+        39.291666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7192163467407227,
-        "easy_wrong": 0.26941514015197754,
-        "hard_wrong": 0.3909379243850708
+        "correct": 0.7307274341583252,
+        "easy_wrong": 0.24844276905059814,
+        "hard_wrong": 0.3972880244255066
       },
-      "margin_easy": 0.4498012065887451,
-      "margin_hard": 0.32827842235565186,
+      "margin_easy": 0.48228466510772705,
+      "margin_hard": 0.3334394097328186,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1057,22 +1021,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         17.541666666666668,
-        18.166666666666668,
-        18.791666666666668
+        18.291666666666668,
+        19.0
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7157614231109619,
-        "easy_wrong": 0.09012818336486816,
-        "hard_wrong": 0.6387451887130737
+        "correct": 0.7169421911239624,
+        "easy_wrong": 0.09178374707698822,
+        "hard_wrong": 0.6394781470298767
       },
-      "margin_easy": 0.6256332397460938,
-      "margin_hard": 0.07701623439788818,
+      "margin_easy": 0.6251584440469742,
+      "margin_hard": 0.0774640440940857,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1088,22 +1051,21 @@
       "hard_negative_source_id": "14111B1211bEJ11CbEACA7C5b785-b1B-B-3J7aA555a554BaCA1Ja3bYBE8AE-CY3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         12.333333333333334,
-        12.958333333333334,
-        13.583333333333334
+        13.083333333333334,
+        13.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5511246919631958,
-        "easy_wrong": 0.04938643053174019,
-        "hard_wrong": 0.49419111013412476
+        "correct": 0.5462416410446167,
+        "easy_wrong": 0.053590092808008194,
+        "hard_wrong": 0.48015594482421875
       },
-      "margin_easy": 0.5017382614314556,
-      "margin_hard": 0.056933581829071045,
+      "margin_easy": 0.4926515482366085,
+      "margin_hard": 0.06608569622039795,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1119,22 +1081,21 @@
       "hard_negative_source_id": "14111B121174-3BJBE2YY1bE1E8B15J4Y11C82aAYA-a52-baCCCEa4J1AC4b838B5aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         35.916666666666664,
-        36.541666666666664,
-        37.166666666666664
+        36.666666666666664,
+        37.333333333333336
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8273886442184448,
-        "easy_wrong": 0.13823795318603516,
-        "hard_wrong": 0.6224209070205688
+        "correct": 0.8328549265861511,
+        "easy_wrong": 0.13215447962284088,
+        "hard_wrong": 0.6121787428855896
       },
-      "margin_easy": 0.6891506910324097,
-      "margin_hard": 0.20496773719787598,
+      "margin_easy": 0.7007004469633102,
+      "margin_hard": 0.22067618370056152,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1150,22 +1111,21 @@
       "hard_negative_source_id": "14111B1211bJYEEA73Cb5J311J572bEA22333Ba-FECa5B8CaB-J-aF2-E4b573EJ-aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         15.75,
-        16.375,
-        17.0
+        16.5,
+        17.166666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.977769136428833,
-        "easy_wrong": 0.11508677899837494,
-        "hard_wrong": 0.58271324634552
+        "correct": 0.9760532379150391,
+        "easy_wrong": 0.11996610462665558,
+        "hard_wrong": 0.5816375613212585
       },
-      "margin_easy": 0.8626823574304581,
-      "margin_hard": 0.395055890083313,
+      "margin_easy": 0.8560871332883835,
+      "margin_hard": 0.3944156765937805,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1181,22 +1141,21 @@
       "hard_negative_source_id": "14111B1211bAFCF8414C74-1J425AYC-357AB1aF2AFa51B5a3YCJaFF4J4FBYB8b5aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         11.25,
-        11.875,
-        12.5
+        12.0,
+        12.666666666666666
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9887173175811768,
-        "easy_wrong": 0.15376922488212585,
-        "hard_wrong": 0.6313221454620361
+        "correct": 0.9884700775146484,
+        "easy_wrong": 0.15282168984413147,
+        "hard_wrong": 0.6346312761306763
       },
-      "margin_easy": 0.8349480926990509,
-      "margin_hard": 0.3573951721191406,
+      "margin_easy": 0.835648387670517,
+      "margin_hard": 0.35383880138397217,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1212,22 +1171,21 @@
       "hard_negative_source_id": "14111B12117187C15YAYJ-BA75Y-bB5C1--FEbaA2Bba531Ca-EbAa7844B17FE548aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.333333333333333,
-        5.958333333333333,
-        6.583333333333333
+        6.083333333333333,
+        6.791666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.4412935972213745,
-        "easy_wrong": 0.19880157709121704,
-        "hard_wrong": 0.32999223470687866
+        "correct": 0.4326818585395813,
+        "easy_wrong": 0.18372109532356262,
+        "hard_wrong": 0.3261708915233612
       },
-      "margin_easy": 0.24249202013015747,
-      "margin_hard": 0.11130136251449585,
+      "margin_easy": 0.24896076321601868,
+      "margin_hard": 0.10651096701622009,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1243,22 +1201,21 @@
       "hard_negative_source_id": "14111B1211bE-Jb558BFAYb74J54A3F--b38B4a5E-Fa5E5CaCCCAaE55Y74Y2FC-3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         23.208333333333332,
-        23.833333333333332,
-        24.458333333333332
+        23.958333333333332,
+        24.625
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.4695395231246948,
-        "easy_wrong": 0.36136266589164734,
-        "hard_wrong": 0.2831338047981262
+        "correct": 0.48113101720809937,
+        "easy_wrong": 0.3738980293273926,
+        "hard_wrong": 0.3033389449119568
       },
-      "margin_easy": 0.10817685723304749,
-      "margin_hard": 0.1864057183265686,
+      "margin_easy": 0.10723298788070679,
+      "margin_hard": 0.17779207229614258,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1274,22 +1231,21 @@
       "hard_negative_source_id": "14111B121171A2C-7Y-A2Y7312J7B22B71E-2AaAF-4a5B78aC-3ba347JCJY7YA34aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         43.0,
-        43.625,
-        44.25
+        43.75,
+        44.416666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7517998218536377,
-        "easy_wrong": 0.21938574314117432,
-        "hard_wrong": 0.3035214841365814
+        "correct": 0.7462748885154724,
+        "easy_wrong": 0.22697119414806366,
+        "hard_wrong": 0.30374717712402344
       },
-      "margin_easy": 0.5324140787124634,
-      "margin_hard": 0.4482783377170563,
+      "margin_easy": 0.5193036943674088,
+      "margin_hard": 0.442527711391449,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1305,22 +1261,21 @@
       "hard_negative_source_id": "14111B1211bFJCY181-JB1b7C334-414FJ-138aECJ2a574FaBE-FaYC83551E5YC1aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         13.083333333333334,
-        13.708333333333334,
-        14.333333333333334
+        13.833333333333334,
+        14.5
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8615329265594482,
-        "easy_wrong": 0.27483683824539185,
-        "hard_wrong": 0.48171305656433105
+        "correct": 0.862503170967102,
+        "easy_wrong": 0.2808464765548706,
+        "hard_wrong": 0.48011305928230286
       },
-      "margin_easy": 0.5866960883140564,
-      "margin_hard": 0.3798198699951172,
+      "margin_easy": 0.5816566944122314,
+      "margin_hard": 0.3823901116847992,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1336,22 +1291,21 @@
       "hard_negative_source_id": "14111B1211745227-F15ACEJ474JYC7bE13ECYa8B5Ja51AFa-F8BaEYFYJJ1EY4J2aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.25,
-        2.875,
-        3.5
+        3.0,
+        3.7083333333333335
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7507451176643372,
-        "easy_wrong": 0.3322524428367615,
-        "hard_wrong": 0.5054241418838501
+        "correct": 0.7259180545806885,
+        "easy_wrong": 0.3324087858200073,
+        "hard_wrong": 0.5031745433807373
       },
-      "margin_easy": 0.4184926748275757,
-      "margin_hard": 0.24532097578048706,
+      "margin_easy": 0.39350926876068115,
+      "margin_hard": 0.22274351119995117,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1367,22 +1321,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         4.875,
-        5.5,
-        6.125
+        5.625,
+        6.291666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9115394353866577,
-        "easy_wrong": 0.15145480632781982,
-        "hard_wrong": 0.5099406242370605
+        "correct": 0.9124388694763184,
+        "easy_wrong": 0.1622081696987152,
+        "hard_wrong": 0.49816638231277466
       },
-      "margin_easy": 0.7600846290588379,
-      "margin_hard": 0.40159881114959717,
+      "margin_easy": 0.7502306997776031,
+      "margin_hard": 0.4142724871635437,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1398,22 +1351,21 @@
       "hard_negative_source_id": "14111B12117187C15YAYJ-BA75Y-bB5C1--FEbaA2Bba531Ca-EbAa7844B17FE548aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.7083333333333335,
-        3.3333333333333335,
-        3.9583333333333335
+        3.4583333333333335,
+        4.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7081602811813354,
-        "easy_wrong": 0.3847557306289673,
-        "hard_wrong": 0.5443359017372131
+        "correct": 0.6899560689926147,
+        "easy_wrong": 0.37796467542648315,
+        "hard_wrong": 0.5214443206787109
       },
-      "margin_easy": 0.32340455055236816,
-      "margin_hard": 0.16382437944412231,
+      "margin_easy": 0.3119913935661316,
+      "margin_hard": 0.1685117483139038,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1429,22 +1381,21 @@
       "hard_negative_source_id": "14111B1211bAE3-4J42454E58AF8-8CEEYBCACaE13-a58bBaC3J7aA27bb-A27E13aTdfofa114",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         31.583333333333332,
-        32.208333333333336,
-        32.833333333333336
+        32.333333333333336,
+        33.0
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5476549863815308,
-        "easy_wrong": 0.18488413095474243,
-        "hard_wrong": 0.3924151659011841
+        "correct": 0.5475067496299744,
+        "easy_wrong": 0.18905586004257202,
+        "hard_wrong": 0.3903000056743622
       },
-      "margin_easy": 0.36277085542678833,
-      "margin_hard": 0.15523982048034668,
+      "margin_easy": 0.35845088958740234,
+      "margin_hard": 0.15720674395561218,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1460,22 +1411,21 @@
       "hard_negative_source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         32.416666666666664,
-        33.041666666666664,
-        33.666666666666664
+        33.166666666666664,
+        33.833333333333336
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9391000270843506,
-        "easy_wrong": 0.345500111579895,
-        "hard_wrong": 0.44016793370246887
+        "correct": 0.9392368793487549,
+        "easy_wrong": 0.34660547971725464,
+        "hard_wrong": 0.43727704882621765
       },
-      "margin_easy": 0.5935999155044556,
-      "margin_hard": 0.4989320933818817,
+      "margin_easy": 0.5926313996315002,
+      "margin_hard": 0.5019598305225372,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1491,22 +1441,21 @@
       "hard_negative_source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.75,
-        6.375,
-        7.0
+        6.5,
+        7.166666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8393552303314209,
-        "easy_wrong": 0.2487369179725647,
-        "hard_wrong": 0.5796811580657959
+        "correct": 0.8282973766326904,
+        "easy_wrong": 0.24497511982917786,
+        "hard_wrong": 0.5561058521270752
       },
-      "margin_easy": 0.5906183123588562,
-      "margin_hard": 0.259674072265625,
+      "margin_easy": 0.5833222568035126,
+      "margin_hard": 0.27219152450561523,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1522,22 +1471,21 @@
       "hard_negative_source_id": "14111B1211bE-Jb558BFAYb74J54A3F--b38B4a5E-Fa5E5CaCCCAaE55Y74Y2FC-3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         4.666666666666667,
-        5.291666666666667,
-        5.916666666666667
+        5.416666666666667,
+        6.083333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9587105512619019,
-        "easy_wrong": 0.2289966344833374,
-        "hard_wrong": 0.5805891752243042
+        "correct": 0.959850549697876,
+        "easy_wrong": 0.22129759192466736,
+        "hard_wrong": 0.5796447396278381
       },
-      "margin_easy": 0.7297139167785645,
-      "margin_hard": 0.37812137603759766,
+      "margin_easy": 0.7385529577732086,
+      "margin_hard": 0.38020581007003784,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1553,22 +1501,21 @@
       "hard_negative_source_id": "14111B1211bJ7YAEBC-7bJ3b3F-BB4A4BA4-42a811Aa5YBEaBEbYab43J8BY8Y51JaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.708333333333333,
-        7.333333333333333,
-        7.958333333333333
+        7.458333333333333,
+        8.125
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7144749164581299,
-        "easy_wrong": 0.3674772381782532,
-        "hard_wrong": 0.36933380365371704
+        "correct": 0.7110903263092041,
+        "easy_wrong": 0.37366196513175964,
+        "hard_wrong": 0.36607545614242554
       },
-      "margin_easy": 0.3469976782798767,
-      "margin_hard": 0.34514111280441284,
+      "margin_easy": 0.33742836117744446,
+      "margin_hard": 0.34501487016677856,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1584,22 +1531,21 @@
       "hard_negative_source_id": "14111B1211bE-F-AF2-8BB87-281F3bY127BA-a8J-ba52C5aC8bJa8BYb4F1E5b53aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         19.375,
-        20.0,
-        20.625
+        20.125,
+        20.833333333333332
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5714675188064575,
-        "easy_wrong": 0.28208157420158386,
-        "hard_wrong": 0.4764775037765503
+        "correct": 0.5728133916854858,
+        "easy_wrong": 0.2838612496852875,
+        "hard_wrong": 0.4762713313102722
       },
-      "margin_easy": 0.28938594460487366,
-      "margin_hard": 0.09499001502990723,
+      "margin_easy": 0.28895214200019836,
+      "margin_hard": 0.09654206037521362,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1615,22 +1561,21 @@
       "hard_negative_source_id": "14111B1211bF8-J23J785B3bE722335133C833aB3E-a527CaB8JJa38B528C2bYACaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         20.625,
-        21.25,
-        21.875
+        21.375,
+        22.041666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6535426378250122,
-        "easy_wrong": 0.3103010952472687,
-        "hard_wrong": 0.34483206272125244
+        "correct": 0.6535646915435791,
+        "easy_wrong": 0.31013983488082886,
+        "hard_wrong": 0.3447141647338867
       },
-      "margin_easy": 0.34324154257774353,
-      "margin_hard": 0.30871057510375977,
+      "margin_easy": 0.34342485666275024,
+      "margin_hard": 0.3088505268096924,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1646,22 +1591,21 @@
       "hard_negative_source_id": "14111B1211bF-7A5E712-857-2E8C7Y-74-YJ3a58Eba5131aB2-4aY8B124EJ-A7AaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         7.75,
-        8.375,
-        9.0
+        8.5,
+        9.208333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5979516506195068,
-        "easy_wrong": 0.3032025098800659,
-        "hard_wrong": 0.4882027506828308
+        "correct": 0.5872748494148254,
+        "easy_wrong": 0.3028525412082672,
+        "hard_wrong": 0.4796423614025116
       },
-      "margin_easy": 0.2947491407394409,
-      "margin_hard": 0.10974889993667603,
+      "margin_easy": 0.2844223082065582,
+      "margin_hard": 0.10763248801231384,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1677,22 +1621,21 @@
       "hard_negative_source_id": "14111B1211bE7-4YbBJ3bF177J73CYCF554b7EaY73Aa5b3baCEE1a3A3b2Yb888YBaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         5.75,
-        6.375,
-        7.0
+        6.5,
+        7.208333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5850305557250977,
-        "easy_wrong": 0.138374924659729,
-        "hard_wrong": 0.4647411108016968
+        "correct": 0.5892567038536072,
+        "easy_wrong": 0.1392422616481781,
+        "hard_wrong": 0.46621257066726685
       },
-      "margin_easy": 0.44665563106536865,
-      "margin_hard": 0.12028944492340088,
+      "margin_easy": 0.4500144422054291,
+      "margin_hard": 0.12304413318634033,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1708,22 +1651,21 @@
       "hard_negative_source_id": "14111B121174BC7AFE734Ebb28EAYE8Eb-B4YYa7BJ3a5JJ-aBY2Ya-YbA51E5A1JAaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         7.0,
-        7.625,
-        8.25
+        7.75,
+        8.458333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9022401571273804,
-        "easy_wrong": 0.101059690117836,
-        "hard_wrong": 0.3555701971054077
+        "correct": 0.9077499508857727,
+        "easy_wrong": 0.10683750361204147,
+        "hard_wrong": 0.34384483098983765
       },
-      "margin_easy": 0.8011804670095444,
-      "margin_hard": 0.5466699600219727,
+      "margin_easy": 0.8009124472737312,
+      "margin_hard": 0.5639051198959351,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1739,22 +1681,21 @@
       "hard_negative_source_id": "14111B1211bF571b2C2BYCY4EEEJ4E88E521A4a2A3Ea5JE2a37AYaA524C3A311A1aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.291666666666667,
-        6.916666666666667,
-        7.541666666666667
+        7.041666666666667,
+        7.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9815601110458374,
-        "easy_wrong": 0.22406995296478271,
-        "hard_wrong": 0.38302820920944214
+        "correct": 0.9809954762458801,
+        "easy_wrong": 0.22519777715206146,
+        "hard_wrong": 0.3809012472629547
       },
-      "margin_easy": 0.7574901580810547,
-      "margin_hard": 0.5985319018363953,
+      "margin_easy": 0.7557976990938187,
+      "margin_hard": 0.6000942289829254,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1770,22 +1711,21 @@
       "hard_negative_source_id": "14111B12117YYA1EJ5-EAE3AJ51F487JEB2E7EaJ7B5a58JBaCAY5a471-8E3AC8C4aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         27.958333333333332,
-        28.583333333333332,
-        29.208333333333332
+        28.708333333333332,
+        29.416666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6582919359207153,
-        "easy_wrong": 0.14146384596824646,
-        "hard_wrong": 0.6656492352485657
+        "correct": 0.6625566482543945,
+        "easy_wrong": 0.1397174894809723,
+        "hard_wrong": 0.665335476398468
       },
-      "margin_easy": 0.5168280899524689,
-      "margin_hard": -0.007357299327850342,
+      "margin_easy": 0.5228391587734222,
+      "margin_hard": -0.0027788281440734863,
       "correct_gt_easy": true,
       "correct_gt_hard": false,
       "correct_gt_both": false,
@@ -1801,22 +1741,21 @@
       "hard_negative_source_id": "14111B121171F8JE-J4EE15EYBB2FYA851Fb-2aY5BCa51F4aB74Ja1JJ-CC-b-ECbaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         4.208333333333333,
-        4.833333333333333,
-        5.458333333333333
+        4.958333333333333,
+        5.666666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8099149465560913,
-        "easy_wrong": 0.21662965416908264,
-        "hard_wrong": 0.5627840757369995
+        "correct": 0.825739324092865,
+        "easy_wrong": 0.2226109653711319,
+        "hard_wrong": 0.5712453126907349
       },
-      "margin_easy": 0.5932852923870087,
-      "margin_hard": 0.2471308708190918,
+      "margin_easy": 0.6031283587217331,
+      "margin_hard": 0.2544940114021301,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1832,22 +1771,21 @@
       "hard_negative_source_id": "14111B121171BEE2bF3EB5-81Cb74A-Bb3Y153a812Ja5A48a377-a284A3JFYBA7EaTdfofa11b",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         12.541666666666666,
-        13.166666666666666,
-        13.791666666666666
+        13.291666666666666,
+        13.958333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9613693952560425,
-        "easy_wrong": 0.13702546060085297,
-        "hard_wrong": 0.5621168613433838
+        "correct": 0.96269690990448,
+        "easy_wrong": 0.13836145401000977,
+        "hard_wrong": 0.5676897764205933
       },
-      "margin_easy": 0.8243439346551895,
-      "margin_hard": 0.3992525339126587,
+      "margin_easy": 0.8243354558944702,
+      "margin_hard": 0.3950071334838867,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1863,22 +1801,21 @@
       "hard_negative_source_id": "14111B1211bEJYC27bYFBBY7C3b55B85-A14B5a74A5a534Ca-CAAaAA3A477Y85-1aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         54.833333333333336,
-        55.458333333333336,
-        56.083333333333336
+        55.583333333333336,
+        56.25
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9467610120773315,
-        "easy_wrong": 0.166680246591568,
-        "hard_wrong": 0.4003157615661621
+        "correct": 0.9479515552520752,
+        "easy_wrong": 0.17124620079994202,
+        "hard_wrong": 0.41136598587036133
       },
-      "margin_easy": 0.7800807654857635,
-      "margin_hard": 0.5464452505111694,
+      "margin_easy": 0.7767053544521332,
+      "margin_hard": 0.5365855693817139,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1894,22 +1831,21 @@
       "hard_negative_source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         4.333333333333333,
-        4.958333333333333,
-        5.583333333333333
+        5.083333333333333,
+        5.791666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9619965553283691,
-        "easy_wrong": 0.1441020667552948,
-        "hard_wrong": 0.6309884786605835
+        "correct": 0.9611696600914001,
+        "easy_wrong": 0.14006558060646057,
+        "hard_wrong": 0.6336949467658997
       },
-      "margin_easy": 0.8178944885730743,
-      "margin_hard": 0.33100807666778564,
+      "margin_easy": 0.8211040794849396,
+      "margin_hard": 0.3274747133255005,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1925,22 +1861,21 @@
       "hard_negative_source_id": "14111B1211747JCJ3bYA4F7E-7C4JAE37B333baEYBFa5E-4a-E7FabFCCbF18B344aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         29.666666666666668,
-        30.291666666666668,
-        30.916666666666668
+        30.416666666666668,
+        31.083333333333332
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6993242502212524,
-        "easy_wrong": 0.07921470701694489,
-        "hard_wrong": 0.6265761852264404
+        "correct": 0.6935074925422668,
+        "easy_wrong": 0.0761985033750534,
+        "hard_wrong": 0.6306943893432617
       },
-      "margin_easy": 0.6201095432043076,
-      "margin_hard": 0.07274806499481201,
+      "margin_easy": 0.6173089891672134,
+      "margin_hard": 0.06281310319900513,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1956,22 +1891,21 @@
       "hard_negative_source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         3.4166666666666665,
-        4.041666666666667,
-        4.666666666666667
+        4.166666666666667,
+        4.875
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6917345523834229,
-        "easy_wrong": 0.27369245886802673,
-        "hard_wrong": 0.5125488638877869
+        "correct": 0.705333948135376,
+        "easy_wrong": 0.30600619316101074,
+        "hard_wrong": 0.5161864161491394
       },
-      "margin_easy": 0.4180420935153961,
-      "margin_hard": 0.179185688495636,
+      "margin_easy": 0.39932775497436523,
+      "margin_hard": 0.18914753198623657,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -1987,22 +1921,21 @@
       "hard_negative_source_id": "14111B1211bAFCF8414C74-1J425AYC-357AB1aF2AFa51B5a3YCJaFF4J4FBYB8b5aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         51.166666666666664,
-        51.791666666666664,
-        52.416666666666664
+        51.916666666666664,
+        52.583333333333336
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9119495153427124,
-        "easy_wrong": 0.20542529225349426,
-        "hard_wrong": 0.472747266292572
+        "correct": 0.9095925092697144,
+        "easy_wrong": 0.21255719661712646,
+        "hard_wrong": 0.47038504481315613
       },
-      "margin_easy": 0.7065242230892181,
-      "margin_hard": 0.4392022490501404,
+      "margin_easy": 0.6970353126525879,
+      "margin_hard": 0.4392074644565582,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2018,22 +1951,21 @@
       "hard_negative_source_id": "14111B1211bAB7154bBC-AFCFbJ3EBCC8Y1C7Ya7378a58C5a-b-Fa281EEYJ-7FE-aTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         3.375,
-        4.0,
-        4.625
+        4.125,
+        4.833333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8766741752624512,
-        "easy_wrong": 0.07303701341152191,
-        "hard_wrong": 0.33308401703834534
+        "correct": 0.8769310712814331,
+        "easy_wrong": 0.06558045744895935,
+        "hard_wrong": 0.33809155225753784
       },
-      "margin_easy": 0.8036371618509293,
-      "margin_hard": 0.5435901582241058,
+      "margin_easy": 0.8113506138324738,
+      "margin_hard": 0.5388395190238953,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2049,22 +1981,21 @@
       "hard_negative_source_id": "14111B121174-3BJBE2YY1bE1E8B15J4Y11C82aAYA-a52-baCCCEa4J1AC4b838B5aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         32.833333333333336,
-        33.458333333333336,
-        34.083333333333336
+        33.583333333333336,
+        34.291666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8982410430908203,
-        "easy_wrong": 0.3511446714401245,
-        "hard_wrong": 0.6814852952957153
+        "correct": 0.8976250886917114,
+        "easy_wrong": 0.3460310101509094,
+        "hard_wrong": 0.6823939085006714
       },
-      "margin_easy": 0.5470963716506958,
-      "margin_hard": 0.21675574779510498,
+      "margin_easy": 0.551594078540802,
+      "margin_hard": 0.21523118019104004,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2080,22 +2011,21 @@
       "hard_negative_source_id": "14111B1211bA71BJ223-B744E4-2EB-5738712a2C4-a5JCBaB52ba5E5B243B72bBaTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.875,
-        3.5,
-        4.125
+        3.625,
+        4.291666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9307128190994263,
-        "easy_wrong": 0.3492772579193115,
-        "hard_wrong": 0.4869968593120575
+        "correct": 0.9308639764785767,
+        "easy_wrong": 0.3606731593608856,
+        "hard_wrong": 0.4916714131832123
       },
-      "margin_easy": 0.5814355611801147,
-      "margin_hard": 0.4437159597873688,
+      "margin_easy": 0.570190817117691,
+      "margin_hard": 0.4391925632953644,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2111,22 +2041,21 @@
       "hard_negative_source_id": "14111B1211742-78YJJE82AF-YbF187EE178CFa1bECa5B-YaCE27aY7--4Jbb451JaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         56.5,
-        57.125,
-        57.75
+        57.25,
+        57.916666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9110044836997986,
-        "easy_wrong": 0.08506565541028976,
-        "hard_wrong": 0.5195744633674622
+        "correct": 0.9107099771499634,
+        "easy_wrong": 0.08557884395122528,
+        "hard_wrong": 0.5178979635238647
       },
-      "margin_easy": 0.8259388282895088,
-      "margin_hard": 0.3914300203323364,
+      "margin_easy": 0.8251311331987381,
+      "margin_hard": 0.39281201362609863,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2142,22 +2071,21 @@
       "hard_negative_source_id": "14111B1211742-78YJJE82AF-YbF187EE178CFa1bECa5B-YaCE27aY7--4Jbb451JaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.2916666666666665,
-        2.9166666666666665,
-        3.5416666666666665
+        3.0416666666666665,
+        3.7083333333333335
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.954147219657898,
-        "easy_wrong": 0.29433953762054443,
-        "hard_wrong": 0.4885469079017639
+        "correct": 0.962367057800293,
+        "easy_wrong": 0.3094378709793091,
+        "hard_wrong": 0.48545390367507935
       },
-      "margin_easy": 0.6598076820373535,
-      "margin_hard": 0.46560031175613403,
+      "margin_easy": 0.6529291868209839,
+      "margin_hard": 0.4769131541252136,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2173,22 +2101,21 @@
       "hard_negative_source_id": "14111B1211bE-Jb558BFAYb74J54A3F--b38B4a5E-Fa5E5CaCCCAaE55Y74Y2FC-3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         9.833333333333334,
-        10.458333333333334,
-        11.083333333333334
+        10.583333333333334,
+        11.291666666666666
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9285144805908203,
-        "easy_wrong": 0.16502268612384796,
-        "hard_wrong": 0.5441605448722839
+        "correct": 0.9298242926597595,
+        "easy_wrong": 0.1665099710226059,
+        "hard_wrong": 0.5466886162757874
       },
-      "margin_easy": 0.7634917944669724,
-      "margin_hard": 0.3843539357185364,
+      "margin_easy": 0.7633143216371536,
+      "margin_hard": 0.38313567638397217,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2204,22 +2131,21 @@
       "hard_negative_source_id": "14111B1211bF-7A5E712-857-2E8C7Y-74-YJ3a58Eba5131aB2-4aY8B124EJ-A7AaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         20.458333333333332,
-        21.083333333333332,
-        21.708333333333332
+        21.208333333333332,
+        21.875
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8847570419311523,
-        "easy_wrong": 0.6599853038787842,
-        "hard_wrong": 0.6288712024688721
+        "correct": 0.8816274404525757,
+        "easy_wrong": 0.6646057367324829,
+        "hard_wrong": 0.6241376399993896
       },
-      "margin_easy": 0.22477173805236816,
-      "margin_hard": 0.2558858394622803,
+      "margin_easy": 0.21702170372009277,
+      "margin_hard": 0.25748980045318604,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2235,22 +2161,21 @@
       "hard_negative_source_id": "14111B121172FB5E2B48FAYA755-5J1AE2bC44a4-4Aa5C53aCC4Ba4CY13J7-3832aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         2.3333333333333335,
-        2.9583333333333335,
-        3.5833333333333335
+        3.0833333333333335,
+        3.75
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7968809008598328,
-        "easy_wrong": 0.13576319813728333,
-        "hard_wrong": 0.44031569361686707
+        "correct": 0.7912663221359253,
+        "easy_wrong": 0.13631364703178406,
+        "hard_wrong": 0.4363786578178406
       },
-      "margin_easy": 0.6611177027225494,
-      "margin_hard": 0.3565652072429657,
+      "margin_easy": 0.6549526751041412,
+      "margin_hard": 0.3548876643180847,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2266,22 +2191,21 @@
       "hard_negative_source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         21.208333333333332,
-        21.833333333333332,
-        22.458333333333332
+        21.958333333333332,
+        22.666666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9431750774383545,
-        "easy_wrong": 0.187979593873024,
-        "hard_wrong": 0.666373610496521
+        "correct": 0.9443798661231995,
+        "easy_wrong": 0.19162943959236145,
+        "hard_wrong": 0.6635639071464539
       },
-      "margin_easy": 0.7551954835653305,
-      "margin_hard": 0.2768014669418335,
+      "margin_easy": 0.752750426530838,
+      "margin_hard": 0.2808159589767456,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2297,22 +2221,21 @@
       "hard_negative_source_id": "14111B121172b442FE1B2CbE2717EbECAb25-Yab15-a5842aCb52a45FE3J4-C75EaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         21.0,
-        21.625,
-        22.25
+        21.75,
+        22.458333333333332
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6555677056312561,
-        "easy_wrong": 0.28207927942276,
-        "hard_wrong": 0.5349066257476807
+        "correct": 0.6637896299362183,
+        "easy_wrong": 0.28551506996154785,
+        "hard_wrong": 0.5352275371551514
       },
-      "margin_easy": 0.3734884262084961,
-      "margin_hard": 0.12066107988357544,
+      "margin_easy": 0.3782745599746704,
+      "margin_hard": 0.1285620927810669,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2328,22 +2251,21 @@
       "hard_negative_source_id": "14111B12117Y1AC83ECAA43538bAY1FE4-bY58a33--a5bJAaCJB7a1E2BFB383JA3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.125,
-        6.75,
-        7.375
+        6.875,
+        7.583333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.7589619159698486,
-        "easy_wrong": 0.11845888197422028,
-        "hard_wrong": 0.6163097620010376
+        "correct": 0.7593462467193604,
+        "easy_wrong": 0.11823809146881104,
+        "hard_wrong": 0.6154437065124512
       },
-      "margin_easy": 0.6405030339956284,
-      "margin_hard": 0.14265215396881104,
+      "margin_easy": 0.6411081552505493,
+      "margin_hard": 0.14390254020690918,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2359,22 +2281,21 @@
       "hard_negative_source_id": "14111B1211bAFAY2B3CY1Y2J57Y23E1A237bY8a3b53a5JCFa34J2aA1-E5YA2b575aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         7.083333333333333,
-        7.708333333333333,
-        8.333333333333334
+        7.833333333333333,
+        8.5
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.6472057700157166,
-        "easy_wrong": 0.3877989649772644,
-        "hard_wrong": 0.36393266916275024
+        "correct": 0.6388264894485474,
+        "easy_wrong": 0.4076249897480011,
+        "hard_wrong": 0.35198986530303955
       },
-      "margin_easy": 0.25940680503845215,
-      "margin_hard": 0.2832731008529663,
+      "margin_easy": 0.23120149970054626,
+      "margin_hard": 0.2868366241455078,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2390,22 +2311,21 @@
       "hard_negative_source_id": "14111B1211bJC8A2Y5Y2A3FbJ1bE378B7224F8aFE-3a5C1baCFEYaAY-5571FCA27aTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         8.833333333333334,
-        9.458333333333334,
-        10.083333333333334
+        9.583333333333334,
+        10.291666666666666
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8521239757537842,
-        "easy_wrong": 0.11710202693939209,
-        "hard_wrong": 0.21041339635849
+        "correct": 0.8491648435592651,
+        "easy_wrong": 0.10888972878456116,
+        "hard_wrong": 0.19638317823410034
       },
-      "margin_easy": 0.7350219488143921,
-      "margin_hard": 0.6417105793952942,
+      "margin_easy": 0.740275114774704,
+      "margin_hard": 0.6527816653251648,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2421,22 +2341,21 @@
       "hard_negative_source_id": "14111B1211bF32J38FJ18Y778EY3Y33bbY1Bb3aY-51a5F11aB83JaY-C4-37b22bJaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.5,
-        7.125,
-        7.75
+        7.25,
+        7.916666666666667
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.8433322906494141,
-        "easy_wrong": 0.03343834728002548,
-        "hard_wrong": 0.7600810527801514
+        "correct": 0.8408098816871643,
+        "easy_wrong": 0.03373464196920395,
+        "hard_wrong": 0.7501925230026245
       },
-      "margin_easy": 0.8098939433693886,
-      "margin_hard": 0.0832512378692627,
+      "margin_easy": 0.8070752397179604,
+      "margin_hard": 0.0906173586845398,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2452,22 +2371,21 @@
       "hard_negative_source_id": "14111B1211bFCbBY1bb1J5b7C3AAACYYY7E3bba88B-a53AEaCFFJa4bJ2273BJ23AaTdfofa115",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         32.375,
-        33.0,
-        33.625
+        33.125,
+        33.791666666666664
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.9321863651275635,
-        "easy_wrong": 0.27332252264022827,
-        "hard_wrong": 0.4483230710029602
+        "correct": 0.9285205602645874,
+        "easy_wrong": 0.27014002203941345,
+        "hard_wrong": 0.44377461075782776
       },
-      "margin_easy": 0.6588638424873352,
-      "margin_hard": 0.48386329412460327,
+      "margin_easy": 0.658380538225174,
+      "margin_hard": 0.48474594950675964,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2483,22 +2401,21 @@
       "hard_negative_source_id": "14111B1211bA38AFbC5E-2FJE2EF31JJ74AAFCa2C47a5JY7aC371aE3E237A77AB3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         7.291666666666667,
-        7.916666666666667,
-        8.541666666666666
+        8.041666666666666,
+        8.708333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5825374126434326,
-        "easy_wrong": 0.19293421506881714,
-        "hard_wrong": 0.3123849630355835
+        "correct": 0.5901700258255005,
+        "easy_wrong": 0.18960252404212952,
+        "hard_wrong": 0.30625078082084656
       },
-      "margin_easy": 0.3896031975746155,
-      "margin_hard": 0.2701524496078491,
+      "margin_easy": 0.40056750178337097,
+      "margin_hard": 0.28391924500465393,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2514,22 +2431,21 @@
       "hard_negative_source_id": "14111B121171FJ5571FAY77AAb3C525Y5-742YaBb7Ea5b55aB325aAB2bbF41E2-CaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         13.041666666666666,
-        13.666666666666666,
-        14.291666666666666
+        13.791666666666666,
+        14.5
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5381792187690735,
-        "easy_wrong": 0.2723103165626526,
-        "hard_wrong": 0.6023374795913696
+        "correct": 0.5519254207611084,
+        "easy_wrong": 0.2778719663619995,
+        "hard_wrong": 0.6096103191375732
       },
-      "margin_easy": 0.2658689022064209,
-      "margin_hard": -0.06415826082229614,
+      "margin_easy": 0.2740534543991089,
+      "margin_hard": -0.057684898376464844,
       "correct_gt_easy": true,
       "correct_gt_hard": false,
       "correct_gt_both": false,
@@ -2545,22 +2461,21 @@
       "hard_negative_source_id": "14111B1211bE81YY1F34JE778144E-CEAJYEbAaB74Ya521-a-ABJa3E15J-E43J3BaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         6.166666666666667,
-        6.791666666666667,
-        7.416666666666667
+        6.916666666666667,
+        7.583333333333333
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.884667158126831,
-        "easy_wrong": 0.2637688219547272,
-        "hard_wrong": 0.8190281391143799
+        "correct": 0.8961143493652344,
+        "easy_wrong": 0.2672213315963745,
+        "hard_wrong": 0.8617874383926392
       },
-      "margin_easy": 0.6208983361721039,
-      "margin_hard": 0.06563901901245117,
+      "margin_easy": 0.6288930177688599,
+      "margin_hard": 0.034326910972595215,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2576,22 +2491,21 @@
       "hard_negative_source_id": "14111B1211bAC45-Eb41E2Yb7-AE7bCCF5BE5AaFE28a5-Y1a-A7Aa5CEFF5-35128aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         18.958333333333332,
-        19.583333333333332,
-        20.208333333333332
+        19.708333333333332,
+        20.416666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.5396609902381897,
-        "easy_wrong": 0.3401981592178345,
-        "hard_wrong": 0.7298588156700134
+        "correct": 0.5344842076301575,
+        "easy_wrong": 0.33611491322517395,
+        "hard_wrong": 0.7186355590820312
       },
-      "margin_easy": 0.19946283102035522,
-      "margin_hard": -0.19019782543182373,
+      "margin_easy": 0.19836929440498352,
+      "margin_hard": -0.18415135145187378,
       "correct_gt_easy": true,
       "correct_gt_hard": false,
       "correct_gt_both": false,
@@ -2607,22 +2521,21 @@
       "hard_negative_source_id": "14111B1211bJ7YAEBC-7bJ3b3F-BB4A4BA4-42a811Aa5YBEaBEbYab43J8BY8Y51JaTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         20.583333333333332,
-        21.208333333333332,
-        21.833333333333332
+        21.333333333333332,
+        22.041666666666668
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.944281816482544,
-        "easy_wrong": 0.4739408493041992,
-        "hard_wrong": 0.45905041694641113
+        "correct": 0.9444675445556641,
+        "easy_wrong": 0.47527390718460083,
+        "hard_wrong": 0.4581456184387207
       },
-      "margin_easy": 0.4703409671783447,
-      "margin_hard": 0.4852313995361328,
+      "margin_easy": 0.46919363737106323,
+      "margin_hard": 0.48632192611694336,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2638,22 +2551,21 @@
       "hard_negative_source_id": "14111B1211bA38AFbC5E-2FJE2EF31JJ74AAFCa2C47a5JY7aC371aE3E237A77AB3aTdfofa112",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         11.375,
-        12.0,
-        12.625
+        12.125,
+        12.833333333333334
       ],
-      "visible_until": null,
       "scores": {
-        "correct": 0.770491361618042,
-        "easy_wrong": 0.17156505584716797,
-        "hard_wrong": 0.6851847171783447
+        "correct": 0.7629820704460144,
+        "easy_wrong": 0.15382707118988037,
+        "hard_wrong": 0.6747177243232727
       },
-      "margin_easy": 0.598926305770874,
-      "margin_hard": 0.08530664443969727,
+      "margin_easy": 0.609154999256134,
+      "margin_hard": 0.0882643461227417,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2669,22 +2581,21 @@
       "hard_negative_source_id": "14111B1211bF-bbB884YC8E72b-BJEY58A7-B7a5YJ7a5J7ba35AYaA4bbJ28-FC2JaTdfofa11Y",
       "prefix_frame_indices": [
         0,
-        10,
-        20
+        12,
+        23
       ],
       "prefix_frame_times": [
         9.416666666666666,
-        10.041666666666666,
-        10.666666666666666
+        10.166666666666666,
+        10.875
       ],
-      "visible_until": null,
       "scores": {
         "correct": 0.35451823472976685,
-        "easy_wrong": 0.15726777911186218,
-        "hard_wrong": 0.3407140374183655
+        "easy_wrong": 0.15726779401302338,
+        "hard_wrong": 0.3407139778137207
       },
-      "margin_easy": 0.19725045561790466,
-      "margin_hard": 0.013804197311401367,
+      "margin_easy": 0.19725044071674347,
+      "margin_hard": 0.013804256916046143,
       "correct_gt_easy": true,
       "correct_gt_hard": true,
       "correct_gt_both": true,
@@ -2699,48 +2610,27 @@
     "accuracy_hard": 0.9397590361445783,
     "accuracy_both": 0.9397590361445783,
     "margin_easy": {
-      "mean": 0.5456613482660558,
-      "low": 0.5039718024522425,
-      "high": 0.5876646746982293,
+      "mean": 0.5468873922903854,
+      "low": 0.5048476394759603,
+      "high": 0.5890218010957701,
       "n": 83,
       "positive": 83
     },
     "margin_hard": {
-      "mean": 0.27397535292499037,
-      "low": 0.2377593793782843,
-      "high": 0.31060849650796635,
+      "mean": 0.27761284629982635,
+      "low": 0.24144912017397133,
+      "high": 0.31448691113885624,
       "n": 83,
       "positive": 78
     },
-    "auroc": 0.9444767019886776,
+    "auroc": 0.9467992451734649,
     "recall@1": 0.4879518072289157,
     "recall@2": 0.9216867469879518,
     "top1_correct": 0.9759036144578314,
-    "mean_correct_score": 0.7690029618251755,
-    "mean_easy_score": 0.22334161355911966,
-    "mean_hard_score": 0.4950276089001851
-  },
-  "null_test": {
-    "permutations": 1000,
-    "constraint": "query target != reference target and source-disjoint",
-    "accuracy_easy": {
-      "mean": 0.4915180722891566,
-      "low": 0.48815662650602426,
-      "high": 0.49467469879518067,
-      "n": 1000,
-      "positive": 1000
-    },
-    "accuracy_hard": {
-      "mean": 0.436433734939759,
-      "low": 0.4333493975903623,
-      "high": 0.4395301204819276,
-      "n": 1000,
-      "positive": 1000
-    },
-    "null_accuracy_easy_mean": 0.4915180722891566,
-    "null_accuracy_hard_mean": 0.436433734939759,
-    "signal_over_null_easy": 0.5084819277108434,
-    "signal_over_null_hard": 0.5033253012048193
+    "shuffled_query_accuracy": 0.5662650602409639,
+    "mean_correct_score": 0.7706474665417729,
+    "mean_easy_score": 0.2237600742513875,
+    "mean_hard_score": 0.4930346202419465
   },
   "gate": {
     "accuracy_threshold": 0.7,
@@ -2749,10 +2639,10 @@
     "margin_ci_excludes_zero": true,
     "pass": true
   },
-  "scope": "Frozen-DINO prefix retrieval only: no video model, no diffusion, no training. The query uses only causally visible prefix frames. Hard negatives are cross-source references chosen by similarity to the correct reference, not by the prefix query.",
+  "scope": "Frozen-DINO prefix retrieval only: no video model, no diffusion, no training. Hard negatives are cross-source references chosen by similarity to the correct reference, not by the prefix query.",
   "notes": [
     "s_correct/s_easy/s_hard are mean cosine similarities between the pooled prefix query and the pooled reference features.",
     "AUROC pools all (query, reference) pairs; accuracy and bootstrap CIs use unique targets.",
-    "The null test reuses other targets' prefix queries under many deterministic source-disjoint derangements."
+    "The shuffled-query control reuses another target's prefix query to estimate chance accuracy."
   ]
 }

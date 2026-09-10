@@ -511,15 +511,14 @@ class PairedTests(unittest.TestCase):
 
     def test_prefix_retrieval_helpers(self):
         module = script("check_prefix_reference_retrieval")
-        self.assertEqual(module.prefix_frame_indices(24, 3), [0, 12, 23])
-        self.assertEqual(module.prefix_frame_indices(24, 1), [23])
+        self.assertEqual(module.prefix_frame_indices(21, 3), [0, 10, 20])
+        self.assertEqual(module.prefix_frame_indices(21, 1), [20])
         with self.assertRaises(ValueError):
-            module.prefix_frame_indices(24, 0)
+            module.prefix_frame_indices(21, 0)
         recall = module.gallery_recall([0.9, 0.8, 0.2, 0.1], [1, 1, 0, 0], (1, 2))
         self.assertAlmostEqual(recall["recall@1"], .5)
         self.assertAlmostEqual(recall["recall@2"], 1.0)
         self.assertTrue(recall["top1_correct"])
-        stats = None
         self.assertAlmostEqual(auroc([3, 2, 1, 0], [1, 1, 0, 0]), 1.0)
         self.assertAlmostEqual(auroc([0, 1, 2, 3], [1, 1, 0, 0]), 0.0)
         self.assertAlmostEqual(auroc([1, 1, 1, 1], [1, 1, 0, 0]), 0.5)
@@ -528,6 +527,18 @@ class PairedTests(unittest.TestCase):
         self.assertEqual(ci["n"], 3)
         self.assertLessEqual(ci["low"], ci["mean"])
         self.assertGreaterEqual(ci["high"], ci["mean"])
+
+    def test_derangement_null_test_is_deterministic_and_source_disjoint(self):
+        module = script("check_prefix_reference_retrieval")
+        sources = ["a", "b", "c", "d"]
+        permutations = module.derangements(sources, 5, 3)
+        self.assertEqual(len(permutations), 5)
+        self.assertEqual(permutations, module.derangements(sources, 5, 3))
+        self.assertNotEqual(permutations, module.derangements(sources, 5, 4))
+        for order in permutations:
+            for position, query in enumerate(order):
+                self.assertNotEqual(position, query)
+                self.assertNotEqual(sources[position], sources[query])
 
     def test_hard_negative_is_cross_source_and_feature_selected(self):
         module = script("check_prefix_reference_retrieval")

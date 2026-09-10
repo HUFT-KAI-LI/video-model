@@ -60,12 +60,16 @@ def main():
     parser.add_argument("--config", type=Path, default=ROOT / "configs/reality_memory_r0.yaml")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--overfit-samples", type=int, default=0, help="Also cache all control pools for a balanced training subset")
+    parser.add_argument("--splits", nargs="+", default=["train", "val"], choices=("train", "val"),
+                        help="Cache only the requested splits; role means need the train split and are skipped otherwise")
+    parser.add_argument("--report", type=Path, default=None,
+                        help="Feature stats path; keep the offline stats intact for val-only diagnostics")
     args = parser.parse_args()
     config = read_reality_config(args.config)
     memory = config["reality_memory"]
     cache = make_cache(config)
     refs = {}
-    for split in ("train", "val"):
+    for split in args.splits:
         rows = read_manifest(ROOT / config["data"][f"{split}_manifest"])
         overfit = set()
         if split == "train" and args.overfit_samples:
@@ -98,6 +102,15 @@ def main():
             print(f"Features {i + 1}/{len(refs)}", flush=True)
     report = {"unique_references": len(refs), "written": written, "reused": reused, "encoder": cache.identity,
               "shape_per_reference": [cache.tokens, cache.channels], "optimizer_steps": 0}
+    if "train" not in args.splits:
+        # Retrieval-only diagnostics cache a val manifest and do not touch the
+        # role means, which are derived from train references.
+        report["global_constant"] = {"skipped": "train split not requested"}
+        if args.overfit_samples:
+            report["overfit_samples"] = args.overfit_samples
+        write_json(args.report or ROOT / "data/reality_feature_stats.json", report)
+        print(report)
+        return
     train_rows = read_manifest(ROOT / config["data"]["train_manifest"])
     global_mean_path = ROOT / memory["references"].get("global_constant_features", "data/reality_global_mean_features.pt")
     payload = global_mean_payload(train_rows, cache, config)
@@ -117,7 +130,7 @@ def main():
                                  "file_sha256": hashlib.sha256(global_mean_path.read_bytes()).hexdigest()}
     if args.overfit_samples:
         report["overfit_samples"] = args.overfit_samples
-    write_json(ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)
+    write_json(args.report or ROOT / ("data/reality_overfit_feature_stats.json" if args.overfit_samples else "data/reality_feature_stats.json"), report)
     print(report)
 
 

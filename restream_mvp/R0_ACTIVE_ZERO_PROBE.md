@@ -79,7 +79,7 @@ CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/probe_existing_memory_checkpoint
 
 **局限**：单个 checkpoint、16 个 val target、first-future-block teacher forcing、离线协议；绝对幅度小（相对 No Memory 约 2.5%）；bootstrap CI 在 16 个 target 下较宽；checkpoint 训练时并没有 global-mean/active-zero 控制，因此该排序是事后诊断，不能反推“用这些控制重新训练”的结果。本轮的完整 val（83 target）matched-control 复测与唯一 target 统计见 [full_val_controls/summary.json](validation/reality_memory/full_val_controls/summary.json)（`G_content_matched` 使用与 `correct_kind` 同角色的 `global_async` 均值）。
 
-**后续（已完成）**：本仓库下一提交把本 probe 扩展到完整 83 个 val target 并加入 role-matched 的 `global_async` 控制（[full_val_controls/summary.json](validation/reality_memory/full_val_controls/summary.json)）：`G_content_matched = −0.00117`（CI [−0.0017, −0.0007]，19/83），结论仍落在情况 B；同时新增 prefix-state 检索 gate（[R1_PREFIX_AWARE_PLAN.md](R1_PREFIX_AWARE_PLAN.md)、[prefix_retrieval/summary.json](validation/reality_memory/prefix_retrieval/summary.json)）证明**可见 prefix 本身能识别正确参考**（accuracy 1.000 / 0.940）。两者合起来说明：瓶颈在生成路径的 query，而不是参考数据是否可识别。
+**后续（已完成）**：本仓库下一提交把本 probe 扩展到完整 83 个 val target 并加入 role-matched 的 `global_async` 控制（[full_val_controls/summary.json](validation/reality_memory/full_val_controls/summary.json)）：`G_content_matched = −0.00117`（CI [−0.0017, −0.0007]，19/83），结论仍落在情况 B；同时新增 prefix-state 检索 gate（[R1_PREFIX_AWARE_PLAN.md](R1_PREFIX_AWARE_PLAN.md)、[prefix_retrieval/summary.json](validation/reality_memory/prefix_retrieval/summary.json)）证明**可见 prefix 本身能识别正确参考**（accuracy 1.000 / 0.940）。该 gate 的首版曾误用 24 个可见帧（含 3 帧未来），已修复为 21 帧 `[0,10,20]` 并重跑，结论不变。两者合起来说明：瓶颈在生成路径的 query，而不是参考数据是否可识别。
 
 **下一步（按审阅 §九/§十）**：不要继续加对比损失，也不要在没有新证据前扩训练预算。若继续 R0，应加入最小的 prefix scene feature（可见历史）作为 memory query，让模型有条件区分“哪张照片与当前画面相关”；否则应重新审视 reference 语义与训练目标。
 

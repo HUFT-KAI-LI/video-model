@@ -14,6 +14,7 @@ from restream.dataset import read_manifest
 from restream.reality_data import canonical_hash, histogram, read_reference, scene_similarity, write_json
 from restream.reality_selection import (SELECTION_IDENTITY_SCHEMA, selection_config_hash,
                                         validate_selection_protocol, validate_temporal_sampling)
+from restream.reality_temporal import prefix_visible_seconds
 from restream.runtime import read_config
 
 
@@ -43,7 +44,7 @@ def candidate(row, shots, config):
     max_k = refs["pool_size"]
     for shot_id, shot in eligible:
         start = rng.uniform(shot["start"] + margin + gap + .5, shot["end"] - margin - length)
-        arrival = 4 * (config["reality_memory"]["objective"]["prefix_latents"] - 1) / config["data"]["fps"]
+        arrival = prefix_visible_seconds(config["reality_memory"]["objective"]["prefix_latents"], config["data"]["fps"])
         protocol = refs.get("selection_protocol", "offline_target_filtered")
         validate_selection_protocol(protocol, refs["async_direction"])
         temporal_sampling = config["data"]["temporal_sampling"]
@@ -158,6 +159,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=ROOT / "configs/reality_memory_r0.yaml")
     parser.add_argument("--shots", type=Path, default=ROOT / "data/reality_shots.jsonl")
+    parser.add_argument("--splits", nargs="+", default=["train", "val"], choices=("train", "val"),
+                        help="Build only the requested splits (retrieval diagnostics build val only)")
+    parser.add_argument("--stats-output", type=Path, default=ROOT / "data/reality_stats.json",
+                        help="Build statistics path; keep the offline stats intact for val-only diagnostics")
     args = parser.parse_args()
     config = read_config(args.config)
     references = config["reality_memory"]["references"]
@@ -178,7 +183,7 @@ def main():
         "Same-shot and histogram checks are heuristics; scene identity and captions still need human review.",
         "Reference timestamps are metadata only; async defaults to past-only outside a 1.5s gap."]}
     sources = {}
-    for split in ("train", "val"):
+    for split in args.splits:
         rows = read_manifest(ROOT / f"data/{split}.jsonl")
         sources[split] = {r["source_id"] for r in rows}
         def make(row):
@@ -203,9 +208,9 @@ def main():
         stats["splits"][split] = {"input_sources": len(rows), "retained_sources": len(retained),
                                   "rejected_sources": len(rows) - len(retained),
                                   "reference_kinds": dict(Counter(r["reference_kind"] for r in retained))}
-    if sources["train"] & sources["val"]:
+    if set(args.splits) == {"train", "val"} and sources["train"] & sources["val"]:
         raise ValueError("Existing split leaks source IDs")
-    write_json(ROOT / "data/reality_stats.json", stats)
+    write_json(args.stats_output, stats)
     print(json.dumps(stats["splits"], indent=2))
 
 
