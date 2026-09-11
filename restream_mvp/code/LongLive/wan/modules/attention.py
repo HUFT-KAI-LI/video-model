@@ -26,6 +26,7 @@ import warnings
 __all__ = [
     'flash_attention',
     'attention',
+    'gated_attention',
 ]
 
 
