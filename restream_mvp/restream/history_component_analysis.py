@@ -18,6 +18,12 @@ def _key(record):
             int(record["target_chunk"]), record["condition"])
 
 
+def _valid_dino_distance(value):
+    return (isinstance(value, dict)
+            and all(math.isfinite(float(value.get(field, float("nan"))))
+                    for field in ("mean_cosine", "mean_cosine_distance")))
+
+
 def expected_keys(plan):
     manifest = plan["manifest"]
     return {(edit, seed, chunk, condition)
@@ -58,7 +64,7 @@ def validate_records(records, plan, tolerance=1e-12):
         identity = record["preservation"].get("identity", {})
         if identity.get("status") != "measured":
             raise ValueError(f"DINO appearance diagnostic missing for {key}")
-        if any(not math.isfinite(float(identity.get(policy, float("nan"))))
+        if any(not _valid_dino_distance(identity.get(policy))
                for policy in ("replay", "text_rebind")):
             raise ValueError(f"invalid DINO appearance diagnostic for {key}")
         if not all(policy in record.get("boundary", {})

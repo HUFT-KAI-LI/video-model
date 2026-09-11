@@ -64,6 +64,7 @@ def main():
     report["screen_plan"] = {"path": str(args.plan), "sha256": plan_hash,
                              "status": plan["status"]}
     report["sources"] = provenance
+    report["analysis_provenance"] = ec.git_state()
     ex.write_json(args.output, report)
     print(json.dumps({"invariants_passed": report["invariants_passed"],
                       "frontier_conditions": report["pareto"]["frontier_conditions"],

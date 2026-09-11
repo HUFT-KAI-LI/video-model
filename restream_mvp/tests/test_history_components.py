@@ -69,8 +69,11 @@ def synthetic_records():
             "sanity": {"fixed_references_unmodified_full_history": True,
                        "full_history_P0_exact_base": True if condition == "full_history" else None},
             "preservation": {"outside_exact": True,
-                             "identity": {"status": "measured", "replay": 0.1,
-                                          "text_rebind": 0.2}},
+                             "identity": {"status": "measured",
+                                          "replay": {"mean_cosine": 0.9,
+                                                     "mean_cosine_distance": 0.1},
+                                          "text_rebind": {"mean_cosine": 0.8,
+                                                          "mean_cosine_distance": 0.2}}},
             "boundary": {"replay": {}, "text_rebind": {}},
             "cost": {"status": "invalid_diagnostic"},
         })
@@ -122,6 +125,12 @@ class HistoryComponentTests(unittest.TestCase):
         sink = next(row for row in unit if row["condition"] == "sink_release")
         sink["chunk_latent_sha256"] = copy.deepcopy(full["chunk_latent_sha256"])
         with self.assertRaisesRegex(ValueError, "sink_release is inert"):
+            analyze(records, plan())
+
+    def test_analyzer_fails_closed_on_invalid_dino_schema(self):
+        records = synthetic_records()
+        records[0]["preservation"]["identity"]["replay"] = 0.1
+        with self.assertRaisesRegex(ValueError, "invalid DINO"):
             analyze(records, plan())
 
     def test_runner_reuses_fixed_references_and_restores_context(self):
