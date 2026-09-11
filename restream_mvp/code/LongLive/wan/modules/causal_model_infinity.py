@@ -97,6 +97,7 @@ class CausalWanSelfAttention(nn.Module):
         self.num_heads = num_heads
         self.head_dim = dim // num_heads
         self.local_attn_size = local_attn_size
+        self.history_gate = 1.0
         self.sink_size = sink_size
         self.qk_norm = qk_norm
         self.eps = eps
@@ -392,14 +393,18 @@ class CausalWanSelfAttention(nn.Module):
                 x = attention(
                     roped_query,
                     k_cat,
-                    v_cat
+                    v_cat,
+                    history_gate=self.history_gate,
+                    history_tokens=max(0, k_cat.shape[1] - roped_query.shape[1])
                 )
             else:
                 window_start = max(0, local_end_index - self.max_attention_size)
                 x = attention(
                     roped_query,
                     roped_temp_k[:, window_start:local_end_index],
-                    temp_v[:, window_start:local_end_index]
+                    temp_v[:, window_start:local_end_index],
+                    history_gate=self.history_gate,
+                    history_tokens=max(0, local_end_index - window_start - roped_query.shape[1])
                 )
 
         # output

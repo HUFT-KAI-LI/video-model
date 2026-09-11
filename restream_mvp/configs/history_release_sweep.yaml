@@ -1,0 +1,7 @@
+schema: history-release-sweep-v1
+history_gates: [1.0, 0.75, 0.5, 0.25, 0.0]
+target_chunks: [0, 1, 4]
+policies: [P0, P1]
+edits: [red_to_blue, green_to_yellow, warm_to_cool, bright_to_dark]
+seeds: [0, 1]
+# Gate is additive attention-logit bias on historical keys.
