@@ -158,6 +158,14 @@ def attention(
     # deliberately a weight gate (not K/V scaling); the default path remains
     # unchanged and uses FlashAttention.
     if history_gate is not None and float(history_gate) != 1.0:
+        if history_tokens <= 0:
+            history_gate = 1.0
+        else:
+            # Experimental path is implemented by the caller with two native
+            # attention calls; this guard prevents kernel switching here.
+            raise RuntimeError("history_gate must be applied via gated_attention")
+
+    if history_gate is not None and float(history_gate) != 1.0:
         q_ = q.transpose(1, 2).to(dtype)
         k_ = k.transpose(1, 2).to(dtype)
         v_ = v.transpose(1, 2).to(dtype)
@@ -205,3 +213,13 @@ def attention(
 
         out = out.transpose(1, 2).contiguous()
         return out
+
+def gated_attention(q, k_history, v_history, k_current, v_current, gate, **kwargs):
+    """Interpolate two native attention outputs; gate is contribution strength."""
+    g = float(gate)
+    if not 0 <= g <= 1: raise ValueError("history gate must be in [0,1]")
+    current = attention(q, k_current, v_current, **kwargs)
+    if g == 0 or k_history.shape[1] == 0: return current
+    full = attention(q, torch.cat([k_history, k_current], 1),
+                     torch.cat([v_history, v_current], 1), **kwargs)
+    return current + g * (full - current)
