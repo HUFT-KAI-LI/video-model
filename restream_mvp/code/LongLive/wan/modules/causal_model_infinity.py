@@ -1,6 +1,6 @@
 # Adopted from https://github.com/guandeh17/Self-Forcing
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
-from wan.modules.attention import attention
+from wan.modules.attention import attention, gated_attention
 from wan.modules.model import (
     WanRMSNorm,
     rope_apply,
@@ -390,22 +390,16 @@ class CausalWanSelfAttention(nn.Module):
                 else:
                     k_cat = k_sink
                     v_cat = v_sink
-                x = attention(
-                    roped_query,
-                    k_cat,
-                    v_cat,
-                    history_gate=self.history_gate,
-                    history_tokens=max(0, k_cat.shape[1] - roped_query.shape[1])
-                )
+                history_len = max(0, k_cat.shape[1] - roped_query.shape[1])
+                x = gated_attention(roped_query, k_cat[:, :history_len], v_cat[:, :history_len],
+                                     k_cat[:, history_len:], v_cat[:, history_len:], self.history_gate)
             else:
                 window_start = max(0, local_end_index - self.max_attention_size)
-                x = attention(
-                    roped_query,
-                    roped_temp_k[:, window_start:local_end_index],
-                    temp_v[:, window_start:local_end_index],
-                    history_gate=self.history_gate,
-                    history_tokens=max(0, local_end_index - window_start - roped_query.shape[1])
-                )
+                k_window = roped_temp_k[:, window_start:local_end_index]
+                v_window = temp_v[:, window_start:local_end_index]
+                history_len = max(0, k_window.shape[1] - roped_query.shape[1])
+                x = gated_attention(roped_query, k_window[:, :history_len], v_window[:, :history_len],
+                                     k_window[:, history_len:], v_window[:, history_len:], self.history_gate)
 
         # output
         x = x.flatten(2)

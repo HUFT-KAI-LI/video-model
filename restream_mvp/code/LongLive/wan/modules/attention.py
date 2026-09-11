@@ -22,7 +22,6 @@ except ModuleNotFoundError:
 # FLASH_ATTN_3_AVAILABLE = False
 
 import warnings
-import math
 
 __all__ = [
     'flash_attention',
@@ -151,36 +150,7 @@ def attention(
     deterministic=False,
     dtype=torch.bfloat16,
     fa_version=None,
-    history_gate=None,
-    history_tokens=0,
 ):
-    # History release sweep: apply a logit bias to historical keys.  This is
-    # deliberately a weight gate (not K/V scaling); the default path remains
-    # unchanged and uses FlashAttention.
-    if history_gate is not None and float(history_gate) != 1.0:
-        if history_tokens <= 0:
-            history_gate = 1.0
-        else:
-            # Experimental path is implemented by the caller with two native
-            # attention calls; this guard prevents kernel switching here.
-            raise RuntimeError("history_gate must be applied via gated_attention")
-
-    if history_gate is not None and float(history_gate) != 1.0:
-        q_ = q.transpose(1, 2).to(dtype)
-        k_ = k.transpose(1, 2).to(dtype)
-        v_ = v.transpose(1, 2).to(dtype)
-        logits = torch.matmul(q_, k_.transpose(-2, -1))
-        logits = logits * (q_.shape[-1] ** -0.5 if softmax_scale is None else softmax_scale)
-        if history_tokens > 0:
-            bias = math.log(max(float(history_gate), 1e-12))
-            if float(history_gate) <= 0:
-                bias = float('-inf')
-            logits[..., :history_tokens] += bias
-        if causal:
-            mask = torch.ones(logits.shape[-2:], device=logits.device, dtype=torch.bool).triu(1)
-            logits = logits.masked_fill(mask, float('-inf'))
-        out = torch.softmax(logits, dim=-1) @ v_
-        return out.transpose(1, 2).contiguous()
     if FLASH_ATTN_2_AVAILABLE or FLASH_ATTN_3_AVAILABLE:
         return flash_attention(
             q=q,
@@ -218,8 +188,11 @@ def gated_attention(q, k_history, v_history, k_current, v_current, gate, **kwarg
     """Interpolate two native attention outputs; gate is contribution strength."""
     g = float(gate)
     if not 0 <= g <= 1: raise ValueError("history gate must be in [0,1]")
+    if g == 1 or k_history.shape[1] == 0:
+        return attention(q, torch.cat([k_history, k_current], 1),
+                         torch.cat([v_history, v_current], 1), **kwargs)
     current = attention(q, k_current, v_current, **kwargs)
-    if g == 0 or k_history.shape[1] == 0: return current
+    if g == 0: return current
     full = attention(q, torch.cat([k_history, k_current], 1),
                      torch.cat([v_history, v_current], 1), **kwargs)
     return current + g * (full - current)

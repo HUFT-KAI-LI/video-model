@@ -43,6 +43,7 @@ from restream import edit_media as emedia  # noqa: E402
 from restream import edit_metrics as em  # noqa: E402
 from restream import edit_replay as er  # noqa: E402
 from restream.runtime import load_pipeline  # noqa: E402
+from restream.history_gate import set_history_gate  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -144,7 +145,8 @@ def run_edit_user_path(pipeline, entry, target, config, device, base, edit_promp
     }
 
 
-def run_group(pipeline, config, group, device, output_dir, cache_dir, identity, dino=None) -> list:
+def run_group(pipeline, config, group, device, output_dir, cache_dir, identity, dino=None, history_gate_value=1.0) -> list:
+    set_history_gate(pipeline, history_gate_value)
     block = int(pipeline.num_frame_per_block)
     seed = int(group["seed"])
     base_prompt, edit_prompt = group["base_prompt"], group["edit_prompt"]
@@ -556,12 +558,28 @@ def main() -> None:
     parser.add_argument("--shards", type=int, default=1)
     parser.add_argument("--gpu", type=int)
     parser.add_argument("--reviewed", action="store_true")
+    parser.add_argument("--history-gate", type=float, default=1.0,
+                        help="History contribution interpolation in [0,1]; diagnostic only")
+    parser.add_argument("--manifest", type=Path,
+                        help="Sweep manifest; validates prompt IDs and selects its gates/targets")
     arguments = parser.parse_args()
     if not arguments.reviewed:
         parser.error("GPU editing is a reviewed experiment; pass --reviewed after Gate A is approved")
 
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
     config = ex.read_config(arguments.config)
+    if arguments.manifest:
+        manifest = json.loads(arguments.manifest.read_text())
+        entries = manifest.get("cases", [])
+        if not entries:
+            parser.error("manifest has no cases")
+        ids = sorted({e["edit"] for e in entries})
+        arguments.prompt_ids = ids
+        arguments.targets = sorted({int(e["target_chunk"]) for e in entries})
+        gates = sorted({float(e["history_gate"]) for e in entries})
+        if len(gates) != 1:
+            parser.error("run one history_gate per invocation; shard the manifest by gate")
+        arguments.history_gate = gates[0]
     device = ex.device_for(arguments.gpu)
     cache_dir = arguments.cache_dir or (ROOT / config["cache"]["root"] / "edit")
     cache_dir.mkdir(parents=True, exist_ok=True)
@@ -588,7 +606,8 @@ def main() -> None:
         print(f"[edit] {group['prompt_id']} ({group.get('evidence')}) "
               f"targets={group['targets']} seed={group['seed']}", flush=True)
         records.extend(run_group(pipeline, config, group, device, arguments.video_root,
-                                 cache_dir, identity, dino=dino))
+                                 cache_dir, identity, dino=dino,
+                                 history_gate_value=arguments.history_gate))
 
     gates = evaluate_gates(records, config)
     payload = {
