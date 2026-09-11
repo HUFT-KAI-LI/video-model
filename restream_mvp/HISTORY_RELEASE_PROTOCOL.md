@@ -82,8 +82,8 @@ selection, paired drift subtraction, invalid Gate D, 2 full generations / 18
 replays, shared checkpoint provenance, sealed mismatch failure and reference
 validation. The additional CUDA kernel test skips if CUDA is unavailable.
 
-Local result: 43 CPU tests passed; 1 CUDA kernel test skipped. The original
-32 edit-cache regressions remain green. Fault injection also verifies that P0
+Local result: 44 CPU tests passed. The original 32 edit-cache regressions remain
+green. Fault injection also verifies that P0
 exactness, chunk-0 invariance and outside-preservation failures abort the runner.
 
 The first GPU attempt after `21a669d` was rejected during result review: the
@@ -92,6 +92,26 @@ active baseline uses `causal_model.py`, while the gate had only been connected t
 exposed the inactive intervention. The active model path and fail-closed check
 were fixed before rerunning the smoke; those rejected artifacts are not evidence.
 
-In the current editing environment CUDA initialization fails (error 304) and
-`nvidia-smi` cannot communicate with the driver. The real GPU smoke remains
-**unverified**; no complete GPU sweep was started.
+## GPU smoke result
+
+The corrected smoke ran on one NVIDIA A800-SXM4-80GB at commit `9f30f13`.
+Its provenance records a clean tree and the fixed gate set `[1,.5,0]`. The
+native CUDA attention endpoint test passed separately. All 9 pairs / 18 replays
+passed sealed hashes, replay-noise equality, chunk-0 gate invariance and outside
+latent exactness. Boundary and DINO appearance diagnostics were recorded for both
+policies in all 9 pairs. Gate D remains invalid and uncounted.
+
+| chunk | gate | E | R | D_drift (latent MSE) |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 | 1 / .5 / 0 | 0.093521 | 1.000000 | 0 |
+| 1 | 1 | -0.000136 | -0.001410 | 0 |
+| 1 | .5 | 0.045815 | 0.473808 | 0.287206 |
+| 1 | 0 | 0.106611 | 1.102553 | 1.076333 |
+| 4 | 1 | 0.001328 | 0.013151 | 0 |
+| 4 | .5 | 0.029110 | 0.288180 | 0.517063 |
+| 4 | 0 | 0.083023 | 0.821901 | 0.942856 |
+
+The full JSON is `validation/history_release_smoke_gpu_9f30f13.json`, SHA-256
+`a67959627c9b36330beeb5dcea10f199b9ba69b5cc5486666495d14d3bee59c4`.
+This single edit/seed is invariant evidence, not a scientific conclusion. The
+120-pair sweep was not started and still requires explicit review approval.
