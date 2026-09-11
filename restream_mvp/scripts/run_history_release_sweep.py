@@ -2,7 +2,7 @@
 """Create a reproducible history-release sweep manifest.
 
 The manifest is consumed by the existing edit experiment runner; generation is
-kept separate so every case records its gate, policy, target chunk and seed.
+kept separate so every case records its gate, target chunk and seed; P0/P1 run internally.
 """
 import argparse, json
 from pathlib import Path
@@ -11,8 +11,8 @@ DEFAULT_GATES = (1.0, .75, .5, .25, 0.0)
 
 def build_cases(edits, seeds, chunks, gates):
     return [{"edit": e, "seed": int(s), "target_chunk": int(c),
-             "history_gate": float(g), "policy": p}
-            for e in edits for s in seeds for c in chunks for g in gates for p in ("P0", "P1")]
+             "history_gate": float(g)}
+            for e in edits for s in seeds for c in chunks for g in gates]
 
 def main():
     ap = argparse.ArgumentParser()
@@ -23,7 +23,7 @@ def main():
     ap.add_argument("--output", type=Path, default=Path("validation/history_release_sweep_manifest.json"))
     a = ap.parse_args(); cases = build_cases(a.edits, a.seeds, a.chunks, a.gates)
     a.output.parent.mkdir(parents=True, exist_ok=True)
-    a.output.write_text(json.dumps({"schema": 1, "cases": cases}, indent=2) + "\n")
+    a.output.write_text(json.dumps({"schema": 2, "cases": cases}, indent=2) + "\n")
     print(f"wrote {len(cases)} cases to {a.output}")
 
 if __name__ == "__main__": main()

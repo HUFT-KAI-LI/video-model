@@ -40,6 +40,9 @@ def mean(values):
 def collect(replay_files, edit_files) -> dict:
     replay_cases, edit_cases, run_records = [], [], []
     for path, data in replay_files + edit_files:
+        if data.get("experiment") == "history_release_paired":
+            raise ValueError("Paired mechanism results contain their frontier and invalid Gate D; "
+                             "do not aggregate with the legacy MVP summarizer")
         replay_cases.extend(data.get("cases", [])) if data.get("experiment") == "A_same_prompt_replay" \
             else edit_cases.extend(data.get("cases", []))
         provenance = data.get("provenance") or {}

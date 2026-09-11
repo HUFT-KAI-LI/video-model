@@ -22,10 +22,14 @@ def set_history_gate(pipeline, gate: float) -> int:
 def history_gate(pipeline, gate: float):
     root = getattr(pipeline, "generator", pipeline)
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
-    old = [getattr(m, "history_gate", 1.0) for m in modules]
+    missing = object()
+    old = [getattr(m, "history_gate", missing) for m in modules]
     set_history_gate(pipeline, gate)
     try:
         yield
     finally:
         for module, value in zip(modules, old):
-            module.history_gate = value
+            if value is missing:
+                delattr(module, "history_gate")
+            else:
+                module.history_gate = value
