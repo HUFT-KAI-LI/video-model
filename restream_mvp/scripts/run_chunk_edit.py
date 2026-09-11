@@ -256,6 +256,22 @@ def evaluate_paired_gates(records, config):
                         "reason": "Mechanism-only probe; intermediate gates invoke attention twice."}}
 
 
+def assert_gate_intervention_active(records):
+    """Reject a multi-gate smoke when committed-history outputs ignore the gate."""
+    by_target = {}
+    for record in records:
+        if record["target_chunk"] > 0:
+            by_target.setdefault(record["target_chunk"], []).append(record)
+    for target, cases in by_target.items():
+        if len({case["history_gate"] for case in cases}) < 2:
+            continue
+        variants = ("replay", "text_rebind")
+        if all(len({case["chunk_latent_sha256"][name] for case in cases}) == 1
+               for name in variants):
+            raise AssertionError(
+                f"chunk {target}: history gate intervention is inert for both P0 and P1")
+
+
 def evaluate_gates(records, config) -> dict:
     if any(r.get("protocol") == "fixed_history_paired_v2" for r in records):
         if not all(r.get("protocol") == "fixed_history_paired_v2" for r in records):
@@ -433,6 +449,7 @@ def main() -> None:
         for group in groups:
             records.extend(run_group(pipeline, config, group, device, video_root,
                                      cache_dir, identity, dino=dino, sealed=sealed))
+        assert_gate_intervention_active(records)
     except Exception as error:
         ex.write_json(output, {"experiment": "history_release_paired", "status": "failed",
                               "provenance": identity, "cases": records,

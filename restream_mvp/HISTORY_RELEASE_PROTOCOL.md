@@ -60,8 +60,10 @@ sealed config/model identity and prompt/seed/target coverage before generation.
 It aborts if g=1/P0 differs from B0; g=1/P1 differs from the prior sealed chunk
 hash; B0 or the fixed full reference differs from sealed hashes; chunk 0/P0
 or P1 differs from its gate-independent reference; recorded replay noise differs;
-or any outside latent differs for either policy. Therefore `D_drift(1)=0` is
-also enforced. An exception marks the run failed, never smoke-passed. Individual
+any outside latent differs for either policy; or all P0 and P1 hashes remain
+unchanged across multiple gates at a committed-history target. Therefore
+`D_drift(1)=0` is also enforced and an inert gate cannot pass. An exception marks
+the run failed, never smoke-passed. Individual
 completed pair metrics remain in the run video directory if a later pair fails.
 
 A successful CPU fake-pipeline run is not GPU evidence. Review the actual sealed
@@ -83,6 +85,12 @@ validation. The additional CUDA kernel test skips if CUDA is unavailable.
 Local result: 43 CPU tests passed; 1 CUDA kernel test skipped. The original
 32 edit-cache regressions remain green. Fault injection also verifies that P0
 exactness, chunk-0 invariance and outside-preservation failures abort the runner.
+
+The first GPU attempt after `21a669d` was rejected during result review: the
+active baseline uses `causal_model.py`, while the gate had only been connected to
+`causal_model_infinity.py`. Identical committed-history hashes across all gates
+exposed the inactive intervention. The active model path and fail-closed check
+were fixed before rerunning the smoke; those rejected artifacts are not evidence.
 
 In the current editing environment CUDA initialization fails (error 304) and
 `nvidia-smi` cannot communicate with the driver. The real GPU smoke remains

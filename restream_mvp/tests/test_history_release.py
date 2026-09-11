@@ -178,6 +178,17 @@ class HistoryReleaseTests(unittest.TestCase):
     def test_metrics(self):
         check_drift_is_subtracted_and_timing_never_passes()
 
+    def test_inert_gate_fails_closed(self):
+        base = {"target_chunk": 1, "chunk_latent_sha256":
+                {"replay": "same-p0", "text_rebind": "same-p1"}}
+        inert = [dict(base, history_gate=gate) for gate in (1, .5, 0)]
+        with self.assertRaisesRegex(AssertionError, "intervention is inert"):
+            runner.assert_gate_intervention_active(inert)
+        active = [dict(base, history_gate=1),
+                  {**base, "history_gate": 0,
+                   "chunk_latent_sha256": {"replay": "changed", "text_rebind": "same-p1"}}]
+        runner.assert_gate_intervention_active(active)
+
     def test_runner(self):
         check_runner_fixed_history_18_replays_and_sealed_check(self.monkeypatch, self.tmp_path)
 
