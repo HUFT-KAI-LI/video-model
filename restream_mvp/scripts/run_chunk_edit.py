@@ -141,8 +141,9 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir,
             digests.update(original=tensor_digest(base_chunk),
                            full_regeneration=tensor_digest(full_chunk))
             sealed_exact = None
-            if gate == 1.0 and sealed is not None:
-                expected = sealed[(group["prompt_id"], seed, target)]
+            sealed_key = (group["prompt_id"], seed, target)
+            if gate == 1.0 and sealed is not None and sealed_key in sealed:
+                expected = sealed[sealed_key]
                 for name in ("original", "text_rebind", "full_regeneration"):
                     if digests[name] != expected["chunk_latent_sha256"][name]:
                         raise AssertionError(f"{case_id}: sealed {name} digest mismatch")
@@ -195,6 +196,7 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir,
                           "pixel": em.pixel_stats(base_frames, pixels["replay"][0, sl])},
                 "sanity": {"g1_P0_exact_base": drift["exact"] if gate == 1.0 else None,
                            "g1_P1_exact_sealed": sealed_exact,
+                           "fixed_references_generated_at_g1": True,
                            "chunk0_gate_invariant": True if target == 0 else None},
                 "preservation": {"outside_exact": True, "policies_checked": ["P0", "P1"],
                                  "chunks_checked": num_chunks - 1,
@@ -244,13 +246,15 @@ def evaluate_paired_gates(records, config):
     semantic = [row for row in rows if row["target_chunk"] > 0 and row["evidence"] == "directional"]
     successful = [row for row in semantic if row["E"] > float(threshold.get("min_s_proxy", 0))]
     return {
-        "gate_b_editability": {"passed": bool(successful), "semantic_cases": len(semantic),
+        "gate_b_editability": {"passed": None,
+            "status": "descriptive_only_requires_frozen_analysis",
+            "semantic_cases": len(semantic),
             "successful_cases": len(successful),
             "strong_cases": sum(row["R_k"] is not None and row["R_k"] >=
                                 float(threshold.get("min_full_regeneration_ratio", 0))
                                 for row in successful),
             "frontier": rows,
-            "note": "Paired E=S(P1,g)-S(P0,g); chunk 0 calibrates, qualitative cases need review."},
+            "note": "Runner output is descriptive. Apply the frozen delta_E/Pareto analyzer for a verdict."},
         "gate_c_preservation": {"passed": all(r["preservation"]["outside_exact"] for r in records)},
         "gate_d_cost": {"passed": None, "status": "invalid_diagnostic", "counted_cases": 0,
                         "reason": "Mechanism-only probe; intermediate gates invoke attention twice."}}
@@ -385,6 +389,11 @@ def main() -> None:
                         help="Previous sealed JSON runs; compare original/P1/full chunk digests at g=1")
     parser.add_argument("--invariant-smoke", action="store_true",
                         help="Require 9 pairs / 18 replays and a sealed reference; abort on any invariant failure")
+    parser.add_argument("--analysis-plan", type=Path,
+                        default=ROOT / "configs/history_release_analysis_plan.json",
+                        help="Frozen statistics plan recorded in full-sweep provenance")
+    parser.add_argument("--full-sweep-approved", action="store_true",
+                        help="Explicit review gate required for manifests larger than invariant smoke")
     arguments = parser.parse_args()
     if not arguments.reviewed:
         parser.error("GPU editing is a reviewed experiment; pass --reviewed after Gate A is approved")
@@ -401,6 +410,16 @@ def main() -> None:
         manifest = {"schema": 2, "cases": [
             {"edit": c["prompt_id"], "seed": c["seed"], "target_chunk": c["target_chunk"],
              "history_gate": gate} for c in cases]}
+    analysis_plan = json.loads(arguments.analysis_plan.read_text())
+    if analysis_plan.get("status") != "frozen_before_full_sweep":
+        parser.error("analysis plan must be frozen before generation")
+    if len(manifest["cases"]) > 9 and not arguments.full_sweep_approved:
+        parser.error("full sweep is not approved; pass --full-sweep-approved only after review")
+    if len(manifest["cases"]) == analysis_plan["manifest"]["expected_pairs"]:
+        if not arguments.manifest:
+            parser.error("full sweep requires its frozen manifest")
+        if ec.sha256_file(arguments.manifest) != analysis_plan["manifest"]["sha256"]:
+            parser.error("full-sweep manifest differs from the frozen analysis plan")
     try:
         groups = manifest_groups(config, manifest)
         if arguments.invariant_smoke:
@@ -436,11 +455,15 @@ def main() -> None:
         "history_gates": sorted({gate for g in groups for values in g["gates_by_target"].values()
                                  for gate in values}, reverse=True),
         "manifest": manifest, "shard": arguments.shard, "shards": arguments.shards,
+        "analysis_plan_path": str(arguments.analysis_plan),
+        "analysis_plan_sha256": ec.sha256_file(arguments.analysis_plan),
+        "analysis_plan_status": analysis_plan["status"],
         "video_root": str(video_root), "cache_dir": str(cache_dir),
         "timing_status": "invalid_diagnostic"})
     sealed, sources = None, []
     if arguments.sealed_reference:
-        sealed, sources = load_sealed(arguments.sealed_reference, groups, identity)
+        sealed, sources = load_sealed(arguments.sealed_reference, groups, identity,
+                                      require_all=arguments.invariant_smoke)
     identity["sealed_references"] = sources
     pipeline = load_pipeline(config, device)
     dino = em.DinoFeatureDistance(ROOT / config["model"]["dino"], device=device) if arguments.dino else None
@@ -462,7 +485,7 @@ def main() -> None:
                "invariant_smoke": {"requested": arguments.invariant_smoke,
                                    "passed": True if arguments.invariant_smoke else None,
                                    "pairs": len(records), "chunk_replays": 2 * len(records)},
-               "note": "Mechanism results only; full sweep still requires review of GPU smoke."}
+               "note": "Mechanism-only results; apply the frozen paired/Pareto analysis plan."}
     ex.write_json(output, payload)
     print(f"Results: {output}")
     print(json.dumps({key: value["passed"] for key, value in gates.items()}, indent=2))

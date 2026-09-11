@@ -53,8 +53,8 @@ def validate_smoke(groups):
         raise ValueError("invariant smoke requires gates {1,.5,0} at every target")
 
 
-def load_sealed(paths, groups, identity):
-    """Fail before generation if any g=1 reference is absent or incompatible."""
+def load_sealed(paths, groups, identity, require_all=True):
+    """Load compatible historical g=1 references, optionally requiring coverage."""
     wanted = {(g["prompt_id"], g["seed"], k): g for g in groups for k in g["targets"]
               if 1.0 in g["gates_by_target"][k]}
     records, sources = {}, []
@@ -80,6 +80,6 @@ def load_sealed(paths, groups, identity):
                 if not record.get("chunk_latent_sha256", {}).get(variant):
                     raise ValueError(f"Sealed {variant} digest missing for {key}")
             records[key] = record
-    if wanted.keys() - records.keys():
+    if require_all and wanted.keys() - records.keys():
         raise ValueError(f"Missing sealed cases: {sorted(wanted.keys() - records.keys())}")
     return records, sources

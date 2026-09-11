@@ -115,3 +115,63 @@ The full JSON is `validation/history_release_smoke_gpu_9f30f13.json`, SHA-256
 `a67959627c9b36330beeb5dcea10f199b9ba69b5cc5486666495d14d3bee59c4`.
 This single edit/seed is invariant evidence, not a scientific conclusion. The
 120-pair sweep was not started and still requires explicit review approval.
+
+## Frozen full-sweep analysis
+
+`configs/history_release_analysis_plan.json` is the machine-readable decision
+rule. It must be committed before the full sweep. Every result shard records its
+SHA-256, and the analyzer refuses a different plan, dirty provenance, incomplete
+grid, duplicate case, failed invariant, or enabled Gate D.
+
+Frozen plan SHA-256:
+`0a9caf8cddc76e119f2a0c15d33ea86cde4c1856184b9c2f393378c7ffa3d8c8`.
+
+The confirmatory contrast is g=.5 versus g=1. For each of the 8 independent
+`(edit, seed)` units, first average `delta_E = E(.5)-E(1)` over repeated chunks
+1 and 4. The causal criterion requires at least 7/8 positive clusters, an exact
+one-sided sign-test p <= .05, positive median and majority-positive replication
+at each chunk, and positive edit-level effects for at least 3/4 edits. The 7/8
+sign pattern has exact p=.03515625; 6/8 does not pass. There is no raw magnitude
+cutoff because color and luma proxy scales are not commensurate. The deterministic
+10,000-resample cluster bootstrap interval is descriptive and cannot change the
+decision. Gates .75, .25 and 0 are secondary, with no confirmatory p-values.
+
+Pareto coordinates are median edit-seed cluster `delta_E` (maximize) and median
+cluster `D_drift` (minimize). Both point-estimate and 7/8 paired dominance are
+reported. Every non-dominated gate remains on the frontier; the analyzer never
+selects one operating point, applies a post-result drift budget, or counts timing.
+
+Old sealed runs used prompt-index seeds (for example jacket 46/54), while this
+corrected manifest uses 42/43 for every edit. Historical g=1 sealing is therefore
+required and reported where a compatible edit/seed exists, but missing historical
+coverage is not imputed. Every new group still generates B0 and FullReg once at
+g=1, fixes those references for all gates, and requires g=1/P0 exact base.
+
+After explicit full-sweep approval, the 8 whole `(edit, seed)` groups can be
+distributed evenly over four A800s. Each shard runs 30 pairs / 60 chunk replays
+and two groups; across all shards this is 120 pairs / 240 replays and 16 full
+generations. `--full-sweep-approved` is a separate fail-closed launch flag:
+
+```bash
+cd /workspace/video-model/restream_mvp
+for gpu_index in 0 1 2 3; do
+  CUDA_VISIBLE_DEVICES=$gpu_index OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false \
+    .venv/bin/python scripts/run_chunk_edit.py \
+      --manifest validation/history_release_sweep_manifest.json \
+      --sealed-reference validation/edit_ready_mvp/local_edit_main_shard*.json \
+        validation/edit_ready_mvp/local_edit_seed2_shard*.json \
+      --reviewed --full-sweep-approved --shard $gpu_index --shards 4 --gpu 0 \
+      --dino > /tmp/history_release_shard${gpu_index}.log 2>&1 &
+done
+wait
+```
+
+Do not add `--full-sweep-approved` until review explicitly releases the sweep.
+After all four result JSONs are complete, run the frozen analyzer before reading
+or interpreting per-case results:
+
+```bash
+.venv/bin/python scripts/analyze_history_release_sweep.py \
+  --results validation/history_release/paired_shard*/results.json \
+  --output validation/history_release_analysis.json
+```

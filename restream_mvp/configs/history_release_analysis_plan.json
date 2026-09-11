@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "status": "frozen_before_full_sweep",
+  "frozen_date": "2026-09-12",
+  "protocol": "fixed_history_paired_v2",
+  "manifest": {
+    "path": "validation/history_release_sweep_manifest.json",
+    "sha256": "2c320a8dbb4075e0b191512890217ac667767b925f019e56233c4f822e67db1f",
+    "expected_pairs": 120,
+    "edits": [
+      "dress_red_to_blue",
+      "jacket_green_to_yellow",
+      "lighting_warm_to_cool",
+      "lighting_darker"
+    ],
+    "seeds": [42, 43],
+    "calibration_chunks": [0],
+    "confirmatory_chunks": [1, 4],
+    "gates": [1.0, 0.75, 0.5, 0.25, 0.0]
+  },
+  "estimands": {
+    "E": "S(P1,g) - S(P0,g)",
+    "delta_E": "E(g) - E(1)",
+    "D_drift": "latent_mse(C_k(P0,g), C_k(base))",
+    "independent_unit": ["edit", "seed"],
+    "repeated_measure": "target_chunk",
+    "cluster_reducer": "arithmetic_mean_over_confirmatory_chunks",
+    "note": "Raw proxy magnitudes differ by edit. The primary sign test uses only paired direction; raw magnitudes remain stratified and descriptive."
+  },
+  "confirmatory": {
+    "gate": 0.5,
+    "reference_gate": 1.0,
+    "alternative": "delta_E_greater_than_zero",
+    "alpha": 0.05,
+    "zero_tolerance": 1e-12,
+    "test": "exact_one_sided_sign_test_over_edit_seed_clusters",
+    "minimum_positive_clusters": 7,
+    "expected_clusters": 8,
+    "replication": {
+      "minimum_positive_per_chunk": 5,
+      "expected_clusters_per_chunk": 8,
+      "require_positive_median_each_chunk": true,
+      "minimum_positive_edits": 3,
+      "expected_edits": 4
+    },
+    "decision": "Pass only if all protocol invariants pass, at least 7/8 edit-seed cluster effects are positive, the exact one-sided sign-test p-value is <= 0.05, each confirmatory chunk has positive median delta_E and at least 5/8 positive clusters, and at least 3/4 edit-level effects are positive.",
+    "magnitude_threshold": null,
+    "magnitude_note": "No post-smoke raw-score cutoff is introduced because color and luma proxy scales are not commensurate."
+  },
+  "uncertainty": {
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 20260912,
+    "confidence": 0.95,
+    "resampling_unit": ["edit", "seed"],
+    "statistic": "median_cluster_delta_E",
+    "decision_bearing": false
+  },
+  "secondary": {
+    "gates": [0.75, 0.25, 0.0],
+    "multiplicity": "descriptive_only_no_confirmatory_p_values",
+    "dose_response": "Report cluster-level delta_E and D_drift across all gates; do not convert monotonicity into a pass criterion."
+  },
+  "pareto": {
+    "editability_coordinate": "median_edit_seed_cluster_delta_E",
+    "preservation_coordinate": "median_edit_seed_cluster_D_drift",
+    "maximize": "editability_coordinate",
+    "minimize": "preservation_coordinate",
+    "dominance_tolerance": 1e-12,
+    "paired_dominance_minimum_clusters": 7,
+    "paired_dominance_expected_clusters": 8,
+    "decision": "Report every non-dominated gate. Do not choose a single operating point and do not add a drift budget after seeing results.",
+    "decision_bearing": false
+  },
+  "invariants": {
+    "require_complete_case_grid": true,
+    "require_clean_matching_provenance": true,
+    "require_fixed_references_generated_at_g1": true,
+    "require_historical_sealed_g1_where_available": true,
+    "historical_sealed_scope": "Only preregistered edit/seed pairs with an existing compatible result. The corrected 42/43-per-edit grid has no historical result for most pairs; absence is recorded and is not imputed or treated as failure.",
+    "require_g1_P0_exact_base": true,
+    "require_D_drift_g1_zero": true,
+    "require_chunk0_gate_invariant": true,
+    "require_replay_noise_exact": true,
+    "require_outside_exact_both_policies": true,
+    "require_gate_D_invalid": true,
+    "missing_or_duplicate_case": "fail_no_imputation"
+  },
+  "claim_scope": {
+    "confirmatory_pass": "Within the four preregistered edits and two seeds, releasing history to g=0.5 causally increases paired editability relative to g=1.",
+    "confirmatory_fail": "The sweep does not establish the preregistered causal editability claim.",
+    "pareto_note": "A frontier reports the editability-preservation tradeoff; it does not establish that any drift level is practically acceptable.",
+    "smoke_excluded": true,
+    "timing_excluded": true
+  }
+}

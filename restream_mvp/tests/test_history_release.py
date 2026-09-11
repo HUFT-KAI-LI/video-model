@@ -67,6 +67,8 @@ def check_drift_is_subtracted_and_timing_never_passes():
         record["history_gate"] = gate
         report = runner.evaluate_gates([record], config())
         assert not report["gate_b_editability"]["passed"]
+        assert report["gate_b_editability"]["status"] == \
+            "descriptive_only_requires_frozen_analysis"
         assert report["gate_d_cost"]["passed"] is None
         assert report["gate_d_cost"]["counted_cases"] == 0
     response["full_regeneration"]["S_proxy"] = 0
@@ -157,6 +159,8 @@ def check_sealed_loader_checks_coverage_and_identity(tmp_path):
     path.write_text(json.dumps({"provenance": identity, "cases": cases[:1]}))
     with unittest.TestCase().assertRaisesRegex(ValueError, "Missing sealed"):
         load_sealed([path], groups, identity)
+    partial, _ = load_sealed([path], groups, identity, require_all=False)
+    assert len(partial) == 1
 
 
 class HistoryReleaseTests(unittest.TestCase):
