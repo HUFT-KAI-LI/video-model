@@ -17,7 +17,7 @@ def build_cases(edits, seeds, chunks, gates):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--edits", nargs="+", default=["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"])
-    ap.add_argument("--seeds", nargs="+", type=int, default=[42, 43])
+    ap.add_argument("--seeds", nargs="+", type=int, default=[101, 202])
     ap.add_argument("--chunks", nargs="+", type=int, default=[0, 1, 4])
     ap.add_argument("--gates", nargs="+", type=float, default=DEFAULT_GATES)
     ap.add_argument("--output", type=Path, default=Path("validation/history_release_sweep_manifest.json"))

@@ -39,7 +39,8 @@ def synthetic_records(negative_clusters=1):
                     "reference_history_gate": 1.0, "evidence": "directional",
                     "responsiveness": {"replay": {"S_proxy": .03},
                                        "text_rebind": {"S_proxy": .03 + e}},
-                    "editability": {"E": e}, "D_drift": drift,
+                    "editability": {"E": e, "S_full": .2, "R_k": e / .2},
+                    "D_drift": drift,
                     "preservation": {"outside_exact": True},
                     "rng": {"replay": {"exact": True}, "text_rebind": {"exact": True}},
                     "sanity": {"g1_P0_exact_base": gate == 1 if gate == 1 else None,
@@ -56,6 +57,9 @@ class HistoryReleaseAnalysisTests(unittest.TestCase):
         self.assertEqual(ec.sha256_file(ROOT / plan["manifest"]["path"]),
                          plan["manifest"]["sha256"])
         self.assertEqual(plan["confirmatory"]["gate"], .5)
+        self.assertEqual(plan["manifest"]["seeds"], [101, 202])
+        self.assertEqual(plan["pareto"]["editability_coordinate"],
+                         "median_edit_seed_cluster_delta_R")
         self.assertEqual(plan["confirmatory"]["minimum_positive_clusters"], 7)
         self.assertIsNone(plan["confirmatory"]["magnitude_threshold"])
         self.assertAlmostEqual(exact_positive_sign_p(7, 1), .03515625)
@@ -68,6 +72,17 @@ class HistoryReleaseAnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(report["confirmatory"]["exact_one_sided_sign_p"], .03515625)
         self.assertEqual(set(report["pareto"]["frontier_gates"]), {1, .75, .5, .25, 0})
         self.assertIsNone(report["pareto"]["operating_point"])
+
+    def test_nonpositive_full_reference_disables_cross_edit_pareto(self):
+        records, plan = synthetic_records(), load_plan()
+        for record in records:
+            if record["prompt_id"] == plan["manifest"]["edits"][0] and record["target_chunk"] == 1:
+                record["editability"]["S_full"] = 0
+                record["editability"]["R_k"] = None
+        report = analyze(records, plan)
+        self.assertEqual(report["pareto"]["status"],
+                         "not_estimable_nonpositive_full_reference")
+        self.assertEqual(report["pareto"]["frontier_gates"], [])
 
     def test_six_of_eight_fails_confirmatory_rule(self):
         report = analyze(synthetic_records(negative_clusters=2), load_plan())
@@ -85,6 +100,17 @@ class HistoryReleaseAnalysisTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "outside preservation"):
             analyze(records, plan)
 
+    def test_analyzer_repeats_per_group_gate_active_invariant(self):
+        records, plan = synthetic_records(), load_plan()
+        for record in records:
+            if (record["prompt_id"] == plan["manifest"]["edits"][0] and
+                    record["seed"] == plan["manifest"]["seeds"][0] and
+                    record["target_chunk"] == 1):
+                record["chunk_latent_sha256"] = {"replay": "inert-p0",
+                                                  "text_rebind": "inert-p1"}
+        with self.assertRaisesRegex(ValueError, "intervention is inert"):
+            analyze(records, plan)
+
     def test_dominated_gate_is_removed_without_selecting_winner(self):
         records, plan = synthetic_records(), load_plan()
         for record in records:
@@ -95,6 +121,7 @@ class HistoryReleaseAnalysisTests(unittest.TestCase):
                                  row["target_chunk"] == record["target_chunk"] and
                                  row["history_gate"] == .5)
                 record["editability"]["E"] = reference["editability"]["E"]
+                record["editability"]["R_k"] = reference["editability"]["R_k"]
                 record["responsiveness"]["text_rebind"]["S_proxy"] = \
                     record["responsiveness"]["replay"]["S_proxy"] + record["editability"]["E"]
         report = analyze(records, plan)

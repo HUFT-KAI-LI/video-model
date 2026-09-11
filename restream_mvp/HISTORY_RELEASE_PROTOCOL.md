@@ -17,7 +17,8 @@ P0/P1 are executed internally, not encoded as a policy dimension. Entries are
 consumed directly; sparse selections are preserved, seeds are never replaced by
 prompt indices, and duplicate entries, schema 1, policy fields, unknown prompts,
 and invalid gates are rejected before loading the model. CLI selection overrides
-cannot be combined with a manifest. The default sweep is 4 edits × seeds 42/43 ×
+cannot be combined with a manifest. The confirmatory sweep is 4 edits × held-out
+seeds 101/202 ×
 chunks 0/1/4 × 5 gates = 120 pairs, in 8 groups, with 16 full-video generations.
 
 Each pair records `history_gate`, `reference_history_gate=1`, checkpoint path/hash,
@@ -124,28 +125,39 @@ SHA-256, and the analyzer refuses a different plan, dirty provenance, incomplete
 grid, duplicate case, failed invariant, or enabled Gate D.
 
 Frozen plan SHA-256:
-`0a9caf8cddc76e119f2a0c15d33ea86cde4c1856184b9c2f393378c7ffa3d8c8`.
+`0f1469c45727e21f2e80988d9e47c526b31e5cf374cce85174ff97f691cded60`.
 
 The confirmatory contrast is g=.5 versus g=1. For each of the 8 independent
 `(edit, seed)` units, first average `delta_E = E(.5)-E(1)` over repeated chunks
 1 and 4. The causal criterion requires at least 7/8 positive clusters, an exact
 one-sided sign-test p <= .05, positive median and majority-positive replication
 at each chunk, and positive edit-level effects for at least 3/4 edits. The 7/8
-sign pattern has exact p=.03515625; 6/8 does not pass. There is no raw magnitude
+sign pattern has exact p=.03515625; 6/8 does not pass. This is named an exact
+consistency test on the preregistered edit-seed units, not population-level
+significance for all video editing tasks. There is no raw magnitude
 cutoff because color and luma proxy scales are not commensurate. The deterministic
 10,000-resample cluster bootstrap interval is descriptive and cannot change the
 decision. Gates .75, .25 and 0 are secondary, with no confirmatory p-values.
 
-Pareto coordinates are median edit-seed cluster `delta_E` (maximize) and median
-cluster `D_drift` (minimize). Both point-estimate and 7/8 paired dominance are
+Pareto coordinates are dimensionless median edit-seed cluster
+`delta_R = R(g)-R(1) = delta_E/S_full` (maximize) and median cluster `D_drift`
+(minimize). If any full-reference effect is nonpositive, the cross-edit frontier
+is marked not estimable without dropping or imputing that unit. Raw `delta_E`
+remains stratified by edit. Both point-estimate and 7/8 paired dominance are
 reported. Every non-dominated gate remains on the frontier; the analyzer never
 selects one operating point, applies a post-result drift budget, or counts timing.
 
-Old sealed runs used prompt-index seeds (for example jacket 46/54), while this
-corrected manifest uses 42/43 for every edit. Historical g=1 sealing is therefore
-required and reported where a compatible edit/seed exists, but missing historical
-coverage is not imputed. Every new group still generates B0 and FullReg once at
-g=1, fixes those references for all gates, and requires g=1/P0 exact base.
+The g=.5 primary choice was pilot-informed by seed 42. The confirmatory manifest
+therefore uses held-out seeds 101/202; a pre-sweep recursive audit found neither
+value in repository JSON/JSONL `seed`, `noise_seed`, or `generation_seed` fields.
+Old generation experiments used seeds 42-57, so no confirmatory unit has a
+historical seal by design. Every new group generates B0 and FullReg once at g=1,
+fixes those references for all gates, and requires g=1/P0 exact base.
+
+Gate activity is checked independently inside every `(edit, seed, target_chunk)`
+group by both runner and analyzer. For committed-history chunks, at least one of
+P0/P1 must change across gates; differences from another prompt or seed cannot
+satisfy this invariant.
 
 After explicit full-sweep approval, the 8 whole `(edit, seed)` groups can be
 distributed evenly over four A800s. Each shard runs 30 pairs / 60 chunk replays
@@ -158,8 +170,6 @@ for gpu_index in 0 1 2 3; do
   CUDA_VISIBLE_DEVICES=$gpu_index OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false \
     .venv/bin/python scripts/run_chunk_edit.py \
       --manifest validation/history_release_sweep_manifest.json \
-      --sealed-reference validation/edit_ready_mvp/local_edit_main_shard*.json \
-        validation/edit_ready_mvp/local_edit_seed2_shard*.json \
       --reviewed --full-sweep-approved --shard $gpu_index --shards 4 --gpu 0 \
       --dino > /tmp/history_release_shard${gpu_index}.log 2>&1 &
 done

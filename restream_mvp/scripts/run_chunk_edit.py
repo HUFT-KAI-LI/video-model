@@ -262,18 +262,19 @@ def evaluate_paired_gates(records, config):
 
 def assert_gate_intervention_active(records):
     """Reject a multi-gate smoke when committed-history outputs ignore the gate."""
-    by_target = {}
+    by_unit = {}
     for record in records:
         if record["target_chunk"] > 0:
-            by_target.setdefault(record["target_chunk"], []).append(record)
-    for target, cases in by_target.items():
+            key = (record["prompt_id"], record["seed"], record["target_chunk"])
+            by_unit.setdefault(key, []).append(record)
+    for key, cases in by_unit.items():
         if len({case["history_gate"] for case in cases}) < 2:
             continue
         variants = ("replay", "text_rebind")
         if all(len({case["chunk_latent_sha256"][name] for case in cases}) == 1
                for name in variants):
             raise AssertionError(
-                f"chunk {target}: history gate intervention is inert for both P0 and P1")
+                f"{key}: history gate intervention is inert for both P0 and P1")
 
 
 def evaluate_gates(records, config) -> dict:

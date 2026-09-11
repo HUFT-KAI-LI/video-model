@@ -78,6 +78,12 @@ def validate_records(records, plan):
         calculated_e = response["text_rebind"]["S_proxy"] - response["replay"]["S_proxy"]
         if abs(calculated_e - record["editability"]["E"]) > tolerance:
             raise ValueError(f"stored E mismatch for {key}")
+        full = record["editability"]["S_full"]
+        ratio = record["editability"].get("R_k")
+        expected_ratio = calculated_e / full if full > 0 else None
+        if ((expected_ratio is None) != (ratio is None) or
+                expected_ratio is not None and abs(expected_ratio - ratio) > tolerance):
+            raise ValueError(f"stored R mismatch for {key}")
         drift = float(record["D_drift"])
         if not math.isfinite(drift) or drift < 0:
             raise ValueError(f"invalid D_drift for {key}")
@@ -99,6 +105,16 @@ def validate_records(records, plan):
                     hashes = {case["chunk_latent_sha256"][policy] for case in calibration}
                     if len(hashes) != 1:
                         raise ValueError(f"chunk-0 {policy} is gate-dependent for {(edit, seed)}")
+            for chunk in plan["manifest"]["confirmatory_chunks"]:
+                cases = [indexed[(edit, seed, chunk, float(g))]
+                         for g in plan["manifest"]["gates"]]
+                full_values = [case["editability"]["S_full"] for case in cases]
+                if max(full_values) - min(full_values) > tolerance:
+                    raise ValueError(f"S_full is gate-dependent for {(edit, seed, chunk)}")
+                if all(len({case["chunk_latent_sha256"][policy] for case in cases}) == 1
+                       for policy in ("replay", "text_rebind")):
+                    raise ValueError(
+                        f"history gate intervention is inert for {(edit, seed, chunk)}")
     return indexed
 
 
@@ -108,14 +124,21 @@ def paired_rows(indexed, plan):
     for edit in plan["manifest"]["edits"]:
         for seed in plan["manifest"]["seeds"]:
             for chunk in chunks:
-                reference = indexed[(edit, seed, chunk, 1.0)]["editability"]["E"]
+                reference_scores = indexed[(edit, seed, chunk, 1.0)]["editability"]
+                reference = reference_scores["E"]
+                reference_r = reference_scores.get("R_k")
                 for gate in plan["manifest"]["gates"]:
                     record = indexed[(edit, seed, chunk, float(gate))]
+                    score = record["editability"]
+                    ratio = score.get("R_k")
                     rows.append({"edit": edit, "seed": seed, "target_chunk": chunk,
                                  "history_gate": float(gate),
-                                 "E": record["editability"]["E"],
+                                 "E": score["E"],
                                  "E_reference_g1": reference,
-                                 "delta_E": record["editability"]["E"] - reference,
+                                 "delta_E": score["E"] - reference,
+                                 "R": ratio, "R_reference_g1": reference_r,
+                                 "delta_R": ratio - reference_r
+                                 if ratio is not None and reference_r is not None else None,
                                  "D_drift": record["D_drift"]})
     return rows
 
@@ -126,6 +149,8 @@ def cluster_rows(rows):
         grouped[(row["edit"], row["seed"], row["history_gate"])].append(row)
     return [{"edit": edit, "seed": seed, "history_gate": gate,
              "delta_E": _mean(row["delta_E"] for row in values),
+             "delta_R": _mean(row["delta_R"] for row in values)
+             if all(row["delta_R"] is not None for row in values) else None,
              "D_drift": _mean(row["D_drift"] for row in values),
              "chunks": sorted(row["target_chunk"] for row in values)}
             for (edit, seed, gate), values in sorted(grouped.items())]
@@ -136,15 +161,22 @@ def pareto_report(clusters, plan):
     tolerance = float(plan["pareto"]["dominance_tolerance"])
     points = {}
     by_gate = {gate: [row for row in clusters if row["history_gate"] == gate] for gate in gates}
+    invalid = [row for row in clusters if row["delta_R"] is None]
+    if invalid:
+        return {"status": "not_estimable_nonpositive_full_reference",
+                "invalid_units": [{key: row[key] for key in ("edit", "seed", "history_gate")}
+                                  for row in invalid],
+                "points": [], "frontier_gates": [], "paired_dominance": [],
+                "operating_point": None, "decision_bearing": False}
     for gate, rows in by_gate.items():
         points[gate] = {"history_gate": gate,
-                        "editability": statistics.median(row["delta_E"] for row in rows),
+                        "normalized_editability": statistics.median(row["delta_R"] for row in rows),
                         "drift": statistics.median(row["D_drift"] for row in rows)}
 
     def dominates(a, b):
-        no_worse = (a["editability"] >= b["editability"] - tolerance and
+        no_worse = (a["normalized_editability"] >= b["normalized_editability"] - tolerance and
                     a["drift"] <= b["drift"] + tolerance)
-        strict = (a["editability"] > b["editability"] + tolerance or
+        strict = (a["normalized_editability"] > b["normalized_editability"] + tolerance or
                   a["drift"] < b["drift"] - tolerance)
         return no_worse and strict
 
@@ -162,15 +194,16 @@ def pareto_report(clusters, plan):
             for unit, a in keyed_a.items():
                 b = next(row for row in by_gate[gate_b]
                          if (row["edit"], row["seed"]) == unit)
-                no_worse = (a["delta_E"] >= b["delta_E"] - tolerance and
+                no_worse = (a["delta_R"] >= b["delta_R"] - tolerance and
                             a["D_drift"] <= b["D_drift"] + tolerance)
-                strict = (a["delta_E"] > b["delta_E"] + tolerance or
+                strict = (a["delta_R"] > b["delta_R"] + tolerance or
                           a["D_drift"] < b["D_drift"] - tolerance)
                 count += bool(no_worse and strict)
             paired.append({"gate_a": gate_a, "gate_b": gate_b,
                            "dominance_clusters": count,
                            "paired_dominates": count >= minimum})
-    return {"points": [points[gate] for gate in gates], "frontier_gates": frontier,
+    return {"status": "complete", "editability_coordinate": "median_cluster_delta_R",
+            "points": [points[gate] for gate in gates], "frontier_gates": frontier,
             "paired_dominance": paired, "operating_point": None,
             "decision_bearing": False}
 

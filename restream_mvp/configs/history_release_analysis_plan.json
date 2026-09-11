@@ -5,7 +5,7 @@
   "protocol": "fixed_history_paired_v2",
   "manifest": {
     "path": "validation/history_release_sweep_manifest.json",
-    "sha256": "2c320a8dbb4075e0b191512890217ac667767b925f019e56233c4f822e67db1f",
+    "sha256": "b8276c5ddfeaea00383fe5f78d1fc8903b37d8545eaf81b00fae4ccebe25d233",
     "expected_pairs": 120,
     "edits": [
       "dress_red_to_blue",
@@ -13,7 +13,7 @@
       "lighting_warm_to_cool",
       "lighting_darker"
     ],
-    "seeds": [42, 43],
+    "seeds": [101, 202],
     "calibration_chunks": [0],
     "confirmatory_chunks": [1, 4],
     "gates": [1.0, 0.75, 0.5, 0.25, 0.0]
@@ -26,6 +26,13 @@
     "repeated_measure": "target_chunk",
     "cluster_reducer": "arithmetic_mean_over_confirmatory_chunks",
     "note": "Raw proxy magnitudes differ by edit. The primary sign test uses only paired direction; raw magnitudes remain stratified and descriptive."
+  },
+  "seed_holdout": {
+    "pilot_seed": 42,
+    "legacy_development_generation_seeds": [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+    "confirmatory_seeds": [101, 202],
+    "repository_seed_field_audit_before_sweep": "No JSON/JSONL seed, noise_seed, or generation_seed field used 101 or 202.",
+    "policy": "Pilot-informed gates and decision rules; held-out confirmatory generation trajectories."
   },
   "confirmatory": {
     "gate": 0.5,
@@ -61,7 +68,8 @@
     "dose_response": "Report cluster-level delta_E and D_drift across all gates; do not convert monotonicity into a pass criterion."
   },
   "pareto": {
-    "editability_coordinate": "median_edit_seed_cluster_delta_E",
+    "editability_coordinate": "median_edit_seed_cluster_delta_R",
+    "delta_R": "R(g) - R(1) = delta_E / S_full when S_full > 0",
     "preservation_coordinate": "median_edit_seed_cluster_D_drift",
     "maximize": "editability_coordinate",
     "minimize": "preservation_coordinate",
@@ -69,6 +77,7 @@
     "paired_dominance_minimum_clusters": 7,
     "paired_dominance_expected_clusters": 8,
     "decision": "Report every non-dominated gate. Do not choose a single operating point and do not add a drift budget after seeing results.",
+    "normalization_validity": "If any confirmatory unit has nonpositive S_full, the cross-edit Pareto frontier is not estimable; do not drop or impute that unit. Raw delta_E remains reported by edit.",
     "decision_bearing": false
   },
   "invariants": {
@@ -76,19 +85,21 @@
     "require_clean_matching_provenance": true,
     "require_fixed_references_generated_at_g1": true,
     "require_historical_sealed_g1_where_available": true,
-    "historical_sealed_scope": "Only preregistered edit/seed pairs with an existing compatible result. The corrected 42/43-per-edit grid has no historical result for most pairs; absence is recorded and is not imputed or treated as failure.",
+    "historical_sealed_scope": "The held-out 101/202 confirmatory trajectories have no historical result by design. Historical sealed availability is expected to be zero and is reported without imputation.",
     "require_g1_P0_exact_base": true,
     "require_D_drift_g1_zero": true,
     "require_chunk0_gate_invariant": true,
+    "require_gate_active_within_each_edit_seed_chunk": true,
     "require_replay_noise_exact": true,
     "require_outside_exact_both_policies": true,
     "require_gate_D_invalid": true,
     "missing_or_duplicate_case": "fail_no_imputation"
   },
   "claim_scope": {
-    "confirmatory_pass": "Within the four preregistered edits and two seeds, releasing history to g=0.5 causally increases paired editability relative to g=1.",
+    "confirmatory_pass": "On the preregistered held-out edit-seed units, releasing history to g=0.5 increases paired editability relative to g=1 under the exact consistency test.",
     "confirmatory_fail": "The sweep does not establish the preregistered causal editability claim.",
-    "pareto_note": "A frontier reports the editability-preservation tradeoff; it does not establish that any drift level is practically acceptable.",
+    "inference_note": "This is an exact consistency test on preregistered edit-seed units, not population-level significance for all video editing tasks; two seeds share each edit prompt and the separate 3/4 edit replication guard remains required.",
+    "pareto_note": "A normalized delta_R frontier reports the editability-preservation tradeoff; it does not establish that any drift level is practically acceptable.",
     "smoke_excluded": true,
     "timing_excluded": true
   }

@@ -33,7 +33,7 @@ def check_manifest_uses_every_explicit_seed_and_sparse_combination():
     manifest = json.loads((ROOT / "validation/history_release_sweep_manifest.json").read_text())
     groups = manifest_groups(config(), manifest)
     assert len(groups) == 8
-    assert all({g["seed"] for g in groups if g["prompt_id"] == edit} == {42, 43}
+    assert all({g["seed"] for g in groups if g["prompt_id"] == edit} == {101, 202}
                for edit in {g["prompt_id"] for g in groups})
     assert sum(sum(len(v) for v in g["gates_by_target"].values()) for g in groups) == 120
     sparse = {"schema": 2, "cases": [manifest["cases"][0], manifest["cases"][-1]]}
@@ -183,7 +183,7 @@ class HistoryReleaseTests(unittest.TestCase):
         check_drift_is_subtracted_and_timing_never_passes()
 
     def test_inert_gate_fails_closed(self):
-        base = {"target_chunk": 1, "chunk_latent_sha256":
+        base = {"prompt_id": "edit-a", "seed": 101, "target_chunk": 1, "chunk_latent_sha256":
                 {"replay": "same-p0", "text_rebind": "same-p1"}}
         inert = [dict(base, history_gate=gate) for gate in (1, .5, 0)]
         with self.assertRaisesRegex(AssertionError, "intervention is inert"):
@@ -192,6 +192,17 @@ class HistoryReleaseTests(unittest.TestCase):
                   {**base, "history_gate": 0,
                    "chunk_latent_sha256": {"replay": "changed", "text_rebind": "same-p1"}}]
         runner.assert_gate_intervention_active(active)
+
+    def test_inert_gate_is_not_hidden_by_another_group(self):
+        records = []
+        for prompt, seed in (("edit-a", 101), ("edit-b", 202)):
+            for gate in (1, .5, 0):
+                records.append({"prompt_id": prompt, "seed": seed, "target_chunk": 4,
+                                "history_gate": gate,
+                                "chunk_latent_sha256": {
+                                    "replay": f"{prompt}-p0", "text_rebind": f"{prompt}-p1"}})
+        with self.assertRaisesRegex(AssertionError, "intervention is inert"):
+            runner.assert_gate_intervention_active(records)
 
     def test_runner(self):
         check_runner_fixed_history_18_replays_and_sealed_check(self.monkeypatch, self.tmp_path)
