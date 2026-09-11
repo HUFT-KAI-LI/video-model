@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "status": "frozen_before_d2_screen",
+  "frozen_date": "2026-09-12",
+  "protocol": "fixed_history_subsets_d2_v1",
+  "stage": "D2_history_subset_interactions",
+  "manifest": {
+    "path": "validation/history_subset_interaction_manifest.json",
+    "sha256": "51c838ae0bd2dc5d0935674e600d1fcc2a8e1ab9b3d7dc9b046bb6a899352cb9",
+    "expected_pairs": 36,
+    "edits": ["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"],
+    "seeds": [404],
+    "chunks": [4],
+    "conditions": ["SOR", "SO", "SR", "OR", "S", "O", "R", "empty", "global_release"]
+  },
+  "history_partition": {
+    "order": ["sink", "old", "recent", "current"],
+    "required_sink_size": 3,
+    "required_num_frame_per_block": 3,
+    "required_local_attention_frames": 12,
+    "native_window_scope": "sink_plus_local_history_plus_current",
+    "expected_attended_history_chunks": {
+      "4": {"sink": [0], "old": [2], "recent": [3], "evicted": [1]}
+    }
+  },
+  "conditions": {
+    "SOR": {"mechanism": "component", "sink": 1, "old": 1, "recent": 1},
+    "SO": {"mechanism": "component", "sink": 1, "old": 1, "recent": 0},
+    "SR": {"mechanism": "component", "sink": 1, "old": 0, "recent": 1},
+    "OR": {"mechanism": "component", "sink": 0, "old": 1, "recent": 1},
+    "S": {"mechanism": "component", "sink": 1, "old": 0, "recent": 0},
+    "O": {"mechanism": "component", "sink": 0, "old": 1, "recent": 0},
+    "R": {"mechanism": "component", "sink": 0, "old": 0, "recent": 1},
+    "empty": {"mechanism": "component", "sink": 0, "old": 0, "recent": 0},
+    "global_release": {"mechanism": "stage_c_global", "history_gate": 0.5}
+  },
+  "operator": {
+    "factorial_conditions": "one native attention call over exactly the included history components plus current",
+    "global_release": "Stage C output interpolation at g=0.5; reference only",
+    "global_excluded_from_factorial": true,
+    "soft_component_alpha_sweep": false,
+    "timing": "invalid_diagnostic"
+  },
+  "estimands": {
+    "F": "F(B)=R(B)=E(B)/S_full",
+    "E": "S(P1,B)-S(P0,B)",
+    "D_drift": "latent_mse(C4(P0,B),C4(base))",
+    "locking": "L(B)=F(empty)-F(B)",
+    "I_SO": "F(SO)-F(S)-F(O)+F(empty)",
+    "I_SR": "F(SR)-F(S)-F(R)+F(empty)",
+    "I_OR": "F(OR)-F(O)-F(R)+F(empty)",
+    "I_SOR": "F(SOR)-F(SO)-F(SR)-F(OR)+F(S)+F(O)+F(R)-F(empty)",
+    "shapley": "exact three-component Shapley allocation of L(SOR) using all eight subsets",
+    "across_edit_reducer": "median_over_four_edits"
+  },
+  "interpretation": {
+    "statistical_tests": "none_exploratory",
+    "automatic_pattern_classification": false,
+    "reason": "No equivalence or magnitude threshold is frozen for approximately-equal claims.",
+    "patterns": {
+      "A": "A singleton approximately matches SOR: that component may be sufficient for locking.",
+      "B": "Pairs approximately match SOR while singletons do not: results suggest redundant or cooperative locking.",
+      "C": "Only empty materially unlocks: results suggest highly distributed locking and motivate attention-path decomposition.",
+      "D": "Subset structure differs by edit: results motivate a prompt-conditioned implicit state mask."
+    },
+    "claim_language": "Non-additive subset contrasts suggest interactions; they do not prove a mechanistic interaction."
+  },
+  "seed_separation": {
+    "development_seed": 42,
+    "stage_c_confirmatory_seeds": [101, 202],
+    "d1_exploratory_seed": 303,
+    "d2_exploratory_seed": 404
+  },
+  "invariants": {
+    "require_complete_unique_grid": true,
+    "require_clean_matching_provenance": true,
+    "require_references_generated_with_unmodified_full_history": true,
+    "require_same_checkpoint_for_all_conditions": true,
+    "require_replay_noise_exact": true,
+    "require_outside_exact_both_policies": true,
+    "require_dino_appearance_diagnostic": true,
+    "require_boundary_diagnostic": true,
+    "require_SOR_P0_exact_base_and_zero_drift": true,
+    "require_chunk4_partition_3_3_3_3": true,
+    "require_current_only_endpoint_active": true,
+    "require_timing_invalid": true,
+    "missing_or_duplicate_case": "fail_no_imputation"
+  },
+  "scope": {
+    "chunk1": "routing/kernel control only; excluded from the main GPU grid",
+    "score_value_decomposition": false,
+    "claim": "Exploratory test of coarse temporal subset structure after D1; no significance or causal-mechanism claim."
+  }
+}

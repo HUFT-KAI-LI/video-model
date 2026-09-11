@@ -79,6 +79,27 @@ class HistoryGateTests(unittest.TestCase):
             {"sink": 1, "old": 1, "recent": 1}, dtype=torch.float32)
         assert torch.equal(actual, attention(q, k, v, dtype=torch.float32))
 
+    def test_all_binary_component_subsets_are_exact_native_attention(self):
+        q = torch.randn(1, 2, 2, 8)
+        k = torch.randn(1, 9, 2, 8)
+        v = torch.randn(1, 9, 2, 8)
+        components = {"sink": (k[:, :2], v[:, :2]),
+                      "old": (k[:, 2:4], v[:, 2:4]),
+                      "recent": (k[:, 4:6], v[:, 4:6])}
+        current_k, current_v = k[:, 6:], v[:, 6:]
+        for sink in (0, 1):
+            for old in (0, 1):
+                for recent in (0, 1):
+                    gates = {"sink": sink, "old": old, "recent": recent}
+                    included = [components[name] for name in ("sink", "old", "recent")
+                                if gates[name]]
+                    expected_k = torch.cat([part[0] for part in included] + [current_k], dim=1)
+                    expected_v = torch.cat([part[1] for part in included] + [current_v], dim=1)
+                    actual = component_gated_attention(
+                        q, components, current_k, current_v, gates, dtype=torch.float32)
+                    self.assertTrue(torch.equal(
+                        actual, attention(q, expected_k, expected_v, dtype=torch.float32)))
+
     def test_single_component_gate_interpolates_native_outputs(self):
         q = torch.randn(1, 2, 1, 4)
         k = torch.randn(1, 8, 1, 4)

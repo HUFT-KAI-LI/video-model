@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "experiment": "history_subset_interaction_d2",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release"
+    }
+  ]
+}

@@ -1,5 +1,14 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## History Subset Interaction D2（2026-09-12）
+
+D1 已封存为 coarse temporal localization insufficient。下一步冻结为 chunk 4 的
+`sink/old/recent` 完整 2^3 binary native-attention subset screen；使用全新 exploratory
+seed 404，四个 edit 加 Stage C global `.5` reference，共 36 pairs。分析固定报告
+pairwise/third-order inclusion-exclusion、locking set function 和 Shapley allocation；
+不设置事后等价阈值、不自动判定 A/B/C/D，也暂不进入 soft alpha 或 score/value。
+协议与启动方式见 [HISTORY_SUBSET_PROTOCOL.md](HISTORY_SUBSET_PROTOCOL.md)。
+
 ## History Component Decomposition D1（2026-09-12）
 
 History-Constraint Release Stage C 已按 held-out 120-pair 结果封存为 GPU PASS。

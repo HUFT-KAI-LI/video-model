@@ -37,15 +37,15 @@ def paired_editability(response):
             "ratio_status": "valid" if full > 0 else "nonpositive_full_reference"}
 
 
-def _condition_context(pipeline, condition):
-    spec = condition_spec(condition)
+def _condition_context(pipeline, condition, spec_fn=condition_spec):
+    spec = spec_fn(condition)
     if spec["kind"] == "global":
         return history_gate(pipeline, spec["gate"])
     return history_component_gates(pipeline, spec["gates"])
 
 
-def _condition_record(condition):
-    spec = condition_spec(condition)
+def _condition_record(condition, spec_fn=condition_spec):
+    spec = spec_fn(condition)
     return {"condition": condition,
             "mechanism": "stage_c_global" if spec["kind"] == "global" else "component",
             "history_gate": spec.get("gate"),
@@ -102,7 +102,9 @@ def run_group(pipeline, config, group, device, output_dir, cache_dir, identity, 
                                 cache_dir, identity, dino)
 
 
-def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, identity, dino):
+def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, identity, dino,
+                     *, protocol=PROTOCOL, spec_fn=condition_spec,
+                     full_condition="full_history", stage="D1"):
     block = int(pipeline.num_frame_per_block)
     seed = int(group["seed"])
     targets = group["targets"]
@@ -141,13 +143,13 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                                            ("text_rebind", edit_prompt, "reset")):
                 checkpoint = _load_entry(entry, device, identity["model_checkpoint_sha256"],
                                          identity["config_hash"])
-                with _condition_context(pipeline, condition):
+                with _condition_context(pipeline, condition, spec_fn):
                     result = er.replay_chunk(
                         pipeline, checkpoint, prompt, device=device, noise="from-cache",
                         noise_source=noise_source, crossattn=binding, restore_rng=True,
                         expected_model_hash=identity["model_checkpoint_sha256"],
                         expected_config_hash=identity["config_hash"])
-                    if condition_spec(condition)["kind"] == "components":
+                    if spec_fn(condition)["kind"] == "components":
                         partitions[name] = _component_partition_snapshot(pipeline, block)
                 results[name] = result.latents
                 rng[name] = _rng_check(checkpoint, result.recorded_noise)
@@ -157,7 +159,7 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                 er.outside_exact(assembled[name], base.latents, target, block)
                 pixels[name] = er.decode_latents(pipeline, assembled[name])
             drift = em.latent_stats(base_chunk, results["replay"])
-            if condition == "full_history" and not drift["exact"]:
+            if condition == full_condition and not drift["exact"]:
                 raise AssertionError(f"{case_id}: full-history P0 must be exact base")
             digests = {name: tensor_digest(value) for name, value in results.items()}
             digests.update(original=tensor_digest(base_chunk),
@@ -197,9 +199,9 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                     float((pixels_base[:, sl.stop:] - pixels[name][:, sl.stop:]).abs().max())
                     if sl.stop < pixels_base.shape[1] else 0.0)
             record = {
-                "protocol": PROTOCOL, "sample_id": case_id,
+                "protocol": protocol, "sample_id": case_id,
                 "prompt_id": group["prompt_id"], "seed": seed, "target_chunk": target,
-                **_condition_record(condition),
+                **_condition_record(condition, spec_fn),
                 "policies": {"replay": "P0", "text_rebind": "P1"},
                 "evidence": group.get("evidence", "directional"), "num_chunks": num_chunks,
                 "base_prompt": base_prompt, "edit_prompt": edit_prompt,
@@ -211,7 +213,7 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                 "drift": {"latent": drift,
                           "pixel": em.pixel_stats(base_frames, pixels["replay"][0, sl])},
                 "sanity": {"full_history_P0_exact_base":
-                           drift["exact"] if condition == "full_history" else None,
+                           drift["exact"] if condition == full_condition else None,
                            "fixed_references_unmodified_full_history": True},
                 "preservation": {"outside_exact": True, "policies_checked": ["P0", "P1"],
                                  "chunks_checked": num_chunks - 1,
@@ -220,7 +222,7 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                 "boundary": boundary,
                 "cache": {key: value for key, value in entry.items() if key != "checkpoint"},
                 "cost": {"status": "invalid_diagnostic", "passed": None,
-                         "reason": "D1 mechanism screen may invoke native attention multiple times."},
+                         "reason": f"{stage} mechanism screen includes incomparable attention operators."},
             }
             videos = {"original": pixels_base, "full_regeneration": pixels_full, **pixels}
             for name, tensor in videos.items():

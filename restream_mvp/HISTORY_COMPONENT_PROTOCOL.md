@@ -1,5 +1,13 @@
 # History Component Decomposition: D1 Screen
 
+## Archived outcome
+
+D1 is archived as PASS for its implementation and invariants. Its scientific result is
+that coarse temporal localization was insufficient: no single soft `sink`, `old`, or
+`recent` release recovered the Stage C global-release effect. This rules out the simple
+single-component soft-release hypothesis, while leaving subset interactions unresolved.
+The frozen next experiment is [History Subset Interaction D2](HISTORY_SUBSET_PROTOCOL.md).
+
 Stage C is sealed as a held-out GPU PASS. D1 does not revisit whether history
 suppresses editability. It asks which part of committed visual history supplies
 semantic inertia and whether selective release improves the editability versus
