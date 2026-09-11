@@ -185,3 +185,40 @@ or interpreting per-case results:
   --results validation/history_release/paired_shard*/results.json \
   --output validation/history_release_analysis.json
 ```
+
+## Held-out full-sweep result
+
+The four-A800 sweep completed at clean commit `4609a4b`: 120/120 unique pairs,
+240 chunk replays, held-out seeds 101/202 and all 8 preregistered `(edit, seed)`
+clusters. Every replay RNG and outside-latent invariant passed; all g=1 P0 chunks
+were exact base with `D_drift=0`; Gate D remained invalid. Historical sealed
+coverage was 0/24 as preregistered for held-out trajectories.
+
+The frozen g=.5 consistency test **passed**: 8 positive, 0 negative and 0 tied
+cluster effects, exact one-sided sign-test p=.00390625. Median cluster `delta_E`
+was .0510653; the deterministic 95% cluster-bootstrap interval was
+[.0384488, .0696843] and remained descriptive. Both chunks replicated at 8/8
+positive (`k=1` median .0573422; `k=4` median .0449485), and all 4/4 edits had
+positive edit-level effects. This supports the preregistered claim on these
+held-out edit-seed units; it is not population-level significance for all video
+editing tasks.
+
+| gate | median cluster delta_E | median cluster delta_R | median D_drift |
+| ---: | ---: | ---: | ---: |
+| 1 | 0 | 0 | 0 |
+| .75 | .012073 | .035353 | .028016 |
+| .5 | .051065 | .252592 | .260369 |
+| .25 | .138601 | .604286 | .877645 |
+| 0 | .168525 | .750262 | .837763 |
+
+All full-reference effects were positive (range .0680670-.5532694), so the
+normalized frontier was estimable. Its point-estimate non-dominated gates are
+`{1,.75,.5,0}`; g=.25 is dominated by g=0 on the aggregate coordinates. No gate
+met the separate 7/8 paired-dominance reporting threshold. The result selects no
+operating point and makes no practical drift-acceptability claim.
+
+The frozen report is
+`validation/history_release_analysis_heldout_4609a4b.json`, SHA-256
+`3e11b9bcee30ae027b9e37b968c454b3e30fea463702f529620605fa824cab66`.
+Four source shard JSONs are stored alongside it with their hashes embedded in the
+report. Multi-GB checkpoints and videos remain local and ignored by Git.
