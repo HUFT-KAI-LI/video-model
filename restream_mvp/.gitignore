@@ -23,3 +23,5 @@ validation/edit_ready_mvp/videos_smoke/
 validation/edit_ready_mvp/rerun*/
 # Full history-release smoke artifacts contain multi-GB checkpoints and videos.
 validation/history_release/paired_shard*/
+# D1 screen outputs include multi-GB checkpoints and comparison videos.
+validation/history_components/screen_*/

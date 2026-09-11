@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "status": "frozen_before_d1_screen",
+  "frozen_date": "2026-09-12",
+  "protocol": "fixed_history_components_d1_v1",
+  "stage": "D1_sink_old_recent_decomposition",
+  "manifest": {
+    "path": "validation/history_component_screen_manifest.json",
+    "sha256": "0fb24666304e916fac477b19ba55fe810eff9e266cf04663d85bc432af7cab23",
+    "expected_pairs": 48,
+    "edits": [
+      "dress_red_to_blue",
+      "jacket_green_to_yellow",
+      "lighting_warm_to_cool",
+      "lighting_darker"
+    ],
+    "seeds": [303],
+    "chunks": [1, 4],
+    "conditions": [
+      "full_history",
+      "global_release",
+      "sink_release",
+      "old_release",
+      "recent_release",
+      "non_sink_release"
+    ]
+  },
+  "history_partition": {
+    "order": ["sink", "old", "recent", "current"],
+    "sink": "first sink_size latent frames retained by the cache",
+    "recent": "last num_frame_per_block latent frames before the current query",
+    "old": "remaining non-sink history between sink and recent",
+    "required_sink_size": 3,
+    "required_num_frame_per_block": 3,
+    "required_local_attention_frames": 12,
+    "native_window_scope": "sink_plus_local_history_plus_current",
+    "expected_attended_history_chunks": {
+      "1": {"sink": [0], "old": [], "recent": [], "evicted": []},
+      "4": {"sink": [0], "old": [2], "recent": [3], "evicted": [1]}
+    },
+    "note": "The chunk-4 checkpoint contains C0-C3, but inserting current C4 into the native 12-frame total budget rolls C1 out before attention."
+  },
+  "conditions": {
+    "full_history": {"mechanism": "component", "sink": 1.0, "old": 1.0, "recent": 1.0},
+    "global_release": {"mechanism": "stage_c_global", "history_gate": 0.5},
+    "sink_release": {"mechanism": "component", "sink": 0.5, "old": 1.0, "recent": 1.0},
+    "old_release": {"mechanism": "component", "sink": 1.0, "old": 0.5, "recent": 1.0},
+    "recent_release": {"mechanism": "component", "sink": 1.0, "old": 1.0, "recent": 0.5},
+    "non_sink_release": {"mechanism": "component", "sink": 1.0, "old": 0.5, "recent": 0.5}
+  },
+  "component_gate_semantics": {
+    "single_fractional_component": "g*A(full)+(1-g)*A(without_component)",
+    "multiple_fractional_components": "multilinear expectation over native-attention component inclusion subsets",
+    "global_release": "the unchanged Stage C output interpolation current+g*(full-current)",
+    "timing": "invalid_diagnostic"
+  },
+  "estimands": {
+    "E": "S(P1,m)-S(P0,m)",
+    "delta_E": "E(m)-E(full_history)",
+    "R": "E/S_full when S_full>0",
+    "delta_R": "R(m)-R(full_history)=delta_E/S_full",
+    "D_drift": "latent_mse(C_k(P0,m),C_k(base))",
+    "within_edit_reducer": "arithmetic_mean_over_chunks_1_and_4",
+    "across_edit_reducer": "median_over_four_edits"
+  },
+  "screen_interpretation": {
+    "purpose": "select components for a later held-out confirmatory experiment",
+    "statistical_tests": "none_exploratory",
+    "selective_conditions": ["sink_release", "old_release", "recent_release", "non_sink_release"],
+    "reference_condition": "global_release",
+    "aggregate_dominance": "delta_R at least global_release and D_drift below global_release, or delta_R above global_release and D_drift at most global_release",
+    "paired_support": "report per-edit selective-minus-global delta_R and drift; do not assign a p-value",
+    "no_posthoc_conditions": true
+  },
+  "seed_separation": {
+    "development_seed": 42,
+    "stage_c_confirmatory_seeds": [101, 202],
+    "d1_exploratory_seed": 303,
+    "policy": "D1 discovery trajectories are disjoint from development and Stage C confirmation."
+  },
+  "invariants": {
+    "require_complete_unique_grid": true,
+    "require_clean_matching_provenance": true,
+    "require_references_generated_with_unmodified_full_history": true,
+    "require_same_checkpoint_for_all_conditions": true,
+    "require_replay_noise_exact": true,
+    "require_outside_exact_both_policies": true,
+    "require_dino_appearance_diagnostic": true,
+    "require_boundary_diagnostic": true,
+    "require_full_history_P0_exact_base": true,
+    "require_full_history_D_drift_zero": true,
+    "require_chunk1_global_equals_sink_exact": true,
+    "require_chunk1_empty_old_recent_non_sink_equal_full_exact": true,
+    "require_component_interventions_active_at_chunk4": true,
+    "require_timing_invalid": true,
+    "missing_or_duplicate_case": "fail_no_imputation"
+  },
+  "scope": {
+    "training": false,
+    "adapter": false,
+    "spatial_mask": false,
+    "right_context": false,
+    "claim": "Exploratory localization of edit-conflicting history components; no confirmatory significance claim."
+  }
+}

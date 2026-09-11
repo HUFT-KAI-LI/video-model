@@ -222,3 +222,7 @@ The frozen report is
 `3e11b9bcee30ae027b9e37b968c454b3e30fea463702f529620605fa824cab66`.
 Four source shard JSONs are stored alongside it with their hashes embedded in the
 report. Multi-GB checkpoints and videos remain local and ignored by Git.
+
+Stage C is sealed at this result. The next experiment is the separate exploratory
+sink/old/recent D1 screen defined in `HISTORY_COMPONENT_PROTOCOL.md`; Stage C's
+gate implementation, held-out cases and confirmatory rules are no longer tuned.

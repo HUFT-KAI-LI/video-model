@@ -27,6 +27,7 @@ __all__ = [
     'flash_attention',
     'attention',
     'gated_attention',
+    'component_gated_attention',
 ]
 
 
@@ -197,3 +198,53 @@ def gated_attention(q, k_history, v_history, k_current, v_current, gate, **kwarg
     full = attention(q, torch.cat([k_history, k_current], 1),
                      torch.cat([v_history, v_current], 1), **kwargs)
     return current + g * (full - current)
+
+
+def component_gated_attention(q, components, k_current, v_current, gates, **kwargs):
+    """Independently interpolate native attention over named history components.
+
+    A gate is the inclusion weight for its component. Multiple fractional gates
+    use the multilinear extension: native attention is evaluated for every
+    inclusion subset and combined by the corresponding product weight.
+    """
+    names = ("sink", "old", "recent")
+    if tuple(components) != names or set(gates) != set(names):
+        raise ValueError("history components and gates must be sink, old, recent in order")
+    values = {name: float(gates[name]) for name in names}
+    if any(not 0 <= value <= 1 for value in values.values()):
+        raise ValueError("history component gates must be in [0,1]")
+    if any(components[name][0].shape[1] != components[name][1].shape[1] for name in names):
+        raise ValueError("history component key/value lengths differ")
+
+    active = [name for name in names
+              if components[name][0].shape[1] > 0 and values[name] not in (0.0, 1.0)]
+    fixed = {name: values[name] == 1.0 for name in names}
+
+    def native(included):
+        keys = [components[name][0] for name in names if included[name]] + [k_current]
+        vals = [components[name][1] for name in names if included[name]] + [v_current]
+        return attention(q, torch.cat(keys, dim=1), torch.cat(vals, dim=1), **kwargs)
+
+    if not active:
+        return native(fixed)
+    if len(active) == 1:
+        name = active[0]
+        without = dict(fixed)
+        without[name] = False
+        baseline = native(without)
+        included = dict(fixed)
+        included[name] = True
+        full = native(included)
+        return baseline + values[name] * (full - baseline)
+
+    output = None
+    for mask in range(1 << len(active)):
+        included = dict(fixed)
+        weight = 1.0
+        for index, name in enumerate(active):
+            present = bool(mask & (1 << index))
+            included[name] = present
+            weight *= values[name] if present else 1.0 - values[name]
+        value = native(included)
+        output = value * weight if output is None else output + value * weight
+    return output

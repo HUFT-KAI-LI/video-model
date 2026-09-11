@@ -1,5 +1,14 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## History Component Decomposition D1（2026-09-12）
+
+History-Constraint Release Stage C 已按 held-out 120-pair 结果封存为 GPU PASS。
+下一阶段固定为纯推理的 sink / older-local / recent component screen：新 seed
+303、4 edits、chunk {1,4}、6 conditions，共 48 个 P0/P1 pair。协议、manifest、
+分析口径和 4×A800 启动方式见 [HISTORY_COMPONENT_PROTOCOL.md](HISTORY_COMPONENT_PROTOCOL.md)。
+该阶段只做 exploratory localization，不训练 adapter，不加入 spatial mask/right
+context，也不产生 confirmatory p-value。
+
 ## 新方向：Edit-Ready Video Generation 可行性 MVP（2026-09-10）
 
 按 [EDIT_READY_VIDEO_FEASIBILITY_PLAN.md](EDIT_READY_VIDEO_FEASIBILITY_PLAN.md) 完成 Generation-Time Edit Cache 的纯推理可行性测试，**不训练任何模型、不改 R0/R1 逻辑**。完整报告见 [EDIT_READY_MVP.md](EDIT_READY_MVP.md)，机器可读汇总见 `validation/edit_ready_mvp/summary.json`。

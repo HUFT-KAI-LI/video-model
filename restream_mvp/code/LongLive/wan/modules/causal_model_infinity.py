@@ -1,6 +1,6 @@
 # Adopted from https://github.com/guandeh17/Self-Forcing
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
-from wan.modules.attention import attention, gated_attention
+from wan.modules.attention import attention, component_gated_attention, gated_attention
 from wan.modules.model import (
     WanRMSNorm,
     rope_apply,
@@ -98,6 +98,8 @@ class CausalWanSelfAttention(nn.Module):
         self.head_dim = dim // num_heads
         self.local_attn_size = local_attn_size
         self.history_gate = 1.0
+        self.history_component_gates = None
+        self.last_history_component_tokens = None
         self.sink_size = sink_size
         self.qk_norm = qk_norm
         self.eps = eps
@@ -391,15 +393,50 @@ class CausalWanSelfAttention(nn.Module):
                     k_cat = k_sink
                     v_cat = v_sink
                 history_len = max(0, k_cat.shape[1] - roped_query.shape[1])
-                x = gated_attention(roped_query, k_cat[:, :history_len], v_cat[:, :history_len],
-                                     k_cat[:, history_len:], v_cat[:, history_len:], self.history_gate)
+                component_gates = self.history_component_gates
+                if component_gates is None:
+                    x = gated_attention(roped_query, k_cat[:, :history_len], v_cat[:, :history_len],
+                                         k_cat[:, history_len:], v_cat[:, history_len:], self.history_gate)
+                else:
+                    sink_history_len = min(sink_tokens, history_len)
+                    local_history_len = history_len - sink_history_len
+                    recent_len = min(num_new_tokens, local_history_len)
+                    old_len = local_history_len - recent_len
+                    old_end = sink_history_len + old_len
+                    components = {
+                        "sink": (k_cat[:, :sink_history_len], v_cat[:, :sink_history_len]),
+                        "old": (k_cat[:, sink_history_len:old_end], v_cat[:, sink_history_len:old_end]),
+                        "recent": (k_cat[:, old_end:history_len], v_cat[:, old_end:history_len]),
+                    }
+                    self.last_history_component_tokens = {
+                        "sink": sink_history_len, "old": old_len,
+                        "recent": recent_len, "current": num_new_tokens}
+                    x = component_gated_attention(
+                        roped_query, components, k_cat[:, history_len:],
+                        v_cat[:, history_len:], component_gates)
             else:
                 window_start = max(0, local_end_index - self.max_attention_size)
                 k_window = roped_temp_k[:, window_start:local_end_index]
                 v_window = temp_v[:, window_start:local_end_index]
                 history_len = max(0, k_window.shape[1] - roped_query.shape[1])
-                x = gated_attention(roped_query, k_window[:, :history_len], v_window[:, :history_len],
-                                     k_window[:, history_len:], v_window[:, history_len:], self.history_gate)
+                component_gates = self.history_component_gates
+                if component_gates is None:
+                    x = gated_attention(roped_query, k_window[:, :history_len], v_window[:, :history_len],
+                                         k_window[:, history_len:], v_window[:, history_len:], self.history_gate)
+                else:
+                    recent_len = min(num_new_tokens, history_len)
+                    old_len = history_len - recent_len
+                    components = {
+                        "sink": (k_window[:, :0], v_window[:, :0]),
+                        "old": (k_window[:, :old_len], v_window[:, :old_len]),
+                        "recent": (k_window[:, old_len:history_len], v_window[:, old_len:history_len]),
+                    }
+                    self.last_history_component_tokens = {
+                        "sink": 0, "old": old_len,
+                        "recent": recent_len, "current": num_new_tokens}
+                    x = component_gated_attention(
+                        roped_query, components, k_window[:, history_len:],
+                        v_window[:, history_len:], component_gates)
 
         # output
         x = x.flatten(2)
