@@ -51,3 +51,25 @@ After review and explicit D3 approval, run:
 cd /workspace/video-model/restream_mvp
 scripts/run_history_attention_path_4gpu.sh
 ```
+
+## Recorded result
+
+The approved 4xA800 screen completed on commit `1a10791f662748d913026e0144816dd6c004711c`.
+All 28 pairs and 56 chunk replays passed the frozen invariants, including the native
+FlashAttention/LSE backend check. The archived analysis is
+`validation/history_attention_path_analysis_1a10791.json`, with SHA-256
+`f3ca32b6b6e2cb13fe3dd1f74b2469edf04570037c969164e942b4ca8fe4565f`.
+
+Across four edits, median `delta_R` was 0.00735 for `score_.5`, 0.44725 for `value_.5`,
+1.25558 for `value_0`, and 0.54202 for the joint `.5/.5` intervention. Corresponding
+median P0 latent drift was 0.00908, 0.75783, 1.15447, and 0.73040. Stage C global `.5`
+reached median `delta_R=0.12775` at substantially lower drift 0.15646.
+
+The exploratory evidence localizes most semantic-inertia sensitivity to history value
+content rather than a modest reduction in history access odds. This does not yet yield a
+usable selective method: value attenuation incurs high preservation cost. `value_0`
+exceeded current-only responsiveness for two edits and approximately matched it for two;
+because it retains history normalization mass while zeroing its output content, this
+overshoot must be treated as a representation-scale/normalization result rather than a
+simple beneficial release. The score/value joint contrast and response shape remain
+edit-dependent. No significance or automatic path classification is claimed.

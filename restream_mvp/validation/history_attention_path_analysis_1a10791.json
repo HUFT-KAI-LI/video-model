@@ -1,0 +1,3693 @@
+{
+  "protocol": "fixed_history_attention_paths_d3_v1",
+  "status": "pass_invariants_exploratory",
+  "decision": "descriptive_only_no_automatic_path_classification",
+  "provenance": [
+    {
+      "path": "validation/history_paths/screen_1a10791f6627/shard0.json",
+      "sha256": "852cf1ee28f530e10d5b9d984dfbaf898635723dfcfd3d5ec44c265fe29e6b77",
+      "git_commit": "1a10791f662748d913026e0144816dd6c004711c",
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+      "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5"
+    },
+    {
+      "path": "validation/history_paths/screen_1a10791f6627/shard1.json",
+      "sha256": "8904a8c503cf0dfbaaca0c90bd08f0cc7388c4dadd31f8bd69ca65f0e479ed48",
+      "git_commit": "1a10791f662748d913026e0144816dd6c004711c",
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+      "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5"
+    },
+    {
+      "path": "validation/history_paths/screen_1a10791f6627/shard2.json",
+      "sha256": "3b3f68fa364162b6d5664421b13a082c92f38738141f7774c6e35586b8d1ccb8",
+      "git_commit": "1a10791f662748d913026e0144816dd6c004711c",
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+      "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5"
+    },
+    {
+      "path": "validation/history_paths/screen_1a10791f6627/shard3.json",
+      "sha256": "12ee61ed9cc6bd2aaadc124c56a6f707ff6d1730f6d963ea17c2b853aa019899",
+      "git_commit": "1a10791f662748d913026e0144816dd6c004711c",
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+      "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5"
+    }
+  ],
+  "pairs": 28,
+  "rows": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "E": -3.390842013888931e-05,
+      "R": -0.0003668887022738992,
+      "delta_R": 0.0,
+      "D_drift": 0.0
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "E": 0.027288743007330245,
+      "R": 0.2952638745077576,
+      "delta_R": 0.2956307632100315,
+      "D_drift": 0.15589094161987305
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "E": 0.0622731903452932,
+      "R": 0.6737951782671437,
+      "delta_R": 0.6741620669694176,
+      "D_drift": 0.9792602062225342
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "E": 0.0012613932291666667,
+      "R": 0.013648259724588881,
+      "delta_R": 0.014015148426862781,
+      "D_drift": 0.006776674184948206
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "E": 0.16650315272955246,
+      "R": 1.8015621305634593,
+      "delta_R": 1.8019290192657331,
+      "D_drift": 0.7473747134208679
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "E": 0.2928738064236111,
+      "R": 3.1688910992800827,
+      "delta_R": 3.169257987982357,
+      "D_drift": 1.5427719354629517
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "E": 0.1440233772183642,
+      "R": 1.5583312271204128,
+      "delta_R": 1.5586981158226867,
+      "D_drift": 0.7486317157745361
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "E": 0.000547809365354944,
+      "R": 0.0039611620861757495,
+      "delta_R": 0.0,
+      "D_drift": 0.0
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "E": 0.006641529224537042,
+      "R": 0.0480243227339102,
+      "delta_R": 0.044063160647734446,
+      "D_drift": 0.21421946585178375
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "E": 0.08276819299768517,
+      "R": 0.5984896366846107,
+      "delta_R": 0.594528474598435,
+      "D_drift": 1.0498179197311401
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "E": -0.00021098572530865028,
+      "R": -0.0015256195104941428,
+      "delta_R": -0.005486781596669892,
+      "D_drift": 0.0113750034943223
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "E": 0.0780149860146605,
+      "R": 0.5641196085696227,
+      "delta_R": 0.560158446483447,
+      "D_drift": 0.9151179790496826
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "E": 0.22107084297839508,
+      "R": 1.5985441230957,
+      "delta_R": 1.5945829610095243,
+      "D_drift": 1.1220203638076782
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "E": 0.10020239559220678,
+      "R": 0.7245548460214022,
+      "delta_R": 0.7205936839352265,
+      "D_drift": 0.7620208263397217
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "E": -0.00027352792245370324,
+      "R": -0.0006211934786663668,
+      "delta_R": 0.0,
+      "D_drift": 0.0
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "E": 0.05152798876350308,
+      "R": 0.11702224146457912,
+      "delta_R": 0.11764343494324549,
+      "D_drift": 0.15702290832996368
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "E": 0.23475402078510801,
+      "R": 0.5331363083310089,
+      "delta_R": 0.5337575018096753,
+      "D_drift": 0.5726431608200073
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "E": 3.2401379243826545e-05,
+      "R": 7.358490243155181e-05,
+      "delta_R": 0.0006947783810979186,
+      "D_drift": 0.002230925252661109
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "E": 0.028016643759645063,
+      "R": 0.06362698272808326,
+      "delta_R": 0.06424817620674962,
+      "D_drift": 0.3606972396373749
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "E": 0.2363288785204475,
+      "R": 0.5367128768445425,
+      "delta_R": 0.5373340703232089,
+      "D_drift": 0.9980581998825073
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "E": 0.13895218460648145,
+      "R": 0.3155662871625148,
+      "delta_R": 0.31618748064118113,
+      "D_drift": 0.36568963527679443
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "E": 0.003660529851913452,
+      "R": 0.014115882352974977,
+      "delta_R": 0.0,
+      "D_drift": 0.0
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "E": 0.039407819509506226,
+      "R": 0.1519660176224713,
+      "delta_R": 0.13785013526949633,
+      "D_drift": 0.14630469679832458
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "E": 0.23701676726341248,
+      "R": 0.9139935850062522,
+      "delta_R": 0.8998777026532772,
+      "D_drift": 0.9398102760314941
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "E": 0.007578551769256592,
+      "R": 0.02922471595876655,
+      "delta_R": 0.015108833605791573,
+      "D_drift": 0.01607179269194603
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "E": 0.0903613269329071,
+      "R": 0.3484549810669824,
+      "delta_R": 0.33433909871400747,
+      "D_drift": 0.7682889103889465
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "E": 0.24134670197963715,
+      "R": 0.9306908533042665,
+      "delta_R": 0.9165749709512915,
+      "D_drift": 1.1869215965270996
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "E": 0.09790891408920288,
+      "R": 0.37756029004060127,
+      "delta_R": 0.3634444076876263,
+      "D_drift": 0.7121715545654297
+    }
+  ],
+  "path_units": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "status": "estimable",
+      "R": {
+        "full": -0.0003668887022738992,
+        "global_.5": 0.2952638745077576,
+        "current_only": 0.6737951782671437,
+        "score_.5": 0.013648259724588881,
+        "value_.5": 1.8015621305634593,
+        "value_0": 3.1688910992800827,
+        "score_.5_value_.5": 1.5583312271204128
+      },
+      "delta_R": {
+        "full": 0.0,
+        "global_.5": 0.2956307632100315,
+        "current_only": 0.6741620669694176,
+        "score_.5": 0.014015148426862781,
+        "value_.5": 1.8019290192657331,
+        "value_0": 3.169257987982357,
+        "score_.5_value_.5": 1.5586981158226867
+      },
+      "score_value_inclusion_exclusion_contrast": -0.2572460518699092,
+      "value_zero_competition_gap": -2.495095921012939
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "status": "estimable",
+      "R": {
+        "full": 0.0039611620861757495,
+        "global_.5": 0.0480243227339102,
+        "current_only": 0.5984896366846107,
+        "score_.5": -0.0015256195104941428,
+        "value_.5": 0.5641196085696227,
+        "value_0": 1.5985441230957,
+        "score_.5_value_.5": 0.7245548460214022
+      },
+      "delta_R": {
+        "full": 0.0,
+        "global_.5": 0.044063160647734446,
+        "current_only": 0.594528474598435,
+        "score_.5": -0.005486781596669892,
+        "value_.5": 0.560158446483447,
+        "value_0": 1.5945829610095243,
+        "score_.5_value_.5": 0.7205936839352265
+      },
+      "score_value_inclusion_exclusion_contrast": 0.16592201904844933,
+      "value_zero_competition_gap": -1.0000544864110892
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "status": "estimable",
+      "R": {
+        "full": -0.0006211934786663668,
+        "global_.5": 0.11702224146457912,
+        "current_only": 0.5331363083310089,
+        "score_.5": 7.358490243155181e-05,
+        "value_.5": 0.06362698272808326,
+        "value_0": 0.5367128768445425,
+        "score_.5_value_.5": 0.3155662871625148
+      },
+      "delta_R": {
+        "full": 0.0,
+        "global_.5": 0.11764343494324549,
+        "current_only": 0.5337575018096753,
+        "score_.5": 0.0006947783810979186,
+        "value_.5": 0.06424817620674962,
+        "value_0": 0.5373340703232089,
+        "score_.5_value_.5": 0.31618748064118113
+      },
+      "score_value_inclusion_exclusion_contrast": 0.25124452605333364,
+      "value_zero_competition_gap": -0.0035765685135336067
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "status": "estimable",
+      "R": {
+        "full": 0.014115882352974977,
+        "global_.5": 0.1519660176224713,
+        "current_only": 0.9139935850062522,
+        "score_.5": 0.02922471595876655,
+        "value_.5": 0.3484549810669824,
+        "value_0": 0.9306908533042665,
+        "score_.5_value_.5": 0.37756029004060127
+      },
+      "delta_R": {
+        "full": 0.0,
+        "global_.5": 0.13785013526949633,
+        "current_only": 0.8998777026532772,
+        "score_.5": 0.015108833605791573,
+        "value_.5": 0.33433909871400747,
+        "value_0": 0.9165749709512915,
+        "score_.5_value_.5": 0.3634444076876263
+      },
+      "score_value_inclusion_exclusion_contrast": 0.013996475367827247,
+      "value_zero_competition_gap": -0.016697268298014323
+    }
+  ],
+  "aggregate": {
+    "status": "estimable",
+    "condition_points": {
+      "full": {
+        "median_delta_R": 0.0,
+        "median_D_drift": 0.0
+      },
+      "global_.5": {
+        "median_delta_R": 0.1277467851063709,
+        "median_D_drift": 0.15645692497491837
+      },
+      "current_only": {
+        "median_delta_R": 0.6343452707839263,
+        "median_D_drift": 0.9595352411270142
+      },
+      "score_.5": {
+        "median_delta_R": 0.00735496340398035,
+        "median_D_drift": 0.009075838839635253
+      },
+      "value_.5": {
+        "median_delta_R": 0.44724877259872725,
+        "median_D_drift": 0.7578318119049072
+      },
+      "value_0": {
+        "median_delta_R": 1.255578965980408,
+        "median_D_drift": 1.154470980167389
+      },
+      "score_.5_value_.5": {
+        "median_delta_R": 0.5420190458114265,
+        "median_D_drift": 0.7304016351699829
+      }
+    },
+    "median_score_value_inclusion_exclusion_contrast": 0.08995924720813829,
+    "median_value_zero_competition_gap": -0.5083758773545517
+  },
+  "preservation_rows": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "D_drift": 0.0,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 1.0,
+          "mean_cosine_distance": 1.9868215517249155e-08
+        },
+        "text_rebind": {
+          "mean_cosine": 0.9981726408004761,
+          "mean_cosine_distance": 0.0018274387111887336
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.04381512477993965,
+              "right_mse": 0.036052778363227844
+            },
+            "delta": {
+              "delta_left_mse": 0.006279449909925461,
+              "delta_right_mse": 0.012650661170482635
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0006669412832707167,
+              "right_mse": 0.0009473503450863063
+            },
+            "delta": {
+              "delta_left_mse": 0.00013105227844789624,
+              "delta_right_mse": 0.0004461787175387144
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.9987660646438599,
+              "mean_cosine_distance": 0.0012339353561401367
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9962239265441895,
+              "mean_cosine_distance": 0.003776073455810547
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "D_drift": 0.15589094161987305,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8853583335876465,
+          "mean_cosine_distance": 0.11464172601699829
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8882150650024414,
+          "mean_cosine_distance": 0.1117849349975586
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.18707092106342316,
+              "right_mse": 0.19430787861347198
+            },
+            "delta": {
+              "delta_left_mse": 0.14953524619340897,
+              "delta_right_mse": 0.17090576142072678
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.004162803757935762,
+              "right_mse": 0.00597544526681304
+            },
+            "delta": {
+              "delta_left_mse": 0.003626914753112942,
+              "delta_right_mse": 0.005474273639265448
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.9523712992668152,
+              "mean_cosine_distance": 0.047628700733184814
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9346494078636169,
+              "mean_cosine_distance": 0.06535059213638306
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.2180461585521698,
+              "right_mse": 0.2239934206008911
+            },
+            "delta": {
+              "delta_left_mse": 0.1805104836821556,
+              "delta_right_mse": 0.2005913034081459
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.005482216831296682,
+              "right_mse": 0.007142177317291498
+            },
+            "delta": {
+              "delta_left_mse": 0.004946327826473862,
+              "delta_right_mse": 0.006641005689743906
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.9493408203125,
+              "mean_cosine_distance": 0.0506591796875
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9433140158653259,
+              "mean_cosine_distance": 0.05668598413467407
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "D_drift": 0.9792602062225342,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.7438613176345825,
+          "mean_cosine_distance": 0.25613871216773987
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8394601345062256,
+          "mean_cosine_distance": 0.1605398952960968
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.8725172877311707,
+              "right_mse": 1.1217982769012451
+            },
+            "delta": {
+              "delta_left_mse": 0.8349816128611565,
+              "delta_right_mse": 1.0983961597085
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.030394142493605614,
+              "right_mse": 0.04405003786087036
+            },
+            "delta": {
+              "delta_left_mse": 0.029858253488782793,
+              "delta_right_mse": 0.04354886623332277
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.7334913015365601,
+              "mean_cosine_distance": 0.26650869846343994
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7385504841804504,
+              "mean_cosine_distance": 0.26144951581954956
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.8978481292724609,
+              "right_mse": 1.1673712730407715
+            },
+            "delta": {
+              "delta_left_mse": 0.8603124544024467,
+              "delta_right_mse": 1.1439691558480263
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.029283812269568443,
+              "right_mse": 0.04086738079786301
+            },
+            "delta": {
+              "delta_left_mse": 0.028747923264745623,
+              "delta_right_mse": 0.040366209170315415
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.8242483139038086,
+              "mean_cosine_distance": 0.1757516860961914
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7915446758270264,
+              "mean_cosine_distance": 0.20845532417297363
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "D_drift": 0.006776674184948206,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.9986974596977234,
+          "mean_cosine_distance": 0.001302530406974256
+        },
+        "text_rebind": {
+          "mean_cosine": 0.9975547790527344,
+          "mean_cosine_distance": 0.002445235848426819
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.045767564326524734,
+              "right_mse": 0.027331918478012085
+            },
+            "delta": {
+              "delta_left_mse": 0.008231889456510544,
+              "delta_right_mse": 0.003929801285266876
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0007931969012133777,
+              "right_mse": 0.0009324256097897887
+            },
+            "delta": {
+              "delta_left_mse": 0.0002573078963905573,
+              "delta_right_mse": 0.0004312539822421968
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.9983342885971069,
+              "mean_cosine_distance": 0.0016657114028930664
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9965823888778687,
+              "mean_cosine_distance": 0.0034176111221313477
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.05303523689508438,
+              "right_mse": 0.04138025641441345
+            },
+            "delta": {
+              "delta_left_mse": 0.01549956202507019,
+              "delta_right_mse": 0.017978139221668243
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0010137646459043026,
+              "right_mse": 0.0011004396947100759
+            },
+            "delta": {
+              "delta_left_mse": 0.00047787564108148217,
+              "delta_right_mse": 0.0005992680671624839
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.9981620907783508,
+              "mean_cosine_distance": 0.00183790922164917
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.9949962496757507,
+              "mean_cosine_distance": 0.005003750324249268
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "D_drift": 0.7473747134208679,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8015598654747009,
+          "mean_cosine_distance": 0.19844017922878265
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7692235708236694,
+          "mean_cosine_distance": 0.23077645897865295
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.7100430130958557,
+              "right_mse": 0.7924000024795532
+            },
+            "delta": {
+              "delta_left_mse": 0.6725073382258415,
+              "delta_right_mse": 0.768997885286808
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.02634940668940544,
+              "right_mse": 0.0289960615336895
+            },
+            "delta": {
+              "delta_left_mse": 0.02581351768458262,
+              "delta_right_mse": 0.028494889906141907
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.8089793920516968,
+              "mean_cosine_distance": 0.19102060794830322
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7604590654373169,
+              "mean_cosine_distance": 0.2395409345626831
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.9149876236915588,
+              "right_mse": 1.0652787685394287
+            },
+            "delta": {
+              "delta_left_mse": 0.8774519488215446,
+              "delta_right_mse": 1.0418766513466835
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.030623896047472954,
+              "right_mse": 0.036325760185718536
+            },
+            "delta": {
+              "delta_left_mse": 0.030088007042650133,
+              "delta_right_mse": 0.035824588558170944
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.7514816522598267,
+              "mean_cosine_distance": 0.24851834774017334
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7349945306777954,
+              "mean_cosine_distance": 0.2650054693222046
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "D_drift": 1.5427719354629517,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.6465003490447998,
+          "mean_cosine_distance": 0.3534996509552002
+        },
+        "text_rebind": {
+          "mean_cosine": 0.4931400716304779,
+          "mean_cosine_distance": 0.5068599581718445
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 1.4315690994262695,
+              "right_mse": 1.6578084230422974
+            },
+            "delta": {
+              "delta_left_mse": 1.3940334245562553,
+              "delta_right_mse": 1.6344063058495522
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0901017114520073,
+              "right_mse": 0.0789802223443985
+            },
+            "delta": {
+              "delta_left_mse": 0.08956582244718447,
+              "delta_right_mse": 0.0784790507168509
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.5094868540763855,
+              "mean_cosine_distance": 0.4905131459236145
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.6513679623603821,
+              "mean_cosine_distance": 0.3486320376396179
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 1.9828665256500244,
+              "right_mse": 2.0560731887817383
+            },
+            "delta": {
+              "delta_left_mse": 1.9453308507800102,
+              "delta_right_mse": 2.032671071588993
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.1071530431509018,
+              "right_mse": 0.10847685486078262
+            },
+            "delta": {
+              "delta_left_mse": 0.10661715414607897,
+              "delta_right_mse": 0.10797568323323503
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.44712042808532715,
+              "mean_cosine_distance": 0.5528795719146729
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.5170799493789673,
+              "mean_cosine_distance": 0.4829200506210327
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "D_drift": 0.7486317157745361,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.7634500861167908,
+          "mean_cosine_distance": 0.23654991388320923
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7763585448265076,
+          "mean_cosine_distance": 0.22364145517349243
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.7227027416229248,
+              "right_mse": 0.7851031422615051
+            },
+            "delta": {
+              "delta_left_mse": 0.6851670667529106,
+              "delta_right_mse": 0.7617010250687599
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.0272417813539505,
+              "right_mse": 0.030460987240076065
+            },
+            "delta": {
+              "delta_left_mse": 0.02670589234912768,
+              "delta_right_mse": 0.029959815612528473
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.8077160120010376,
+              "mean_cosine_distance": 0.1922839879989624
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7249659299850464,
+              "mean_cosine_distance": 0.2750340700149536
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.03753567487001419,
+              "right_mse": 0.02340211719274521
+            },
+            "edited": {
+              "left_mse": 0.8870208263397217,
+              "right_mse": 0.9755663275718689
+            },
+            "delta": {
+              "delta_left_mse": 0.8494851514697075,
+              "delta_right_mse": 0.9521642103791237
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.0005358890048228204,
+              "right_mse": 0.0005011716275475919
+            },
+            "edited": {
+              "left_mse": 0.03487846255302429,
+              "right_mse": 0.03861864283680916
+            },
+            "delta": {
+              "delta_left_mse": 0.03434257354820147,
+              "delta_right_mse": 0.038117471209261566
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.998914897441864,
+              "mean_cosine_distance": 0.0010851025581359863
+            },
+            "left_edited": {
+              "mean_cosine": 0.8100576996803284,
+              "mean_cosine_distance": 0.18994230031967163
+            },
+            "right_base": {
+              "mean_cosine": 0.9980489015579224,
+              "mean_cosine_distance": 0.0019510984420776367
+            },
+            "right_edited": {
+              "mean_cosine": 0.7380261421203613,
+              "mean_cosine_distance": 0.26197385787963867
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "D_drift": 0.0,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 1.0,
+          "mean_cosine_distance": 1.4901161193847656e-08
+        },
+        "text_rebind": {
+          "mean_cosine": 0.9998570680618286,
+          "mean_cosine_distance": 0.0001429418771294877
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.07936190813779831,
+              "right_mse": 0.060765527188777924
+            },
+            "delta": {
+              "delta_left_mse": -0.00036203116178512573,
+              "delta_right_mse": -1.179426908493042e-05
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.003420355962589383,
+              "right_mse": 0.002370229922235012
+            },
+            "delta": {
+              "delta_left_mse": -5.795853212475777e-06,
+              "delta_right_mse": 5.9758080169558525e-05
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.997504472732544,
+              "mean_cosine_distance": 0.0024955272674560547
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9957660436630249,
+              "mean_cosine_distance": 0.004233956336975098
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "D_drift": 0.21421946585178375,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.830991268157959,
+          "mean_cosine_distance": 0.1690087765455246
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8420383930206299,
+          "mean_cosine_distance": 0.15796156227588654
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.26618295907974243,
+              "right_mse": 0.2979564070701599
+            },
+            "delta": {
+              "delta_left_mse": 0.186459019780159,
+              "delta_right_mse": 0.23717908561229706
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.01115391030907631,
+              "right_mse": 0.018400350585579872
+            },
+            "delta": {
+              "delta_left_mse": 0.00772775849327445,
+              "delta_right_mse": 0.01608987874351442
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9019032716751099,
+              "mean_cosine_distance": 0.09809672832489014
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9020285606384277,
+              "mean_cosine_distance": 0.09797143936157227
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.26287344098091125,
+              "right_mse": 0.29612603783607483
+            },
+            "delta": {
+              "delta_left_mse": 0.18314950168132782,
+              "delta_right_mse": 0.23534871637821198
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.011101922951638699,
+              "right_mse": 0.017982197925448418
+            },
+            "delta": {
+              "delta_left_mse": 0.00767577113583684,
+              "delta_right_mse": 0.015671726083382964
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9108227491378784,
+              "mean_cosine_distance": 0.08917725086212158
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9278057217597961,
+              "mean_cosine_distance": 0.07219427824020386
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "D_drift": 1.0498179197311401,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8339440226554871,
+          "mean_cosine_distance": 0.16605600714683533
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8066632151603699,
+          "mean_cosine_distance": 0.1933368444442749
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.9880709648132324,
+              "right_mse": 1.1649439334869385
+            },
+            "delta": {
+              "delta_left_mse": 0.908347025513649,
+              "delta_right_mse": 1.1041666120290756
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.0361715592443943,
+              "right_mse": 0.04945121705532074
+            },
+            "delta": {
+              "delta_left_mse": 0.03274540742859244,
+              "delta_right_mse": 0.047140745213255286
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.6994569897651672,
+              "mean_cosine_distance": 0.30054301023483276
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.8100948333740234,
+              "mean_cosine_distance": 0.18990516662597656
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 1.0744949579238892,
+              "right_mse": 1.2557328939437866
+            },
+            "delta": {
+              "delta_left_mse": 0.9947710186243057,
+              "delta_right_mse": 1.1949555724859238
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.036046646535396576,
+              "right_mse": 0.05146896839141846
+            },
+            "delta": {
+              "delta_left_mse": 0.03262049471959472,
+              "delta_right_mse": 0.049158496549353004
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.6576069593429565,
+              "mean_cosine_distance": 0.34239304065704346
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.7782565951347351,
+              "mean_cosine_distance": 0.2217434048652649
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "D_drift": 0.0113750034943223,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.9975656867027283,
+          "mean_cosine_distance": 0.0024343482218682766
+        },
+        "text_rebind": {
+          "mean_cosine": 0.997670590877533,
+          "mean_cosine_distance": 0.002329448936507106
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.09640607237815857,
+              "right_mse": 0.07085579633712769
+            },
+            "delta": {
+              "delta_left_mse": 0.016682133078575134,
+              "delta_right_mse": 0.010078474879264832
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.004286174662411213,
+              "right_mse": 0.00400366960093379
+            },
+            "delta": {
+              "delta_left_mse": 0.000860022846609354,
+              "delta_right_mse": 0.0016931977588683367
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9964224696159363,
+              "mean_cosine_distance": 0.0035775303840637207
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9958958029747009,
+              "mean_cosine_distance": 0.004104197025299072
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.09655202925205231,
+              "right_mse": 0.070674829185009
+            },
+            "delta": {
+              "delta_left_mse": 0.016828089952468872,
+              "delta_right_mse": 0.009897507727146149
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.0042451126500964165,
+              "right_mse": 0.004095225129276514
+            },
+            "delta": {
+              "delta_left_mse": 0.0008189608342945576,
+              "delta_right_mse": 0.0017847532872110605
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9962565302848816,
+              "mean_cosine_distance": 0.003743469715118408
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.9961681962013245,
+              "mean_cosine_distance": 0.003831803798675537
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "D_drift": 0.9151179790496826,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8523746728897095,
+          "mean_cosine_distance": 0.1476253718137741
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8586866855621338,
+          "mean_cosine_distance": 0.1413133293390274
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.8574740886688232,
+              "right_mse": 1.0272963047027588
+            },
+            "delta": {
+              "delta_left_mse": 0.7777501493692398,
+              "delta_right_mse": 0.9665189832448959
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.052067097276449203,
+              "right_mse": 0.05263691395521164
+            },
+            "delta": {
+              "delta_left_mse": 0.048640945460647345,
+              "delta_right_mse": 0.050326442113146186
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.8754162192344666,
+              "mean_cosine_distance": 0.12458378076553345
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.8487404584884644,
+              "mean_cosine_distance": 0.15125954151153564
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 1.0111653804779053,
+              "right_mse": 1.0695902109146118
+            },
+            "delta": {
+              "delta_left_mse": 0.9314414411783218,
+              "delta_right_mse": 1.008812889456749
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.059063345193862915,
+              "right_mse": 0.05219217762351036
+            },
+            "delta": {
+              "delta_left_mse": 0.055637193378061056,
+              "delta_right_mse": 0.04988170578144491
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.8963698148727417,
+              "mean_cosine_distance": 0.1036301851272583
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.8377191424369812,
+              "mean_cosine_distance": 0.1622808575630188
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "D_drift": 1.1220203638076782,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.5440493822097778,
+          "mean_cosine_distance": 0.45595061779022217
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7272704839706421,
+          "mean_cosine_distance": 0.2727296054363251
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 1.095361351966858,
+              "right_mse": 1.231009602546692
+            },
+            "delta": {
+              "delta_left_mse": 1.0156374126672745,
+              "delta_right_mse": 1.170232281088829
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.034721437841653824,
+              "right_mse": 0.04524179920554161
+            },
+            "delta": {
+              "delta_left_mse": 0.031295286025851965,
+              "delta_right_mse": 0.04293132736347616
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.49112385511398315,
+              "mean_cosine_distance": 0.5088761448860168
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.6105135679244995,
+              "mean_cosine_distance": 0.3894864320755005
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 1.2492331266403198,
+              "right_mse": 1.2849702835083008
+            },
+            "delta": {
+              "delta_left_mse": 1.1695091873407364,
+              "delta_right_mse": 1.224192962050438
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.03722487762570381,
+              "right_mse": 0.05123310536146164
+            },
+            "delta": {
+              "delta_left_mse": 0.03379872580990195,
+              "delta_right_mse": 0.048922633519396186
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.5852874517440796,
+              "mean_cosine_distance": 0.4147125482559204
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.7933805584907532,
+              "mean_cosine_distance": 0.20661944150924683
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "D_drift": 0.7620208263397217,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8775599002838135,
+          "mean_cosine_distance": 0.12244009971618652
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8342306017875671,
+          "mean_cosine_distance": 0.16576939821243286
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.733153760433197,
+              "right_mse": 0.8435806632041931
+            },
+            "delta": {
+              "delta_left_mse": 0.6534298211336136,
+              "delta_right_mse": 0.7828033417463303
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.03903203085064888,
+              "right_mse": 0.04272827133536339
+            },
+            "delta": {
+              "delta_left_mse": 0.03560587903484702,
+              "delta_right_mse": 0.040417799493297935
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.9048060774803162,
+              "mean_cosine_distance": 0.09519392251968384
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.897856593132019,
+              "mean_cosine_distance": 0.10214340686798096
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.07972393929958344,
+              "right_mse": 0.060777321457862854
+            },
+            "edited": {
+              "left_mse": 0.9033417701721191,
+              "right_mse": 1.0015214681625366
+            },
+            "delta": {
+              "delta_left_mse": 0.8236178308725357,
+              "delta_right_mse": 0.9407441467046738
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.003426151815801859,
+              "right_mse": 0.0023104718420654535
+            },
+            "edited": {
+              "left_mse": 0.043605003505945206,
+              "right_mse": 0.0525272861123085
+            },
+            "delta": {
+              "delta_left_mse": 0.04017885169014335,
+              "delta_right_mse": 0.05021681427024305
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9976139664649963,
+              "mean_cosine_distance": 0.002386033535003662
+            },
+            "left_edited": {
+              "mean_cosine": 0.8383892774581909,
+              "mean_cosine_distance": 0.16161072254180908
+            },
+            "right_base": {
+              "mean_cosine": 0.9958033561706543,
+              "mean_cosine_distance": 0.004196643829345703
+            },
+            "right_edited": {
+              "mean_cosine": 0.848354697227478,
+              "mean_cosine_distance": 0.15164530277252197
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "D_drift": 0.0,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 1.0,
+          "mean_cosine_distance": 9.934107758624577e-09
+        },
+        "text_rebind": {
+          "mean_cosine": 0.999607264995575,
+          "mean_cosine_distance": 0.0003926903009414673
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.019365523010492325,
+              "right_mse": 0.00963202677667141
+            },
+            "delta": {
+              "delta_left_mse": -0.00010242685675621033,
+              "delta_right_mse": 0.00033722352236509323
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.000141799304401502,
+              "right_mse": 8.080709812929854e-05
+            },
+            "delta": {
+              "delta_left_mse": 5.800626240670681e-06,
+              "delta_right_mse": 4.679990524891764e-06
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.9985862374305725,
+              "mean_cosine_distance": 0.0014137625694274902
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9991607666015625,
+              "mean_cosine_distance": 0.0008392333984375
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "D_drift": 0.15702290832996368,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.7830163240432739,
+          "mean_cosine_distance": 0.21698373556137085
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7878021001815796,
+          "mean_cosine_distance": 0.2121978998184204
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.1771601438522339,
+              "right_mse": 0.1724669188261032
+            },
+            "delta": {
+              "delta_left_mse": 0.15769219398498535,
+              "delta_right_mse": 0.1631721155717969
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.002277362160384655,
+              "right_mse": 0.0038575201760977507
+            },
+            "delta": {
+              "delta_left_mse": 0.0021413634822238237,
+              "delta_right_mse": 0.003781393068493344
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.8648083806037903,
+              "mean_cosine_distance": 0.13519161939620972
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.8561584949493408,
+              "mean_cosine_distance": 0.14384150505065918
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.22143562138080597,
+              "right_mse": 0.2301836907863617
+            },
+            "delta": {
+              "delta_left_mse": 0.20196767151355743,
+              "delta_right_mse": 0.22088888753205538
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.0033508730120956898,
+              "right_mse": 0.0046445634216070175
+            },
+            "delta": {
+              "delta_left_mse": 0.0032148743339348584,
+              "delta_right_mse": 0.004568436314002611
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.8636772036552429,
+              "mean_cosine_distance": 0.13632279634475708
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.8664370179176331,
+              "mean_cosine_distance": 0.13356298208236694
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "D_drift": 0.5726431608200073,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.6530392169952393,
+          "mean_cosine_distance": 0.34696078300476074
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7222938537597656,
+          "mean_cosine_distance": 0.27770620584487915
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.6166641712188721,
+              "right_mse": 0.6120442748069763
+            },
+            "delta": {
+              "delta_left_mse": 0.5971962213516235,
+              "delta_right_mse": 0.60274947155267
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.014081678353250027,
+              "right_mse": 0.021136827766895294
+            },
+            "delta": {
+              "delta_left_mse": 0.013945679675089195,
+              "delta_right_mse": 0.021060700659290887
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.507164478302002,
+              "mean_cosine_distance": 0.49283552169799805
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.655821681022644,
+              "mean_cosine_distance": 0.34417831897735596
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.8611811995506287,
+              "right_mse": 1.1434193849563599
+            },
+            "delta": {
+              "delta_left_mse": 0.8417132496833801,
+              "delta_right_mse": 1.1341245817020535
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.020549261942505836,
+              "right_mse": 0.029375744983553886
+            },
+            "delta": {
+              "delta_left_mse": 0.020413263264345005,
+              "delta_right_mse": 0.02929961787594948
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.5603193044662476,
+              "mean_cosine_distance": 0.43968069553375244
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.7084075212478638,
+              "mean_cosine_distance": 0.29159247875213623
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "D_drift": 0.002230925252661109,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.99858558177948,
+          "mean_cosine_distance": 0.0014144530287012458
+        },
+        "text_rebind": {
+          "mean_cosine": 0.9982184171676636,
+          "mean_cosine_distance": 0.0017816623440012336
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.02147606946527958,
+              "right_mse": 0.013903503306210041
+            },
+            "delta": {
+              "delta_left_mse": 0.002008119598031044,
+              "delta_right_mse": 0.004608700051903725
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.0001429829717380926,
+              "right_mse": 0.00015169341349974275
+            },
+            "delta": {
+              "delta_left_mse": 6.984293577261269e-06,
+              "delta_right_mse": 7.556630589533597e-05
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.9980931878089905,
+              "mean_cosine_distance": 0.0019068121910095215
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9991260766983032,
+              "mean_cosine_distance": 0.0008739233016967773
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.02125352993607521,
+              "right_mse": 0.01624104380607605
+            },
+            "delta": {
+              "delta_left_mse": 0.0017855800688266754,
+              "delta_right_mse": 0.006946240551769733
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.00015029014321044087,
+              "right_mse": 0.0002019322128035128
+            },
+            "delta": {
+              "delta_left_mse": 1.4291465049609542e-05,
+              "delta_right_mse": 0.00012580510519910604
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.9980578422546387,
+              "mean_cosine_distance": 0.0019421577453613281
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9984817504882812,
+              "mean_cosine_distance": 0.00151824951171875
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "D_drift": 0.3606972396373749,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.76075279712677,
+          "mean_cosine_distance": 0.23924729228019714
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7799748182296753,
+          "mean_cosine_distance": 0.2200252264738083
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.377739816904068,
+              "right_mse": 0.38211357593536377
+            },
+            "delta": {
+              "delta_left_mse": 0.35827186703681946,
+              "delta_right_mse": 0.37281877268105745
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.005638803821057081,
+              "right_mse": 0.010435687378048897
+            },
+            "delta": {
+              "delta_left_mse": 0.00550280514289625,
+              "delta_right_mse": 0.01035956027044449
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.7864829301834106,
+              "mean_cosine_distance": 0.21351706981658936
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.766863226890564,
+              "mean_cosine_distance": 0.23313677310943604
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.4636112451553345,
+              "right_mse": 0.5519513487815857
+            },
+            "delta": {
+              "delta_left_mse": 0.44414329528808594,
+              "delta_right_mse": 0.5426565455272794
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.004597627557814121,
+              "right_mse": 0.014751390554010868
+            },
+            "delta": {
+              "delta_left_mse": 0.00446162887965329,
+              "delta_right_mse": 0.014675263446406461
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.9000034332275391,
+              "mean_cosine_distance": 0.09999656677246094
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.7478686571121216,
+              "mean_cosine_distance": 0.2521313428878784
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "D_drift": 0.9980581998825073,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.5346274375915527,
+          "mean_cosine_distance": 0.46537256240844727
+        },
+        "text_rebind": {
+          "mean_cosine": 0.381435364484787,
+          "mean_cosine_distance": 0.6185646653175354
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.9710026383399963,
+              "right_mse": 1.0501043796539307
+            },
+            "delta": {
+              "delta_left_mse": 0.9515346884727478,
+              "delta_right_mse": 1.0408095763996243
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.022210175171494484,
+              "right_mse": 0.038688428699970245
+            },
+            "delta": {
+              "delta_left_mse": 0.022074176493333653,
+              "delta_right_mse": 0.03861230159236584
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.4264078438282013,
+              "mean_cosine_distance": 0.5735921859741211
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.5298903584480286,
+              "mean_cosine_distance": 0.47010964155197144
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 1.7214878797531128,
+              "right_mse": 2.2579386234283447
+            },
+            "delta": {
+              "delta_left_mse": 1.7020199298858643,
+              "delta_right_mse": 2.2486438201740384
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.022004108875989914,
+              "right_mse": 0.0429687462747097
+            },
+            "delta": {
+              "delta_left_mse": 0.021868110197829083,
+              "delta_right_mse": 0.042892619167105295
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.3183390498161316,
+              "mean_cosine_distance": 0.6816609501838684
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.5154621601104736,
+              "mean_cosine_distance": 0.48453783988952637
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "D_drift": 0.36568963527679443,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.7854000329971313,
+          "mean_cosine_distance": 0.21460002660751343
+        },
+        "text_rebind": {
+          "mean_cosine": 0.7293219566345215,
+          "mean_cosine_distance": 0.2706780433654785
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.3621080219745636,
+              "right_mse": 0.39119964838027954
+            },
+            "delta": {
+              "delta_left_mse": 0.34264007210731506,
+              "delta_right_mse": 0.3819048451259732
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.008027208037674427,
+              "right_mse": 0.011379647068679333
+            },
+            "delta": {
+              "delta_left_mse": 0.007891209359513596,
+              "delta_right_mse": 0.011303519961074926
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.6354891061782837,
+              "mean_cosine_distance": 0.3645108938217163
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.8309241533279419,
+              "mean_cosine_distance": 0.1690758466720581
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.019467949867248535,
+              "right_mse": 0.009294803254306316
+            },
+            "edited": {
+              "left_mse": 0.7405251264572144,
+              "right_mse": 0.8062371015548706
+            },
+            "delta": {
+              "delta_left_mse": 0.7210571765899658,
+              "delta_right_mse": 0.7969422983005643
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00013599867816083133,
+              "right_mse": 7.612710760440677e-05
+            },
+            "edited": {
+              "left_mse": 0.006472684908658266,
+              "right_mse": 0.018240883946418762
+            },
+            "delta": {
+              "delta_left_mse": 0.006336686230497435,
+              "delta_right_mse": 0.018164756838814355
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9985023140907288,
+              "mean_cosine_distance": 0.0014976859092712402
+            },
+            "left_edited": {
+              "mean_cosine": 0.8425827026367188,
+              "mean_cosine_distance": 0.15741729736328125
+            },
+            "right_base": {
+              "mean_cosine": 0.999180793762207,
+              "mean_cosine_distance": 0.0008192062377929688
+            },
+            "right_edited": {
+              "mean_cosine": 0.6569592952728271,
+              "mean_cosine_distance": 0.34304070472717285
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full",
+      "D_drift": 0.0,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 1.0,
+          "mean_cosine_distance": 9.934107758624577e-09
+        },
+        "text_rebind": {
+          "mean_cosine": 0.9993149638175964,
+          "mean_cosine_distance": 0.0006850113859400153
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.03156978636980057,
+              "right_mse": 0.021768460050225258
+            },
+            "delta": {
+              "delta_left_mse": -0.00048203766345977783,
+              "delta_right_mse": 0.0007026642560958862
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.0002629355585668236,
+              "right_mse": 0.0004778285510838032
+            },
+            "delta": {
+              "delta_left_mse": -2.0445819245651364e-05,
+              "delta_right_mse": 0.00011476699728518724
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9989162683486938,
+              "mean_cosine_distance": 0.0010837316513061523
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.9978727102279663,
+              "mean_cosine_distance": 0.0021272897720336914
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5",
+      "D_drift": 0.14630469679832458,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.8535277843475342,
+          "mean_cosine_distance": 0.14647221565246582
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8587573766708374,
+          "mean_cosine_distance": 0.14124265313148499
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.1672687530517578,
+              "right_mse": 0.1908837854862213
+            },
+            "delta": {
+              "delta_left_mse": 0.13521692901849747,
+              "delta_right_mse": 0.16981798969209194
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.003209885209798813,
+              "right_mse": 0.0067771789617836475
+            },
+            "delta": {
+              "delta_left_mse": 0.002926503831986338,
+              "delta_right_mse": 0.006414117407985032
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9466317892074585,
+              "mean_cosine_distance": 0.053368210792541504
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.9065461158752441,
+              "mean_cosine_distance": 0.09345388412475586
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.16775241494178772,
+              "right_mse": 0.20237113535404205
+            },
+            "delta": {
+              "delta_left_mse": 0.13570059090852737,
+              "delta_right_mse": 0.18130533955991268
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.0032100435346364975,
+              "right_mse": 0.007230665069073439
+            },
+            "delta": {
+              "delta_left_mse": 0.0029266621568240225,
+              "delta_right_mse": 0.006867603515274823
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9620509147644043,
+              "mean_cosine_distance": 0.0379490852355957
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.9013286828994751,
+              "mean_cosine_distance": 0.0986713171005249
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only",
+      "D_drift": 0.9398102760314941,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.7991615533828735,
+          "mean_cosine_distance": 0.20083849132061005
+        },
+        "text_rebind": {
+          "mean_cosine": 0.6505337953567505,
+          "mean_cosine_distance": 0.3494662940502167
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.8969166874885559,
+              "right_mse": 1.0399980545043945
+            },
+            "delta": {
+              "delta_left_mse": 0.8648648634552956,
+              "delta_right_mse": 1.0189322587102652
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.03419442102313042,
+              "right_mse": 0.0507623553276062
+            },
+            "delta": {
+              "delta_left_mse": 0.03391103964531794,
+              "delta_right_mse": 0.050399293773807585
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.6441767811775208,
+              "mean_cosine_distance": 0.35582321882247925
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.7925572395324707,
+              "mean_cosine_distance": 0.2074427604675293
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 1.0545138120651245,
+              "right_mse": 1.4817686080932617
+            },
+            "delta": {
+              "delta_left_mse": 1.0224619880318642,
+              "delta_right_mse": 1.4607028122991323
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.04560305178165436,
+              "right_mse": 0.051670003682374954
+            },
+            "delta": {
+              "delta_left_mse": 0.04531967040384188,
+              "delta_right_mse": 0.05130694212857634
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.6036788821220398,
+              "mean_cosine_distance": 0.3963211178779602
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.7431252002716064,
+              "mean_cosine_distance": 0.25687479972839355
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5",
+      "D_drift": 0.01607179269194603,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.9974563121795654,
+          "mean_cosine_distance": 0.0025436680298298597
+        },
+        "text_rebind": {
+          "mean_cosine": 0.997339129447937,
+          "mean_cosine_distance": 0.002660935278981924
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.04873330518603325,
+              "right_mse": 0.04287301376461983
+            },
+            "delta": {
+              "delta_left_mse": 0.016681481152772903,
+              "delta_right_mse": 0.021807217970490456
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.0006778033566661179,
+              "right_mse": 0.0019286072347313166
+            },
+            "delta": {
+              "delta_left_mse": 0.00039442197885364294,
+              "delta_right_mse": 0.0015655456809327006
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9988691806793213,
+              "mean_cosine_distance": 0.001130819320678711
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.9976595640182495,
+              "mean_cosine_distance": 0.0023404359817504883
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.04758438467979431,
+              "right_mse": 0.04086684435606003
+            },
+            "delta": {
+              "delta_left_mse": 0.015532560646533966,
+              "delta_right_mse": 0.019801048561930656
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.0005986436735838652,
+              "right_mse": 0.0017891769530251622
+            },
+            "delta": {
+              "delta_left_mse": 0.0003152622957713902,
+              "delta_right_mse": 0.0014261153992265463
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9986568689346313,
+              "mean_cosine_distance": 0.0013431310653686523
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.996523380279541,
+              "mean_cosine_distance": 0.0034766197204589844
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5",
+      "D_drift": 0.7682889103889465,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.89972323179245,
+          "mean_cosine_distance": 0.10027678310871124
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8925260305404663,
+          "mean_cosine_distance": 0.10747407376766205
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.7510023713111877,
+              "right_mse": 0.8433442115783691
+            },
+            "delta": {
+              "delta_left_mse": 0.7189505472779274,
+              "delta_right_mse": 0.8222784157842398
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.022268205881118774,
+              "right_mse": 0.03399936854839325
+            },
+            "delta": {
+              "delta_left_mse": 0.0219848245033063,
+              "delta_right_mse": 0.033636306994594634
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.8882496356964111,
+              "mean_cosine_distance": 0.11175036430358887
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.8752244710922241,
+              "mean_cosine_distance": 0.12477552890777588
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.7488123774528503,
+              "right_mse": 0.8804969787597656
+            },
+            "delta": {
+              "delta_left_mse": 0.71676055341959,
+              "delta_right_mse": 0.8594311829656363
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.019729457795619965,
+              "right_mse": 0.03999336436390877
+            },
+            "delta": {
+              "delta_left_mse": 0.01944607641780749,
+              "delta_right_mse": 0.03963030281011015
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.9185642004013062,
+              "mean_cosine_distance": 0.08143579959869385
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.872061550617218,
+              "mean_cosine_distance": 0.12793844938278198
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0",
+      "D_drift": 1.1869215965270996,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.6669489741325378,
+          "mean_cosine_distance": 0.33305102586746216
+        },
+        "text_rebind": {
+          "mean_cosine": 0.41659459471702576,
+          "mean_cosine_distance": 0.5834054350852966
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 1.1939674615859985,
+              "right_mse": 1.2104809284210205
+            },
+            "delta": {
+              "delta_left_mse": 1.1619156375527382,
+              "delta_right_mse": 1.1894151326268911
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.04462122917175293,
+              "right_mse": 0.048691488802433014
+            },
+            "delta": {
+              "delta_left_mse": 0.044337847793940455,
+              "delta_right_mse": 0.0483284272486344
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.3707033693790436,
+              "mean_cosine_distance": 0.6292966604232788
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.7367645502090454,
+              "mean_cosine_distance": 0.2632354497909546
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 1.582114338874817,
+              "right_mse": 1.6978851556777954
+            },
+            "delta": {
+              "delta_left_mse": 1.5500625148415565,
+              "delta_right_mse": 1.676819359883666
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.04261097311973572,
+              "right_mse": 0.05337844043970108
+            },
+            "delta": {
+              "delta_left_mse": 0.04232759174192324,
+              "delta_right_mse": 0.053015378885902464
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.4781370162963867,
+              "mean_cosine_distance": 0.5218629837036133
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.5785589814186096,
+              "mean_cosine_distance": 0.4214410185813904
+            }
+          }
+        }
+      }
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5",
+      "D_drift": 0.7121715545654297,
+      "dino_appearance": {
+        "replay": {
+          "mean_cosine": 0.9219679832458496,
+          "mean_cosine_distance": 0.0780320093035698
+        },
+        "text_rebind": {
+          "mean_cosine": 0.8910517692565918,
+          "mean_cosine_distance": 0.10894828289747238
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.6916769742965698,
+              "right_mse": 0.7784001231193542
+            },
+            "delta": {
+              "delta_left_mse": 0.6596251502633095,
+              "delta_right_mse": 0.7573343273252249
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.020299311727285385,
+              "right_mse": 0.03067520633339882
+            },
+            "delta": {
+              "delta_left_mse": 0.02001593034947291,
+              "delta_right_mse": 0.030312144779600203
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.8603771328926086,
+              "mean_cosine_distance": 0.13962286710739136
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.8894814252853394,
+              "mean_cosine_distance": 0.11051857471466064
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.032051824033260345,
+              "right_mse": 0.02106579579412937
+            },
+            "edited": {
+              "left_mse": 0.8243153691291809,
+              "right_mse": 0.8856430053710938
+            },
+            "delta": {
+              "delta_left_mse": 0.7922635450959206,
+              "delta_right_mse": 0.8645772095769644
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00028338137781247497,
+              "right_mse": 0.00036306155379861593
+            },
+            "edited": {
+              "left_mse": 0.03011290170252323,
+              "right_mse": 0.04147537425160408
+            },
+            "delta": {
+              "delta_left_mse": 0.029829520324710757,
+              "delta_right_mse": 0.041112312697805464
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9990544319152832,
+              "mean_cosine_distance": 0.0009455680847167969
+            },
+            "left_edited": {
+              "mean_cosine": 0.8772393465042114,
+              "mean_cosine_distance": 0.12276065349578857
+            },
+            "right_base": {
+              "mean_cosine": 0.9976005554199219,
+              "mean_cosine_distance": 0.002399444580078125
+            },
+            "right_edited": {
+              "mean_cosine": 0.8736488819122314,
+              "mean_cosine_distance": 0.12635111808776855
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpretation": {
+    "chunk": 4,
+    "score_operator": "history_logit_plus_log_alpha_before_joint_softmax",
+    "value_operator": "history_values_times_beta_with_logits_unchanged",
+    "claim_limit": "exploratory path localization; no significance test."
+  },
+  "screen_plan": {
+    "path": "/workspace/video-model/restream_mvp/configs/history_attention_path_plan.json",
+    "sha256": "73108697a422792b4963f266a41a767be0184201d7df87d1948acc496f48ef56",
+    "status": "frozen_before_d3_screen"
+  },
+  "analysis_provenance": {
+    "git_commit": "1a10791f662748d913026e0144816dd6c004711c",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

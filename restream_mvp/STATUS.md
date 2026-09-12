@@ -9,6 +9,14 @@ value 路径只缩放 history V，保持 Q/K/logits/normalization 不变。另�
 `score_0 == native current-only` 与 full native endpoint bit-exact invariant。
 协议见 [HISTORY_ATTENTION_PATH_PROTOCOL.md](HISTORY_ATTENTION_PATH_PROTOCOL.md)。
 
+D3 4xA800 screen 已在 commit `1a10791f6627` 完成：28/28 pairs、56/56 replay
+通过冻结 invariants。`score_.5` 的 median `delta_R=0.00735`，而 `value_.5` 为
+0.44725，说明机制敏感性主要位于 history value/content path；但 value `.5` 的
+median drift=0.75783，明显高于 Stage C global `.5` 的 0.15646，因此尚未形成可用的
+selective release。`value_0` 的响应度在两个 edit 上超越 current-only，应解释为
+保留 normalization mass 后的 representation-scale effect。机器可读 analysis 与四个
+clean-provenance shard JSON 已归档到 `validation/`。
+
 ## History Subset Interaction D2（2026-09-12）
 
 D1 已封存为 coarse temporal localization insufficient。下一步冻结为 chunk 4 的
