@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "frozen_before_m0m1_oracle",
+  "frozen_date": "2026-09-12",
+  "protocol": "oracle_layer_release_m0m1_v1",
+  "stage": "M0_M1_oracle_layer_release_mask",
+  "manifest": {
+    "path": "validation/oracle_layer_mask_manifest.json",
+    "sha256": "8a08516a6e64c880444823a608d0022b948f4f455fe59746f55f2938bae0fb0c",
+    "expected_units": 8,
+    "expected_final_pairs": 48,
+    "edits": ["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"],
+    "seeds": [606, 707],
+    "chunks": [4],
+    "final_conditions": ["full", "global_.5", "current_only", "oracle_lambda_0.05", "oracle_lambda_0.2", "oracle_lambda_0.8"]
+  },
+  "operator": {
+    "formula": "O_layer=O_full+m_layer*(O_current-O_full)",
+    "release_semantics": {"0": "native_full_history", "0.5": "Stage-C global .5", "1": "native_current_only"},
+    "backbone": "LongLive frozen; only 30 scalar release coefficients are optimized per edit-seed unit",
+    "endpoint_native_paths": true,
+    "fractional_path": "two native attentions followed by output interpolation",
+    "timing": "invalid_diagnostic"
+  },
+  "optimization": {
+    "algorithm": "SPSA",
+    "reason": "the frozen directional color/luma probes are discrete CPU metrics; zero-order optimization preserves the exact estimand",
+    "parameterization": "m=sigmoid(z), z initialized to zero",
+    "layer_count": 30,
+    "iterations": 16,
+    "lambdas": [0.05, 0.2, 0.8],
+    "gamma_l1": 0.001,
+    "loss": "-E + lambda*D_drift + gamma_l1*sum(m)",
+    "gain_a": 0.8,
+    "perturbation_c": 0.6,
+    "stability_A": 4.0,
+    "alpha": 0.602,
+    "gamma": 0.101,
+    "logit_clip": 6.0,
+    "common_randomness": "same checkpoint and recorded denoising noise for every candidate",
+    "candidate_selection": "minimum frozen loss among initialization and all plus/minus SPSA probes"
+  },
+  "estimands": {
+    "E": "S(P1,m)-S(P0,m)",
+    "R": "E/S_full when S_full>0",
+    "delta_R": "R(m)-R(full)",
+    "D_drift": "latent_mse(C4(P0,m),C4(base))",
+    "pass": "at least one oracle point Pareto-dominates global_.5: delta_R_oracle>=delta_R_global and D_oracle<D_global, or equal/lower drift and strictly higher delta_R",
+    "statistical_tests": "none_exploratory"
+  },
+  "invariants": {
+    "require_clean_matching_provenance": true,
+    "require_same_checkpoint_all_candidates": true,
+    "require_references_native_full_history": true,
+    "require_30_attention_layers": true,
+    "require_all_zero_mask_exact_full": true,
+    "require_all_half_mask_exact_global_half": true,
+    "require_all_one_mask_exact_current_only": true,
+    "require_full_P0_exact_base_and_zero_drift": true,
+    "require_replay_noise_exact": true,
+    "require_outside_exact_final_pairs": true,
+    "require_dino_and_boundary_final_pairs": true,
+    "missing_or_duplicate_unit": "fail_no_imputation"
+  },
+  "seed_separation": {
+    "stage_c_confirmatory": [101, 202],
+    "d1": [303],
+    "d2": [404],
+    "d3": [505],
+    "oracle": [606, 707]
+  },
+  "scope": {"prompt_controller_training": false, "backbone_training": false,
+            "layer_head_localization": false, "spatial_mask": false}
+}

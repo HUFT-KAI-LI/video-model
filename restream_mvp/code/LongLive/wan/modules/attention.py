@@ -31,6 +31,7 @@ __all__ = [
     'gated_attention',
     'component_gated_attention',
     'path_gated_attention',
+    'layer_release_attention',
 ]
 
 
@@ -201,6 +202,23 @@ def gated_attention(q, k_history, v_history, k_current, v_current, gate, **kwarg
     full = attention(q, torch.cat([k_history, k_current], 1),
                      torch.cat([v_history, v_current], 1), **kwargs)
     return current + g * (full - current)
+
+
+def layer_release_attention(q, k_history, v_history, k_current, v_current, release, **kwargs):
+    """Interpolate native outputs from full history toward current-only."""
+    value = float(release)
+    if not 0 <= value <= 1:
+        raise ValueError("history release coefficient must be in [0,1]")
+    full_k = torch.cat([k_history, k_current], 1)
+    full_v = torch.cat([v_history, v_current], 1)
+    if value == 0 or k_history.shape[1] == 0:
+        return attention(q, full_k, full_v, **kwargs)
+    current = attention(q, k_current, v_current, **kwargs)
+    if value == 1:
+        return current
+    full = attention(q, full_k, full_v, **kwargs)
+    # This ordering matches Stage-C with history_gate=(1-release).
+    return current + (1.0 - value) * (full - current)
 
 
 def component_gated_attention(q, components, k_current, v_current, gates, **kwargs):

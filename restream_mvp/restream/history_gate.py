@@ -2,6 +2,30 @@
 from contextlib import contextmanager
 
 
+def _attention_modules(pipeline):
+    root = getattr(pipeline, "generator", pipeline)
+    return [module for module in root.modules()
+            if module.__class__.__name__ == "CausalWanSelfAttention"]
+
+
+_STATE_NAMES = ("history_gate", "history_component_gates", "history_path_gates",
+                "history_layer_release")
+
+
+def _capture_state(modules, missing):
+    return [tuple(getattr(module, name, missing) for name in _STATE_NAMES)
+            for module in modules]
+
+
+def _restore_state(modules, states, missing):
+    for module, values in zip(modules, states):
+        for name, value in zip(_STATE_NAMES, values):
+            if value is missing:
+                delattr(module, name)
+            else:
+                setattr(module, name, value)
+
+
 def set_history_gate(pipeline, gate: float) -> int:
     """Set gate on every streaming self-attention module; return count."""
     value = float(gate)
@@ -14,6 +38,7 @@ def set_history_gate(pipeline, gate: float) -> int:
             module.history_gate = value
             module.history_component_gates = None
             module.history_path_gates = None
+            module.history_layer_release = None
             count += 1
     if count == 0:
         raise RuntimeError("no CausalWanSelfAttention modules found")
@@ -25,26 +50,12 @@ def history_gate(pipeline, gate: float):
     root = getattr(pipeline, "generator", pipeline)
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
     missing = object()
-    old = [(getattr(m, "history_gate", missing),
-            getattr(m, "history_component_gates", missing),
-            getattr(m, "history_path_gates", missing)) for m in modules]
+    old = _capture_state(modules, missing)
     set_history_gate(pipeline, gate)
     try:
         yield
     finally:
-        for module, (gate_value, component_value, path_value) in zip(modules, old):
-            if gate_value is missing:
-                delattr(module, "history_gate")
-            else:
-                module.history_gate = gate_value
-            if component_value is missing:
-                delattr(module, "history_component_gates")
-            else:
-                module.history_component_gates = component_value
-            if path_value is missing:
-                delattr(module, "history_path_gates")
-            else:
-                module.history_path_gates = path_value
+        _restore_state(modules, old, missing)
 
 
 def set_history_component_gates(pipeline, gates) -> int:
@@ -62,6 +73,7 @@ def set_history_component_gates(pipeline, gates) -> int:
             module.history_gate = 1.0
             module.history_component_gates = dict(values)
             module.history_path_gates = None
+            module.history_layer_release = None
             count += 1
     if count == 0:
         raise RuntimeError("no CausalWanSelfAttention modules found")
@@ -73,26 +85,12 @@ def history_component_gates(pipeline, gates):
     root = getattr(pipeline, "generator", pipeline)
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
     missing = object()
-    old = [(getattr(m, "history_gate", missing),
-            getattr(m, "history_component_gates", missing),
-            getattr(m, "history_path_gates", missing)) for m in modules]
+    old = _capture_state(modules, missing)
     set_history_component_gates(pipeline, gates)
     try:
         yield
     finally:
-        for module, (gate_value, component_value, path_value) in zip(modules, old):
-            if gate_value is missing:
-                delattr(module, "history_gate")
-            else:
-                module.history_gate = gate_value
-            if component_value is missing:
-                delattr(module, "history_component_gates")
-            else:
-                module.history_component_gates = component_value
-            if path_value is missing:
-                delattr(module, "history_path_gates")
-            else:
-                module.history_path_gates = path_value
+        _restore_state(modules, old, missing)
 
 
 def set_history_path_gates(pipeline, score, value) -> int:
@@ -108,6 +106,7 @@ def set_history_path_gates(pipeline, score, value) -> int:
         module.history_gate = 1.0
         module.history_component_gates = None
         module.history_path_gates = dict(gates)
+        module.history_layer_release = None
     return len(modules)
 
 
@@ -116,18 +115,39 @@ def history_path_gates(pipeline, score, value):
     root = getattr(pipeline, "generator", pipeline)
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
     missing = object()
-    old = [(getattr(m, "history_gate", missing),
-            getattr(m, "history_component_gates", missing),
-            getattr(m, "history_path_gates", missing)) for m in modules]
+    old = _capture_state(modules, missing)
     set_history_path_gates(pipeline, score, value)
     try:
         yield
     finally:
-        for module, (gate_value, component_value, path_value) in zip(modules, old):
-            for name, saved in (("history_gate", gate_value),
-                                ("history_component_gates", component_value),
-                                ("history_path_gates", path_value)):
-                if saved is missing:
-                    delattr(module, name)
-                else:
-                    setattr(module, name, saved)
+        _restore_state(modules, old, missing)
+
+
+def set_history_layer_release(pipeline, releases) -> int:
+    """Install one full-to-current release coefficient per attention layer."""
+    modules = _attention_modules(pipeline)
+    values = [float(value) for value in releases]
+    if not modules:
+        raise RuntimeError("no CausalWanSelfAttention modules found")
+    if len(values) != len(modules):
+        raise ValueError(f"expected {len(modules)} layer releases, got {len(values)}")
+    if any(not 0.0 <= value <= 1.0 for value in values):
+        raise ValueError("history layer releases must be in [0, 1]")
+    for module, value in zip(modules, values):
+        module.history_gate = 1.0
+        module.history_component_gates = None
+        module.history_path_gates = None
+        module.history_layer_release = value
+    return len(modules)
+
+
+@contextmanager
+def history_layer_release(pipeline, releases):
+    modules = _attention_modules(pipeline)
+    missing = object()
+    old = _capture_state(modules, missing)
+    set_history_layer_release(pipeline, releases)
+    try:
+        yield
+    finally:
+        _restore_state(modules, old, missing)

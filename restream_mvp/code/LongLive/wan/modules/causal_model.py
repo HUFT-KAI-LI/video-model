@@ -1,7 +1,8 @@
 # Adopted from https://github.com/guandeh17/Self-Forcing
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
 from wan.modules.attention import (attention, component_gated_attention,
-                                   gated_attention, path_gated_attention)
+                                   gated_attention, layer_release_attention,
+                                   path_gated_attention)
 from wan.modules.model import (
     WanRMSNorm,
     rope_apply,
@@ -79,6 +80,7 @@ class CausalWanSelfAttention(nn.Module):
         self.history_gate = 1.0
         self.history_component_gates = None
         self.history_path_gates = None
+        self.history_layer_release = None
         self.last_history_component_tokens = None
         self.last_history_path_tokens = None
         self.sink_size = sink_size
@@ -343,7 +345,14 @@ class CausalWanSelfAttention(nn.Module):
                 history_len = max(0, k_cat.shape[1] - roped_query.shape[1])
                 component_gates = self.history_component_gates
                 path_gates = self.history_path_gates
-                if path_gates is not None:
+                layer_release = self.history_layer_release
+                if layer_release is not None:
+                    self.last_history_layer_tokens = {
+                        "history": history_len, "current": num_new_tokens}
+                    x = layer_release_attention(
+                        roped_query, k_cat[:, :history_len], v_cat[:, :history_len],
+                        k_cat[:, history_len:], v_cat[:, history_len:], layer_release)
+                elif path_gates is not None:
                     self.last_history_path_tokens = {
                         "history": history_len, "current": num_new_tokens}
                     x = path_gated_attention(
@@ -378,7 +387,14 @@ class CausalWanSelfAttention(nn.Module):
                 history_len = max(0, k_window.shape[1] - roped_query.shape[1])
                 component_gates = self.history_component_gates
                 path_gates = self.history_path_gates
-                if path_gates is not None:
+                layer_release = self.history_layer_release
+                if layer_release is not None:
+                    self.last_history_layer_tokens = {
+                        "history": history_len, "current": num_new_tokens}
+                    x = layer_release_attention(
+                        roped_query, k_window[:, :history_len], v_window[:, :history_len],
+                        k_window[:, history_len:], v_window[:, history_len:], layer_release)
+                elif path_gates is not None:
                     self.last_history_path_tokens = {
                         "history": history_len, "current": num_new_tokens}
                     x = path_gated_attention(

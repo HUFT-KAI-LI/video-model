@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "experiment": "oracle_layer_release_m0m1",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 606,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 707,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 606,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 707,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 606,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 707,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 606,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 707,
+      "target_chunk": 4
+    }
+  ]
+}
