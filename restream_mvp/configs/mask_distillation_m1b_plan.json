@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "frozen_before_teacher_generation",
+  "status": "frozen_before_heldout",
   "frozen_date": "2026-09-12",
   "protocol": "oracle_mask_distillation_m1b_v1",
   "teacher": {
@@ -16,6 +16,12 @@
     "expected_total_units": 200,
     "base_dataset_sha256": "450ded062b00a2017f34ee29c37acdd2b8abbc48e661091bb3655c82bbc05a30",
     "new_manifest_sha256": "dd9e0ac8307be072bcee358f37fece092df05a5f15500168cc43cccd4e9b579b",
+    "new_shard_sha256": [
+      "8b97555ac399a414609345e805eb9aa803bea87d8f89d0b9dd679e558fa78eed",
+      "d11383c905882a1ef4f424222681ae99d29e45265567e0b0c0deaa29425ae954",
+      "5991e3715598c2dd8e029fc852a6ffda57151a92dd90b8f064481ac663ccdfed",
+      "e72ff8de73869812fbaccaa22e015e540140f21231ff54725a5710ba3393f749"
+    ],
     "oracle_lambda": 0.2,
     "oracle_algorithm": "same deterministic 16-step SPSA and exact loss as M0/M1-A",
     "gamma_l1": 0.001
@@ -49,9 +55,9 @@
     "expected_final_pairs": 80,
     "required_pareto_wins": 12,
     "primary_controller": "prompt_state",
-    "controller_checkpoint_sha256": null,
-    "teacher_dataset_sha256": null,
-    "training_report_sha256": null
+    "controller_checkpoint_sha256": "d0970c0edd67a0541ebfddae1f2004647c2efe8d9b05f670a0254c72cae08b49",
+    "teacher_dataset_sha256": "e332f7b5065737eb9c986cf862751e5120234de6207f5c904f5cef473ea3e546",
+    "training_report_sha256": "d718d0e5a24b52489c26bacf5449e7f86a810c81f97268841816ed8e16335ef1"
   },
   "estimands": {
     "primary": "real replay delta_R and D_drift; mask MSE is training diagnostic only",

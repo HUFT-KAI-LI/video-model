@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "protocol": "oracle_mask_distillation_m1b_v1",
+  "status": "complete",
+  "dataset_sha256": "e332f7b5065737eb9c986cf862751e5120234de6207f5c904f5cef473ea3e546",
+  "controller_checkpoint_sha256": "d0970c0edd67a0541ebfddae1f2004647c2efe8d9b05f670a0254c72cae08b49",
+  "histories": {
+    "prompt_only": [
+      {
+        "epoch": 1,
+        "mask_mse": 0.017946895211935043
+      },
+      {
+        "epoch": 10,
+        "mask_mse": 0.014162339270114899
+      },
+      {
+        "epoch": 100,
+        "mask_mse": 0.013880396261811256
+      },
+      {
+        "epoch": 500,
+        "mask_mse": 0.013880377635359764
+      },
+      {
+        "epoch": 1000,
+        "mask_mse": 0.013880377635359764
+      },
+      {
+        "epoch": 3000,
+        "mask_mse": 0.0138804130256176
+      }
+    ],
+    "prompt_state": [
+      {
+        "epoch": 1,
+        "mask_mse": 0.020802928134799004
+      },
+      {
+        "epoch": 10,
+        "mask_mse": 0.014867142774164677
+      },
+      {
+        "epoch": 100,
+        "mask_mse": 0.013821115717291832
+      },
+      {
+        "epoch": 500,
+        "mask_mse": 0.011829414404928684
+      },
+      {
+        "epoch": 1000,
+        "mask_mse": 0.010813873261213303
+      },
+      {
+        "epoch": 3000,
+        "mask_mse": 0.008017759770154953
+      }
+    ]
+  },
+  "final_mask_mse": {
+    "prompt_only": 0.013880403712391853,
+    "prompt_state": 0.008017715997993946
+  },
+  "parameter_counts": {
+    "prompt_only": 6110,
+    "prompt_state": 6513
+  },
+  "note": "Training-set mask MSE is diagnostic only; held-out replay decides the experiment."
+}
