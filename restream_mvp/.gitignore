@@ -27,3 +27,5 @@ validation/history_release/paired_shard*/
 validation/history_components/screen_*/
 # D2 screen outputs include multi-GB checkpoints and comparison videos.
 validation/history_subsets/screen_*/
+# D3 screen outputs include multi-GB checkpoints and comparison videos.
+validation/history_paths/screen_*/

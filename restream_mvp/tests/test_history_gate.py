@@ -14,6 +14,7 @@ _kernel = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_kernel)
 attention, gated_attention = _kernel.attention, _kernel.gated_attention
 component_gated_attention = _kernel.component_gated_attention
+path_gated_attention = _kernel.path_gated_attention
 
 
 class HistoryGateTests(unittest.TestCase):
@@ -114,6 +115,38 @@ class HistoryGateTests(unittest.TestCase):
             {"sink": .5, "old": 1, "recent": 1}, dtype=torch.float32)
         assert torch.equal(actual, without_sink + .5 * (full - without_sink))
 
+    def test_path_score_gate_matches_explicit_log_odds_bias(self):
+        q = torch.randn(1, 2, 2, 4)
+        kh = torch.randn(1, 3, 2, 4)
+        vh = torch.randn(1, 3, 2, 4)
+        kc = torch.randn(1, 2, 2, 4)
+        vc = torch.randn(1, 2, 2, 4)
+        actual = path_gated_attention(
+            q, kh, vh, kc, vc, .5, .25, dtype=torch.float32)
+        qt = q.transpose(1, 2)
+        kt = torch.cat([kh, kc], 1).transpose(1, 2)
+        vt = torch.cat([vh * .25, vc], 1).transpose(1, 2)
+        logits = torch.matmul(qt, kt.transpose(-2, -1)) / (q.shape[-1] ** .5)
+        logits[..., :kh.shape[1]] += torch.log(torch.tensor(.5))
+        expected = (torch.softmax(logits, -1) @ vt).transpose(1, 2).contiguous()
+        self.assertTrue(torch.allclose(actual, expected, atol=1e-6, rtol=1e-6))
+
+    def test_path_exact_endpoints_and_value_zero_keeps_competition(self):
+        q = torch.randn(1, 2, 1, 4)
+        kh = torch.randn(1, 3, 1, 4)
+        vh = torch.randn(1, 3, 1, 4)
+        kc = torch.randn(1, 2, 1, 4)
+        vc = torch.randn(1, 2, 1, 4)
+        full = attention(q, torch.cat([kh, kc], 1), torch.cat([vh, vc], 1),
+                         dtype=torch.float32)
+        current = attention(q, kc, vc, dtype=torch.float32)
+        self.assertTrue(torch.equal(full, path_gated_attention(
+            q, kh, vh, kc, vc, 1, 1, dtype=torch.float32)))
+        self.assertTrue(torch.equal(current, path_gated_attention(
+            q, kh, vh, kc, vc, 0, 1, dtype=torch.float32)))
+        value_zero = path_gated_attention(q, kh, vh, kc, vc, 1, 0, dtype=torch.float32)
+        self.assertFalse(torch.equal(value_zero, current))
+
     def test_sink_only_gate_matches_global_gate_when_other_history_is_empty(self):
         q = torch.randn(1, 3, 2, 8)
         k = torch.randn(1, 6, 2, 8)
@@ -181,6 +214,23 @@ class HistoryGateTests(unittest.TestCase):
         assert not hasattr(modules[1], "history_gate")
         assert not hasattr(modules[1], "history_component_gates")
 
+    def test_path_context_restores_all_gate_state(self):
+        from restream.history_gate import history_path_gates
+        class CausalWanSelfAttention(torch.nn.Module):
+            pass
+        module = CausalWanSelfAttention()
+        module.history_gate = .25
+        module.history_component_gates = {"sink": .2, "old": .3, "recent": .4}
+        module.history_path_gates = {"score": .75, "value": .5}
+        with history_path_gates(torch.nn.ModuleList([module]), .5, 0):
+            self.assertEqual(module.history_gate, 1)
+            self.assertIsNone(module.history_component_gates)
+            self.assertEqual(module.history_path_gates, {"score": .5, "value": 0.0})
+        self.assertEqual(module.history_gate, .25)
+        self.assertEqual(module.history_component_gates,
+                         {"sink": .2, "old": .3, "recent": .4})
+        self.assertEqual(module.history_path_gates, {"score": .75, "value": .5})
+
 
 class CudaHistoryGateTests(unittest.TestCase):
     @unittest.skipUnless(torch.cuda.is_available(), "CUDA unavailable")
@@ -223,3 +273,18 @@ class CudaHistoryGateTests(unittest.TestCase):
             q, sink_only, k[:, 12:], v[:, 12:],
             {"sink": .5, "old": 1, "recent": 1})
         self.assertTrue(torch.equal(global_output, sink_output))
+
+    @unittest.skipUnless(torch.cuda.is_available(), "CUDA unavailable")
+    def test_path_kernel_native_endpoints_and_biased_path(self):
+        q = torch.randn(1, 6, 2, 64, device="cuda", dtype=torch.bfloat16)
+        kh = torch.randn(1, 9, 2, 64, device="cuda", dtype=torch.bfloat16)
+        vh = torch.randn_like(kh)
+        kc = torch.randn(1, 6, 2, 64, device="cuda", dtype=torch.bfloat16)
+        vc = torch.randn_like(kc)
+        current = attention(q, kc, vc)
+        full = attention(q, torch.cat([kh, kc], 1), torch.cat([vh, vc], 1))
+        self.assertTrue(torch.equal(current, path_gated_attention(q, kh, vh, kc, vc, 0, 1)))
+        self.assertTrue(torch.equal(full, path_gated_attention(q, kh, vh, kc, vc, 1, 1)))
+        biased = path_gated_attention(q, kh, vh, kc, vc, .5, .5)
+        self.assertTrue(torch.isfinite(biased).all())
+        self.assertFalse(torch.equal(biased, full))

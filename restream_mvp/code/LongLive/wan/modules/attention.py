@@ -1,4 +1,6 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
+import math
+
 import torch
 
 try:
@@ -28,6 +30,7 @@ __all__ = [
     'attention',
     'gated_attention',
     'component_gated_attention',
+    'path_gated_attention',
 ]
 
 
@@ -248,3 +251,98 @@ def component_gated_attention(q, components, k_current, v_current, gates, **kwar
         value = native(included)
         output = value * weight if output is None else output + value * weight
     return output
+
+
+def path_gated_attention(q, k_history, v_history, k_current, v_current,
+                         score_gate, value_gate, **kwargs):
+    """Attenuate history attention odds and value content independently.
+
+    For 0 < score_gate < 1, log(score_gate) is added to every history
+    logit before the joint history/current softmax. value_gate scales only
+    history values. Exact native paths are retained at score endpoints.
+    """
+    alpha, beta = float(score_gate), float(value_gate)
+    if not 0 <= alpha <= 1 or not 0 <= beta <= 1:
+        raise ValueError("history score and value gates must be in [0,1]")
+    if k_history.shape[1] != v_history.shape[1]:
+        raise ValueError("history key/value lengths differ")
+    if k_history.shape[1] == 0 or alpha == 0:
+        return attention(q, k_current, v_current, **kwargs)
+
+    keys = torch.cat([k_history, k_current], dim=1)
+    values = torch.cat([v_history * beta, v_current], dim=1)
+    if alpha == 1:
+        return attention(q, keys, values, **kwargs)
+    if kwargs.get("causal", False) or kwargs.get("dropout_p", 0.0) != 0:
+        raise ValueError("fractional history-score gating is inference-only and non-causal")
+    if kwargs.get("window_size", (-1, -1)) != (-1, -1):
+        raise ValueError("path-gated attention expects a pre-sliced native window")
+
+    if FLASH_ATTN_2_AVAILABLE and q.device.type == "cuda":
+        q_lens = kwargs.get("q_lens")
+        k_lens = kwargs.get("k_lens")
+        if q_lens is not None or k_lens is not None:
+            raise ValueError("path-gated attention does not support padded sequences")
+
+        def native_with_lse(native_k, native_v):
+            dtype = kwargs.get("dtype", torch.bfloat16)
+            half_dtypes = (torch.float16, torch.bfloat16)
+            q_native = q if q.dtype in half_dtypes else q.to(dtype)
+            k_native = native_k if native_k.dtype in half_dtypes else native_k.to(dtype)
+            v_native = native_v if native_v.dtype in half_dtypes else native_v.to(dtype)
+            q_native = q_native.to(v_native.dtype)
+            k_native = k_native.to(v_native.dtype)
+            if kwargs.get("q_scale") is not None:
+                q_native = q_native * kwargs["q_scale"]
+            batch, q_length, heads = q_native.shape[:3]
+            key_length = k_native.shape[1]
+            q_flat = q_native.flatten(0, 1)
+            k_flat = k_native.flatten(0, 1)
+            v_flat = v_native.flatten(0, 1)
+            q_cu = torch.arange(batch + 1, device=q.device, dtype=torch.int32) * q_length
+            k_cu = torch.arange(batch + 1, device=q.device, dtype=torch.int32) * key_length
+            output, lse, _ = flash_attn.flash_attn_varlen_func(
+                q=q_flat, k=k_flat, v=v_flat, cu_seqlens_q=q_cu, cu_seqlens_k=k_cu,
+                max_seqlen_q=q_length, max_seqlen_k=key_length,
+                dropout_p=kwargs.get("dropout_p", 0.0),
+                softmax_scale=kwargs.get("softmax_scale"), causal=kwargs.get("causal", False),
+                window_size=kwargs.get("window_size", (-1, -1)),
+                deterministic=kwargs.get("deterministic", False), return_attn_probs=True)
+            lse = lse.transpose(0, 1).reshape(batch, q_length, heads, 1)
+            return output.unflatten(0, (batch, q_length)).type_as(q), lse
+
+        history_output, history_lse = native_with_lse(k_history, v_history * beta)
+        current_output, current_lse = native_with_lse(k_current, v_current)
+        history_weight = torch.sigmoid(history_lse + math.log(alpha) - current_lse)
+        return (current_output.float() + history_weight *
+                (history_output.float() - current_output.float())).type_as(q)
+
+    q_lens = kwargs.pop("q_lens", None)
+    k_lens = kwargs.pop("k_lens", None)
+    if q_lens is not None or k_lens is not None:
+        raise ValueError("path-gated attention does not support padded sequences")
+    window_size = kwargs.pop("window_size", (-1, -1))
+    if window_size != (-1, -1):
+        raise ValueError("path-gated attention expects a pre-sliced native window")
+    dtype = kwargs.pop("dtype", torch.bfloat16)
+    q_scale = kwargs.pop("q_scale", None)
+    softmax_scale = kwargs.pop("softmax_scale", None)
+    causal = kwargs.pop("causal", False)
+    dropout_p = kwargs.pop("dropout_p", 0.0)
+    kwargs.pop("deterministic", None)
+    kwargs.pop("fa_version", None)
+    if kwargs:
+        raise TypeError(f"unsupported path attention arguments: {sorted(kwargs)}")
+
+    q_sdpa = q.transpose(1, 2).to(dtype)
+    k_sdpa = keys.transpose(1, 2).to(dtype)
+    v_sdpa = values.transpose(1, 2).to(dtype)
+    if q_scale is not None:
+        q_sdpa = q_sdpa * q_scale
+    bias = torch.zeros((1, 1, 1, keys.shape[1]), device=q.device, dtype=q_sdpa.dtype)
+    bias[..., :k_history.shape[1]] = torch.log(
+        torch.tensor(alpha, device=q.device, dtype=q_sdpa.dtype))
+    output = torch.nn.functional.scaled_dot_product_attention(
+        q_sdpa, k_sdpa, v_sdpa, attn_mask=bias, dropout_p=dropout_p,
+        is_causal=causal, scale=softmax_scale)
+    return output.transpose(1, 2).contiguous().type_as(q)

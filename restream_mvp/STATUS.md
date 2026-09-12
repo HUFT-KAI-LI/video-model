@@ -1,5 +1,14 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## History Attention-Path Decomposition D3（2026-09-12）
+
+D1/D2 已停止继续拆 temporal position。D3 冻结为 score/access 与 value/content
+attention-path screen：seed 505、chunk 4、四个 directional edits、七个条件，共
+28 pairs / 56 replays。score 路径通过 history logits 加 `log(alpha)` 改变 odds；
+value 路径只缩放 history V，保持 Q/K/logits/normalization 不变。另有 CUDA
+`score_0 == native current-only` 与 full native endpoint bit-exact invariant。
+协议见 [HISTORY_ATTENTION_PATH_PROTOCOL.md](HISTORY_ATTENTION_PATH_PROTOCOL.md)。
+
 ## History Subset Interaction D2（2026-09-12）
 
 D1 已封存为 coarse temporal localization insufficient。下一步冻结为 chunk 4 的

@@ -20,7 +20,8 @@ from restream import edit_metrics as em  # noqa: E402
 from restream import edit_replay as er  # noqa: E402
 from restream.history_components import (  # noqa: E402
     CONDITIONS, PROTOCOL, condition_spec, manifest_groups, validate_screen)
-from restream.history_gate import history_component_gates, history_gate  # noqa: E402
+from restream.history_gate import (  # noqa: E402
+    history_component_gates, history_gate, history_path_gates)
 from restream.runtime import load_pipeline  # noqa: E402
 from scripts.run_chunk_edit import _dino_boundary, _load_entry, _rng_check, tensor_digest  # noqa: E402
 
@@ -41,15 +42,20 @@ def _condition_context(pipeline, condition, spec_fn=condition_spec):
     spec = spec_fn(condition)
     if spec["kind"] == "global":
         return history_gate(pipeline, spec["gate"])
+    if spec["kind"] == "path":
+        return history_path_gates(pipeline, spec["score_gate"], spec["value_gate"])
     return history_component_gates(pipeline, spec["gates"])
 
 
 def _condition_record(condition, spec_fn=condition_spec):
     spec = spec_fn(condition)
-    return {"condition": condition,
-            "mechanism": "stage_c_global" if spec["kind"] == "global" else "component",
+    mechanism = {"global": "stage_c_global", "components": "component",
+                 "path": "attention_path"}[spec["kind"]]
+    return {"condition": condition, "mechanism": mechanism,
             "history_gate": spec.get("gate"),
-            "history_component_gates": spec.get("gates")}
+            "history_component_gates": spec.get("gates"),
+            "history_path_gates": ({"score": spec["score_gate"], "value": spec["value_gate"]}
+                                   if spec["kind"] == "path" else None)}
 
 
 def _component_partition_snapshot(pipeline, block):
@@ -73,6 +79,27 @@ def _component_partition_snapshot(pipeline, block):
             "latent_frames": {name: value // tokens_per_frame for name, value in tokens.items()},
             "tokens_per_latent_frame": tokens_per_frame,
             "modules_checked": len(modules)}
+
+
+def _path_partition_snapshot(pipeline, block):
+    root = getattr(pipeline, "generator", pipeline)
+    modules = [module for module in root.modules()
+               if module.__class__.__name__ == "CausalWanSelfAttention"]
+    observed = [getattr(module, "last_history_path_tokens", None) for module in modules]
+    if not observed or any(value is None for value in observed):
+        raise AssertionError("path token partition was not recorded by every attention module")
+    signatures = {tuple(value[name] for name in ("history", "current")) for value in observed}
+    if len(signatures) != 1:
+        raise AssertionError("attention modules observed different path partitions")
+    tokens = dict(observed[0])
+    if tokens["current"] % int(block):
+        raise AssertionError("current path tokens do not align to AR latent frames")
+    tokens_per_frame = tokens["current"] // int(block)
+    if tokens_per_frame <= 0 or any(value % tokens_per_frame for value in tokens.values()):
+        raise AssertionError("path tokens do not align to latent-frame boundaries")
+    return {"tokens": tokens,
+            "latent_frames": {name: value // tokens_per_frame for name, value in tokens.items()},
+            "tokens_per_latent_frame": tokens_per_frame, "modules_checked": len(modules)}
 
 
 def validate_model_geometry(config, plan):
@@ -149,8 +176,11 @@ def _run_fixed_group(pipeline, config, group, device, output_dir, cache_dir, ide
                         noise_source=noise_source, crossattn=binding, restore_rng=True,
                         expected_model_hash=identity["model_checkpoint_sha256"],
                         expected_config_hash=identity["config_hash"])
-                    if spec_fn(condition)["kind"] == "components":
+                    kind = spec_fn(condition)["kind"]
+                    if kind == "components":
                         partitions[name] = _component_partition_snapshot(pipeline, block)
+                    elif kind == "path":
+                        partitions[name] = _path_partition_snapshot(pipeline, block)
                 results[name] = result.latents
                 rng[name] = _rng_check(checkpoint, result.recorded_noise)
                 if rng[name].get("comparable") and not rng[name]["exact"]:

@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "status": "frozen_before_d3_screen",
+  "frozen_date": "2026-09-12",
+  "protocol": "fixed_history_attention_paths_d3_v1",
+  "stage": "D3_score_value_attention_path_decomposition",
+  "manifest": {
+    "path": "validation/history_attention_path_manifest.json",
+    "sha256": "ad0a29107a577b2a84a56c791684761155734424febebc2a2de52210b3c9f2e0",
+    "expected_pairs": 28,
+    "edits": ["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"],
+    "seeds": [505],
+    "chunks": [4],
+    "conditions": ["full", "global_.5", "current_only", "score_.5", "value_.5", "value_0", "score_.5_value_.5"]
+  },
+  "history_partition": {
+    "required_sink_size": 3,
+    "required_num_frame_per_block": 3,
+    "required_local_attention_frames": 12,
+    "expected_path_latent_frames": {"history": 9, "current": 3}
+  },
+  "conditions": {
+    "full": {"mechanism": "attention_path", "score_gate": 1.0, "value_gate": 1.0},
+    "global_.5": {"mechanism": "stage_c_global", "history_gate": 0.5},
+    "current_only": {"mechanism": "stage_c_global", "history_gate": 0.0},
+    "score_.5": {"mechanism": "attention_path", "score_gate": 0.5, "value_gate": 1.0},
+    "value_.5": {"mechanism": "attention_path", "score_gate": 1.0, "value_gate": 0.5},
+    "value_0": {"mechanism": "attention_path", "score_gate": 1.0, "value_gate": 0.0},
+    "score_.5_value_.5": {"mechanism": "attention_path", "score_gate": 0.5, "value_gate": 0.5}
+  },
+  "operator": {
+    "score": "combine native FlashAttention history/current outputs using their native LSEs after adding log(alpha) to the history log-normalizer",
+    "score_half": "alpha=0.5 halves history attention odds relative to current keys",
+    "score_zero": "branch to native current-only attention; GPU kernel control only",
+    "value": "multiply history V by beta while preserving Q, K, logits, and normalization",
+    "full": "alpha=1,beta=1 branches to native full-history attention",
+    "global": "unchanged Stage C output interpolation; reference only",
+    "timing": "invalid_diagnostic"
+  },
+  "estimands": {
+    "E": "S(P1,c)-S(P0,c)",
+    "R": "E/S_full when S_full>0",
+    "delta_R": "R(c)-R(full)",
+    "D_drift": "latent_mse(C4(P0,c),C4(base))",
+    "score_value_contrast": "R(score_.5_value_.5)-R(score_.5)-R(value_.5)+R(full)",
+    "value_zero_competition_gap": "R(current_only)-R(value_0)",
+    "across_edit_reducer": "median_over_four_edits"
+  },
+  "interpretation": {
+    "statistical_tests": "none_exploratory",
+    "automatic_path_classification": false,
+    "global_and_current_only_excluded_from_score_value_contrast": true,
+    "claim": "Descriptive localization of semantic inertia to score/access versus value/content paths."
+  },
+  "seed_separation": {
+    "development_seed": 42,
+    "stage_c_confirmatory_seeds": [101, 202],
+    "d1_exploratory_seed": 303,
+    "d2_exploratory_seed": 404,
+    "d3_exploratory_seed": 505
+  },
+  "invariants": {
+    "require_complete_unique_grid": true,
+    "require_clean_matching_provenance": true,
+    "require_same_checkpoint_for_all_conditions": true,
+    "require_references_generated_with_unmodified_full_history": true,
+    "require_replay_noise_exact": true,
+    "require_outside_exact_both_policies": true,
+    "require_dino_appearance_diagnostic": true,
+    "require_boundary_diagnostic": true,
+    "require_full_path_P0_exact_base_and_zero_drift": true,
+    "require_path_partition_history9_current3": true,
+    "require_current_only_active": true,
+    "require_path_interventions_active": true,
+    "require_cuda_score_zero_equals_native_current_bit_exact": true,
+    "require_cuda_full_equals_native_full_bit_exact": true,
+    "require_fractional_score_backend_flash_attention_2_lse": true,
+    "require_timing_invalid": true,
+    "missing_or_duplicate_case": "fail_no_imputation"
+  },
+  "scope": {
+    "training": false,
+    "temporal_component_sweep": false,
+    "layer_head_localization": false,
+    "spatial_mask": false,
+    "right_context": false
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "experiment": "history_attention_path_d3",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0"
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0"
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0"
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "full"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "global_.5"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "current_only"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_.5"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "value_0"
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 505,
+      "target_chunk": 4,
+      "condition": "score_.5_value_.5"
+    }
+  ]
+}

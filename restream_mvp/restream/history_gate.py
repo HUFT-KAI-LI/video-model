@@ -13,6 +13,7 @@ def set_history_gate(pipeline, gate: float) -> int:
         if module.__class__.__name__ == "CausalWanSelfAttention":
             module.history_gate = value
             module.history_component_gates = None
+            module.history_path_gates = None
             count += 1
     if count == 0:
         raise RuntimeError("no CausalWanSelfAttention modules found")
@@ -25,12 +26,13 @@ def history_gate(pipeline, gate: float):
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
     missing = object()
     old = [(getattr(m, "history_gate", missing),
-            getattr(m, "history_component_gates", missing)) for m in modules]
+            getattr(m, "history_component_gates", missing),
+            getattr(m, "history_path_gates", missing)) for m in modules]
     set_history_gate(pipeline, gate)
     try:
         yield
     finally:
-        for module, (gate_value, component_value) in zip(modules, old):
+        for module, (gate_value, component_value, path_value) in zip(modules, old):
             if gate_value is missing:
                 delattr(module, "history_gate")
             else:
@@ -39,6 +41,10 @@ def history_gate(pipeline, gate: float):
                 delattr(module, "history_component_gates")
             else:
                 module.history_component_gates = component_value
+            if path_value is missing:
+                delattr(module, "history_path_gates")
+            else:
+                module.history_path_gates = path_value
 
 
 def set_history_component_gates(pipeline, gates) -> int:
@@ -55,6 +61,7 @@ def set_history_component_gates(pipeline, gates) -> int:
         if module.__class__.__name__ == "CausalWanSelfAttention":
             module.history_gate = 1.0
             module.history_component_gates = dict(values)
+            module.history_path_gates = None
             count += 1
     if count == 0:
         raise RuntimeError("no CausalWanSelfAttention modules found")
@@ -67,12 +74,13 @@ def history_component_gates(pipeline, gates):
     modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
     missing = object()
     old = [(getattr(m, "history_gate", missing),
-            getattr(m, "history_component_gates", missing)) for m in modules]
+            getattr(m, "history_component_gates", missing),
+            getattr(m, "history_path_gates", missing)) for m in modules]
     set_history_component_gates(pipeline, gates)
     try:
         yield
     finally:
-        for module, (gate_value, component_value) in zip(modules, old):
+        for module, (gate_value, component_value, path_value) in zip(modules, old):
             if gate_value is missing:
                 delattr(module, "history_gate")
             else:
@@ -81,3 +89,45 @@ def history_component_gates(pipeline, gates):
                 delattr(module, "history_component_gates")
             else:
                 module.history_component_gates = component_value
+            if path_value is missing:
+                delattr(module, "history_path_gates")
+            else:
+                module.history_path_gates = path_value
+
+
+def set_history_path_gates(pipeline, score, value) -> int:
+    """Enable independent history score/access and value/content gates."""
+    gates = {"score": float(score), "value": float(value)}
+    if any(not 0.0 <= gate <= 1.0 for gate in gates.values()):
+        raise ValueError("history path gates must be in [0, 1]")
+    root = getattr(pipeline, "generator", pipeline)
+    modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
+    if not modules:
+        raise RuntimeError("no CausalWanSelfAttention modules found")
+    for module in modules:
+        module.history_gate = 1.0
+        module.history_component_gates = None
+        module.history_path_gates = dict(gates)
+    return len(modules)
+
+
+@contextmanager
+def history_path_gates(pipeline, score, value):
+    root = getattr(pipeline, "generator", pipeline)
+    modules = [m for m in root.modules() if m.__class__.__name__ == "CausalWanSelfAttention"]
+    missing = object()
+    old = [(getattr(m, "history_gate", missing),
+            getattr(m, "history_component_gates", missing),
+            getattr(m, "history_path_gates", missing)) for m in modules]
+    set_history_path_gates(pipeline, score, value)
+    try:
+        yield
+    finally:
+        for module, (gate_value, component_value, path_value) in zip(modules, old):
+            for name, saved in (("history_gate", gate_value),
+                                ("history_component_gates", component_value),
+                                ("history_path_gates", path_value)):
+                if saved is missing:
+                    delattr(module, name)
+                else:
+                    setattr(module, name, saved)
