@@ -25,3 +25,5 @@ validation/edit_ready_mvp/rerun*/
 validation/history_release/paired_shard*/
 # D1 screen outputs include multi-GB checkpoints and comparison videos.
 validation/history_components/screen_*/
+# D2 screen outputs include multi-GB checkpoints and comparison videos.
+validation/history_subsets/screen_*/
