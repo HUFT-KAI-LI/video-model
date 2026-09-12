@@ -18,3 +18,5 @@ def write(name, experiment, seeds):
 if __name__ == "__main__":
     write("mask_distillation_teacher_manifest.json", "mask_distillation_teacher_m1a", range(801, 809))
     write("mask_distillation_heldout_manifest.json", "mask_distillation_heldout_m1a", (1001, 1002))
+    write("mask_distillation_m1b_teacher_manifest.json", "mask_distillation_teacher_m1b", range(1101, 1141))
+    write("mask_distillation_m1b_heldout_manifest.json", "mask_distillation_heldout_m1b", (2001, 2002, 2003, 2004))

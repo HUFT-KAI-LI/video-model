@@ -20,10 +20,9 @@ from restream import edit_metrics as em  # noqa: E402
 from restream import edit_replay as er  # noqa: E402
 from restream.history_gate import history_gate  # noqa: E402
 from restream.mask_distillation import (  # noqa: E402
-    PROTOCOL, checkpoint_state_feature, feature_digest, load_controllers, normalize,
+    M1B_PROTOCOL, PROTOCOL, checkpoint_state_feature, feature_digest, load_controllers, normalize,
     prompt_delta_feature)
-from restream.mask_distillation_protocol import (  # noqa: E402
-    FINAL_CONDITIONS, HELDOUT_SEEDS, groups_from_manifest)
+from restream.mask_distillation_protocol import groups_from_manifest  # noqa: E402
 from restream.runtime import load_pipeline  # noqa: E402
 from scripts.run_history_component_screen import validate_model_geometry  # noqa: E402
 from scripts.run_oracle_layer_mask import (  # noqa: E402
@@ -41,6 +40,8 @@ def predict_masks(controllers, prompt, state):
 
 def run_unit(pipeline, config, group, device, cache_dir, video_root, identity, plan,
              oracle_plan, controllers, dino):
+    protocol = plan["protocol"]
+    final_conditions = tuple(plan["heldout"]["conditions"])
     target, seed, block = 4, group["seed"], int(pipeline.num_frame_per_block)
     generation_args = dict(seed=seed, model_hash=identity["model_checkpoint_sha256"],
                            model_record=identity["model_identity"],
@@ -74,11 +75,11 @@ def run_unit(pipeline, config, group, device, cache_dir, video_root, identity, p
                   "current_only": [1.0] * 30, "oracle": oracle["mask"]})
     records, unit_dir = [], Path(video_root) / group_id
     unit_dir.mkdir(parents=True, exist_ok=False)
-    for condition in FINAL_CONDITIONS:
+    for condition in final_conditions:
         result = evaluate(masks[condition], detailed=True)
         if condition == "full" and not result["drift"]["exact"]:
             raise AssertionError(f"{group_id}: full P0 is not exact base")
-        record = {"protocol": PROTOCOL, "prompt_id": group["prompt_id"], "seed": seed,
+        record = {"protocol": protocol, "prompt_id": group["prompt_id"], "seed": seed,
                   "target_chunk": 4, "condition": condition, "layer_release": masks[condition],
                   "checkpoint_sha256": entry["sha256"], "feature_sha256": feature_digest(prompt, state),
                   "editability": result["editability"], "D_drift": result["D_drift"],
@@ -121,11 +122,14 @@ def main():
     parser.add_argument("--reviewed", action="store_true"); parser.add_argument("--heldout-approved", action="store_true")
     args = parser.parse_args()
     if not args.reviewed or not args.heldout_approved:
-        parser.error("M1-A held-out evaluation requires explicit approval flags")
+        parser.error("held-out evaluation requires explicit approval flags")
     config, manifest = ex.read_config(args.config), json.loads(args.manifest.read_text())
     plan, oracle_plan = json.loads(args.plan.read_text()), json.loads(args.oracle_plan.read_text())
-    if plan.get("status") != "frozen_before_heldout" or plan.get("protocol") != PROTOCOL:
-        parser.error("M1-A artifacts must be hash-locked before held-out evaluation")
+    if plan.get("status") != "frozen_before_heldout":
+        parser.error("artifacts must be hash-locked before held-out evaluation")
+    protocol = plan["protocol"]
+    if protocol not in (PROTOCOL, M1B_PROTOCOL):
+        parser.error("unsupported mask-distillation protocol")
     locked = plan["heldout"]
     observed_artifacts = (ec.sha256_file(args.controllers), ec.sha256_file(args.teacher_dataset),
                           ec.sha256_file(args.training_report))
@@ -134,7 +138,8 @@ def main():
     if (ec.sha256_file(args.manifest) != locked["manifest_sha256"] or
             observed_artifacts != expected_artifacts):
         parser.error("held-out manifest or locked training artifact hash mismatch")
-    groups = groups_from_manifest(config, manifest, "mask_distillation_heldout_m1a", HELDOUT_SEEDS)
+    experiment = locked.get("experiment", "mask_distillation_heldout_m1a")
+    groups = groups_from_manifest(config, manifest, experiment, tuple(locked["seeds"]))
     groups = ex.shard(groups, args.shard, args.shards)
     args.cache_dir.mkdir(parents=True, exist_ok=False); args.video_root.mkdir(parents=True, exist_ok=False)
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
@@ -144,13 +149,15 @@ def main():
         "required_sink_size": 3, "required_num_frame_per_block": 3,
         "required_local_attention_frames": 12}})
     identity = ex.run_provenance(config, args.config, extra={
-        "protocol": PROTOCOL, "stage": "M1A_heldout_controller_evaluation",
+        "protocol": protocol,
+        "stage": locked.get("stage", "M1A_heldout_controller_evaluation"),
         "plan_sha256": ec.sha256_file(args.plan), "manifest_sha256": ec.sha256_file(args.manifest),
         "controller_sha256": ec.sha256_file(args.controllers), "kernel_invariants": kernel_checks,
         "teacher_dataset_sha256": ec.sha256_file(args.teacher_dataset),
         "training_report_sha256": ec.sha256_file(args.training_report),
         "history_geometry": geometry, "shard": args.shard, "shards": args.shards})
-    pipeline, controllers = load_pipeline(config, device), load_controllers(args.controllers, "cpu")
+    pipeline = load_pipeline(config, device)
+    controllers = load_controllers(args.controllers, "cpu", expected_protocol=protocol)
     if any(parameter.requires_grad for parameter in pipeline.generator.parameters()):
         raise AssertionError("LongLive must remain frozen")
     if controllers["metadata"]["dataset_sha256"] != locked["teacher_dataset_sha256"]:
@@ -162,11 +169,11 @@ def main():
             records.extend(run_unit(pipeline, config, group, device, args.cache_dir,
                                     args.video_root, identity, plan, oracle_plan, controllers, dino))
     except Exception as error:
-        ex.write_json(args.output, {"experiment": "mask_distillation_heldout_m1a", "status": "failed",
+        ex.write_json(args.output, {"experiment": experiment, "status": "failed",
                                    "provenance": identity, "cases": records,
                                    "error": f"{type(error).__name__}: {error}"})
         raise
-    ex.write_json(args.output, {"experiment": "mask_distillation_heldout_m1a", "schema": 1,
+    ex.write_json(args.output, {"experiment": experiment, "schema": 1,
                                "status": "complete", "provenance": identity, "cases": records})
 
 

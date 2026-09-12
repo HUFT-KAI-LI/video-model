@@ -11,6 +11,7 @@ from . import edit_replay as er
 
 
 PROTOCOL = "oracle_mask_distillation_m1a_v1"
+M1B_PROTOCOL = "oracle_mask_distillation_m1b_v1"
 PROMPT_DIM = 64
 STATE_FEATURES_PER_LAYER = 24
 LAYERS = 30
@@ -99,9 +100,9 @@ def normalize(value: torch.Tensor, mean: torch.Tensor, std: torch.Tensor) -> tor
     return (value - mean) / std.clamp_min(1e-6)
 
 
-def load_controllers(path, device="cpu") -> Dict[str, Any]:
+def load_controllers(path, device="cpu", expected_protocol=PROTOCOL) -> Dict[str, Any]:
     payload = torch.load(path, map_location=device, weights_only=True)
-    if payload.get("protocol") != PROTOCOL:
+    if payload.get("protocol") != expected_protocol:
         raise ValueError("controller checkpoint protocol mismatch")
     prompt_only, prompt_state = PromptOnlyController(), PromptStateController()
     prompt_only.load_state_dict(payload["prompt_only_state_dict"], strict=True)

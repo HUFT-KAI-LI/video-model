@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "frozen_before_teacher_generation",
+  "frozen_date": "2026-09-12",
+  "protocol": "oracle_mask_distillation_m1b_v1",
+  "teacher": {
+    "experiment": "mask_distillation_teacher_m1b",
+    "stage": "M1B_oracle_teacher_generation",
+    "base_seeds": [606, 707, 801, 802, 803, 804, 805, 806, 807, 808],
+    "new_seeds": [1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140],
+    "all_seeds": [606, 707, 801, 802, 803, 804, 805, 806, 807, 808, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140],
+    "edits": ["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"],
+    "chunk": 4,
+    "expected_base_units": 40,
+    "expected_new_units": 160,
+    "expected_total_units": 200,
+    "base_dataset_sha256": "450ded062b00a2017f34ee29c37acdd2b8abbc48e661091bb3655c82bbc05a30",
+    "new_manifest_sha256": "dd9e0ac8307be072bcee358f37fece092df05a5f15500168cc43cccd4e9b579b",
+    "oracle_lambda": 0.2,
+    "oracle_algorithm": "same deterministic 16-step SPSA and exact loss as M0/M1-A",
+    "gamma_l1": 0.001
+  },
+  "features": {
+    "prompt": "unchanged from M1-A: mean frozen T5 prompt delta and fixed seed-1701 Rademacher projection 4096->64",
+    "state": "unchanged from M1-A: per-layer per-head mean+RMS of active history V, shape 30x24",
+    "state_excludes_current_chunk": true,
+    "feature_normalization": "training-set mean/std only"
+  },
+  "controllers": {
+    "prompt_only": "unchanged M1-A architecture: Linear(64,64)-GELU-Linear(64,30)-sigmoid",
+    "prompt_state": "unchanged M1-A architecture: shared per-layer Linear(64+24+8,64)-GELU-Linear(64,1)-sigmoid with learned 8D layer embedding",
+    "backbone": "LongLive and T5 frozen",
+    "loss": "mean squared error to oracle mask only",
+    "optimizer": "Adam",
+    "learning_rate": 0.003,
+    "epochs": 3000,
+    "batch": "all 200 teacher units",
+    "seed": 314159,
+    "mask_smoothing": false,
+    "sparsity_regularization": false
+  },
+  "heldout": {
+    "experiment": "mask_distillation_heldout_m1b",
+    "stage": "M1B_heldout_controller_evaluation",
+    "seeds": [2001, 2002, 2003, 2004],
+    "manifest_sha256": "8d138bf723956e140570e9730bf25cdbd3591a07fc6966ec4b11cc715f674b24",
+    "expected_units": 16,
+    "conditions": ["full", "global_.5", "prompt_only", "prompt_state", "oracle"],
+    "expected_final_pairs": 80,
+    "required_pareto_wins": 12,
+    "primary_controller": "prompt_state",
+    "controller_checkpoint_sha256": null,
+    "teacher_dataset_sha256": null,
+    "training_report_sha256": null
+  },
+  "estimands": {
+    "primary": "real replay delta_R and D_drift; mask MSE is training diagnostic only",
+    "unit_pareto_win": "delta_R_pred>=delta_R_global and D_pred<=D_global with at least one strict inequality",
+    "pass": "Prompt+State has Pareto wins on at least 12 of 16 held-out units",
+    "prompt_only_role": "ablation; it cannot cause M1-B PASS",
+    "oracle_role": "same-budget finite 16-step SPSA reference, not a mathematical upper bound",
+    "statistical_tests": "none; frozen 12/16 consistency rule"
+  },
+  "invariants": {
+    "teacher_and_heldout_seed_disjoint": true,
+    "controller_architecture_unchanged_from_m1a": true,
+    "all_candidates_same_checkpoint_and_noise": true,
+    "full_P0_exact_and_outside_exact": true,
+    "30_layer_routing": true,
+    "DINO_and_boundary_final_pairs": true,
+    "clean_matching_code_model_config_plan": true,
+    "controller_and_dataset_hash_locked_before_heldout": true
+  }
+}

@@ -14,8 +14,7 @@ import torch  # noqa: E402
 
 from restream import edit_cache as ec  # noqa: E402
 from restream import edit_experiment as ex  # noqa: E402
-from restream.mask_distillation import (  # noqa: E402
-    PROTOCOL, PromptOnlyController, PromptStateController, normalize)
+from restream.mask_distillation import PromptOnlyController, PromptStateController, normalize  # noqa: E402
 
 
 def main():
@@ -26,8 +25,11 @@ def main():
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     plan, dataset = json.loads(args.plan.read_text()), json.loads(args.dataset.read_text())
-    if dataset.get("protocol") != PROTOCOL or dataset.get("status") != "complete" or len(dataset["teachers"]) != 40:
-        raise ValueError("controller training requires complete 40-unit teacher dataset")
+    protocol = plan["protocol"]
+    expected_units = int(plan["teacher"]["expected_total_units"])
+    if (dataset.get("protocol") != protocol or dataset.get("status") != "complete"
+            or len(dataset["teachers"]) != expected_units):
+        raise ValueError(f"controller training requires complete {expected_units}-unit teacher dataset")
     cfg, seed = plan["controllers"], int(plan["controllers"]["seed"])
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     prompt = torch.tensor([row["prompt_feature"] for row in dataset["teachers"]], dtype=torch.float32)
@@ -53,7 +55,7 @@ def main():
                        "prompt_state": models["prompt_state"](prompt_n, state_n)}
     normalization = {"prompt_mean": prompt_mean, "prompt_std": prompt_std,
                      "state_mean": state_mean, "state_std": state_std}
-    checkpoint = {"schema": 1, "protocol": PROTOCOL,
+    checkpoint = {"schema": 1, "protocol": protocol,
                   "prompt_only_state_dict": models["prompt_only"].state_dict(),
                   "prompt_state_state_dict": models["prompt_state"].state_dict(),
                   "normalization": normalization,
@@ -63,7 +65,7 @@ def main():
     args.checkpoint.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.checkpoint.with_suffix(".tmp")
     torch.save(checkpoint, temporary); temporary.replace(args.checkpoint)
-    report = {"schema": 1, "protocol": PROTOCOL, "status": "complete",
+    report = {"schema": 1, "protocol": protocol, "status": "complete",
               "dataset_sha256": ec.sha256_file(args.dataset),
               "controller_checkpoint_sha256": ec.sha256_file(args.checkpoint),
               "histories": histories,
@@ -71,7 +73,7 @@ def main():
                                  for name, value in predictions.items()},
               "parameter_counts": {name: sum(p.numel() for p in model.parameters())
                                    for name, model in models.items()},
-              "note": "Training-set mask MSE is diagnostic only; held-out replay decides M1-A."}
+              "note": "Training-set mask MSE is diagnostic only; held-out replay decides the experiment."}
     ex.write_json(args.report, report)
     print(json.dumps(report["final_mask_mse"], indent=2))
 

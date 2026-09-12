@@ -1,9 +1,6 @@
 """Fail-closed held-out analysis for M1-A mask distillation."""
 import statistics
 
-from .mask_distillation_protocol import FINAL_CONDITIONS
-
-
 def _dominates(point, baseline, tolerance=1e-12):
     return (point["delta_R"] >= baseline["delta_R"] - tolerance and
             point["D_drift"] <= baseline["D_drift"] + tolerance and
@@ -12,12 +9,13 @@ def _dominates(point, baseline, tolerance=1e-12):
 
 
 def analyze(records, plan, sources):
+    final_conditions = tuple(plan["heldout"]["conditions"])
     expected = {(edit, seed, 4) for edit in plan["teacher"]["edits"]
                 for seed in plan["heldout"]["seeds"]}
     grouped = {}
     for record in records:
         if record.get("protocol") != plan["protocol"]:
-            raise ValueError("M1-A protocol mismatch")
+            raise ValueError("mask-distillation protocol mismatch")
         key = (record["prompt_id"], record["seed"], record["target_chunk"])
         if record["condition"] in grouped.setdefault(key, {}):
             raise ValueError(f"duplicate held-out condition {key}")
@@ -28,7 +26,7 @@ def analyze(records, plan, sources):
     wins = {"prompt_only": 0, "prompt_state": 0}
     gamma, drift_lambda = plan["teacher"]["gamma_l1"], plan["teacher"]["oracle_lambda"]
     for key, cases in sorted(grouped.items()):
-        if set(cases) != set(FINAL_CONDITIONS) or len({c["checkpoint_sha256"] for c in cases.values()}) != 1:
+        if set(cases) != set(final_conditions) or len({c["checkpoint_sha256"] for c in cases.values()}) != 1:
             raise ValueError(f"{key}: incomplete conditions or checkpoint mismatch")
         for condition, case in cases.items():
             mask = case["layer_release"]
@@ -48,7 +46,9 @@ def analyze(records, plan, sources):
                 raise ValueError(f"{key}: stored E mismatch for {condition}")
         if not cases["full"]["drift"]["exact"] or cases["full"]["D_drift"] != 0:
             raise ValueError(f"{key}: full P0 is not exact")
-        if cases["full"]["layer_release"] != [0.] * 30 or cases["global_.5"]["layer_release"] != [.5] * 30 or cases["current_only"]["layer_release"] != [1.] * 30:
+        if (cases["full"]["layer_release"] != [0.] * 30
+                or cases["global_.5"]["layer_release"] != [.5] * 30
+                or ("current_only" in cases and cases["current_only"]["layer_release"] != [1.] * 30)):
             raise ValueError(f"{key}: fixed baseline masks changed")
         previous = prompt_only_masks.setdefault(key[0], cases["prompt_only"]["layer_release"])
         if previous != cases["prompt_only"]["layer_release"]:
@@ -74,16 +74,19 @@ def analyze(records, plan, sources):
         units.append({"prompt_id": key[0], "seed": key[1], "points": points,
                       "pareto_wins": unit_wins, "oracle_advantage_recovery": recovery})
     aggregate = {}
-    for condition in FINAL_CONDITIONS:
+    for condition in final_conditions:
         values = [unit["points"][condition] for unit in units]
         aggregate[condition] = {"median_delta_R": statistics.median(v["delta_R"] for v in values),
                                 "median_D_drift": statistics.median(v["D_drift"] for v in values)}
-    threshold = 6
+    threshold = int(plan["heldout"].get("required_pareto_wins", 6))
     passing = [name for name, count in wins.items() if count >= threshold]
+    primary = plan["heldout"].get("primary_controller")
+    decision = "PASS" if ((primary in passing) if primary else bool(passing)) else "NO_PASS"
     recoveries = {name: [unit["oracle_advantage_recovery"][name] for unit in units
                          if unit["oracle_advantage_recovery"][name] is not None]
                   for name in wins}
-    return {"protocol": plan["protocol"], "decision": "PASS" if passing else "NO_PASS",
+    return {"protocol": plan["protocol"], "decision": decision,
+            "primary_controller": primary,
             "passing_controllers": passing, "pareto_wins": wins, "required_wins": threshold,
             "aggregate_descriptive": aggregate,
             "median_oracle_advantage_recovery": {

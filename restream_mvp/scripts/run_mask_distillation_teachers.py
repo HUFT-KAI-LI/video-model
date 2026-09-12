@@ -20,15 +20,15 @@ from restream import edit_metrics as em  # noqa: E402
 from restream import edit_replay as er  # noqa: E402
 from restream.history_gate import history_gate  # noqa: E402
 from restream.mask_distillation import (  # noqa: E402
-    PROTOCOL, checkpoint_state_feature, feature_digest, prompt_delta_feature)
-from restream.mask_distillation_protocol import NEW_TEACHER_SEEDS, groups_from_manifest  # noqa: E402
+    M1B_PROTOCOL, PROTOCOL, checkpoint_state_feature, feature_digest, prompt_delta_feature)
+from restream.mask_distillation_protocol import groups_from_manifest  # noqa: E402
 from restream.runtime import load_pipeline  # noqa: E402
 from scripts.run_history_component_screen import validate_model_geometry  # noqa: E402
 from scripts.run_oracle_layer_mask import (  # noqa: E402
     _candidate, cuda_kernel_invariants, optimize_mask)
 
 
-def run_unit(pipeline, config, group, device, cache_dir, identity, oracle_plan):
+def run_unit(pipeline, config, group, device, cache_dir, identity, oracle_plan, protocol):
     target, seed, block = 4, group["seed"], int(pipeline.num_frame_per_block)
     generation_args = dict(seed=seed, model_hash=identity["model_checkpoint_sha256"],
                            model_record=identity["model_identity"],
@@ -58,7 +58,7 @@ def run_unit(pipeline, config, group, device, cache_dir, identity, oracle_plan):
     checkpoint = ec.load_edit_checkpoint(entry["path"], verify_sha256=entry["sha256"])
     prompt_feature = prompt_delta_feature(pipeline, group["base_prompt"], group["edit_prompt"])
     state_feature = checkpoint_state_feature(checkpoint)
-    record = {"protocol": PROTOCOL, "prompt_id": group["prompt_id"], "seed": seed,
+    record = {"protocol": protocol, "prompt_id": group["prompt_id"], "seed": seed,
               "target_chunk": target, "lambda": 0.2, "mask": optimized["mask"],
               "best_loss": optimized["best_loss"], "trace": optimized["trace"],
               "editability": selected["editability"], "D_drift": selected["D_drift"],
@@ -85,11 +85,14 @@ def main():
     parser.add_argument("--teacher-approved", action="store_true")
     args = parser.parse_args()
     if not args.reviewed or not args.teacher_approved:
-        parser.error("M1-A teacher generation requires explicit approval flags")
+        parser.error("teacher generation requires explicit approval flags")
     config, manifest = ex.read_config(args.config), json.loads(args.manifest.read_text())
     plan, oracle_plan = json.loads(args.plan.read_text()), json.loads(args.oracle_plan.read_text())
-    if plan.get("status") != "frozen_before_teacher_generation" or plan.get("protocol") != PROTOCOL:
-        parser.error("M1-A plan is not frozen before teacher generation")
+    if plan.get("status") != "frozen_before_teacher_generation":
+        parser.error("plan is not frozen before teacher generation")
+    protocol = plan["protocol"]
+    if protocol not in (PROTOCOL, M1B_PROTOCOL):
+        parser.error("unsupported mask-distillation protocol")
     if ec.sha256_file(args.manifest) != plan["teacher"]["new_manifest_sha256"]:
         parser.error("new teacher manifest hash mismatch")
     oracle_cfg = oracle_plan["optimization"]
@@ -97,7 +100,8 @@ def main():
             oracle_cfg["gamma_l1"] != plan["teacher"]["gamma_l1"] or
             oracle_cfg["iterations"] != 16 or oracle_cfg["algorithm"] != "SPSA"):
         parser.error("teacher optimizer differs from the frozen M0/M1 lambda=.2 protocol")
-    groups = groups_from_manifest(config, manifest, "mask_distillation_teacher_m1a", NEW_TEACHER_SEEDS)
+    experiment = plan["teacher"].get("experiment", "mask_distillation_teacher_m1a")
+    groups = groups_from_manifest(config, manifest, experiment, tuple(plan["teacher"]["new_seeds"]))
     groups = ex.shard(groups, args.shard, args.shards)
     args.cache_dir.mkdir(parents=True, exist_ok=False)
     device = ex.device_for(args.gpu)
@@ -108,7 +112,8 @@ def main():
         "required_sink_size": 3, "required_num_frame_per_block": 3,
         "required_local_attention_frames": 12}})
     identity = ex.run_provenance(config, args.config, extra={
-        "protocol": PROTOCOL, "stage": "M1A_oracle_teacher_generation",
+        "protocol": protocol,
+        "stage": plan["teacher"].get("stage", "M1A_oracle_teacher_generation"),
         "plan_sha256": ec.sha256_file(args.plan), "manifest_sha256": ec.sha256_file(args.manifest),
         "oracle_plan_sha256": ec.sha256_file(args.oracle_plan), "history_geometry": geometry,
         "kernel_invariants": kernel_checks, "shard": args.shard, "shards": args.shards})
@@ -118,13 +123,14 @@ def main():
     records = []
     try:
         for group in groups:
-            records.append(run_unit(pipeline, config, group, device, args.cache_dir, identity, oracle_plan))
+            records.append(run_unit(pipeline, config, group, device, args.cache_dir, identity,
+                                    oracle_plan, protocol))
     except Exception as error:
-        ex.write_json(args.output, {"experiment": "mask_distillation_teacher_m1a", "status": "failed",
+        ex.write_json(args.output, {"experiment": experiment, "status": "failed",
                                    "provenance": identity, "teachers": records,
                                    "error": f"{type(error).__name__}: {error}"})
         raise
-    ex.write_json(args.output, {"experiment": "mask_distillation_teacher_m1a", "schema": 1,
+    ex.write_json(args.output, {"experiment": experiment, "schema": 1,
                                "status": "complete", "provenance": identity, "teachers": records})
 
 

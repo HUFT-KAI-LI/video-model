@@ -21,7 +21,8 @@ def main():
     records, sources, identities = [], [], []
     for path in args.results:
         payload = json.loads(path.read_text())
-        if payload.get("status") != "complete" or payload.get("experiment") != "mask_distillation_heldout_m1a":
+        if (payload.get("status") != "complete"
+                or payload.get("experiment") != plan["heldout"]["experiment"]):
             raise ValueError(f"incomplete held-out shard {path}")
         records.extend(payload["cases"]); sources.append({"path": str(path), "sha256": ec.sha256_file(path)})
         p = payload["provenance"]

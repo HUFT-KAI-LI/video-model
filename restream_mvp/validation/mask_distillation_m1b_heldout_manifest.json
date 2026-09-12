@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "experiment": "mask_distillation_heldout_m1b",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 2001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 2002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 2003,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 2004,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 2001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 2002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 2003,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 2004,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 2001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 2002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 2003,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 2004,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 2001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 2002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 2003,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 2004,
+      "target_chunk": 4
+    }
+  ]
+}

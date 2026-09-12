@@ -12,6 +12,9 @@ NEW_TEACHER_SEEDS = TEACHER_SEEDS[2:]
 HELDOUT_SEEDS = (1001, 1002)
 FINAL_CONDITIONS = ("full", "global_.5", "current_only", "prompt_only",
                     "prompt_state", "oracle")
+M1B_NEW_TEACHER_SEEDS = tuple(range(1101, 1141))
+M1B_HELDOUT_SEEDS = (2001, 2002, 2003, 2004)
+M1B_FINAL_CONDITIONS = ("full", "global_.5", "prompt_only", "prompt_state", "oracle")
 
 
 def groups_from_manifest(config, manifest, experiment, allowed_seeds):
@@ -21,10 +24,10 @@ def groups_from_manifest(config, manifest, experiment, allowed_seeds):
     groups, seen = [], set()
     for entry in manifest.get("cases", []):
         if set(entry) != {"edit", "seed", "target_chunk"}:
-            raise ValueError("M1-A cases must contain only edit, seed, and target_chunk")
+            raise ValueError("cases must contain only edit, seed, and target_chunk")
         key = (entry["edit"], entry["seed"], entry["target_chunk"])
         if key in seen or entry["edit"] not in EDITS or entry["seed"] not in allowed_seeds or entry["target_chunk"] != 4:
-            raise ValueError(f"invalid or duplicate M1-A unit {key}")
+            raise ValueError(f"invalid or duplicate unit {key}")
         seen.add(key)
         prompt = prompts[entry["edit"]]
         groups.append({"prompt_id": prompt["id"], "prompt_index": prompt["index"],

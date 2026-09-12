@@ -32,3 +32,5 @@ validation/history_paths/screen_*/
 validation/oracle_layer_masks/screen_*/
 validation/mask_distillation/teachers_*/
 validation/mask_distillation/heldout_*/
+validation/mask_distillation_m1b/teachers_*/
+validation/mask_distillation_m1b/heldout_*/

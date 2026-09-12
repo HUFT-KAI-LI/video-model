@@ -1,0 +1,806 @@
+{
+  "schema": 1,
+  "experiment": "mask_distillation_teacher_m1b",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1101,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1102,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1103,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1104,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1105,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1106,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1107,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1108,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1109,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1110,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1111,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1112,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1113,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1114,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1115,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1116,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1117,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1118,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1119,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1120,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1121,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1122,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1123,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1124,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1125,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1126,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1127,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1128,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1129,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1130,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1131,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1132,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1133,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1134,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1135,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1136,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1137,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1138,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1139,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1140,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1101,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1102,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1103,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1104,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1105,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1106,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1107,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1108,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1109,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1110,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1111,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1112,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1113,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1114,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1115,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1116,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1117,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1118,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1119,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1120,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1121,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1122,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1123,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1124,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1125,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1126,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1127,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1128,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1129,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1130,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1131,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1132,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1133,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1134,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1135,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1136,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1137,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1138,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1139,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1140,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1101,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1102,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1103,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1104,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1105,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1106,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1107,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1108,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1109,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1110,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1111,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1112,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1113,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1114,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1115,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1116,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1117,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1118,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1119,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1120,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1121,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1122,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1123,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1124,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1125,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1126,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1127,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1128,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1129,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1130,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1131,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1132,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1133,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1134,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1135,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1136,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1137,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1138,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1139,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1140,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1101,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1102,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1103,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1104,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1105,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1106,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1107,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1108,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1109,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1110,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1111,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1112,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1113,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1114,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1115,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1116,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1117,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1118,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1119,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1120,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1121,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1122,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1123,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1124,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1125,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1126,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1127,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1128,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1129,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1130,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1131,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1132,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1133,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1134,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1135,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1136,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1137,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1138,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1139,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1140,
+      "target_chunk": 4
+    }
+  ]
+}
