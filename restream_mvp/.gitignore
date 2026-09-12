@@ -30,3 +30,5 @@ validation/history_subsets/screen_*/
 # D3 screen outputs include multi-GB checkpoints and comparison videos.
 validation/history_paths/screen_*/
 validation/oracle_layer_masks/screen_*/
+validation/mask_distillation/teachers_*/
+validation/mask_distillation/heldout_*/

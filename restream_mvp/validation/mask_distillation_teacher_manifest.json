@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "experiment": "mask_distillation_teacher_m1a",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 801,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 802,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 803,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 804,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 805,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 806,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 807,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 808,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 801,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 802,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 803,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 804,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 805,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 806,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 807,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 808,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 801,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 802,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 803,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 804,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 805,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 806,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 807,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 808,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 801,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 802,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 803,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 804,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 805,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 806,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 807,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 808,
+      "target_chunk": 4
+    }
+  ]
+}

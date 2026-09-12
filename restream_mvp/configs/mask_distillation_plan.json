@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "status": "frozen_before_teacher_generation",
+  "frozen_date": "2026-09-12",
+  "protocol": "oracle_mask_distillation_m1a_v1",
+  "teacher": {
+    "existing_seeds": [606, 707],
+    "new_seeds": [801, 802, 803, 804, 805, 806, 807, 808],
+    "edits": ["dress_red_to_blue", "jacket_green_to_yellow", "lighting_warm_to_cool", "lighting_darker"],
+    "chunk": 4,
+    "expected_existing_units": 8,
+    "expected_new_units": 32,
+    "expected_total_units": 40,
+    "new_manifest_sha256": "e29cc66d33381a75dd777c398c0a528ed74716be312ca0f23bd5a176d05c3bce",
+    "existing_result_sha256": [
+      "1753cea12ea9a54f5e956affe053fd589127af1f8052bb99b1de0df151fa19a0",
+      "52c6b5abc8923751483ce5322979cf513fd52b9140225939f53448e53d002757",
+      "fdb78fb6aba17f67f81fa3bf7a3e8c240b29a02a070cbc40fab1345ce04333fa",
+      "c2a0904a7cd110dee92834d6b2633fd7df8724cf3f03ddc980ffc74e3b98b526"
+    ],
+    "oracle_lambda": 0.2,
+    "oracle_algorithm": "same deterministic 16-step SPSA and exact loss as M0/M1",
+    "gamma_l1": 0.001
+  },
+  "features": {
+    "prompt": "mean frozen T5 prompt_embeds(edit)-prompt_embeds(base), fixed seed-1701 Rademacher projection 4096->64",
+    "state": "per layer and per head mean+RMS of active history V; 3 sink + 6 surviving local frames; shape 30x24",
+    "state_excludes_current_chunk": true,
+    "feature_normalization": "training-set mean/std only"
+  },
+  "controllers": {
+    "prompt_only": "Linear(64,64)-GELU-Linear(64,30)-sigmoid",
+    "prompt_state": "shared per-layer Linear(64+24+8,64)-GELU-Linear(64,1)-sigmoid with learned 8D layer embedding",
+    "backbone": "LongLive and T5 frozen",
+    "loss": "mean squared error to oracle mask only",
+    "optimizer": "Adam",
+    "learning_rate": 0.003,
+    "epochs": 3000,
+    "batch": "all 40 teacher units",
+    "seed": 314159,
+    "mask_smoothing": false,
+    "sparsity_regularization": false
+  },
+  "heldout": {
+    "seeds": [1001, 1002],
+    "manifest_sha256": "9ff1b87c1e2ef3036bd59897ce09f6a93d510d6ee66812423c6cb59ae336e05e",
+    "expected_units": 8,
+    "conditions": ["full", "global_.5", "current_only", "prompt_only", "prompt_state", "oracle"],
+    "expected_final_pairs": 48,
+    "controller_checkpoint_sha256": null,
+    "teacher_dataset_sha256": null,
+    "training_report_sha256": null
+  },
+  "estimands": {
+    "primary": "real replay delta_R and D_drift; mask MSE is diagnostic only",
+    "unit_pareto_win": "delta_R_pred>=delta_R_global and D_pred<=D_global with at least one strict inequality",
+    "pass": "at least one controller has Pareto wins on >=6 of 8 held-out units",
+    "oracle_advantage_recovery": "(L_global-L_predictor)/(L_global-L_oracle) using frozen lambda=.2 exact loss when denominator>0",
+    "statistical_tests": "none; frozen 6/8 consistency rule"
+  },
+  "invariants": {
+    "teacher_and_heldout_seed_disjoint": true,
+    "all_candidates_same_checkpoint_and_noise": true,
+    "full_P0_exact_and_outside_exact": true,
+    "all_half_exact_stage_c": true,
+    "30_layer_routing": true,
+    "DINO_and_boundary_final_pairs": true,
+    "clean_matching_code_model_config_plan": true,
+    "controller_and_dataset_hash_locked_before_heldout": true
+  }
+}

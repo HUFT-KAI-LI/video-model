@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "experiment": "mask_distillation_heldout_m1a",
+  "cases": [
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "dress_red_to_blue",
+      "seed": 1002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "jacket_green_to_yellow",
+      "seed": 1002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_warm_to_cool",
+      "seed": 1002,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1001,
+      "target_chunk": 4
+    },
+    {
+      "edit": "lighting_darker",
+      "seed": 1002,
+      "target_chunk": 4
+    }
+  ]
+}
