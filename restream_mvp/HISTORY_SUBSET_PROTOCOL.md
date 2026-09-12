@@ -42,3 +42,17 @@ After review and explicit screen approval, run:
 cd /workspace/video-model/restream_mvp
 scripts/run_history_subset_interaction_4gpu.sh
 ```
+
+## Recorded result
+
+The approved 4xA800 screen completed on commit `daaf075311b14db837d468410cc00d00d373ef8a`.
+All 36 pairs and 72 chunk replays passed the frozen invariants. The machine-readable
+analysis is archived at
+`validation/history_subset_analysis_daaf075.json`; its SHA-256 is
+`5058ce48a7ccb65fab89768c4a08c96eb67d4fef6ccd4b31a6806b192767884c`.
+
+The result suggests distributed, redundant locking with edit-dependent subset structure.
+Most two-component subsets recover nearly all `SOR` locking. Singleton behavior varies:
+for example, recent history supplies only 12.3% of full locking for dress red-to-blue,
+but 99.6% for jacket green-to-yellow. Empty-baseline Mobius coefficients are descriptive
+exploratory contrasts; this screen defines no significance test or equivalence threshold.

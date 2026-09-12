@@ -1,0 +1,3104 @@
+{
+  "experiment": "history_subset_interaction_d2",
+  "schema": 1,
+  "status": "complete",
+  "provenance": {
+    "git_commit": "daaf075311b14db837d468410cc00d00d373ef8a",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "ecc1d3222530e044dbfb620f729c675ae954f449d433273263ae3aaee9354524",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789175312.4019847,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "protocol": "fixed_history_subsets_d2_v1",
+    "stage": "D2_history_subset_interactions",
+    "manifest_path": "/workspace/video-model/restream_mvp/validation/history_subset_interaction_manifest.json",
+    "manifest_sha256": "51c838ae0bd2dc5d0935674e600d1fcc2a8e1ab9b3d7dc9b046bb6a899352cb9",
+    "screen_plan_path": "/workspace/video-model/restream_mvp/configs/history_subset_interaction_plan.json",
+    "screen_plan_sha256": "91d0eba39b6fea755bdd592302a3dce16016526cc888d4476fc5871260eafdf7",
+    "screen_plan_status": "frozen_before_d2_screen",
+    "history_geometry": {
+      "sink_size": 3,
+      "num_frame_per_block": 3,
+      "local_attn_size": 12
+    },
+    "conditions": {
+      "SOR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 1
+      },
+      "SO": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 0
+      },
+      "SR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 1
+      },
+      "OR": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 1
+      },
+      "S": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 0
+      },
+      "O": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 0
+      },
+      "R": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 1
+      },
+      "empty": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 0
+      },
+      "global_release": {
+        "mechanism": "stage_c_global",
+        "history_gate": 0.5
+      }
+    },
+    "shard": 2,
+    "shards": 4,
+    "video_root": "validation/history_subsets/screen_daaf075311b1/shard2_videos",
+    "cache_dir": "validation/history_subsets/screen_daaf075311b1/shard2_cache",
+    "timing_status": "invalid_diagnostic"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        0,
+        1,
+        4
+      ],
+      "variants": [
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "evidence": "directional",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "evidence": "directional",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "evidence": "directional",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "evidence": "directional",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "evidence": "qualitative",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "evidence": "qualitative",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "evidence": "qualitative",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0,
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "cases": [
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_SOR",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "text_rebind": "81e1092fe8b8f08375f738e2b4d74bb72aa7366c0179d1aa71dd801b4b3c4c4a",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 1.1302806712962962e-05,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.002651638454861111,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 7.535204475308716e-06,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 2.6373215663580245e-05,
+            "delta_target_fraction": 1.5070408950617283e-05,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0026591736593364196,
+            "delta_reference_fraction": 7.535204475308567e-06,
+            "histogram_distance": 0.0010626384711172018,
+            "appearance_change": 0.00208455347456038
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.0,
+        "S_P1": 7.535204475308716e-06,
+        "S_full": 0.4157428505979939,
+        "E": 7.535204475308716e-06,
+        "R": 1.8124676021416293e-05,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.0,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "pixel": {
+          "mse": 0.0,
+          "psnr": null,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": true,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.0,
+          "text_rebind": 0.123016357421875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 1.0,
+            "mean_cosine_distance": 3.973643103449831e-08
+          },
+          "text_rebind": {
+            "mean_cosine": 0.99983811378479,
+            "mean_cosine_distance": 0.0001618415117263794
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.018948594108223915,
+              "right_mse": 0.006033163517713547
+            },
+            "delta": {
+              "delta_left_mse": -4.1428953409194946e-05,
+              "delta_right_mse": 0.00050022779032588
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 7.159554661484435e-05,
+              "right_mse": 0.00010750217188615352
+            },
+            "delta": {
+              "delta_left_mse": 2.120512363035232e-06,
+              "delta_right_mse": 2.2039239411242306e-06
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993775486946106,
+              "mean_cosine_distance": 0.0006224513053894043
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9994953870773315,
+              "mean_cosine_distance": 0.000504612922668457
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SOR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SOR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SOR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SOR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SOR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_SO",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "c4cf02466910ce703da6771bf1a6ef55f0c8adc8450a4f983bbfa0eb85da1d91",
+        "text_rebind": "92fa9bd003d6ce51f852cd7811276c4e62d3126e261f5cabc51c8c5af43e686d",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.00041368272569444433,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 6.028163580246913e-06,
+            "delta_target_fraction": -5.274643132716049e-06,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0022326810860339506,
+            "delta_reference_fraction": -0.0004189573688271604,
+            "histogram_distance": 0.030989704976781562,
+            "appearance_change": 0.010217078030109406
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0019154489776234565,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.0011498722029320988,
+            "delta_target_fraction": 0.0011385693962191357,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0018747588734567902,
+            "delta_reference_fraction": -0.0007768795814043208,
+            "histogram_distance": 0.06391831283669473,
+            "appearance_change": 0.01263502612709999
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.00041368272569444433,
+        "S_P1": 0.0019154489776234565,
+        "S_full": 0.4157428505979939,
+        "E": 0.0015017662519290122,
+        "R": 0.0036122479310682315,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.007562035229057074,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.007562035229057074,
+          "rmse": 0.08695996552705765,
+          "max_abs": 1.2802734375,
+          "cosine": 0.9950952529907227,
+          "relative_l2": 0.09911907464265823,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0007000488112680614,
+          "psnr": 31.54871677521001,
+          "max_abs": 0.748046875,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.357421875,
+          "text_rebind": 0.375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9974342584609985,
+            "mean_cosine_distance": 0.0025657713413238525
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9955245852470398,
+            "mean_cosine_distance": 0.004475384950637817
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.013630811125040054,
+              "right_mse": 0.01413735467940569
+            },
+            "delta": {
+              "delta_left_mse": -0.005359211936593056,
+              "delta_right_mse": 0.008604418952018023
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.00021350878523662686,
+              "right_mse": 0.0004997090436518192
+            },
+            "delta": {
+              "delta_left_mse": 0.00014403375098481774,
+              "delta_right_mse": 0.00039441079570678994
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9983336925506592,
+              "mean_cosine_distance": 0.0016663074493408203
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9983589053153992,
+              "mean_cosine_distance": 0.00164109468460083
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.015711449086666107,
+              "right_mse": 0.02284322865307331
+            },
+            "delta": {
+              "delta_left_mse": -0.003278573974967003,
+              "delta_right_mse": 0.017310292925685644
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.00023310627148021013,
+              "right_mse": 0.0005705161020159721
+            },
+            "delta": {
+              "delta_left_mse": 0.000163631237228401,
+              "delta_right_mse": 0.00046521785407094285
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9976590275764465,
+              "mean_cosine_distance": 0.002340972423553467
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.997767984867096,
+              "mean_cosine_distance": 0.0022320151329040527
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SO/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SO/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SO/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SO/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SO/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_SR",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "1a77c72254660383b864f1d71c89f14bee5a93de7a159a12764f9b9c06b1b345",
+        "text_rebind": "53c57a6fac0f834c63fcd2906d5f2968b07a86a753fa221d89de384caebd0a19",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.00047622492283950596,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 3.1647858796296295e-05,
+            "delta_target_fraction": 2.0345052083333332e-05,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0021957585841049384,
+            "delta_reference_fraction": -0.00045587987075617264,
+            "histogram_distance": 0.018621110547929486,
+            "appearance_change": 0.006865039002150297
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0005583586516203702,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.0001137815875771605,
+            "delta_target_fraction": 0.00010247878086419754,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0021957585841049384,
+            "delta_reference_fraction": -0.00045587987075617264,
+            "histogram_distance": 0.021531760726751385,
+            "appearance_change": 0.007504577282816172
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.00047622492283950596,
+        "S_P1": 0.0005583586516203702,
+        "S_full": 0.4157428505979939,
+        "E": 8.213372878086424e-05,
+        "R": 0.00019755896863343574,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.0033572507090866566,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.0033572507090866566,
+          "rmse": 0.05794178694486618,
+          "max_abs": 1.1728515625,
+          "cosine": 0.9978176355361938,
+          "relative_l2": 0.06604345142841339,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.00036902393912896514,
+          "psnr": 34.32945459601424,
+          "max_abs": 0.740234375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.541015625,
+          "text_rebind": 0.5
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9988586902618408,
+            "mean_cosine_distance": 0.0011412899475544691
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9989967346191406,
+            "mean_cosine_distance": 0.0010032554855570197
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.01989118941128254,
+              "right_mse": 0.008341110311448574
+            },
+            "delta": {
+              "delta_left_mse": 0.0009011663496494293,
+              "delta_right_mse": 0.0028081745840609074
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 9.36279830057174e-05,
+              "right_mse": 0.00035119737731292844
+            },
+            "delta": {
+              "delta_left_mse": 2.4152948753908277e-05,
+              "delta_right_mse": 0.00024589912936789915
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993011951446533,
+              "mean_cosine_distance": 0.0006988048553466797
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9989747405052185,
+              "mean_cosine_distance": 0.0010252594947814941
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.01955660991370678,
+              "right_mse": 0.008684017695486546
+            },
+            "delta": {
+              "delta_left_mse": 0.0005665868520736694,
+              "delta_right_mse": 0.003151081968098879
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 9.974255226552486e-05,
+              "right_mse": 0.0003265472478233278
+            },
+            "delta": {
+              "delta_left_mse": 3.0267518013715744e-05,
+              "delta_right_mse": 0.0002212489998782985
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993299245834351,
+              "mean_cosine_distance": 0.0006700754165649414
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9991390109062195,
+              "mean_cosine_distance": 0.0008609890937805176
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_SR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_OR",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "3e985b6be4d205e2a6767d2fd69b9e4d89f79ad18e6bb365402df4de7383f9d6",
+        "text_rebind": "0701f69946cc3d2cebe950eb26cda34b0aea3eb3a958cfa30acfa464347ac2e1",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0017526885609567904,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 4.9732349537037034e-05,
+            "delta_target_fraction": 3.842954282407407e-05,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0044427565586419755,
+            "delta_reference_fraction": 0.0017911181037808645,
+            "histogram_distance": 0.013459889341705937,
+            "appearance_change": 0.021287702023983
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.05808135609567901,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.05606493537808642,
+            "delta_target_fraction": 0.056053632571373455,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0006239149305555555,
+            "delta_reference_fraction": -0.0020277235243055555,
+            "histogram_distance": 0.1584630743912867,
+            "appearance_change": 0.046023935079574585
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.0017526885609567904,
+        "S_P1": 0.05808135609567901,
+        "S_full": 0.4157428505979939,
+        "E": 0.0598340446566358,
+        "R": 0.1439208024156568,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.02439866028726101,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.02439866028726101,
+          "rmse": 0.15620070695877075,
+          "max_abs": 2.505859375,
+          "cosine": 0.9846089482307434,
+          "relative_l2": 0.17804133892059326,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0019327327609062195,
+          "psnr": 27.13828191748608,
+          "max_abs": 0.84375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.599609375,
+          "text_rebind": 0.6259765625
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9933592081069946,
+            "mean_cosine_distance": 0.006640817038714886
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9844593405723572,
+            "mean_cosine_distance": 0.015540674328804016
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.03022652305662632,
+              "right_mse": 0.055401138961315155
+            },
+            "delta": {
+              "delta_left_mse": 0.01123649999499321,
+              "delta_right_mse": 0.04986820323392749
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.0001735364639898762,
+              "right_mse": 0.0019432429689913988
+            },
+            "delta": {
+              "delta_left_mse": 0.00010406142973806709,
+              "delta_right_mse": 0.0018379447210463695
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9987546801567078,
+              "mean_cosine_distance": 0.0012453198432922363
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9911016821861267,
+              "mean_cosine_distance": 0.008898317813873291
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.04033296927809715,
+              "right_mse": 0.2947584390640259
+            },
+            "delta": {
+              "delta_left_mse": 0.021342946216464043,
+              "delta_right_mse": 0.2892255033366382
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.0002246777730761096,
+              "right_mse": 0.006728231906890869
+            },
+            "delta": {
+              "delta_left_mse": 0.00015520273882430047,
+              "delta_right_mse": 0.00662293365894584
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9982858896255493,
+              "mean_cosine_distance": 0.0017141103744506836
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9795267581939697,
+              "mean_cosine_distance": 0.020473241806030273
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_OR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_OR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_OR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_OR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_OR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_S",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "559589adbc13e7813e08188f7f765d6781f510551933befcc8d2c718659bf405",
+        "text_rebind": "7344f8117a8a2a86e9eb5b99fa16793147e35cb846abe1091f38041fa0abe0cb",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0006939923321759259,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 1.2056327160493826e-05,
+            "delta_target_fraction": 7.535204475308642e-07,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.001958399643132716,
+            "delta_reference_fraction": -0.0006932388117283951,
+            "histogram_distance": 0.05802332099862158,
+            "appearance_change": 0.026393841952085495
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.01727144217785494,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.016022858796296297,
+            "delta_target_fraction": 0.016011555989583336,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0013917522665895061,
+            "delta_reference_fraction": -0.001259886188271605,
+            "histogram_distance": 0.11989711437165919,
+            "appearance_change": 0.03170162811875343
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.0006939923321759259,
+        "S_P1": 0.01727144217785494,
+        "S_full": 0.4157428505979939,
+        "E": 0.016577449845679014,
+        "R": 0.039874287247115454,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.049872588366270065,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.049872588366270065,
+          "rmse": 0.22332172095775604,
+          "max_abs": 2.4208984375,
+          "cosine": 0.9675858020782471,
+          "relative_l2": 0.25454750657081604,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.003127740230411291,
+          "psnr": 25.047693237655505,
+          "max_abs": 0.98828125,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.560546875,
+          "text_rebind": 0.59375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9693708419799805,
+            "mean_cosine_distance": 0.03062918782234192
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9780534505844116,
+            "mean_cosine_distance": 0.021946540102362633
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.08879056572914124,
+              "right_mse": 0.03473755344748497
+            },
+            "delta": {
+              "delta_left_mse": 0.06980054266750813,
+              "delta_right_mse": 0.029204617720097303
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.001975094899535179,
+              "right_mse": 0.001217590761370957
+            },
+            "delta": {
+              "delta_left_mse": 0.00190561986528337,
+              "delta_right_mse": 0.0011122925134259276
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9718643426895142,
+              "mean_cosine_distance": 0.02813565731048584
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.992404043674469,
+              "mean_cosine_distance": 0.007595956325531006
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.07801394909620285,
+              "right_mse": 0.08672276139259338
+            },
+            "delta": {
+              "delta_left_mse": 0.05902392603456974,
+              "delta_right_mse": 0.08118982566520572
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.0016750871436670423,
+              "right_mse": 0.0017393453745171428
+            },
+            "delta": {
+              "delta_left_mse": 0.0016056121094152331,
+              "delta_right_mse": 0.0016340471265721135
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9818873405456543,
+              "mean_cosine_distance": 0.018112659454345703
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9922643899917603,
+              "mean_cosine_distance": 0.007735610008239746
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_S/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_S/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_S/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_S/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_S/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_O",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "30fee2bf7d75043987565afb82ca7900e5aef58a365a15a21df0bfd16799b13f",
+        "text_rebind": "96a55a415a9927105a3d23958780e7922f7435af232e364f26feaf9503075d0d",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.030895091869212965,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.013047206548996914,
+            "delta_target_fraction": 0.013035903742283951,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.04658263406635803,
+            "delta_reference_fraction": 0.043930995611496916,
+            "histogram_distance": 0.07833342959047175,
+            "appearance_change": 0.09035900980234146
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.05536039375964506,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.0959766529224537,
+            "delta_target_fraction": 0.09596535011574074,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.04325659481095679,
+            "delta_reference_fraction": 0.04060495635609568,
+            "histogram_distance": 0.4175274958633328,
+            "appearance_change": 0.1214362382888794
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.030895091869212965,
+        "S_P1": 0.05536039375964506,
+        "S_full": 0.4157428505979939,
+        "E": 0.08625548562885803,
+        "R": 0.20747316641715027,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.3137257993221283,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.3137257993221283,
+          "rmse": 0.5601122975349426,
+          "max_abs": 3.84375,
+          "cosine": 0.8086585998535156,
+          "relative_l2": 0.638429582118988,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.021310530602931976,
+          "psnr": 16.714057368152854,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.84375,
+          "text_rebind": 0.826171875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.7464009523391724,
+            "mean_cosine_distance": 0.2535991072654724
+          },
+          "text_rebind": {
+            "mean_cosine": 0.6615674495697021,
+            "mean_cosine_distance": 0.3384326100349426
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.3236617147922516,
+              "right_mse": 0.3336540758609772
+            },
+            "delta": {
+              "delta_left_mse": 0.3046716917306185,
+              "delta_right_mse": 0.3281211401335895
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.006928470451384783,
+              "right_mse": 0.01280431542545557
+            },
+            "delta": {
+              "delta_left_mse": 0.006858995417132974,
+              "delta_right_mse": 0.012699017177510541
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.8591508865356445,
+              "mean_cosine_distance": 0.14084911346435547
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.870977520942688,
+              "mean_cosine_distance": 0.129022479057312
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.4771302342414856,
+              "right_mse": 0.5002323985099792
+            },
+            "delta": {
+              "delta_left_mse": 0.4581402111798525,
+              "delta_right_mse": 0.4946994627825916
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.011931875720620155,
+              "right_mse": 0.019358675926923752
+            },
+            "delta": {
+              "delta_left_mse": 0.011862400686368346,
+              "delta_right_mse": 0.019253377678978723
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.7835057377815247,
+              "mean_cosine_distance": 0.21649426221847534
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.8242732286453247,
+              "mean_cosine_distance": 0.1757267713546753
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_O/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_O/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_O/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_O/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_O/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_R",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "22e21be99cd1bf9db52fc4e931d37b60d0382fa23ff80c364c8eaa51e3f280d2",
+        "text_rebind": "054cc798be77e10fb3deb3e756afefeeb7d51a29e1bc09bb288064ab70c00bc0",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0189623420621142,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.00021023220486111112,
+            "delta_target_fraction": 0.00019892939814814816,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.021812909915123458,
+            "delta_reference_fraction": 0.019161271460262346,
+            "histogram_distance": 0.11077342456779306,
+            "appearance_change": 0.08202555030584335
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.15789794921875,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.1586009837962963,
+            "delta_target_fraction": 0.15858968098958334,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0033433702256944445,
+            "delta_reference_fraction": 0.0006917317708333335,
+            "histogram_distance": 0.35398580289939846,
+            "appearance_change": 0.12926192581653595
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.0189623420621142,
+        "S_P1": 0.15789794921875,
+        "S_full": 0.4157428505979939,
+        "E": 0.1768602912808642,
+        "R": 0.4254078958338619,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.26442310214042664,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.26442310214042664,
+          "rmse": 0.5142208933830261,
+          "max_abs": 3.9609375,
+          "cosine": 0.8334017992019653,
+          "relative_l2": 0.5861214399337769,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.019035084173083305,
+          "psnr": 17.20445198396513,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.7421875,
+          "text_rebind": 0.8984375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9049033522605896,
+            "mean_cosine_distance": 0.09509669989347458
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8450363874435425,
+            "mean_cosine_distance": 0.15496361255645752
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.09320864081382751,
+              "right_mse": 0.43411412835121155
+            },
+            "delta": {
+              "delta_left_mse": 0.0742186177521944,
+              "delta_right_mse": 0.4285811926238239
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.0005698804161511362,
+              "right_mse": 0.01865922473371029
+            },
+            "delta": {
+              "delta_left_mse": 0.000500405381899327,
+              "delta_right_mse": 0.01855392648576526
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9928037524223328,
+              "mean_cosine_distance": 0.007196247577667236
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.887924075126648,
+              "mean_cosine_distance": 0.11207592487335205
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.20190741121768951,
+              "right_mse": 0.9237487316131592
+            },
+            "delta": {
+              "delta_left_mse": 0.1829173881560564,
+              "delta_right_mse": 0.9182157958857715
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.0010238065151497722,
+              "right_mse": 0.03137319162487984
+            },
+            "delta": {
+              "delta_left_mse": 0.000954331480897963,
+              "delta_right_mse": 0.03126789337693481
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.9876205921173096,
+              "mean_cosine_distance": 0.01237940788269043
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.8452732563018799,
+              "mean_cosine_distance": 0.15472674369812012
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_R/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_R/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_R/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_R/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_R/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_empty",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "7246380dbe75b91f02a3361f00262dea0f375ad75b911c18bd74f72655444b3f",
+        "text_rebind": "0b20b977f4034465d810dc439f5e5c8a5f377955a0a3a4cb4e8e4b04319d8498",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0008213372878086418,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 2.335913387345679e-05,
+            "delta_target_fraction": 1.2056327160493826e-05,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.001842357494212963,
+            "delta_reference_fraction": -0.000809280960648148,
+            "histogram_distance": 0.16182997243659075,
+            "appearance_change": 0.1931939572095871
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.33559540171682095,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.33305603780864196,
+            "delta_target_fraction": 0.333044735001929,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.0001009717399691358,
+            "delta_reference_fraction": -0.002550666714891975,
+            "histogram_distance": 0.6071784651243967,
+            "appearance_change": 0.2649244964122772
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.0008213372878086418,
+        "S_P1": 0.33559540171682095,
+        "S_full": 0.4157428505979939,
+        "E": 0.3347740644290123,
+        "R": 0.805243106279475,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.7743356823921204,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.7743356823921204,
+          "rmse": 0.8799634575843811,
+          "max_abs": 4.6953125,
+          "cosine": 0.4201153814792633,
+          "relative_l2": 1.003003716468811,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.06331674754619598,
+          "psnr": 11.98481402069605,
+          "max_abs": 0.99609375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.740234375,
+          "text_rebind": 0.9453125
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.7315534949302673,
+            "mean_cosine_distance": 0.26844656467437744
+          },
+          "text_rebind": {
+            "mean_cosine": 0.7109785079956055,
+            "mean_cosine_distance": 0.28902149200439453
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.7613128423690796,
+              "right_mse": 0.8513985276222229
+            },
+            "delta": {
+              "delta_left_mse": 0.7423228193074465,
+              "delta_right_mse": 0.8458655918948352
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.01728488877415657,
+              "right_mse": 0.032645151019096375
+            },
+            "delta": {
+              "delta_left_mse": 0.01721541373990476,
+              "delta_right_mse": 0.032539852771151345
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.5093668699264526,
+              "mean_cosine_distance": 0.49063313007354736
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.777888298034668,
+              "mean_cosine_distance": 0.22211170196533203
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 1.081835389137268,
+              "right_mse": 1.6872799396514893
+            },
+            "delta": {
+              "delta_left_mse": 1.062845366075635,
+              "delta_right_mse": 1.6817470039241016
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.03304227069020271,
+              "right_mse": 0.04805896431207657
+            },
+            "delta": {
+              "delta_left_mse": 0.032972795655950904,
+              "delta_right_mse": 0.04795366606413154
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.5887889266014099,
+              "mean_cosine_distance": 0.4112110733985901
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.7555775046348572,
+              "mean_cosine_distance": 0.24442249536514282
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_empty/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_empty/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_empty/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_empty/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_empty/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_warm_to_cool_seed404_chunk4_global_release",
+      "prompt_id": "lighting_warm_to_cool",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release",
+      "mechanism": "stage_c_global",
+      "history_gate": 0.5,
+      "history_component_gates": null,
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A person sits at a wooden table in warm sunlight.",
+      "edit_prompt": "A person sits at a wooden table in cool blue light.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "b8f8cc04730bf7e0a8dc59e5ad7c6746ce9e1f2f04b57f4e406c738da766a22a",
+        "text_rebind": "e4fb37ba72773538953786a2fae0aba4cbc22df5d40487991ebfe07eccc9270f",
+        "original": "6b8c2f8d54146301a72ecc2469896824b0cd1035e442d80625a59247eb05f7cf",
+        "full_regeneration": "44f62b83cd994913cfd738610442f988d7e33c9eaf4c09ab84faecafa67730e2"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": null,
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.04386845341435185,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.011129497010030864,
+            "delta_target_fraction": 0.0111181942033179,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.05763828607253087,
+            "delta_reference_fraction": 0.054986647617669755,
+            "histogram_distance": 0.13370797254953898,
+            "appearance_change": 0.06717897951602936
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0882493007330247,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.11844286506558642,
+            "delta_target_fraction": 0.11843156225887345,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.032833899980709874,
+            "delta_reference_fraction": 0.030182261525848762,
+            "histogram_distance": 0.40670087317954623,
+            "appearance_change": 0.08712715655565262
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.4157428505979939,
+          "measurements": {
+            "target_fraction_base": 1.1302806712962962e-05,
+            "target_fraction_edited": 0.41329918378665126,
+            "delta_target_fraction": 0.4132878809799383,
+            "reference_fraction_base": 0.002651638454861111,
+            "reference_fraction_edited": 0.00019666883680555556,
+            "delta_reference_fraction": -0.0024549696180555555,
+            "histogram_distance": 0.6195930256092088,
+            "appearance_change": 0.2618987560272217
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.04386845341435185,
+        "S_P1": 0.0882493007330247,
+        "S_full": 0.4157428505979939,
+        "E": 0.13211775414737656,
+        "R": 0.31778719455389737,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.28284138441085815,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.28284138441085815,
+          "rmse": 0.5318283438682556,
+          "max_abs": 4.5,
+          "cosine": 0.8351997137069702,
+          "relative_l2": 0.6061908602714539,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.013296161778271198,
+          "psnr": 18.762737093404215,
+          "max_abs": 0.96875,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.818359375,
+          "text_rebind": 0.826171875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.7993523478507996,
+            "mean_cosine_distance": 0.20064768195152283
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8245806694030762,
+            "mean_cosine_distance": 0.17541933059692383
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.28473007678985596,
+              "right_mse": 0.3150053322315216
+            },
+            "delta": {
+              "delta_left_mse": 0.26574005372822285,
+              "delta_right_mse": 0.30947239650413394
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.003597494913265109,
+              "right_mse": 0.008984916843473911
+            },
+            "delta": {
+              "delta_left_mse": 0.0035280198790133,
+              "delta_right_mse": 0.008879618595528882
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.890723466873169,
+              "mean_cosine_distance": 0.10927653312683105
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9028120040893555,
+              "mean_cosine_distance": 0.09718799591064453
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.01899002306163311,
+              "right_mse": 0.005532935727387667
+            },
+            "edited": {
+              "left_mse": 0.3551425039768219,
+              "right_mse": 0.42254385352134705
+            },
+            "delta": {
+              "delta_left_mse": 0.3361524809151888,
+              "delta_right_mse": 0.4170109177939594
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 6.947503425180912e-05,
+              "right_mse": 0.00010529824794502929
+            },
+            "edited": {
+              "left_mse": 0.005244653671979904,
+              "right_mse": 0.010931066237390041
+            },
+            "delta": {
+              "delta_left_mse": 0.005175178637728095,
+              "delta_right_mse": 0.010825767989445012
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993327856063843,
+              "mean_cosine_distance": 0.0006672143936157227
+            },
+            "left_edited": {
+              "mean_cosine": 0.8973116874694824,
+              "mean_cosine_distance": 0.10268831253051758
+            },
+            "right_base": {
+              "mean_cosine": 0.9995012283325195,
+              "mean_cosine_distance": 0.0004987716674804688
+            },
+            "right_edited": {
+              "mean_cosine": 0.9168754816055298,
+              "mean_cosine_distance": 0.08312451839447021
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard2_cache/edit_lighting_warm_to_cool_seed404__chunk004.pt",
+        "sha256": "9288e103956c2fe85a1e44c160550926f837ee37a9d3ccfe0fa360504b0fa7ba",
+        "bytes": 1055664160,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_warm_to_cool_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_warm_to_cool_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "1ee69e21b221dbfdba0dea3e1eb2ff84c6a1871bd53a2c11f18c444baa5f5691",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.8340645
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_global_release/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_global_release/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_global_release/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_global_release/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard2_videos/edit_lighting_warm_to_cool_seed404_chunk4_global_release/comparison.mp4"
+      }
+    }
+  ],
+  "screen": {
+    "passed_invariants": true,
+    "pairs": 9,
+    "chunk_replays": 18,
+    "interpretation": "exploratory_no_significance_test"
+  },
+  "non_finite_fields": [
+    "cases[0].drift.pixel.psnr"
+  ]
+}

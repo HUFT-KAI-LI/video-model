@@ -1,0 +1,3104 @@
+{
+  "experiment": "history_subset_interaction_d2",
+  "schema": 1,
+  "status": "complete",
+  "provenance": {
+    "git_commit": "daaf075311b14db837d468410cc00d00d373ef8a",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "ecc1d3222530e044dbfb620f729c675ae954f449d433273263ae3aaee9354524",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789175312.3698623,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "protocol": "fixed_history_subsets_d2_v1",
+    "stage": "D2_history_subset_interactions",
+    "manifest_path": "/workspace/video-model/restream_mvp/validation/history_subset_interaction_manifest.json",
+    "manifest_sha256": "51c838ae0bd2dc5d0935674e600d1fcc2a8e1ab9b3d7dc9b046bb6a899352cb9",
+    "screen_plan_path": "/workspace/video-model/restream_mvp/configs/history_subset_interaction_plan.json",
+    "screen_plan_sha256": "91d0eba39b6fea755bdd592302a3dce16016526cc888d4476fc5871260eafdf7",
+    "screen_plan_status": "frozen_before_d2_screen",
+    "history_geometry": {
+      "sink_size": 3,
+      "num_frame_per_block": 3,
+      "local_attn_size": 12
+    },
+    "conditions": {
+      "SOR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 1
+      },
+      "SO": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 0
+      },
+      "SR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 1
+      },
+      "OR": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 1
+      },
+      "S": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 0
+      },
+      "O": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 0
+      },
+      "R": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 1
+      },
+      "empty": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 0
+      },
+      "global_release": {
+        "mechanism": "stage_c_global",
+        "history_gate": 0.5
+      }
+    },
+    "shard": 0,
+    "shards": 4,
+    "video_root": "validation/history_subsets/screen_daaf075311b1/shard0_videos",
+    "cache_dir": "validation/history_subsets/screen_daaf075311b1/shard0_cache",
+    "timing_status": "invalid_diagnostic"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        0,
+        1,
+        4
+      ],
+      "variants": [
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "evidence": "directional",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "evidence": "directional",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "evidence": "directional",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "evidence": "directional",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "evidence": "qualitative",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "evidence": "qualitative",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "evidence": "qualitative",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0,
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "cases": [
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_SOR",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "text_rebind": "a3ff2a2b0c279a1ccbac776a08178169fda57637d0142dd4a0ffd4b5465a93ed",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.013072072723765432,
+            "delta_reference_fraction": 0.0,
+            "histogram_distance": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0002976405767746923,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.013369713300540124,
+            "delta_reference_fraction": 0.0002976405767746923,
+            "histogram_distance": 0.008471858506507043,
+            "appearance_change": 0.003956368193030357
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.0,
+        "S_P1": -0.0002976405767746923,
+        "S_full": 0.10091371889467593,
+        "E": -0.0002976405767746923,
+        "R": -0.00294945603070422,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.0,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.0,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "pixel": {
+          "mse": 0.0,
+          "psnr": null,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": true,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.0,
+          "text_rebind": 0.23828125
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 1.0,
+            "mean_cosine_distance": 0.0
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9995164275169373,
+            "mean_cosine_distance": 0.0004835973377339542
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.028639545664191246,
+              "right_mse": 0.038529034703969955
+            },
+            "delta": {
+              "delta_left_mse": -0.0002860948443412781,
+              "delta_right_mse": 0.0038010291755199432
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.00021271815057843924,
+              "right_mse": 0.0007156634819693863
+            },
+            "delta": {
+              "delta_left_mse": -1.1602096492424607e-05,
+              "delta_right_mse": 0.00013466418022289872
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.999241054058075,
+              "mean_cosine_distance": 0.0007589459419250488
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9982956647872925,
+              "mean_cosine_distance": 0.0017043352127075195
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SOR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SOR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SOR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SOR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SOR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_SO",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "28ed728ad74bd60f3f22639c7e284895e9c014b2cb1c4dd9418e4b2ea8d58136",
+        "text_rebind": "e66a4e9e85f285ade1431c458a6d8fd8b004bd353323a5828dd8a2adf426a18f",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.00028257016782407517,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.013354642891589507,
+            "delta_reference_fraction": 0.00028257016782407517,
+            "histogram_distance": 0.040903032210878584,
+            "appearance_change": 0.026804907247424126
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.00036244333526234615,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.013434516059027778,
+            "delta_reference_fraction": 0.00036244333526234615,
+            "histogram_distance": 0.029714303476408237,
+            "appearance_change": 0.02355037070810795
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.00028257016782407517,
+        "S_P1": -0.00036244333526234615,
+        "S_full": 0.10091371889467593,
+        "E": -7.987316743827098e-05,
+        "R": -0.0007914995930497314,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.047365251928567886,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.047365251928567886,
+          "rmse": 0.2176356017589569,
+          "max_abs": 2.5625,
+          "cosine": 0.9783239364624023,
+          "relative_l2": 0.20879855751991272,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.007255068514496088,
+          "psnr": 21.3935848187172,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.75,
+          "text_rebind": 0.740234375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9946736693382263,
+            "mean_cosine_distance": 0.005326355807483196
+          },
+          "text_rebind": {
+            "mean_cosine": 0.995284914970398,
+            "mean_cosine_distance": 0.004715139977633953
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.05728447064757347,
+              "right_mse": 0.06661566346883774
+            },
+            "delta": {
+              "delta_left_mse": 0.028358830139040947,
+              "delta_right_mse": 0.031887657940387726
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0034770367201417685,
+              "right_mse": 0.004803511314094067
+            },
+            "delta": {
+              "delta_left_mse": 0.0032527164730709046,
+              "delta_right_mse": 0.004222512012347579
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9950244426727295,
+              "mean_cosine_distance": 0.004975557327270508
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9949846863746643,
+              "mean_cosine_distance": 0.005015313625335693
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.050239235162734985,
+              "right_mse": 0.0795568898320198
+            },
+            "delta": {
+              "delta_left_mse": 0.02131359465420246,
+              "delta_right_mse": 0.044828884303569794
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0031428395304828882,
+              "right_mse": 0.005511423572897911
+            },
+            "delta": {
+              "delta_left_mse": 0.0029185192834120244,
+              "delta_right_mse": 0.0049304242711514235
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.995856523513794,
+              "mean_cosine_distance": 0.004143476486206055
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9942934513092041,
+              "mean_cosine_distance": 0.0057065486907958984
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SO/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SO/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SO/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SO/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SO/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_SR",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "16abd0dfca7bdf0a2c233e87d637999c7ec81425d4d17b6d4e5ae2152f14db3c",
+        "text_rebind": "c6b0ed61f760cc49fd5864a885667ca5b32a7efe73369547f0634d2aaf5845d9",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.0008838794849537028,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.012188193238811729,
+            "delta_reference_fraction": -0.0008838794849537028,
+            "histogram_distance": 0.01658842475818092,
+            "appearance_change": 0.009081663563847542
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.00030140817901234615,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.012770664544753086,
+            "delta_reference_fraction": -0.00030140817901234615,
+            "histogram_distance": 0.007932725483099127,
+            "appearance_change": 0.01061480212956667
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.0008838794849537028,
+        "S_P1": 0.00030140817901234615,
+        "S_full": 0.10091371889467593,
+        "E": -0.0005824713059413567,
+        "R": -0.005771973447428733,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.005273378919810057,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.005273378919810057,
+          "rmse": 0.0726180374622345,
+          "max_abs": 0.72021484375,
+          "cosine": 0.9975703954696655,
+          "relative_l2": 0.06966940313577652,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0006541908369399607,
+          "psnr": 31.842955432044366,
+          "max_abs": 0.71484375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.5205078125,
+          "text_rebind": 0.52099609375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9987554550170898,
+            "mean_cosine_distance": 0.0012445698957890272
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9985107779502869,
+            "mean_cosine_distance": 0.0014892369508743286
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.030342672020196915,
+              "right_mse": 0.02514795958995819
+            },
+            "delta": {
+              "delta_left_mse": 0.0014170315116643906,
+              "delta_right_mse": -0.009580045938491821
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.00021692729205824435,
+              "right_mse": 0.0006371914059855044
+            },
+            "delta": {
+              "delta_left_mse": -7.392955012619495e-06,
+              "delta_right_mse": 5.619210423901677e-05
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.999297559261322,
+              "mean_cosine_distance": 0.0007024407386779785
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9979729652404785,
+              "mean_cosine_distance": 0.0020270347595214844
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.029919428750872612,
+              "right_mse": 0.027738220989704132
+            },
+            "delta": {
+              "delta_left_mse": 0.0009937882423400879,
+              "delta_right_mse": -0.00698978453874588
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0002093069051625207,
+              "right_mse": 0.0008735324954614043
+            },
+            "delta": {
+              "delta_left_mse": -1.5013341908343136e-05,
+              "delta_right_mse": 0.0002925331937149167
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9995115399360657,
+              "mean_cosine_distance": 0.0004884600639343262
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9981440901756287,
+              "mean_cosine_distance": 0.0018559098243713379
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_SR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_OR",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "f5c98c134e2df422c022ce87e337bb9c89a3090f29f1b5432fadf9e2ce826bcc",
+        "text_rebind": "110207ecde839de7d2c8d8f3c87d4781a9cb911302f21657bc0744ed2680d908",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.004179777922453703,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0,
+            "delta_target_fraction": 0.0,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.008892294801311729,
+            "delta_reference_fraction": -0.004179777922453703,
+            "histogram_distance": 0.056529037730501205,
+            "appearance_change": 0.012384017929434776
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.004009482301311728,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0001793378665123457,
+            "delta_target_fraction": 0.0001793378665123457,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.009241928288966049,
+            "delta_reference_fraction": -0.003830144434799383,
+            "histogram_distance": 0.08252361601547596,
+            "appearance_change": 0.014679491519927979
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.004179777922453703,
+        "S_P1": 0.004009482301311728,
+        "S_full": 0.10091371889467593,
+        "E": -0.00017029562114197466,
+        "R": -0.0016875368682003772,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.008262808434665203,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.008262808434665203,
+          "rmse": 0.0908999890089035,
+          "max_abs": 1.751953125,
+          "cosine": 0.9962464570999146,
+          "relative_l2": 0.08720902353525162,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0008954577497206628,
+          "psnr": 30.479549005978072,
+          "max_abs": 0.8203125,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.490234375,
+          "text_rebind": 0.5234375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9970442652702332,
+            "mean_cosine_distance": 0.002955704927444458
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9964791536331177,
+            "mean_cosine_distance": 0.003520861268043518
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.03283308818936348,
+              "right_mse": 0.05695859342813492
+            },
+            "delta": {
+              "delta_left_mse": 0.0039074476808309555,
+              "delta_right_mse": 0.022230587899684906
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0003081183531321585,
+              "right_mse": 0.001803422113880515
+            },
+            "delta": {
+              "delta_left_mse": 8.379810606129467e-05,
+              "delta_right_mse": 0.0012224228121340275
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9993101358413696,
+              "mean_cosine_distance": 0.0006898641586303711
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.995104968547821,
+              "mean_cosine_distance": 0.004895031452178955
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.033539529889822006,
+              "right_mse": 0.0655345767736435
+            },
+            "delta": {
+              "delta_left_mse": 0.004613889381289482,
+              "delta_right_mse": 0.03080657124519348
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0003049783408641815,
+              "right_mse": 0.0021128871012479067
+            },
+            "delta": {
+              "delta_left_mse": 8.065809379331768e-05,
+              "delta_right_mse": 0.001531887799501419
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9991769194602966,
+              "mean_cosine_distance": 0.0008230805397033691
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9955570101737976,
+              "mean_cosine_distance": 0.004442989826202393
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_OR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_OR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_OR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_OR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_OR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_S",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "dfe043132abeb7345c6e383b59a7395e336f5f6e9eb2c1822561f62953d46919",
+        "text_rebind": "f04212e132ab4fa4af7bc9d78312f703cddc0cc199aafb44a5d4f16ad7283abc",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.0026930820794753107,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.0002848307291666667,
+            "delta_target_fraction": 0.0002848307291666667,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.01604998553240741,
+            "delta_reference_fraction": 0.0029779128086419773,
+            "histogram_distance": 0.06793853438607475,
+            "appearance_change": 0.07656031101942062
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.002878448109567903,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 7.309148341049383e-05,
+            "delta_target_fraction": 7.309148341049383e-05,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.01602361231674383,
+            "delta_reference_fraction": 0.002951539592978397,
+            "histogram_distance": 0.05825644963068468,
+            "appearance_change": 0.08493126183748245
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.0026930820794753107,
+        "S_P1": -0.002878448109567903,
+        "S_full": 0.10091371889467593,
+        "E": -0.00018536603009259222,
+        "R": -0.0018368764140588212,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.22294361889362335,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.22294361889362335,
+          "rmse": 0.47216907143592834,
+          "max_abs": 3.90625,
+          "cosine": 0.8982059955596924,
+          "relative_l2": 0.45299679040908813,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.034123290330171585,
+          "psnr": 14.669490987430612,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.771484375,
+          "text_rebind": 0.771484375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9692894220352173,
+            "mean_cosine_distance": 0.03071061335504055
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9685815572738647,
+            "mean_cosine_distance": 0.031418487429618835
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.22984112799167633,
+              "right_mse": 0.21271631121635437
+            },
+            "delta": {
+              "delta_left_mse": 0.2009154874831438,
+              "delta_right_mse": 0.17798830568790436
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.016410579904913902,
+              "right_mse": 0.019439561292529106
+            },
+            "delta": {
+              "delta_left_mse": 0.01618625965784304,
+              "delta_right_mse": 0.01885856199078262
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9586977958679199,
+              "mean_cosine_distance": 0.04130220413208008
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9797130227088928,
+              "mean_cosine_distance": 0.020286977291107178
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.2737022638320923,
+              "right_mse": 0.24952241778373718
+            },
+            "delta": {
+              "delta_left_mse": 0.24477662332355976,
+              "delta_right_mse": 0.21479441225528717
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.01887228898704052,
+              "right_mse": 0.023163922131061554
+            },
+            "delta": {
+              "delta_left_mse": 0.018647968739969656,
+              "delta_right_mse": 0.022582922829315066
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9603075385093689,
+              "mean_cosine_distance": 0.039692461490631104
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9754494428634644,
+              "mean_cosine_distance": 0.024550557136535645
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_S/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_S/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_S/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_S/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_S/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_O",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "f76c92653a3f70cf4186b35aa64e35aa731300bc10305e72e9d00f531b2dc799",
+        "text_rebind": "9be22557208c87df318a9fc34afe0143452cd8858ece5001245cfd3be8b72447",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.00455126350308642,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.015391408661265432,
+            "delta_target_fraction": 0.015391408661265432,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.023912217881944444,
+            "delta_reference_fraction": 0.010840145158179012,
+            "histogram_distance": 0.23407783513062141,
+            "appearance_change": 0.08203057199716568
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.006470480082947535,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.030173972800925927,
+            "delta_target_fraction": 0.030173972800925927,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.036775565441743825,
+            "delta_reference_fraction": 0.02370349271797839,
+            "histogram_distance": 0.3632910869691968,
+            "appearance_change": 0.09227824956178665
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.00455126350308642,
+        "S_P1": 0.006470480082947535,
+        "S_full": 0.10091371889467593,
+        "E": 0.0019192165798611154,
+        "R": 0.019018391165072507,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.3359772861003876,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.3359772861003876,
+          "rmse": 0.579635500907898,
+          "max_abs": 3.84375,
+          "cosine": 0.8493567109107971,
+          "relative_l2": 0.556099534034729,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.024810388684272766,
+          "psnr": 16.053664319344573,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.87109375,
+          "text_rebind": 0.69921875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.836256206035614,
+            "mean_cosine_distance": 0.16374383866786957
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8269734382629395,
+            "mean_cosine_distance": 0.17302656173706055
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.3426342308521271,
+              "right_mse": 0.3883218467235565
+            },
+            "delta": {
+              "delta_left_mse": 0.31370859034359455,
+              "delta_right_mse": 0.3535938411951065
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.009360681287944317,
+              "right_mse": 0.018261689692735672
+            },
+            "delta": {
+              "delta_left_mse": 0.009136361040873453,
+              "delta_right_mse": 0.017680690390989184
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.8764764070510864,
+              "mean_cosine_distance": 0.12352359294891357
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9033944606781006,
+              "mean_cosine_distance": 0.09660553932189941
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.401536226272583,
+              "right_mse": 0.4431352913379669
+            },
+            "delta": {
+              "delta_left_mse": 0.3726105857640505,
+              "delta_right_mse": 0.4084072858095169
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.010555003769695759,
+              "right_mse": 0.020543264225125313
+            },
+            "delta": {
+              "delta_left_mse": 0.010330683522624895,
+              "delta_right_mse": 0.019962264923378825
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.8793790340423584,
+              "mean_cosine_distance": 0.1206209659576416
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.893869161605835,
+              "mean_cosine_distance": 0.10613083839416504
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_O/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_O/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_O/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_O/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_O/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_R",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "055aab238da0a4ed01884a56d839aad9d5e9efa6c2eab5e3db18875835fb1ee6",
+        "text_rebind": "9d32ea8a81dac5ca880f72ebf4354bfd2c7e0f09b99b0e83bd8a67c524e6a837",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.004913706838348765,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.004109700520833333,
+            "delta_target_fraction": 0.004109700520833333,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.01226806640625,
+            "delta_reference_fraction": -0.0008040063175154318,
+            "histogram_distance": 0.045453042456431385,
+            "appearance_change": 0.03141508623957634
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.014132275993441357,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.01129979263117284,
+            "delta_target_fraction": 0.01129979263117284,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.010239589361496914,
+            "delta_reference_fraction": -0.0028324833622685175,
+            "histogram_distance": 0.1138862590672461,
+            "appearance_change": 0.034880317747592926
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.004913706838348765,
+        "S_P1": 0.014132275993441357,
+        "S_full": 0.10091371889467593,
+        "E": 0.009218569155092591,
+        "R": 0.09135100020160837,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.0751141905784607,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.0751141905784607,
+          "rmse": 0.2740696966648102,
+          "max_abs": 2.59375,
+          "cosine": 0.9654684066772461,
+          "relative_l2": 0.2629411518573761,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.004640841856598854,
+          "psnr": 23.334032305416798,
+          "max_abs": 0.98046875,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.720703125,
+          "text_rebind": 0.73046875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9762376546859741,
+            "mean_cosine_distance": 0.023762371391057968
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9797617197036743,
+            "mean_cosine_distance": 0.020238300785422325
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.05716508999466896,
+              "right_mse": 0.15972383320331573
+            },
+            "delta": {
+              "delta_left_mse": 0.028239449486136436,
+              "delta_right_mse": 0.12499582767486572
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.00047858525067567825,
+              "right_mse": 0.0052753412164747715
+            },
+            "delta": {
+              "delta_left_mse": 0.0002542650036048144,
+              "delta_right_mse": 0.004694341914728284
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9978547692298889,
+              "mean_cosine_distance": 0.002145230770111084
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.967374324798584,
+              "mean_cosine_distance": 0.032625675201416016
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.05500197410583496,
+              "right_mse": 0.15133731067180634
+            },
+            "delta": {
+              "delta_left_mse": 0.026076333597302437,
+              "delta_right_mse": 0.11660930514335632
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0003737481602001935,
+              "right_mse": 0.005494923330843449
+            },
+            "delta": {
+              "delta_left_mse": 0.00014942791312932968,
+              "delta_right_mse": 0.004913924029096961
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9986653923988342,
+              "mean_cosine_distance": 0.0013346076011657715
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.97874915599823,
+              "mean_cosine_distance": 0.02125084400177002
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_R/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_R/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_R/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_R/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_R/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_empty",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "d4c5890567de35f7bb4be3bdf222cba65c8ec41eda1b70985b1f0bbfd635b71e",
+        "text_rebind": "1df9e073b44b110258e5e6213b8525d73a1a6d816eb0b855681d9806093e9866",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": 0.04840992115162037,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.07492630570023148,
+            "delta_target_fraction": 0.07492630570023148,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.039588457272376545,
+            "delta_reference_fraction": 0.026516384548611112,
+            "histogram_distance": 0.2641727889210078,
+            "appearance_change": 0.2512543499469757
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": 0.05895845389660494,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.08697735821759259,
+            "delta_target_fraction": 0.08697735821759259,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.041090977044753084,
+            "delta_reference_fraction": 0.02801890432098765,
+            "histogram_distance": 0.34878768430378376,
+            "appearance_change": 0.2542600631713867
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.04840992115162037,
+        "S_P1": 0.05895845389660494,
+        "S_full": 0.10091371889467593,
+        "E": 0.010548532744984566,
+        "R": 0.1045302151236158,
+        "ratio_status": "valid"
+      },
+      "D_drift": 1.0928595066070557,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 1.0928595066070557,
+          "rmse": 1.0453991889953613,
+          "max_abs": 3.98828125,
+          "cosine": 0.4025498330593109,
+          "relative_l2": 1.0029511451721191,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.1032407134771347,
+          "psnr": 9.861490027903939,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.875,
+          "text_rebind": 0.912109375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.8482512831687927,
+            "mean_cosine_distance": 0.15174873173236847
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8576127886772156,
+            "mean_cosine_distance": 0.14238721132278442
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.9924185276031494,
+              "right_mse": 1.2033756971359253
+            },
+            "delta": {
+              "delta_left_mse": 0.9634928870946169,
+              "delta_right_mse": 1.1686476916074753
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.03400886058807373,
+              "right_mse": 0.05636214092373848
+            },
+            "delta": {
+              "delta_left_mse": 0.03378454034100287,
+              "delta_right_mse": 0.05578114162199199
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.7615909576416016,
+              "mean_cosine_distance": 0.23840904235839844
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.8156605362892151,
+              "mean_cosine_distance": 0.1843394637107849
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.9825073480606079,
+              "right_mse": 1.1089762449264526
+            },
+            "delta": {
+              "delta_left_mse": 0.9535817075520754,
+              "delta_right_mse": 1.0742482393980026
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.029604187235236168,
+              "right_mse": 0.05107852444052696
+            },
+            "delta": {
+              "delta_left_mse": 0.029379866988165304,
+              "delta_right_mse": 0.050497525138780475
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.7820242643356323,
+              "mean_cosine_distance": 0.21797573566436768
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.8162056803703308,
+              "mean_cosine_distance": 0.1837943196296692
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_empty/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_empty/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_empty/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_empty/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_empty/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_dress_red_to_blue_seed404_chunk4_global_release",
+      "prompt_id": "dress_red_to_blue",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release",
+      "mechanism": "stage_c_global",
+      "history_gate": 0.5,
+      "history_component_gates": null,
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A woman in a red dress walks slowly through a bright living room.",
+      "edit_prompt": "A woman in a blue dress walks slowly through a bright living room.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "1446fa7b793472020358a62051306971c1635f690baac330ab7a455491fc5f5b",
+        "text_rebind": "d827f9ff76285afa587d83a0b648ab6edf3929a4f23679c5e3e353e4e3df227e",
+        "original": "66078bd13592b054fcf52b5d807d64f16de5ccf473ad517a0691b35302dd2ffa",
+        "full_regeneration": "d551c02addf22c3b0397e9311be9d12ae21c11e388bd28b169a8e6dc42453297"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": null,
+      "responsiveness": {
+        "replay": {
+          "kind": "color_fraction",
+          "S_proxy": -0.014627338927469133,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.01787501205632716,
+            "delta_target_fraction": 0.01787501205632716,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.04557442370756173,
+            "delta_reference_fraction": 0.032502350983796294,
+            "histogram_distance": 0.21678665805156103,
+            "appearance_change": 0.05920325219631195
+          }
+        },
+        "text_rebind": {
+          "kind": "color_fraction",
+          "S_proxy": -0.01257700978973765,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.01976710190007716,
+            "delta_target_fraction": 0.01976710190007716,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.045416184413580245,
+            "delta_reference_fraction": 0.03234411168981481,
+            "histogram_distance": 0.3106374742681115,
+            "appearance_change": 0.0677768886089325
+          }
+        },
+        "full_regeneration": {
+          "kind": "color_fraction",
+          "S_proxy": 0.10091371889467593,
+          "measurements": {
+            "target_fraction_base": 0.0,
+            "target_fraction_edited": 0.09536027319637345,
+            "delta_target_fraction": 0.09536027319637345,
+            "reference_fraction_base": 0.013072072723765432,
+            "reference_fraction_edited": 0.007518627025462963,
+            "delta_reference_fraction": -0.0055534456983024685,
+            "histogram_distance": 0.44844913630114147,
+            "appearance_change": 0.1510356217622757
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.014627338927469133,
+        "S_P1": -0.01257700978973765,
+        "S_full": 0.10091371889467593,
+        "E": 0.0020503291377314825,
+        "R": 0.020317645214040912,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.2633999288082123,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.2633999288082123,
+          "rmse": 0.5132250189781189,
+          "max_abs": 3.734375,
+          "cosine": 0.8844580054283142,
+          "relative_l2": 0.4923856854438782,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.013827645219862461,
+          "psnr": 18.592517718135063,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.767578125,
+          "text_rebind": 0.79296875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.872921347618103,
+            "mean_cosine_distance": 0.12707869708538055
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8610837459564209,
+            "mean_cosine_distance": 0.1389162540435791
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.2501174211502075,
+              "right_mse": 0.339152455329895
+            },
+            "delta": {
+              "delta_left_mse": 0.221191780641675,
+              "delta_right_mse": 0.304424449801445
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.0035851113498210907,
+              "right_mse": 0.0118853859603405
+            },
+            "delta": {
+              "delta_left_mse": 0.003360791102750227,
+              "delta_right_mse": 0.011304386658594012
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9247251749038696,
+              "mean_cosine_distance": 0.07527482509613037
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9305603504180908,
+              "mean_cosine_distance": 0.06943964958190918
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.028925640508532524,
+              "right_mse": 0.03472800552845001
+            },
+            "edited": {
+              "left_mse": 0.28948670625686646,
+              "right_mse": 0.3940707743167877
+            },
+            "delta": {
+              "delta_left_mse": 0.26056106574833393,
+              "delta_right_mse": 0.3593427687883377
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.00022432024707086384,
+              "right_mse": 0.0005809993017464876
+            },
+            "edited": {
+              "left_mse": 0.004104183986783028,
+              "right_mse": 0.014047290198504925
+            },
+            "delta": {
+              "delta_left_mse": 0.003879863739712164,
+              "delta_right_mse": 0.013466290896758437
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9993386268615723,
+              "mean_cosine_distance": 0.0006613731384277344
+            },
+            "left_edited": {
+              "mean_cosine": 0.9132568836212158,
+              "mean_cosine_distance": 0.08674311637878418
+            },
+            "right_base": {
+              "mean_cosine": 0.998716413974762,
+              "mean_cosine_distance": 0.0012835860252380371
+            },
+            "right_edited": {
+              "mean_cosine": 0.9138396978378296,
+              "mean_cosine_distance": 0.08616030216217041
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard0_cache/edit_dress_red_to_blue_seed404__chunk004.pt",
+        "sha256": "d86bafd9b7f514ce3db3176283f251da95c4f7717b62cfbb08e435721813df67",
+        "bytes": 1055663388,
+        "chunk_index": 4,
+        "sample_id": "edit_dress_red_to_blue_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_dress_red_to_blue_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "e84fa9d1cc9b756c96636bfe52c88be038d9c1de6ded7551aedb16b8f7885466",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175404.375071
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_global_release/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_global_release/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_global_release/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_global_release/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard0_videos/edit_dress_red_to_blue_seed404_chunk4_global_release/comparison.mp4"
+      }
+    }
+  ],
+  "screen": {
+    "passed_invariants": true,
+    "pairs": 9,
+    "chunk_replays": 18,
+    "interpretation": "exploratory_no_significance_test"
+  },
+  "non_finite_fields": [
+    "cases[0].drift.pixel.psnr"
+  ]
+}

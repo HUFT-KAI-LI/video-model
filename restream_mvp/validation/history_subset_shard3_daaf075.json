@@ -1,0 +1,2996 @@
+{
+  "experiment": "history_subset_interaction_d2",
+  "schema": 1,
+  "status": "complete",
+  "provenance": {
+    "git_commit": "daaf075311b14db837d468410cc00d00d373ef8a",
+    "git_dirty": false,
+    "git_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "code_tree_sha256": "ecc1d3222530e044dbfb620f729c675ae954f449d433273263ae3aaee9354524",
+    "config_path": "/workspace/video-model/restream_mvp/configs/edit_ready_mvp.yaml",
+    "config_sha256": "8eb246cad8df75a030730df9cb95ec10152e994cc331ed00307005f0252777ba",
+    "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+    "model_identity": {
+      "longlive": {
+        "models/longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+        "models/lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a"
+      },
+      "wan": {
+        "Wan2.1_VAE.pth": {
+          "bytes": 507609880,
+          "edge_sha256": "b7a75b6062e2447ad916afd5f047b10eb4e47e0683223321d01b143b41088434"
+        },
+        "diffusion_pytorch_model.safetensors": {
+          "bytes": 5676070424,
+          "edge_sha256": "cb770c1f11c79c3909867c3bac3de70bcf7e9aa6cf390c613127e4a322225418"
+        },
+        "models_t5_umt5-xxl-enc-bf16.pth": {
+          "bytes": 11361920418,
+          "edge_sha256": "ad553b483ae869d8c50626b52e1b7d5292240957fe4037e7ed637cc238a0fa68"
+        }
+      },
+      "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33"
+    },
+    "cache_schema": 1,
+    "host": "cloud-ai-master-devbox-1276421228-vscode-112e5488-devbox",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "created_unix": 1789175312.297576,
+    "model_checkpoint_sha256": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+    "protocol": "fixed_history_subsets_d2_v1",
+    "stage": "D2_history_subset_interactions",
+    "manifest_path": "/workspace/video-model/restream_mvp/validation/history_subset_interaction_manifest.json",
+    "manifest_sha256": "51c838ae0bd2dc5d0935674e600d1fcc2a8e1ab9b3d7dc9b046bb6a899352cb9",
+    "screen_plan_path": "/workspace/video-model/restream_mvp/configs/history_subset_interaction_plan.json",
+    "screen_plan_sha256": "91d0eba39b6fea755bdd592302a3dce16016526cc888d4476fc5871260eafdf7",
+    "screen_plan_status": "frozen_before_d2_screen",
+    "history_geometry": {
+      "sink_size": 3,
+      "num_frame_per_block": 3,
+      "local_attn_size": 12
+    },
+    "conditions": {
+      "SOR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 1
+      },
+      "SO": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 1,
+        "recent": 0
+      },
+      "SR": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 1
+      },
+      "OR": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 1
+      },
+      "S": {
+        "mechanism": "component",
+        "sink": 1,
+        "old": 0,
+        "recent": 0
+      },
+      "O": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 1,
+        "recent": 0
+      },
+      "R": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 1
+      },
+      "empty": {
+        "mechanism": "component",
+        "sink": 0,
+        "old": 0,
+        "recent": 0
+      },
+      "global_release": {
+        "mechanism": "stage_c_global",
+        "history_gate": 0.5
+      }
+    },
+    "shard": 3,
+    "shards": 4,
+    "video_root": "validation/history_subsets/screen_daaf075311b1/shard3_videos",
+    "cache_dir": "validation/history_subsets/screen_daaf075311b1/shard3_cache",
+    "timing_status": "invalid_diagnostic"
+  },
+  "config": {
+    "seed": 42,
+    "generation": {
+      "num_latent_frames": 21,
+      "height": 256,
+      "width": 432,
+      "fps": 16,
+      "noise_source": "global"
+    },
+    "model": {
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml",
+      "wan": "models/Wan2.1-T2V-1.3B",
+      "longlive": "models/LongLive-1.3B",
+      "dino": "models/dinov2-small"
+    },
+    "cache": {
+      "root": "outputs/edit_ready_mvp/cache",
+      "keep_targets_only": false
+    },
+    "edit": {
+      "targets": [
+        0,
+        1,
+        4
+      ],
+      "variants": [
+        "replay",
+        "text_rebind",
+        "history_recache",
+        "reverse",
+        "crossattn_control",
+        "full_regeneration"
+      ],
+      "prompts": [
+        {
+          "id": "dress_red_to_blue",
+          "evidence": "directional",
+          "base": "A woman in a red dress walks slowly through a bright living room.",
+          "edit": "A woman in a blue dress walks slowly through a bright living room.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "car_red_to_black",
+          "evidence": "directional",
+          "base": "A red car drives down a sunny city street.",
+          "edit": "A black car drives down a sunny city street.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "black",
+            "reference_color": "red"
+          }
+        },
+        {
+          "id": "lighting_darker",
+          "evidence": "directional",
+          "base": "A cat walks across a bright living room floor in daylight.",
+          "edit": "A cat walks across a dim living room floor at night.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "lighting_warm_to_cool",
+          "evidence": "directional",
+          "base": "A person sits at a wooden table in warm sunlight.",
+          "edit": "A person sits at a wooden table in cool blue light.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "blue",
+            "reference_color": "yellow"
+          }
+        },
+        {
+          "id": "jacket_green_to_yellow",
+          "evidence": "directional",
+          "base": "A cyclist in a green jacket rides along a coastal road.",
+          "edit": "A cyclist in a yellow jacket rides along a coastal road.",
+          "probe": {
+            "kind": "color_fraction",
+            "color": "yellow",
+            "reference_color": "green"
+          }
+        },
+        {
+          "id": "park_light_rain",
+          "evidence": "qualitative",
+          "base": "A dog runs through a green park on a sunny day.",
+          "edit": "A dog runs through a green park in light rain.",
+          "probe": {
+            "kind": "luma",
+            "direction": "decrease"
+          }
+        },
+        {
+          "id": "brief_smile",
+          "evidence": "qualitative",
+          "base": "A man looks at the camera with a neutral expression.",
+          "edit": "A man looks at the camera and smiles briefly.",
+          "probe": {
+            "kind": "change"
+          }
+        },
+        {
+          "id": "slight_zoom_in",
+          "evidence": "qualitative",
+          "base": "A slow shot of a vase of flowers on a table.",
+          "edit": "A slow close-up shot of a vase of flowers on a table.",
+          "probe": {
+            "kind": "change"
+          }
+        }
+      ]
+    },
+    "gates": {
+      "replay": {
+        "relative_to_repeat": 3.0,
+        "epsilon": 1e-12,
+        "abs_latent_mse": 0.0001,
+        "cosine_floor": 0.999
+      },
+      "edit": {
+        "min_s_proxy": 0.0,
+        "min_full_regeneration_ratio": 0.25,
+        "min_strong_fraction": 0.25
+      },
+      "preservation": {
+        "require_exact": true
+      },
+      "boundary": {
+        "max_relative_increase": 1.0,
+        "absolute_slack": 0.0001,
+        "acceptable_fraction": 0.9
+      },
+      "cost": {
+        "max_time_ratio": 0.5,
+        "min_chunks": 5
+      }
+    },
+    "outputs": {
+      "root": "validation/edit_ready_mvp"
+    }
+  },
+  "cases": [
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_SOR",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SOR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "text_rebind": "520f882079bb1aeac727bf8e74c00ab3908c8e4390ced96c3ae6dd71eb972cf4",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.0,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.46144235134124756,
+            "delta_luma": 0.0,
+            "appearance_change": 0.0
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.009193211793899536,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.452249139547348,
+            "delta_luma": -0.009193211793899536,
+            "appearance_change": 0.011142853647470474
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.0,
+        "S_P1": 0.009193211793899536,
+        "S_full": 0.2071552872657776,
+        "E": 0.009193211793899536,
+        "R": 0.044378359419350775,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.0,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.0,
+          "rmse": 0.0,
+          "max_abs": 0.0,
+          "cosine": 1.000000238418579,
+          "relative_l2": 0.0,
+          "exact": true
+        },
+        "pixel": {
+          "mse": 0.0,
+          "psnr": null,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": true,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.0,
+          "text_rebind": 0.4375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 1.0,
+            "mean_cosine_distance": -4.967053879312289e-09
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9993691444396973,
+            "mean_cosine_distance": 0.0006308605661615729
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "delta": {
+              "delta_left_mse": 0.0,
+              "delta_right_mse": 0.0
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.09045417606830597,
+              "right_mse": 0.05875831097364426
+            },
+            "delta": {
+              "delta_left_mse": -0.0018432438373565674,
+              "delta_right_mse": 0.010180816054344177
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.002458428731188178,
+              "right_mse": 0.00205414230003953
+            },
+            "delta": {
+              "delta_left_mse": -8.774129673838615e-05,
+              "delta_right_mse": 0.000544004375115037
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9974186420440674,
+              "mean_cosine_distance": 0.002581357955932617
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9973641037940979,
+              "mean_cosine_distance": 0.0026358962059020996
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SOR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SOR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SOR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SOR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SOR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_SO",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SO",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "84bcd1c5d7be158e07719925d85c7db3ce99a1d72d66fec28fcaa704a2517e62",
+        "text_rebind": "c9dd1d759e5d5570d0f9f8d40efb23b612d32895c3a6ba40da31b950f2bb6862",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.017509937286376953,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4789522886276245,
+            "delta_luma": 0.017509937286376953,
+            "appearance_change": 0.07325052469968796
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.002425640821456909,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.45901671051979065,
+            "delta_luma": -0.002425640821456909,
+            "appearance_change": 0.07081864029169083
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.017509937286376953,
+        "S_P1": 0.002425640821456909,
+        "S_full": 0.2071552872657776,
+        "E": 0.019935578107833862,
+        "R": 0.0962349470822667,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.1828763782978058,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.1828763782978058,
+          "rmse": 0.42764046788215637,
+          "max_abs": 3.1875,
+          "cosine": 0.8822191953659058,
+          "relative_l2": 0.4887424111366272,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.025349102914333344,
+          "psnr": 15.960374054134284,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.73046875,
+          "text_rebind": 0.87109375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9806258082389832,
+            "mean_cosine_distance": 0.019374217838048935
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9831921458244324,
+            "mean_cosine_distance": 0.016807904466986656
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.18729062378406525,
+              "right_mse": 0.23633624613285065
+            },
+            "delta": {
+              "delta_left_mse": 0.09499320387840271,
+              "delta_right_mse": 0.18775875121355057
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.012383943423628807,
+              "right_mse": 0.01840437762439251
+            },
+            "delta": {
+              "delta_left_mse": 0.009837773395702243,
+              "delta_right_mse": 0.016894239699468017
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9805285930633545,
+              "mean_cosine_distance": 0.019471406936645508
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9832740426063538,
+              "mean_cosine_distance": 0.01672595739364624
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.16955730319023132,
+              "right_mse": 0.246631920337677
+            },
+            "delta": {
+              "delta_left_mse": 0.07725988328456879,
+              "delta_right_mse": 0.19805442541837692
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.012005861848592758,
+              "right_mse": 0.01856164261698723
+            },
+            "delta": {
+              "delta_left_mse": 0.009459691820666194,
+              "delta_right_mse": 0.017051504692062736
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9838141798973083,
+              "mean_cosine_distance": 0.01618582010269165
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9814859628677368,
+              "mean_cosine_distance": 0.018514037132263184
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SO/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SO/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SO/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SO/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SO/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_SR",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "SR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "4392d0add91a2ec0fd0ca781405fcb61af4e570dd8bb8f881f0d66da14f4b337",
+        "text_rebind": "8e4ea938dedf76a6f8e43cd153597f63f418da439d4ba99301c8f7b28252910e",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.00044292211532592773,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4618852734565735,
+            "delta_luma": 0.00044292211532592773,
+            "appearance_change": 0.014554392546415329
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.010318219661712646,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4511241316795349,
+            "delta_luma": -0.010318219661712646,
+            "appearance_change": 0.017621977254748344
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.00044292211532592773,
+        "S_P1": 0.010318219661712646,
+        "S_full": 0.2071552872657776,
+        "E": 0.010761141777038574,
+        "R": 0.05194722239086356,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.010228092782199383,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.010228092782199383,
+          "rmse": 0.1011340320110321,
+          "max_abs": 1.60546875,
+          "cosine": 0.9933338165283203,
+          "relative_l2": 0.11558422446250916,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0019103180384263396,
+          "psnr": 27.188943234143995,
+          "max_abs": 0.912109375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.869140625,
+          "text_rebind": 0.87109375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9980654120445251,
+            "mean_cosine_distance": 0.0019346277695149183
+          },
+          "text_rebind": {
+            "mean_cosine": 0.998070240020752,
+            "mean_cosine_distance": 0.0019297301769256592
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.10032295435667038,
+              "right_mse": 0.044901177287101746
+            },
+            "delta": {
+              "delta_left_mse": 0.008025534451007843,
+              "delta_right_mse": -0.0036763176321983337
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.00298900343477726,
+              "right_mse": 0.0018010117346420884
+            },
+            "delta": {
+              "delta_left_mse": 0.0004428334068506956,
+              "delta_right_mse": 0.0002908738097175956
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9970002174377441,
+              "mean_cosine_distance": 0.0029997825622558594
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9976868629455566,
+              "mean_cosine_distance": 0.0023131370544433594
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.09816175699234009,
+              "right_mse": 0.05182261019945145
+            },
+            "delta": {
+              "delta_left_mse": 0.005864337086677551,
+              "delta_right_mse": 0.003245115280151367
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.0029500683303922415,
+              "right_mse": 0.0022730885539203882
+            },
+            "delta": {
+              "delta_left_mse": 0.00040389830246567726,
+              "delta_right_mse": 0.0007629506289958954
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9970676898956299,
+              "mean_cosine_distance": 0.002932310104370117
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9979053735733032,
+              "mean_cosine_distance": 0.0020946264266967773
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_SR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_OR",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "OR",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "c484de8ccbbb6cde2439630a64851908aba454222e08bbebe3db4dae018f0ca2",
+        "text_rebind": "acb3f031bed06350b120b5d502b948d994ab5cadca4acf46c090f6f51d64500d",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.0008885860443115234,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4623309373855591,
+            "delta_luma": 0.0008885860443115234,
+            "appearance_change": 0.024847446009516716
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.012553006410598755,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4488893449306488,
+            "delta_luma": -0.012553006410598755,
+            "appearance_change": 0.02686074562370777
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.0008885860443115234,
+        "S_P1": 0.012553006410598755,
+        "S_full": 0.2071552872657776,
+        "E": 0.013441592454910278,
+        "R": 0.0648865526548926,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.02497059665620327,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.02497059665620327,
+          "rmse": 0.15802086889743805,
+          "max_abs": 2.3203125,
+          "cosine": 0.983563244342804,
+          "relative_l2": 0.1805991381406784,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0026318267919123173,
+          "psnr": 25.797426962860378,
+          "max_abs": 0.96875,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.732421875,
+          "text_rebind": 0.73046875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9946422576904297,
+            "mean_cosine_distance": 0.005357757210731506
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9959294199943542,
+            "mean_cosine_distance": 0.004070629831403494
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.10602573305368423,
+              "right_mse": 0.10169446468353271
+            },
+            "delta": {
+              "delta_left_mse": 0.013728313148021698,
+              "delta_right_mse": 0.053116969764232635
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.002250968711450696,
+              "right_mse": 0.005011508706957102
+            },
+            "delta": {
+              "delta_left_mse": -0.0002952013164758682,
+              "delta_right_mse": 0.003501370782032609
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.997383177280426,
+              "mean_cosine_distance": 0.0026168227195739746
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9941079616546631,
+              "mean_cosine_distance": 0.005892038345336914
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.10140328109264374,
+              "right_mse": 0.09252756088972092
+            },
+            "delta": {
+              "delta_left_mse": 0.009105861186981201,
+              "delta_right_mse": 0.04395006597042084
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.0022259766701608896,
+              "right_mse": 0.004670924507081509
+            },
+            "delta": {
+              "delta_left_mse": -0.0003201933577656746,
+              "delta_right_mse": 0.003160786582157016
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.997266411781311,
+              "mean_cosine_distance": 0.002733588218688965
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9949051737785339,
+              "mean_cosine_distance": 0.0050948262214660645
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_OR/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_OR/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_OR/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_OR/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_OR/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_S",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "S",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 1.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "9255203e92323b9278a66d51c2a0699c6a8bf6b7d44654ed013634095763d5fb",
+        "text_rebind": "15e4898c5a9d3e73cf2b805aafa9bfedac7dffc6dc20785dae7ddd7dbd69b8b2",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.021385401487350464,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.482827752828598,
+            "delta_luma": 0.021385401487350464,
+            "appearance_change": 0.15274082124233246
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.0045909583568573,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.45685139298439026,
+            "delta_luma": -0.0045909583568573,
+            "appearance_change": 0.14163270592689514
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.021385401487350464,
+        "S_P1": 0.0045909583568573,
+        "S_full": 0.2071552872657776,
+        "E": 0.025976359844207764,
+        "R": 0.12539559181456192,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.5265586972236633,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.5265586972236633,
+          "rmse": 0.7256436347961426,
+          "max_abs": 4.2890625,
+          "cosine": 0.6584707498550415,
+          "relative_l2": 0.8293247222900391,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.06831415742635727,
+          "psnr": 11.654892838002517,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.9609375,
+          "text_rebind": 0.955078125
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.8691787123680115,
+            "mean_cosine_distance": 0.1308213174343109
+          },
+          "text_rebind": {
+            "mean_cosine": 0.816372275352478,
+            "mean_cosine_distance": 0.18362778425216675
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.5587986707687378,
+              "right_mse": 0.5113629102706909
+            },
+            "delta": {
+              "delta_left_mse": 0.46650125086307526,
+              "delta_right_mse": 0.46278541535139084
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.03492415323853493,
+              "right_mse": 0.03193261846899986
+            },
+            "delta": {
+              "delta_left_mse": 0.03237798321060836,
+              "delta_right_mse": 0.03042248054407537
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.8558163642883301,
+              "mean_cosine_distance": 0.14418363571166992
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.900422215461731,
+              "mean_cosine_distance": 0.09957778453826904
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.5523900389671326,
+              "right_mse": 0.49336686730384827
+            },
+            "delta": {
+              "delta_left_mse": 0.46009261906147003,
+              "delta_right_mse": 0.4447893723845482
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.03262950852513313,
+              "right_mse": 0.029673658311367035
+            },
+            "delta": {
+              "delta_left_mse": 0.03008333849720657,
+              "delta_right_mse": 0.028163520386442542
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.8143121600151062,
+              "mean_cosine_distance": 0.1856878399848938
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.8989449143409729,
+              "mean_cosine_distance": 0.1010550856590271
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_S/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_S/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_S/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_S/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_S/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_O",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "O",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 1.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "0c2f0a6b5592c2059ae7f71b09d856c52b7d725e54f17ae557f6c59bd5b6f80e",
+        "text_rebind": "ba9c2cd5fb9697c8824d786f59d03caf6525315f38e210935d60d12196d69a6f",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.013673931360244751,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4751162827014923,
+            "delta_luma": 0.013673931360244751,
+            "appearance_change": 0.13263686001300812
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.028169631958007812,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.43327271938323975,
+            "delta_luma": -0.028169631958007812,
+            "appearance_change": 0.13736304640769958
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.013673931360244751,
+        "S_P1": 0.028169631958007812,
+        "S_full": 0.2071552872657776,
+        "E": 0.041843563318252563,
+        "R": 0.2019912881324038,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.42943841218948364,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.42943841218948364,
+          "rmse": 0.6553155183792114,
+          "max_abs": 3.734375,
+          "cosine": 0.7316338419914246,
+          "relative_l2": 0.7489480376243591,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.04987941309809685,
+          "psnr": 13.020786652527876,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.8046875,
+          "text_rebind": 0.857421875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.6871711015701294,
+            "mean_cosine_distance": 0.3128289580345154
+          },
+          "text_rebind": {
+            "mean_cosine": 0.5595293045043945,
+            "mean_cosine_distance": 0.44047069549560547
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.4640471935272217,
+              "right_mse": 0.47020548582077026
+            },
+            "delta": {
+              "delta_left_mse": 0.37174977362155914,
+              "delta_right_mse": 0.4216279909014702
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.021960264071822166,
+              "right_mse": 0.030661525204777718
+            },
+            "delta": {
+              "delta_left_mse": 0.019414094043895602,
+              "delta_right_mse": 0.029151387279853225
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.824034571647644,
+              "mean_cosine_distance": 0.17596542835235596
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.7529188394546509,
+              "mean_cosine_distance": 0.24708116054534912
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.541820764541626,
+              "right_mse": 0.5768093466758728
+            },
+            "delta": {
+              "delta_left_mse": 0.44952334463596344,
+              "delta_right_mse": 0.5282318517565727
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.02012268267571926,
+              "right_mse": 0.032803233712911606
+            },
+            "delta": {
+              "delta_left_mse": 0.017576512647792697,
+              "delta_right_mse": 0.03129309578798711
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.7078342437744141,
+              "mean_cosine_distance": 0.29216575622558594
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.6823306083679199,
+              "mean_cosine_distance": 0.3176693916320801
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_O/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_O/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_O/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_O/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_O/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_R",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "R",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 1.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "6cf5a7ade632ec808dc60e52ed9fa1836a9ff5e669aedad0ee70fc8bd37a6047",
+        "text_rebind": "42f3f227a838c7a26bff86714bd264a8f8eec0511a9e82d9a46ee12cb37ff2f0",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": 0.005694836378097534,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.45574751496315,
+            "delta_luma": -0.005694836378097534,
+            "appearance_change": 0.04250212386250496
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.03666496276855469,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.42477738857269287,
+            "delta_luma": -0.03666496276855469,
+            "appearance_change": 0.05575460568070412
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.005694836378097534,
+        "S_P1": 0.03666496276855469,
+        "S_full": 0.2071552872657776,
+        "E": 0.030970126390457153,
+        "R": 0.14950198374962487,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.06247306242585182,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.06247306242585182,
+          "rmse": 0.24994611740112305,
+          "max_abs": 2.640625,
+          "cosine": 0.9587015509605408,
+          "relative_l2": 0.2856588065624237,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.0062596858479082584,
+          "psnr": 22.03447461988205,
+          "max_abs": 0.958984375,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.6728515625,
+          "text_rebind": 0.857421875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.9800352454185486,
+            "mean_cosine_distance": 0.019964775070548058
+          },
+          "text_rebind": {
+            "mean_cosine": 0.9839532375335693,
+            "mean_cosine_distance": 0.016046758741140366
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.11871234327554703,
+              "right_mse": 0.14971378445625305
+            },
+            "delta": {
+              "delta_left_mse": 0.02641492336988449,
+              "delta_right_mse": 0.10113628953695297
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.0024377063382416964,
+              "right_mse": 0.007203049026429653
+            },
+            "delta": {
+              "delta_left_mse": -0.00010846368968486786,
+              "delta_right_mse": 0.00569291110150516
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9970833659172058,
+              "mean_cosine_distance": 0.0029166340827941895
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9689225554466248,
+              "mean_cosine_distance": 0.031077444553375244
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.1204916313290596,
+              "right_mse": 0.1593257486820221
+            },
+            "delta": {
+              "delta_left_mse": 0.028194211423397064,
+              "delta_right_mse": 0.11074825376272202
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.0024773813784122467,
+              "right_mse": 0.0098810950294137
+            },
+            "delta": {
+              "delta_left_mse": -6.878864951431751e-05,
+              "delta_right_mse": 0.008370957104489207
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9968350529670715,
+              "mean_cosine_distance": 0.003164947032928467
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9766106009483337,
+              "mean_cosine_distance": 0.02338939905166626
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_R/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_R/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_R/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_R/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_R/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_empty",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "empty",
+      "mechanism": "component",
+      "history_gate": null,
+      "history_component_gates": {
+        "sink": 0.0,
+        "old": 0.0,
+        "recent": 0.0
+      },
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "589d54a0228600209b4cb94f2af613b9c21eb352bb9888e7ecbdf1c823e0e8a0",
+        "text_rebind": "5ce886f34f326d89378222d9db586685bafe713904987fc6494c6444dec47277",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": {
+        "replay": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        },
+        "text_rebind": {
+          "tokens": {
+            "sink": 1296,
+            "old": 1296,
+            "recent": 1296,
+            "current": 1296
+          },
+          "latent_frames": {
+            "sink": 3,
+            "old": 3,
+            "recent": 3,
+            "current": 3
+          },
+          "tokens_per_latent_frame": 432,
+          "modules_checked": 30
+        }
+      },
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": 0.04992610216140747,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4115162491798401,
+            "delta_luma": -0.04992610216140747,
+            "appearance_change": 0.2253325879573822
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.266017809510231,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.19542454183101654,
+            "delta_luma": -0.266017809510231,
+            "appearance_change": 0.29265809059143066
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": 0.04992610216140747,
+        "S_P1": 0.266017809510231,
+        "S_full": 0.2071552872657776,
+        "E": 0.21609170734882355,
+        "R": 1.0431387496838573,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.8865667581558228,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.8865667581558228,
+          "rmse": 0.9415767192840576,
+          "max_abs": 4.515625,
+          "cosine": 0.3214258551597595,
+          "relative_l2": 1.0761107206344604,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.08603624254465103,
+          "psnr": 10.653185647857049,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.951171875,
+          "text_rebind": 0.974609375
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.8351012468338013,
+            "mean_cosine_distance": 0.1648988127708435
+          },
+          "text_rebind": {
+            "mean_cosine": 0.6934106349945068,
+            "mean_cosine_distance": 0.30658939480781555
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.7749103903770447,
+              "right_mse": 1.0073696374893188
+            },
+            "delta": {
+              "delta_left_mse": 0.6826129704713821,
+              "delta_right_mse": 0.9587921425700188
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.02799913100898266,
+              "right_mse": 0.043521035462617874
+            },
+            "delta": {
+              "delta_left_mse": 0.025452960981056094,
+              "delta_right_mse": 0.04201089753769338
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.7062441110610962,
+              "mean_cosine_distance": 0.2937558889389038
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.785273551940918,
+              "mean_cosine_distance": 0.21472644805908203
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.9985512495040894,
+              "right_mse": 1.5721955299377441
+            },
+            "delta": {
+              "delta_left_mse": 0.9062538295984268,
+              "delta_right_mse": 1.523618035018444
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.05231112241744995,
+              "right_mse": 0.08527297526597977
+            },
+            "delta": {
+              "delta_left_mse": 0.04976495238952339,
+              "delta_right_mse": 0.08376283734105527
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.5748251676559448,
+              "mean_cosine_distance": 0.4251748323440552
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.7558680772781372,
+              "mean_cosine_distance": 0.2441319227218628
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_empty/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_empty/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_empty/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_empty/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_empty/comparison.mp4"
+      }
+    },
+    {
+      "protocol": "fixed_history_subsets_d2_v1",
+      "sample_id": "edit_lighting_darker_seed404_chunk4_global_release",
+      "prompt_id": "lighting_darker",
+      "seed": 404,
+      "target_chunk": 4,
+      "condition": "global_release",
+      "mechanism": "stage_c_global",
+      "history_gate": 0.5,
+      "history_component_gates": null,
+      "policies": {
+        "replay": "P0",
+        "text_rebind": "P1"
+      },
+      "evidence": "directional",
+      "num_chunks": 7,
+      "base_prompt": "A cat walks across a bright living room floor in daylight.",
+      "edit_prompt": "A cat walks across a dim living room floor at night.",
+      "noise_sha256": "2e2e42c7dd89efd1a2bf3eaf5bca9b37245df5450466e4f7980ea7ae87b6016b",
+      "noise_source": "global",
+      "chunk_latent_sha256": {
+        "replay": "038154f89b50035fe3ac85cba9d787c580bca1c76f9e9fe092f0b4adc8fdf845",
+        "text_rebind": "ec2da8ac84a9f25df64b621f580de64a2ffeb9c00e94ce7e0e68261ea98af9ec",
+        "original": "d821e636cb20b8043df80fd1032f4ca1cde56f8e14a26ab76b32923df779490a",
+        "full_regeneration": "5198be703d7d161623d1e6fbbc2058448a88ef79087bce115b68df157a83461f"
+      },
+      "rng": {
+        "replay": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        },
+        "text_rebind": {
+          "comparable": true,
+          "steps": 3,
+          "max_abs": 0.0,
+          "exact": true
+        }
+      },
+      "history_partition": null,
+      "responsiveness": {
+        "replay": {
+          "kind": "luma",
+          "S_proxy": -0.022306621074676514,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.4837489724159241,
+            "delta_luma": 0.022306621074676514,
+            "appearance_change": 0.09138606488704681
+          }
+        },
+        "text_rebind": {
+          "kind": "luma",
+          "S_proxy": 0.06133952736854553,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.400102823972702,
+            "delta_luma": -0.06133952736854553,
+            "appearance_change": 0.0931222215294838
+          }
+        },
+        "full_regeneration": {
+          "kind": "luma",
+          "S_proxy": 0.2071552872657776,
+          "measurements": {
+            "luma_base": 0.46144235134124756,
+            "luma_edited": 0.25428706407546997,
+            "delta_luma": -0.2071552872657776,
+            "appearance_change": 0.29316553473472595
+          }
+        }
+      },
+      "editability": {
+        "S_P0": -0.022306621074676514,
+        "S_P1": 0.06133952736854553,
+        "S_full": 0.2071552872657776,
+        "E": 0.08364614844322205,
+        "R": 0.4037847623744457,
+        "ratio_status": "valid"
+      },
+      "D_drift": 0.3236117362976074,
+      "D_drift_metric": "target_chunk_latent_mse",
+      "drift": {
+        "latent": {
+          "mse": 0.3236117362976074,
+          "rmse": 0.5688688158988953,
+          "max_abs": 3.65625,
+          "cosine": 0.809890866279602,
+          "relative_l2": 0.6501497030258179,
+          "exact": false
+        },
+        "pixel": {
+          "mse": 0.023436686024069786,
+          "psnr": 16.30103798080999,
+          "max_abs": 1.0,
+          "exact": false
+        }
+      },
+      "sanity": {
+        "full_history_P0_exact_base": null,
+        "fixed_references_unmodified_full_history": true
+      },
+      "preservation": {
+        "outside_exact": true,
+        "policies_checked": [
+          "P0",
+          "P1"
+        ],
+        "chunks_checked": 6,
+        "outside_max_abs_after_vae": {
+          "replay": 0.703125,
+          "text_rebind": 0.82421875
+        },
+        "identity": {
+          "status": "measured",
+          "metric": "DINOv2 appearance proxy",
+          "model": {
+            "path": "/workspace/video-model/restream_mvp/models/dinov2-small",
+            "image_size": 224,
+            "pool": "mean-patch-tokens"
+          },
+          "replay": {
+            "mean_cosine": 0.82720947265625,
+            "mean_cosine_distance": 0.1727904975414276
+          },
+          "text_rebind": {
+            "mean_cosine": 0.8454360961914062,
+            "mean_cosine_distance": 0.15456393361091614
+          }
+        }
+      },
+      "boundary": {
+        "replay": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.3649900257587433,
+              "right_mse": 0.4019416570663452
+            },
+            "delta": {
+              "delta_left_mse": 0.27269260585308075,
+              "delta_right_mse": 0.35336416214704514
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.009148376062512398,
+              "right_mse": 0.018201794475317
+            },
+            "delta": {
+              "delta_left_mse": 0.0066022060345858335,
+              "delta_right_mse": 0.01669165655039251
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9129868149757385,
+              "mean_cosine_distance": 0.08701318502426147
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.913885772228241,
+              "mean_cosine_distance": 0.08611422777175903
+            }
+          }
+        },
+        "text_rebind": {
+          "latent": {
+            "base": {
+              "left_mse": 0.09229741990566254,
+              "right_mse": 0.04857749491930008
+            },
+            "edited": {
+              "left_mse": 0.2852083444595337,
+              "right_mse": 0.3469260632991791
+            },
+            "delta": {
+              "delta_left_mse": 0.19291092455387115,
+              "delta_right_mse": 0.298348568379879
+            }
+          },
+          "pixel": {
+            "base": {
+              "left_mse": 0.002546170027926564,
+              "right_mse": 0.0015101379249244928
+            },
+            "edited": {
+              "left_mse": 0.007380754686892033,
+              "right_mse": 0.016874201595783234
+            },
+            "delta": {
+              "delta_left_mse": 0.004834584658965468,
+              "delta_right_mse": 0.01536406367085874
+            }
+          },
+          "dino": {
+            "left_base": {
+              "mean_cosine": 0.9972915053367615,
+              "mean_cosine_distance": 0.0027084946632385254
+            },
+            "left_edited": {
+              "mean_cosine": 0.9409664869308472,
+              "mean_cosine_distance": 0.05903351306915283
+            },
+            "right_base": {
+              "mean_cosine": 0.9977471828460693,
+              "mean_cosine_distance": 0.002252817153930664
+            },
+            "right_edited": {
+              "mean_cosine": 0.9038952589035034,
+              "mean_cosine_distance": 0.09610474109649658
+            }
+          }
+        }
+      },
+      "cache": {
+        "path": "validation/history_subsets/screen_daaf075311b1/shard3_cache/edit_lighting_darker_seed404__chunk004.pt",
+        "sha256": "46b30c5c26d00695511daf2535b58152d2783118d70d1dc798962ec742043d00",
+        "bytes": 1055663002,
+        "chunk_index": 4,
+        "sample_id": "edit_lighting_darker_seed404",
+        "cache_bytes": 1049887200,
+        "identity": {
+          "schema_version": 1,
+          "sample_id": "edit_lighting_darker_seed404",
+          "chunk_index": 4,
+          "num_chunks": 7,
+          "prompt_hash": "2b4d78555597d7433c13a8c6c30069788bc2c435f2311a09357dbcd4f46dfb04",
+          "model_hash": "e20fc720140ea0701f91c2e8c963cc40c618222a5deb9d4eca18998b2033bb33",
+          "config_hash": "afad899b4be70519c21cdd0237d09ff2f4be004ebc8ce7a2a992d2d533bc07c5",
+          "seed": 404,
+          "current_start_frame": 12,
+          "latent_shape": [
+            1,
+            21,
+            16,
+            32,
+            54
+          ]
+        },
+        "created_unix": 1789175403.7920055
+      },
+      "cost": {
+        "status": "invalid_diagnostic",
+        "passed": null,
+        "reason": "D2 mechanism screen includes incomparable attention operators."
+      },
+      "videos": {
+        "original": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_global_release/original.mp4",
+        "full_regeneration": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_global_release/full_regeneration.mp4",
+        "replay": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_global_release/replay.mp4",
+        "text_rebind": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_global_release/text_rebind.mp4",
+        "comparison": "validation/history_subsets/screen_daaf075311b1/shard3_videos/edit_lighting_darker_seed404_chunk4_global_release/comparison.mp4"
+      }
+    }
+  ],
+  "screen": {
+    "passed_invariants": true,
+    "pairs": 9,
+    "chunk_replays": 18,
+    "interpretation": "exploratory_no_significance_test"
+  },
+  "non_finite_fields": [
+    "cases[0].drift.pixel.psnr"
+  ]
+}

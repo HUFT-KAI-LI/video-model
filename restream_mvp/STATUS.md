@@ -9,6 +9,12 @@ pairwise/third-order inclusion-exclusion、locking set function 和 Shapley allo
 不设置事后等价阈值、不自动判定 A/B/C/D，也暂不进入 soft alpha 或 score/value。
 协议与启动方式见 [HISTORY_SUBSET_PROTOCOL.md](HISTORY_SUBSET_PROTOCOL.md)。
 
+D2 4xA800 screen 已在 commit `daaf075311b1` 完成：36/36 pairs、72/72 replay
+通过冻结 invariants。结果显示多数双组件 subset 已恢复接近完整 SOR locking，同时
+singleton 结构随 edit 明显变化；当前口径为 distributed/redundant locking with
+edit-dependent subset structure，不作显著性或自动 A/B/C/D 判断。机器可读 analysis
+与四个 clean-provenance shard JSON 已归档到 `validation/`。
+
 ## History Component Decomposition D1（2026-09-12）
 
 History-Constraint Release Stage C 已按 held-out 120-pair 结果封存为 GPU PASS。
