@@ -1,5 +1,21 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## M1-A Oracle Mask Distillation（2026-09-12）
+
+M1-A 已按冻结协议完成：40 个 `lambda=.2` Oracle teacher（4 edits × seeds
+606/707/801–808），训练 Prompt-only（6,110 参数）与 Prompt+State（6,513 参数）
+controller，再在完全隔离的 seeds 1001/1002 上跑 48 个 final pairs。LongLive/T5
+始终冻结，训练只使用 mask MSE；held-out 判定只使用真实 replay 的 `delta_R` 和
+`D_drift`。协议见 [MASK_DISTILLATION_M1A_PROTOCOL.md](MASK_DISTILLATION_M1A_PROTOCOL.md)。
+
+结果为 **NO PASS**：Prompt-only 为 5/8 Pareto wins，Prompt+State 为 4/8，均未达到
+冻结的 6/8 门槛。Prompt+State aggregate median `(delta_R,D)=(0.42090,0.22375)`，
+优于 global `.5` 的 `(0.19218,0.30963)`，但不能覆盖逐 unit 一致性失败。有限
+16-step SPSA reference 在个别 unit 被 predictor 超过，因此只解释为同预算 search
+reference，不称数学 upper bound。48/48 final pairs 的 routing/RNG/outside/DINO/
+boundary/hash/clean-provenance invariants 全部通过。机器可读结果已归档到
+`validation/mask_distillation_analysis_209160b.json` 和四个 held-out shard。
+
 ## M0/M1 Oracle Layer-wise Release Mask（2026-09-12）
 
 D3 已定位到 value/content path 更敏感，但单一路径 attenuation 的 preservation cost
