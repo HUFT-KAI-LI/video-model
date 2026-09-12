@@ -1,5 +1,25 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## M1-B Expanded Oracle Teacher Distillation（2026-09-12）
+
+M1-B 保持 M1-A 的 feature、controller 架构、mask-MSE loss 和训练超参数不变，
+新增 seeds 1101-1140 的 160 个 Oracle teacher，并与锁定的 M1-A 40 条合并为
+200-unit training set。LongLive/T5 始终冻结。held-out 使用完全隔离的 seeds
+2001-2004，四个 edits、五个条件，共 80 个 final pairs。冻结协议见
+[MASK_DISTILLATION_M1B_PROTOCOL.md](MASK_DISTILLATION_M1B_PROTOCOL.md)。
+
+冻结判定为 **NO PASS**：Prompt+State 在 16 个 held-out units 上有 8 个严格 Pareto
+wins，未达到 12/16；Prompt-only ablation 为 7/16。按 edit 的 Prompt+State wins 为
+dress 2/4、jacket 2/4、darker 3/4、warm-to-cool 1/4。Prompt+State aggregate median
+`(delta_R,D)=(0.19039,0.19508)`，优于 global `.5` 的 `(0.15803,0.22657)`，但逐
+unit 泛化不稳定。有限 16-step SPSA reference 的 median 为 `(0.29727,0.17581)`，
+仍显示可利用的 Oracle 余量；它不是数学 upper bound。
+
+80/80 final pairs 通过 full-P0 exact、RNG、outside exact、30-layer routing、DINO、
+boundary、hash 和 clean-provenance 检查。结论按预注册路线执行：不再仅靠增加
+teacher 数量；下一阶段应改 controller representation 或训练 loss。机器可读结果为
+`validation/mask_distillation_m1b_analysis_0fded5f.json` 和四个 held-out shard。
+
 ## M1-A Oracle Mask Distillation（2026-09-12）
 
 M1-A 已按冻结协议完成：40 个 `lambda=.2` Oracle teacher（4 edits × seeds
