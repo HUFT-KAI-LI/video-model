@@ -1,5 +1,21 @@
 # ReStream 本轮审阅状态（2026-09-09）
 
+## M0/M1 Oracle Layer-wise Release Mask（2026-09-12）
+
+D3 已定位到 value/content path 更敏感，但单一路径 attenuation 的 preservation cost
+过高。本轮冻结 LongLive，为每个 `(edit, seed)` 用精确离散 proxy 和确定性 SPSA 单独
+优化 30 个 layer release coefficients；seeds 606/707、chunk 4、四个 directional
+edits、`lambda={.05,.2,.8}`，最终比较 full/global `.5`/current-only/三个 oracle 点。
+协议见 [ORACLE_LAYER_MASK_PROTOCOL.md](ORACLE_LAYER_MASK_PROTOCOL.md)。
+
+4xA800 实验已在 clean commit `312580ad8c0d` 完成，48/48 final pairs 通过冻结
+invariants。判定为 **PASS**：8 个 edit-seed 单元中 6 个存在严格 Pareto 优于 global
+`.5` 的非均匀 mask；dress、jacket、darker 均为 2/2 seeds，warm-to-cool 为 0/2。
+global `.5` 的 median `(delta_R,D)=(0.13171,0.24872)`，`lambda=.2` oracle 为
+`(0.22920,0.21773)`。这证明 per-case layer mask 有方法可行性，但同时显示明显
+edit dependence；尚未训练或验证 prompt-conditioned controller。机器可读 analysis
+和四个 clean-provenance shard 已归档到 `validation/`。
+
 ## History Attention-Path Decomposition D3（2026-09-12）
 
 D1/D2 已停止继续拆 temporal position。D3 冻结为 score/access 与 value/content
