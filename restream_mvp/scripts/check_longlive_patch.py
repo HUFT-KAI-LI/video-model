@@ -9,7 +9,8 @@ import tarfile
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ("utils/wan_wrapper.py", "wan/modules/causal_model.py", "wan/modules/causal_model_infinity.py")
+FILES = ("utils/wan_wrapper.py", "wan/modules/causal_model.py", "wan/modules/causal_model_infinity.py",
+         "pipeline/causal_inference.py")
 
 
 def main():

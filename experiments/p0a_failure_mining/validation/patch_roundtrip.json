@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "check": "Reverse and reapply full patch without fuzz; exact regeneration and byte equality",
+  "files": [
+    "utils/wan_wrapper.py",
+    "wan/modules/causal_model.py",
+    "wan/modules/causal_model_infinity.py",
+    "pipeline/causal_inference.py"
+  ],
+  "patch_sha256": "a6e5527d37eca0e3a4887138d4318d2beef70d98e2ffe2f815cb8bbb330a7f6d",
+  "pinned_archive_revalidated": false
+}

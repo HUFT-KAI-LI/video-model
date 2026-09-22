@@ -1,0 +1,34 @@
+{
+  "planned_videos": 80,
+  "geometry": {
+    "pixel_frames": 960,
+    "latent_frames": 243,
+    "num_blocks": 81,
+    "fps": 16,
+    "duration_sec": 60.0
+  },
+  "dependencies": {
+    "torch": true,
+    "torchvision": true,
+    "flash_attn": true,
+    "omegaconf": true,
+    "peft": true,
+    "transformers": true,
+    "av": true,
+    "numpy": true,
+    "PIL": true,
+    "matplotlib": false
+  },
+  "assets": {
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/Wan2.1-T2V-1.3B/Wan2.1_VAE.pth": true,
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/Wan2.1-T2V-1.3B/diffusion_pytorch_model.safetensors": true,
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/Wan2.1-T2V-1.3B/models_t5_umt5-xxl-enc-bf16.pth": true,
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/Wan2.1-T2V-1.3B/google/umt5-xxl/tokenizer.json": true,
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/LongLive-1.3B/models/longlive_base.pt": true,
+    "/data/lk/深度学习/video-model-p0a/restream_mvp/models/LongLive-1.3B/models/lora.pt": true
+  },
+  "cuda_available": false,
+  "ready_to_generate": false,
+  "ready_to_plot": false,
+  "gpu_rollout_validated": false
+}

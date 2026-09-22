@@ -1,5 +1,7 @@
 # video-model
 
+- [P0-A：LongLive 自然失败挖掘实验准备（待审阅）](experiments/p0a_failure_mining/README.md)
+
 Reality Memory：基于冻结 Wan / LongLive，用稀疏真实图像作为外部记忆的实验。原有 State Re-Anchoring 保留为 baseline 与诊断。
 
 - [Reality Memory 新方案](restream_mvp/REALITY_MEMORY_PLAN.md)

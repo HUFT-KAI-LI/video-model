@@ -60,6 +60,8 @@ class CausalInferencePipeline(torch.nn.Module):
         return_latents: bool = False,
         profile: bool = False,
         low_memory: bool = False,
+        block_callback=None,
+        decode_video: bool = True,
     ) -> torch.Tensor:
         """
         Perform inference on the given noise and text prompts.
@@ -207,6 +209,14 @@ class CausalInferencePipeline(torch.nn.Module):
 
             # Step 2.4: update the start and end frame indices
             current_start_frame += current_num_frames
+            # Optional read-only observer, after the clean-context cache update.
+            # P0-A uses this boundary to verify replay and capture exact states.
+            if block_callback is not None:
+                block_callback(current_start_frame // self.num_frame_per_block - 1,
+                               output[:, :current_start_frame], self)
+
+        if not decode_video:
+            return output
 
         if profile:
             # End diffusion timing and synchronize CUDA
