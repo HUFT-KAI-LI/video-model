@@ -1,0 +1,5 @@
+video_id,subject_drop,subject_onset,subject_change_drop,subject_change_onset,attribute_drop,attribute_onset,attribute_change_drop,attribute_change_onset,selected_subject,selected_attribute,selected_subject_change,selected_attribute_change,selection,suggested_onset_block
+P001_S00,0.15511273813925974,40,0.04325952249607101,35,0.00881744921207428,21,0.007653161883354187,42,False,False,False,False,unselected,
+P003_S00,0.3656388066354781,41,0.08172989570893963,39,0.013471335172653198,51,0.006744176149368286,29,True,True,True,False,candidate,39
+P005_S00,0.16077504821468913,41,0.022526828834617874,37,0.01250353455543518,45,0.007940851151943207,44,False,False,False,True,candidate,44
+P016_S00,0.22426935707033946,63,0.04727807930925987,53,0.00520169734954834,74,0.0037363022565841675,67,False,False,False,False,audit,

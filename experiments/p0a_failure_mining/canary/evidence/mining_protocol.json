@@ -1,0 +1,18 @@
+{
+  "config": {
+    "reference_blocks": 4,
+    "persistence_blocks": 3,
+    "change_window": 4,
+    "top_fraction": 0.2,
+    "audit_fraction": 0.25,
+    "audit_seed": 20260922,
+    "control_fraction": 0.25
+  },
+  "completed": 4,
+  "planned": 4,
+  "candidates": 2,
+  "audits": 1,
+  "negative_audit_probability": 0.25,
+  "realized_audit_fraction": 0.5,
+  "scores_sha256": "e5baa9af9de3a3b8a25abc624694f63d3a04f8c0abdc4827d6497c7f12349e22"
+}

@@ -1,0 +1,131 @@
+{
+  "config": {
+    "duration_sec": 60,
+    "fps": 16,
+    "height": 480,
+    "width": 832,
+    "seeds": [
+      0
+    ],
+    "model": {
+      "wan": "restream_mvp/models/Wan2.1-T2V-1.3B",
+      "longlive": "restream_mvp/models/LongLive-1.3B",
+      "upstream_config": "code/LongLive/configs/longlive_inference.yaml"
+    },
+    "features": {
+      "dino_model": "facebook/dinov2-small",
+      "dino_revision": "main",
+      "clip_model": "openai/clip-vit-base-patch32",
+      "clip_revision": "main",
+      "frames_per_block": 3,
+      "mode": "whole_frame"
+    },
+    "mining": {
+      "reference_blocks": 4,
+      "persistence_blocks": 3,
+      "change_window": 4,
+      "top_fraction": 0.2,
+      "audit_fraction": 0.25,
+      "audit_seed": 20260922,
+      "control_fraction": 0.25
+    }
+  },
+  "videos": [
+    {
+      "prompt_id": "P001",
+      "category": "human_clothing",
+      "difficulty": "easy",
+      "target_subject": "woman",
+      "target_attribute": "bright red jacket",
+      "motion_group": "human_clothing_0",
+      "prompt": "A woman wearing a bright red jacket walks slowly along a quiet city street. The camera maintains a steady side view. One continuous uncut shot; the same subject keeps the same appearance throughout.",
+      "attribute_text": "a photo of a woman wearing a red jacket",
+      "alternatives": [
+        "a photo of a woman wearing a blue jacket",
+        "a photo of a woman wearing a green jacket",
+        "a photo of a woman wearing a black jacket",
+        "a photo of a woman wearing a white jacket",
+        "a photo of a woman without a jacket"
+      ],
+      "seed": 0,
+      "video_id": "P001_S00",
+      "duration_sec": 60.0,
+      "num_blocks": 81,
+      "fps": 16,
+      "num_frames": 960,
+      "latent_frames": 243
+    },
+    {
+      "prompt_id": "P003",
+      "category": "human_clothing",
+      "difficulty": "medium",
+      "target_subject": "woman",
+      "target_attribute": "bright red jacket",
+      "motion_group": "human_clothing_0",
+      "prompt": "A woman wearing a bright red jacket walks slowly along a quiet city street. The camera follows from changing angles as the subject turns and its distance to the camera changes. One continuous uncut shot; the same subject keeps the same appearance throughout.",
+      "attribute_text": "a photo of a woman wearing a red jacket",
+      "alternatives": [
+        "a photo of a woman wearing a blue jacket",
+        "a photo of a woman wearing a green jacket",
+        "a photo of a woman wearing a black jacket",
+        "a photo of a woman wearing a white jacket",
+        "a photo of a woman without a jacket"
+      ],
+      "seed": 0,
+      "video_id": "P003_S00",
+      "duration_sec": 60.0,
+      "num_blocks": 81,
+      "fps": 16,
+      "num_frames": 960,
+      "latent_frames": 243
+    },
+    {
+      "prompt_id": "P005",
+      "category": "human_clothing",
+      "difficulty": "stress",
+      "target_subject": "woman",
+      "target_attribute": "bright red jacket",
+      "motion_group": "human_clothing_0",
+      "prompt": "A woman wearing a bright red jacket walks slowly along a quiet city street. The camera follows through alternating sunlight and shadow, with brief partial occlusions by foreground objects and changes in viewpoint. One continuous uncut shot; the same subject keeps the same appearance throughout.",
+      "attribute_text": "a photo of a woman wearing a red jacket",
+      "alternatives": [
+        "a photo of a woman wearing a blue jacket",
+        "a photo of a woman wearing a green jacket",
+        "a photo of a woman wearing a black jacket",
+        "a photo of a woman wearing a white jacket",
+        "a photo of a woman without a jacket"
+      ],
+      "seed": 0,
+      "video_id": "P005_S00",
+      "duration_sec": 60.0,
+      "num_blocks": 81,
+      "fps": 16,
+      "num_frames": 960,
+      "latent_frames": 243
+    },
+    {
+      "prompt_id": "P016",
+      "category": "object_vehicle",
+      "difficulty": "easy",
+      "target_subject": "compact car",
+      "target_attribute": "blue body",
+      "motion_group": "object_vehicle_0",
+      "prompt": "A blue compact car drives slowly along a country road. The camera maintains a steady side view. One continuous uncut shot; the same subject keeps the same appearance throughout.",
+      "attribute_text": "a photo of a compact car with a blue body",
+      "alternatives": [
+        "a photo of a compact car with a red body",
+        "a photo of a compact car with a green body",
+        "a photo of a compact car with a black body",
+        "a photo of a compact car with a white body"
+      ],
+      "seed": 0,
+      "video_id": "P016_S00",
+      "duration_sec": 60.0,
+      "num_blocks": 81,
+      "fps": 16,
+      "num_frames": 960,
+      "latent_frames": 243
+    }
+  ],
+  "signature": "fc0168359a7221de81e778ec9c9f45b3e73365a60a4d900471765d94536a9d7f"
+}

@@ -1,0 +1,14 @@
+{
+  "model": "official Wan2.1 VAE",
+  "device": "NVIDIA GeForce RTX 3090",
+  "latent_frames": 6,
+  "whole_frames": 21,
+  "chunk_frames": [
+    9,
+    12
+  ],
+  "max_abs_error": 0.0,
+  "mean_abs_error": 0.0,
+  "bitwise_equal": true,
+  "allclose_1e_4": true
+}

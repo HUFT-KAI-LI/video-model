@@ -1,0 +1,5 @@
+video_id,human_failure,reviewed_until_sec,auto_candidate,selection,human_onset_block,human_onset_lower_sec,human_onset_upper_sec,auto_onset_block,auto_onset_sec,human_failure_type
+P001_S00,,0.0,False,unselected,,,,,,
+P003_S00,,0.0,True,candidate,,,,39,29.0625,
+P005_S00,,0.0,True,candidate,,,,44,32.8125,
+P016_S00,,0.0,False,audit,,,,,,

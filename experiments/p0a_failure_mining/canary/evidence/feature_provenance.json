@@ -1,0 +1,36 @@
+{
+  "plan_signature": "fc0168359a7221de81e778ec9c9f45b3e73365a60a4d900471765d94536a9d7f",
+  "config": {
+    "dino_model": "/data/lk/深度学习/video-model/restream_mvp/models/dinov2-small",
+    "dino_revision": "main",
+    "clip_model": "/data/lk/深度学习/video-model/restream_mvp/models/clip-vit-base-patch32",
+    "clip_revision": "main",
+    "frames_per_block": 3,
+    "mode": "whole_frame"
+  },
+  "mode": "whole_frame",
+  "local_asset_sha256": {
+    "dino": {
+      "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+      "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1",
+      "preprocessor_config.json": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828",
+      "provenance.json": "d476d7deab99ca22f3a1612e0a90987b870b2b9dbf0b6e95e3313df7c398413f"
+    },
+    "clip": {
+      "config.json": "b575ef3c36f2a057fa19e221650105052d61cc9c1a972ec15019c6261ec98770",
+      "merges.txt": "f526393189112391ce6f9795d4695f704121ce452c3aad1f5335cc41337eba85",
+      "preprocessor_config.json": "910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd",
+      "provenance.json": "3d4cebfe9fc7ac03bd94dda78dd691deed3989921f571c3d825e9ccb67e7c45a",
+      "pytorch_model.bin": "a63082132ba4f97a80bea76823f544493bffa8082296d62d71581a4feff1576f",
+      "tokenizer.json": "b556ac8c99757ffb677208af34bc8c6721572114111a6e0aaf5fa69ff0b8d842",
+      "tokenizer_config.json": "34b7336e4bee12e0a9730eaf5189f582ef3c3eea5027f65730e5717256755aad",
+      "vocab.json": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363"
+    }
+  },
+  "boxes_sha256": null,
+  "dino_commit": null,
+  "clip_commit": null,
+  "extraction_source_sha256": "543105df441f89dcb0c03911de6d3089f0898b61050b98ddd6089580eb1ab187",
+  "torch": "2.5.1+cu124",
+  "transformers": "4.49.0"
+}

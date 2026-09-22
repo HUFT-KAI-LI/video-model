@@ -1,8 +1,10 @@
-# P0-A：LongLive 自然失败挖掘（待审阅的实验准备）
+# P0-A：LongLive 自然失败挖掘
+
+**进度更新：** [Gate 1 Canary](canary/README.md) 记录四条真实 60 秒轨迹；[实际结果](canary/RESULTS.md) 与旧的准备阶段验证分开。Mini-Pilot / 全量实验尚未放行。
 
 本目录实现用户提供的 P0-A 设计：20 个单 prompt × 4 个 seed，默认每条自然连续生成 60 秒，分析 15/30/45/60 秒前缀。四类主体各 5 个 prompt；难度为 Easy 8、Medium 8、Stress 4。只做自然 rollout、自动候选筛选和人工确认，不训练、不注入 corruption、不在生成途中重采样。
 
-**本次交付是准备代码，不是实验结果。** CPU 协议测试、上游观察回调和小型随机权重 VAE 解码测试见 [validation](validation/)。没有完成真实 GPU rollout、视觉指标模型推理、自然失败人工标注或 GO/NO-GO 判断。真实 480×832、60 秒的耗时和显存仍需在目标 GPU 上测量。
+**以下为 da0174d 准备阶段记录；最新 GPU 实测见上述 Canary 报告。** CPU 协议测试、上游观察回调和小型随机权重 VAE 解码测试见 [validation](validation/)。没有完成真实 GPU rollout、视觉指标模型推理、自然失败人工标注或 GO/NO-GO 判断。真实 480×832、60 秒的耗时和显存仍需在目标 GPU 上测量。
 
 ## 审阅入口
 

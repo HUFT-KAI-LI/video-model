@@ -1,0 +1,292 @@
+{
+  "planned": 4,
+  "completed": 4,
+  "missing_generation": 0,
+  "prefix_rates": [
+    {
+      "duration_sec": 15,
+      "n_eligible": 4,
+      "confirmed_failures": 0,
+      "unknown": 4,
+      "lower_bound": 0.0,
+      "upper_bound": 1.0,
+      "failure_rate": null
+    },
+    {
+      "duration_sec": 30,
+      "n_eligible": 4,
+      "confirmed_failures": 0,
+      "unknown": 4,
+      "lower_bound": 0.0,
+      "upper_bound": 1.0,
+      "failure_rate": null
+    },
+    {
+      "duration_sec": 45,
+      "n_eligible": 4,
+      "confirmed_failures": 0,
+      "unknown": 4,
+      "lower_bound": 0.0,
+      "upper_bound": 1.0,
+      "failure_rate": null
+    },
+    {
+      "duration_sec": 60,
+      "n_eligible": 4,
+      "confirmed_failures": 0,
+      "unknown": 4,
+      "lower_bound": 0.0,
+      "upper_bound": 1.0,
+      "failure_rate": null
+    }
+  ],
+  "interval_hazards": [
+    {
+      "start_sec": 0,
+      "end_sec": 15,
+      "n_eligible": 4,
+      "n_prior_failure": 0,
+      "n_at_risk": 4,
+      "n_unknown_entry": 0,
+      "n_first_failures": 0,
+      "n_survived": 0,
+      "n_unresolved_outcome": 4,
+      "hazard": null,
+      "status": "pending_review"
+    },
+    {
+      "start_sec": 15,
+      "end_sec": 30,
+      "n_eligible": 4,
+      "n_prior_failure": 0,
+      "n_at_risk": 0,
+      "n_unknown_entry": 4,
+      "n_first_failures": 0,
+      "n_survived": 0,
+      "n_unresolved_outcome": 0,
+      "hazard": null,
+      "status": "pending_review"
+    },
+    {
+      "start_sec": 30,
+      "end_sec": 45,
+      "n_eligible": 4,
+      "n_prior_failure": 0,
+      "n_at_risk": 0,
+      "n_unknown_entry": 4,
+      "n_first_failures": 0,
+      "n_survived": 0,
+      "n_unresolved_outcome": 0,
+      "hazard": null,
+      "status": "pending_review"
+    },
+    {
+      "start_sec": 45,
+      "end_sec": 60,
+      "n_eligible": 4,
+      "n_prior_failure": 0,
+      "n_at_risk": 0,
+      "n_unknown_entry": 4,
+      "n_first_failures": 0,
+      "n_survived": 0,
+      "n_unresolved_outcome": 0,
+      "hazard": null,
+      "status": "pending_review"
+    }
+  ],
+  "detector": {
+    "subject": {
+      "tp": 0,
+      "fp": 0,
+      "fn_observed": 0,
+      "n_labeled": 0,
+      "n_total": 4,
+      "precision": null,
+      "recall": null,
+      "reviewed_subset_recall": null,
+      "full_cohort_reviewed": false
+    },
+    "attribute": {
+      "tp": 0,
+      "fp": 0,
+      "fn_observed": 0,
+      "n_labeled": 0,
+      "n_total": 4,
+      "precision": null,
+      "recall": null,
+      "reviewed_subset_recall": null,
+      "full_cohort_reviewed": false
+    },
+    "combined": {
+      "tp": 0,
+      "fp": 0,
+      "fn_observed": 0,
+      "n_labeled": 0,
+      "n_total": 4,
+      "precision": null,
+      "recall": null,
+      "reviewed_subset_recall": null,
+      "full_cohort_reviewed": false
+    }
+  },
+  "interpretation": "Cumulative first-event incidence is nondecreasing by definition; it does not establish increasing per-block hazard. Missing reviews are unknown; bounds are identification bounds, not confidence intervals.",
+  "by_category_difficulty": {
+    "human_clothing/easy": [
+      {
+        "duration_sec": 15,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 30,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 45,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 60,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      }
+    ],
+    "human_clothing/medium": [
+      {
+        "duration_sec": 15,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 30,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 45,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 60,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      }
+    ],
+    "human_clothing/stress": [
+      {
+        "duration_sec": 15,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 30,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 45,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 60,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      }
+    ],
+    "object_vehicle/easy": [
+      {
+        "duration_sec": 15,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 30,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 45,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      },
+      {
+        "duration_sec": 60,
+        "n_eligible": 1,
+        "confirmed_failures": 0,
+        "unknown": 1,
+        "lower_bound": 0.0,
+        "upper_bound": 1.0,
+        "failure_rate": null
+      }
+    ]
+  },
+  "confirmed_failures": 0,
+  "p0b_eligible": 0,
+  "controls_requested": 0,
+  "controls_matched": 0,
+  "controls_shortfall": 0
+}

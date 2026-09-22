@@ -1,0 +1,5 @@
+video_id,selection,failure_confirmed,failure_type,failure_onset_block,failure_onset_frame,onset_kind,pre_onset_normal,reviewed_until_sec,human_confidence,notes
+P001_S00,unselected,,,,,,,,,
+P003_S00,candidate,,,,,,,,,
+P005_S00,candidate,,,,,,,,,
+P016_S00,audit,,,,,,,,,

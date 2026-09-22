@@ -1,0 +1,25 @@
+duration_sec: 60
+fps: 16
+height: 480
+width: 832
+seeds:
+- 0
+model:
+  wan: restream_mvp/models/Wan2.1-T2V-1.3B
+  longlive: restream_mvp/models/LongLive-1.3B
+  upstream_config: code/LongLive/configs/longlive_inference.yaml
+features:
+  dino_model: facebook/dinov2-small
+  dino_revision: main
+  clip_model: openai/clip-vit-base-patch32
+  clip_revision: main
+  frames_per_block: 3
+  mode: whole_frame
+mining:
+  reference_blocks: 4
+  persistence_blocks: 3
+  change_window: 4
+  top_fraction: 0.2
+  audit_fraction: 0.25
+  audit_seed: 20260922
+  control_fraction: 0.25

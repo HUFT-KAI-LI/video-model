@@ -1,0 +1,34 @@
+{
+  "prompt_id": "P016",
+  "category": "object_vehicle",
+  "difficulty": "easy",
+  "target_subject": "compact car",
+  "target_attribute": "blue body",
+  "motion_group": "object_vehicle_0",
+  "prompt": "A blue compact car drives slowly along a country road. The camera maintains a steady side view. One continuous uncut shot; the same subject keeps the same appearance throughout.",
+  "attribute_text": "a photo of a compact car with a blue body",
+  "alternatives": [
+    "a photo of a compact car with a red body",
+    "a photo of a compact car with a green body",
+    "a photo of a compact car with a black body",
+    "a photo of a compact car with a white body"
+  ],
+  "seed": 0,
+  "video_id": "P016_S00",
+  "duration_sec": 60.0,
+  "num_blocks": 81,
+  "fps": 16,
+  "num_frames": 960,
+  "latent_frames": 243,
+  "plan_signature": "fc0168359a7221de81e778ec9c9f45b3e73365a60a4d900471765d94536a9d7f",
+  "status": "complete",
+  "generation_and_save_sec": 251.84657656867057,
+  "total_sec": 369.41790228150785,
+  "peak_cuda_allocated_bytes": 8385935872,
+  "peak_cuda_reserved_bytes": 8948547584,
+  "snapshot_status": "replay_available_not_verified",
+  "artifact_sha256": {
+    "video.mp4": "74164a2f1ed4fea4354a3f79bdf345adea3eafa7ef58055ea5cc7582ba181d3c",
+    "replay.pt": "8aec8dafb350259ef5a8a0e808dbd7eff5042c6ba0ebde6bc269f2e63e3eccc6"
+  }
+}

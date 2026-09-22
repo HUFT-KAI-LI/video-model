@@ -1,0 +1,5 @@
+start_sec,end_sec,n_eligible,n_prior_failure,n_at_risk,n_unknown_entry,n_first_failures,n_survived,n_unresolved_outcome,hazard,status
+0,15,4,0,4,0,0,0,4,,pending_review
+15,30,4,0,0,4,0,0,0,,pending_review
+30,45,4,0,0,4,0,0,0,,pending_review
+45,60,4,0,0,4,0,0,0,,pending_review

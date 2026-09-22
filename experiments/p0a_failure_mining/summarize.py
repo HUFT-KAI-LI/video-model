@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 from pathlib import Path
+from hazard import interval_hazards
 from common import TAXONOMY, completed, digest, read_csv, write_csv, write_json
 
 
@@ -144,12 +145,26 @@ def main():
     statistics = dict(planned=len(plan['videos']), completed=len(videos),
                       missing_generation=len(plan['videos'])-len(videos),
                       prefix_rates=rates(videos, reviews, prefixes),
+                      interval_hazards=interval_hazards(videos, reviews, [0]+prefixes),
                       detector=detector_metrics(videos, reviews, candidates),
                       interpretation='Cumulative first-event incidence is nondecreasing by definition; it does not establish increasing per-block hazard. Missing reviews are unknown; bounds are identification bounds, not confidence intervals.')
     statistics['by_category_difficulty'] = {}
     for category, difficulty in sorted({(v['category'],v['difficulty']) for v in videos}):
         subset = [v for v in videos if (v['category'],v['difficulty']) == (category,difficulty)]
         statistics['by_category_difficulty'][category+'/'+difficulty] = rates(subset, reviews, prefixes)
+    write_csv(run / 'manifests/failure_hazard.csv', statistics['interval_hazards'])
+    comparison = []
+    for v in videos:
+        r, a = reviews[v['video_id']], auto[v['video_id']]
+        b = a['suggested_onset_block']
+        comparison.append(dict(video_id=v['video_id'], human_failure=r['failure_confirmed'],
+                               reviewed_until_sec=r['reviewed_until_sec'],
+                               auto_candidate=a['selection']=='candidate', selection=a['selection'],
+                               human_onset_block=r['failure_onset_block'],
+                               human_onset_lower_sec=r['onset_lower_sec'], human_onset_upper_sec=r['onset_upper_sec'],
+                               auto_onset_block=b, auto_onset_sec=blocks[int(b)]['start_sec'] if b!='' else '',
+                               human_failure_type=r['failure_type']))
+    write_csv(run / 'manifests/human_auto_comparison.csv', comparison)
     catalog = []
     for v in videos:
         r = reviews[v['video_id']]

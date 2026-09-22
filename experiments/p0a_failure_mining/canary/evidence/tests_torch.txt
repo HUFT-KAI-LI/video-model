@@ -1,0 +1,26 @@
+test_block_mapping_covers_frames_without_overlap (test_p0a.ProtocolTests.test_block_mapping_covers_frames_without_overlap) ... ok
+test_dino_reference_and_clip_margin (test_p0a.ProtocolTests.test_dino_reference_and_clip_margin) ... ok
+test_exact_event_at_T_not_before_T (test_p0a.ProtocolTests.test_exact_event_at_T_not_before_T) ... ok
+test_human_validation_and_prefix_bounds (test_p0a.ProtocolTests.test_human_validation_and_prefix_bounds) ... ok
+test_interval_hazards_with_exact_boundaries_and_missing_review (test_p0a.ProtocolTests.test_interval_hazards_with_exact_boundaries_and_missing_review) ... ok
+test_invalid_labels_fail_closed (test_p0a.ProtocolTests.test_invalid_labels_fail_closed) ... ok
+test_mining_review_report_end_to_end (test_p0a.ProtocolTests.test_mining_review_report_end_to_end) ... ok
+test_pool_ties_and_no_fixed_absolute_cutoff (test_p0a.ProtocolTests.test_pool_ties_and_no_fixed_absolute_cutoff) ... ok
+test_prepare_cli_needs_no_gpu_and_prevents_changed_resume (test_p0a.ProtocolTests.test_prepare_cli_needs_no_gpu_and_prevents_changed_resume) ... ok
+test_prompt_design (test_p0a.ProtocolTests.test_prompt_design) ... ok
+test_recall_is_not_claimed_from_candidates_only (test_p0a.ProtocolTests.test_recall_is_not_claimed_from_candidates_only) ... ok
+test_samples_stay_in_block_including_trimmed_tail (test_p0a.ProtocolTests.test_samples_stay_in_block_including_trimmed_tail) ... ok
+test_snapshot_requires_verified_matching_artifacts (test_p0a.ProtocolTests.test_snapshot_requires_verified_matching_artifacts) ... ok
+test_sustained_drop_excludes_single_frame_event (test_p0a.ProtocolTests.test_sustained_drop_excludes_single_frame_event) ... ok
+test_cached_vae_decode_matches_full_decode (test_p0a.UpstreamObservationTests.test_cached_vae_decode_matches_full_decode) ... ok
+test_observer_and_skip_decode_preserve_trajectory_and_rng (test_p0a.UpstreamObservationTests.test_observer_and_skip_decode_preserve_trajectory_and_rng) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 3.020s
+
+OK
+KV inference with 3 frames per block
+kv_cache_size: 3 (policy: int->local, size=3, frame_seq_length: 1, num_output_frames: 9)
+[inference] local_attn_size set on model: 3
+kv_cache_size: 3 (policy: int->local, size=3, frame_seq_length: 1, num_output_frames: 9)
+[inference] local_attn_size set on model: 3

@@ -1,0 +1,4 @@
+# Preserve exact CSV bytes because provenance records their SHA-256.
+*.csv -text whitespace=cr-at-eol
+# Unified diff context lines may consist of the required single-space marker.
+*.patch -text -whitespace

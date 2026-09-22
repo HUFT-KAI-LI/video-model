@@ -106,6 +106,29 @@ class ProtocolTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_review(r,v,geometry(60)['blocks'])
 
+    def test_interval_hazards_with_exact_boundaries_and_missing_review(self):
+        from hazard import interval_hazards
+        blocks=geometry(60)['blocks']
+        videos=[dict(video_id=str(i),duration_sec=60,fps=16) for i in range(4)]
+        reviews={}
+        for i,t in enumerate([10,15,40,None]):
+            if t is None:
+                raw=self.review(failure_confirmed='NO',reviewed_until_sec='60',human_confidence='high')
+            else:
+                frame=t*16
+                b=next(b['block_index'] for b in blocks if b['frame_start']<=frame<b['frame_end'])
+                raw=self.review(failure_confirmed='YES',failure_type='identity_drift',
+                                failure_onset_block=str(b),failure_onset_frame=str(frame),
+                                onset_kind='abrupt',pre_onset_normal='YES',reviewed_until_sec='60',human_confidence='high')
+            reviews[str(i)]=validate_review(raw,videos[i],blocks)
+        rows=interval_hazards(videos,reviews)
+        self.assertEqual([r['n_at_risk'] for r in rows],[4,3,2,1])
+        self.assertEqual([r['n_first_failures'] for r in rows],[1,1,1,0])
+        self.assertEqual([r['hazard'] for r in rows],[.25,1/3,.5,0])
+        reviews['3']=validate_review(self.review(),videos[3],blocks)
+        self.assertTrue(all(r['hazard'] is None for r in interval_hazards(videos,reviews)))
+        self.assertEqual(interval_hazards(videos,reviews)[1]['n_unknown_entry'],1)
+
     def test_snapshot_requires_verified_matching_artifacts(self):
         from common import digest
         with tempfile.TemporaryDirectory() as folder:
@@ -176,7 +199,7 @@ class ProtocolTests(unittest.TestCase):
             self.assertEqual(report['detector']['combined']['recall'],1)
             if importlib.util.find_spec('matplotlib'):
                 subprocess.run(summary_command[:-1],check=True,capture_output=True)
-                self.assertEqual(len(list((run/'figures').glob('*.png'))),6)
+                self.assertEqual(len(list((run/'figures').glob('*.png'))),7)
 
     def test_prepare_cli_needs_no_gpu_and_prevents_changed_resume(self):
         with tempfile.TemporaryDirectory() as directory:

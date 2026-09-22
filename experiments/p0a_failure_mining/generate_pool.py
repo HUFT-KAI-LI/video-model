@@ -2,6 +2,7 @@
 """Prepare a manifest by default. --execute runs natural trajectories, once each."""
 import argparse
 import json
+import time
 from pathlib import Path
 from common import HERE, build_plan, completed, digest, geometry, load_config, load_prompts, signature, write_csv, write_json
 
@@ -54,10 +55,14 @@ def main():
         if out.exists():
             raise RuntimeError(f'Incomplete trajectory at {out}; no implicit retry. Archive it and use a new run directory.')
         if pipe is None:
+            load_started = time.perf_counter()
             pipe = load(config)
+            print(f'Model loaded in {time.perf_counter() - load_started:.1f}s', flush=True)
         out.mkdir(parents=True)
         write_json(out / 'started.json', row)
         try:
+            started = time.perf_counter()
+            torch.cuda.reset_peak_memory_stats()
             with torch.inference_mode():
                 torch.manual_seed(row['seed'])
                 torch.cuda.manual_seed_all(row['seed'])
@@ -67,14 +72,21 @@ def main():
                 boundary_rng = []
                 def observer(block, prefix, pipeline):
                     boundary_rng.append(rng_state())
+                    print(f"{row['video_id']} block {block + 1}/{row['num_blocks']} "
+                          f"elapsed={time.perf_counter() - started:.1f}s", flush=True)
                 latents = pipe.inference(noise, [row['prompt']], low_memory=True,
                                          block_callback=observer, decode_video=False)
                 torch.save(dict(noise=noise.cpu(), latents=latents.cpu(), initial_rng=initial_rng,
                                 boundary_rng=boundary_rng, row=row, plan_signature=payload['signature']),
                            out / 'replay.pt')
                 del noise
+                generation_sec = time.perf_counter() - started
                 decode_video(pipe, latents, out / 'video.mp4', row['num_frames'], row['fps'])
             summary = dict(row, plan_signature=payload['signature'], status='complete',
+                           generation_and_save_sec=generation_sec,
+                           total_sec=time.perf_counter() - started,
+                           peak_cuda_allocated_bytes=torch.cuda.max_memory_allocated(),
+                           peak_cuda_reserved_bytes=torch.cuda.max_memory_reserved(),
                            snapshot_status='replay_available_not_verified',
                            artifact_sha256={name: digest(out / name) for name in ('video.mp4', 'replay.pt')})
             write_json(out / 'complete.json', summary)

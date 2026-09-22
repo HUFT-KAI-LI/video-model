@@ -1,0 +1,5 @@
+video_id,early_target_median,early_margin_median,early_strongest_alternative,selection,human_review_status
+P001_S00,0.24874833226203918,-0.017224416136741638,a photo of a woman without a jacket,unselected,pending
+P003_S00,0.2440655380487442,-0.018809400498867035,a photo of a woman without a jacket,candidate,pending
+P005_S00,0.25308871269226074,-0.005192562937736511,a photo of a woman wearing a green jacket,candidate,pending
+P016_S00,0.28381603956222534,0.03398659825325012,a photo of a compact car with a green body,audit,pending

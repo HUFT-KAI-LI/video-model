@@ -38,6 +38,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--device', default='cuda')
+    p.add_argument('--dino-model', type=Path, help='Offline local copy; all model/tokenizer files are hashed')
+    p.add_argument('--clip-model', type=Path, help='Offline local copy; must match the planned model identity')
     p.add_argument('--boxes', type=Path, help='JSON: video_id -> frame_index -> [left,top,right,bottom] pixel coordinates; every sampled frame required')
     args = p.parse_args()
     import av
@@ -47,7 +49,19 @@ def main():
     from transformers import AutoImageProcessor, AutoModel, CLIPModel, CLIPProcessor
     run = args.run_dir.resolve()
     plan = json.loads((run / 'plan.json').read_text())
-    cfg = plan['config']['features']
+    cfg = dict(plan['config']['features'])
+    local_hashes = {}
+    for kind in ('dino', 'clip'):
+        path = getattr(args, kind + '_model')
+        if path is None:
+            continue
+        path = path.resolve()
+        source = json.loads((path / 'provenance.json').read_text())
+        if source['model'] != cfg[kind + '_model']:
+            raise ValueError(f'{kind} local assets do not match the planned model identity')
+        local_hashes[kind] = {str(f.relative_to(path)): digest(f) for f in sorted(path.rglob('*'))
+                              if f.is_file() and '.cache' not in f.parts}
+        cfg[kind + '_model'] = str(path)
     rows = completed(run)
     if not rows:
         raise ValueError('No completed real videos')
@@ -59,6 +73,7 @@ def main():
     clip_processor = CLIPProcessor.from_pretrained(cfg['clip_model'], revision=cfg['clip_revision'])
     clip = CLIPModel.from_pretrained(cfg['clip_model'], revision=cfg['clip_revision']).eval().to(args.device)
     evidence = dict(plan_signature=plan['signature'], config=cfg, mode='subject_crop' if boxes else 'whole_frame',
+                    local_asset_sha256=local_hashes,
                     boxes_sha256=digest(args.boxes) if args.boxes else None,
                     dino_commit=dino.config._commit_hash, clip_commit=clip.config._commit_hash,
                     extraction_source_sha256=digest(__file__), torch=str(torch.__version__),

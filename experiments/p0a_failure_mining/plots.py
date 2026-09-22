@@ -27,6 +27,18 @@ def render(run, summary, failures, scores):
            title=f"Completed {summary['completed']} / planned {summary['planned']} trajectories")
     save(fig, 'failure_rate_vs_duration.png')
     fig, ax = plt.subplots()
+    hazards = summary['interval_hazards']
+    for i, row in enumerate(hazards):
+        if row['hazard'] is None:
+            ax.text(i, .04, 'N/A', ha='center')
+        else:
+            ax.bar(i, row['hazard'], color='steelblue')
+    ax.set(xticks=range(len(hazards)),
+           xticklabels=[f"{r['start_sec']}-{r['end_sec']}" for r in hazards],
+           ylim=(0,1), xlabel='Interval [start, end), seconds', ylabel='First failures / at risk',
+           title='Discrete interval hazard; unresolved review = N/A')
+    save(fig, 'failure_hazard.png')
+    fig, ax = plt.subplots()
     bins = [0]+xs
     counts = [sum(f['onset_lower_sec']>=left and f['onset_upper_sec']<right for f in failures)
               for left,right in zip(bins,bins[1:])]

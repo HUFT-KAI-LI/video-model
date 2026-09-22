@@ -61,7 +61,15 @@ def load_pipeline(config, device):
     if set(expected) != set(weights) or any(expected[k].shape != weights[k].shape for k in expected):
         raise ValueError("Official LoRA keys or tensor shapes do not match the configured baseline")
     peft.set_peft_model_state_dict(pipeline.generator.model, weights)
-    pipeline.eval().requires_grad_(False).to(device=device, dtype=torch.bfloat16)
+    pipeline.eval().requires_grad_(False)
+    placements = config["model"].get("component_devices")
+    if placements:
+        pipeline.to(dtype=torch.bfloat16)
+        pipeline.text_encoder.to(placements["text_encoder"])
+        pipeline.vae.to(placements["vae"])
+        pipeline.generator.to(device)
+    else:
+        pipeline.to(device=device, dtype=torch.bfloat16)
     # Cache token offsets must reflect actual spatial resolution (upstream: 1560).
     h, w = config["data"]["height"] // 8, config["data"]["width"] // 8
     pipeline.frame_seq_length = (h // 2) * (w // 2)

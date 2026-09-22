@@ -1,15 +1,17 @@
-## 问题与改动
+## 真实 Canary 结果与变更
 
-新增 P0-A LongLive 自然失败挖掘准备管线。固定 20 个 prompt（四类主体、8/8/4 难度）× 4 seeds × 60 秒自然单 prompt rollout，支持显式改为 45 秒。默认命令只建立计划；生成、DINOv2/CLIP 特征、持续性候选筛选、离线人审表单、失败目录、匹配正常对照与报告均有独立入口。
+按审阅只完成 P001/P003/P005/P016 seed 0 的四条 60 秒自然轨迹，不合并 main、不扩展 Mini-Pilot 或 80 条。每条实际验证 960 帧 / 16 FPS / 480×832、完整 81 个 block RNG 与有限 latent；单张 RTX 3090 每条生成加解码约 6.1 分钟，运行阶段峰值 allocated 7.82 GiB。官方 VAE 的 6 latent 帧连续/分块解码逐位相同。
 
-按 Wan `4L−3` 解码规则建立精确的 block/frame/time 映射。保留原轨迹噪声、latent 和逐块 RNG；仅在原始轨迹重放逐位一致后捕获 cache 并允许标记为 P0-B state。LongLive 上游仅增加可选的 block 观察回调和跳过 RGB 解码开关，完整补丁与重建检查同步更新。
+修复模型加载器未执行 CPU component placement，删除 object 类不自然的无 body/shell 负例，增加同模型本地 feature 文件的哈希记录、分区间 first-failure hazard、human/auto onset 对照表和逐视频复核曲线。
 
-未复核样本保留 unknown，报告识别边界；不从候选集标注声称全池 recall。随机抽检未命中视频，完整 recall 需要完整 cohort 标签。累计首次失败比例上升不解释为 per-block hazard 上升。
+DINO/CLIP 已完成全四条特征。P003 和 P005 是自动候选，不能当作人工标签。预览发现前两条红夹克 prompt 从首帧即呈黄色，需区分初始 prompt mismatch 与 late drift。完整视频人审尚未完成，recall / hazard 不可估计，Gate 1 的语义校准仍待审阅。
 
-## 验证
+## 审阅与验证
 
-- LongLive Python 环境下 15 项测试通过，含上游观察回调的轨迹/RNG 不变性和小型随机权重 VAE 连续/缓存解码一致性。
-- CPU/绘图环境下 13 项通过、2 项依赖 torch 的测试跳过；临时合成数据贯通候选→人审→目录→六张图，合成数据不作为实验结果提交。
-- 真实长视频 rollout、真实 DINO/CLIP 特征推理、GPU 位级重放及人工标注仍未执行；预检记录当前验证进程无法访问 CUDA。
+主入口：`experiments/p0a_failure_mining/canary/RESULTS.md`。报告附生成核验、分数、曲线、预览和源码 provenance；大视频 / replay / 权重保留本机。
 
-主要审阅入口：`experiments/p0a_failure_mining/README.md`。运行输出与大文件不提交。本 PR 仅请求审阅准备代码，不宣称已经观察到自然失败或达到 GO 条件。
+- torch 环境 16 项测试全部通过；CPU 绘图环境 14 项通过、2 项依赖 torch 的测试跳过。
+- MP4 全部帧数 / 尺寸 / PTS / 哈希，以及 replay shape / finite / RNG 实测验证。
+- 四条真实 DINOv2 / CLIP GPU 特征前向完成；模型权重与官方 SHA-256 匹配。
+- Node 检查复核页启动、四条视频切换、onset 时间映射及带引号 CSV 导出。
+- 没有重试采样、人工 corruption、训练或 P0-B branching。

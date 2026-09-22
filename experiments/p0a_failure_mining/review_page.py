@@ -29,13 +29,13 @@ def build(run, plan, summaries):
 <label>已复核至秒 <input data-key="reviewed_until_sec" type="number" min="0" step="0.0625"></label>
 <label>置信度 <select data-key="human_confidence"><option></option><option>high</option><option>medium</option><option>low</option></select></label>
 <textarea data-key="notes" placeholder="说明早期不符合 prompt、参考不稳定、遮挡、无法定位等情况"></textarea>
-</div><details><summary>每个 block 的预览（不替代完整视频）</summary><img id="preview"></details>
+</div><details open><summary>自动曲线（不代表人工标签）</summary><img id="curve" style="max-width:100%" onerror="this.hidden=true" onload="this.hidden=false"></details><details><summary>每个 block 的预览（不替代完整视频）</summary><img id="preview"></details>
 <p>更换视频时保存在当前页面内存；关闭前必须导出 CSV，替换本次 run 的 human_review.csv。未导出的更改会丢失。</p>
 <script>
 const records=PAYLOAD, fields=FIELDS, blockMap=BLOCKMAP;
 let index=0; const $=s=>document.querySelector(s), inputs=[...document.querySelectorAll('[data-key]')];
 function persist(){for(const e of inputs)records[index].review[e.dataset.key]=e.value;}
-function show(){const r=records[index]; $('#choose').value=index; $('#title').textContent=r.video_id+' / '+r.mining.selection; $('#prompt').textContent=r.prompt; $('#proposal').textContent='自动建议 block: '+r.mining.suggested_onset_block+'（必须人工核验）'; $('#video').src='outputs/'+r.video_id+'/video.mp4'; $('#preview').src='outputs/'+r.video_id+'/preview.jpg';for(const e of inputs)e.value=r.review[e.dataset.key]||'';}
+function show(){const r=records[index]; $('#choose').value=index; $('#title').textContent=r.video_id+' / '+r.mining.selection; $('#prompt').textContent=r.prompt; $('#proposal').textContent='自动建议 block: '+r.mining.suggested_onset_block+'（必须人工核验）'; $('#video').src='outputs/'+r.video_id+'/video.mp4'; $('#preview').src='outputs/'+r.video_id+'/preview.jpg'; $('#curve').src='outputs/'+r.video_id+'/scores.png';for(const e of inputs)e.value=r.review[e.dataset.key]||'';}
 records.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r.video_id+' / '+r.mining.selection;$('#choose').append(o)});
 $('#choose').onchange=()=>{persist();index=Number($('#choose').value);show()};
 $('#prev').onclick=()=>{persist();index=Math.max(0,index-1);show()};$('#next').onclick=()=>{persist();index=Math.min(records.length-1,index+1);show()};
