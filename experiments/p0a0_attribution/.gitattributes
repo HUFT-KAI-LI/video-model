@@ -1,2 +1,4 @@
 # Preserve the pinned upstream sources byte-for-byte, including upstream whitespace.
 vendor/** -text -whitespace
+# CSV evidence keeps the csv module's original CRLF bytes.
+evidence/*.csv -text whitespace=cr-at-eol
