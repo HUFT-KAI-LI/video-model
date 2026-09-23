@@ -1,0 +1,10 @@
+test_attribute_only_replacement (test_protocol.ProtocolTests.test_attribute_only_replacement) ... ok
+test_complete_pairing (test_protocol.ProtocolTests.test_complete_pairing) ... ok
+test_paired_denominator (test_protocol.ProtocolTests.test_paired_denominator) ... ok
+test_temporal_definition (test_protocol.ProtocolTests.test_temporal_definition) ... ok
+test_unknown_not_failure (test_protocol.ProtocolTests.test_unknown_not_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.230s
+
+OK

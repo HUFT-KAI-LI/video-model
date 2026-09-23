@@ -1,0 +1,22 @@
+{
+  "status": "generation in progress; no final accuracy yet",
+  "run_directory": "/data/lk/\u6df1\u5ea6\u5b66\u4e60/video-model-p0a/experiments/p0a0_attribution/runs/a0_20260923",
+  "formal_plan_sha256": "1fa148c78d5c1d495b2818b6ab9a76b18f7c932e261e00356772e0acd42d09b5",
+  "gpu_schedule": {
+    "0": "wan",
+    "1": "longlive then wan",
+    "2": "wan",
+    "3": "wan"
+  },
+  "engineering_notes": [
+    "profile_v1 excluded: used LongLive-vendored Wan implementation. Formal Wan uses official independent source commit 9737cba9c1c3c4d04b33fcad41c111989865d315.",
+    "Four in-progress samples were interrupted during a redundant RNG audit. Inspection confirmed per-video seeds were already reset correctly. No generator source changed; three complete LongLive samples were retained, and interrupted same-seed jobs restarted with all attempt records preserved. This was an infrastructure interruption, not quality selection."
+  ],
+  "human_accuracy": "pending real human annotation",
+  "observed_gpu_memory_mib": {
+    "0": 20925,
+    "1": 20747,
+    "2": 20925,
+    "3": 20925
+  }
+}

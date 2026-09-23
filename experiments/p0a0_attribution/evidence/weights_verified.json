@@ -1,0 +1,16 @@
+{
+  "weights": {
+    "longlive_base.pt": "10a2aa8fcf89c77d9033f4c117405412a690e289625766619d293f0c5a208ee7",
+    "lora.pt": "c4e43b87d62d4b0614b496773639f1ab170a7ee486dc23407901e9d3a5ebc07a",
+    "wan/Wan2.1_VAE.pth": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981",
+    "wan/config.json": "ab37994c43740513f94b3ba6233a784035a67b43c8cde83c8f31aa90468c67ce",
+    "wan/configuration.json": "745e37f6bb62f8a294ed12e44ffe4733bd2259d6f7029939f1297cd1b226fa4f",
+    "wan/diffusion_pytorch_model.safetensors": "96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f",
+    "wan/download_inventory.json": "fa3ded481355aef0d935842f50598a6a0fb556213d9bf1e0519829b31356adf5",
+    "wan/google/umt5-xxl/special_tokens_map.json": "7b8a9f5040adb67b5805abdfd42c1f8d0f3d0e711f10726580eb3789cd0ad61d",
+    "wan/google/umt5-xxl/tokenizer.json": "6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b",
+    "wan/google/umt5-xxl/tokenizer_config.json": "ed9a3a8b0faa71a70a32847e0435fe036e6e112d4df4edb7bb48a921e344dc05",
+    "wan/models_t5_umt5-xxl-enc-bf16.pth": "7cace0da2b446bbbbc57d031ab6cf163a3d59b366da94e5afe36745b746fd81d"
+  },
+  "reference": "experiments/p0a_failure_mining/canary/evidence/provenance.json"
+}
