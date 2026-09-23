@@ -1,0 +1,231 @@
+{
+  "kind": "P0-A0 pipeline comparison; proxy is not ground truth",
+  "expected_videos": 160,
+  "completed_videos": 160,
+  "human": {
+    "wan": {
+      "planned": 80,
+      "correct": 0,
+      "incorrect": 0,
+      "unjudgeable": 0,
+      "pending": 80,
+      "accuracy_among_judgeable": null,
+      "accuracy_lower_bound": 0.0,
+      "accuracy_upper_bound": 1.0,
+      "finalized": false
+    },
+    "longlive": {
+      "planned": 80,
+      "correct": 0,
+      "incorrect": 0,
+      "unjudgeable": 0,
+      "pending": 80,
+      "accuracy_among_judgeable": null,
+      "accuracy_lower_bound": 0.0,
+      "accuracy_upper_bound": 1.0,
+      "finalized": false
+    }
+  },
+  "automatic_proxy": {
+    "wan": {
+      "n": 80,
+      "correct": 38,
+      "rate": 0.475
+    },
+    "longlive": {
+      "n": 80,
+      "correct": 37,
+      "rate": 0.4625
+    }
+  },
+  "proxy_strata": [
+    {
+      "model": "wan",
+      "stratum": "category",
+      "group": "animal_accessory",
+      "n": 20,
+      "correct": 1
+    },
+    {
+      "model": "wan",
+      "stratum": "category",
+      "group": "human_accessory",
+      "n": 20,
+      "correct": 14
+    },
+    {
+      "model": "wan",
+      "stratum": "category",
+      "group": "human_clothing",
+      "n": 20,
+      "correct": 3
+    },
+    {
+      "model": "wan",
+      "stratum": "category",
+      "group": "object_vehicle",
+      "n": 20,
+      "correct": 20
+    },
+    {
+      "model": "wan",
+      "stratum": "difficulty",
+      "group": "easy",
+      "n": 32,
+      "correct": 14
+    },
+    {
+      "model": "wan",
+      "stratum": "difficulty",
+      "group": "medium",
+      "n": 32,
+      "correct": 17
+    },
+    {
+      "model": "wan",
+      "stratum": "difficulty",
+      "group": "stress",
+      "n": 16,
+      "correct": 7
+    },
+    {
+      "model": "wan",
+      "stratum": "target_color",
+      "group": "black",
+      "n": 8,
+      "correct": 3
+    },
+    {
+      "model": "wan",
+      "stratum": "target_color",
+      "group": "blue",
+      "n": 28,
+      "correct": 15
+    },
+    {
+      "model": "wan",
+      "stratum": "target_color",
+      "group": "green",
+      "n": 12,
+      "correct": 1
+    },
+    {
+      "model": "wan",
+      "stratum": "target_color",
+      "group": "red",
+      "n": 20,
+      "correct": 8
+    },
+    {
+      "model": "wan",
+      "stratum": "target_color",
+      "group": "yellow",
+      "n": 12,
+      "correct": 11
+    },
+    {
+      "model": "longlive",
+      "stratum": "category",
+      "group": "animal_accessory",
+      "n": 20,
+      "correct": 0
+    },
+    {
+      "model": "longlive",
+      "stratum": "category",
+      "group": "human_accessory",
+      "n": 20,
+      "correct": 13
+    },
+    {
+      "model": "longlive",
+      "stratum": "category",
+      "group": "human_clothing",
+      "n": 20,
+      "correct": 4
+    },
+    {
+      "model": "longlive",
+      "stratum": "category",
+      "group": "object_vehicle",
+      "n": 20,
+      "correct": 20
+    },
+    {
+      "model": "longlive",
+      "stratum": "difficulty",
+      "group": "easy",
+      "n": 32,
+      "correct": 14
+    },
+    {
+      "model": "longlive",
+      "stratum": "difficulty",
+      "group": "medium",
+      "n": 32,
+      "correct": 15
+    },
+    {
+      "model": "longlive",
+      "stratum": "difficulty",
+      "group": "stress",
+      "n": 16,
+      "correct": 8
+    },
+    {
+      "model": "longlive",
+      "stratum": "target_color",
+      "group": "black",
+      "n": 8,
+      "correct": 1
+    },
+    {
+      "model": "longlive",
+      "stratum": "target_color",
+      "group": "blue",
+      "n": 28,
+      "correct": 16
+    },
+    {
+      "model": "longlive",
+      "stratum": "target_color",
+      "group": "green",
+      "n": 12,
+      "correct": 0
+    },
+    {
+      "model": "longlive",
+      "stratum": "target_color",
+      "group": "red",
+      "n": 20,
+      "correct": 8
+    },
+    {
+      "model": "longlive",
+      "stratum": "target_color",
+      "group": "yellow",
+      "n": 12,
+      "correct": 12
+    }
+  ],
+  "paired_proxy": {
+    "n": 80,
+    "both_correct": 35,
+    "wan_only_correct": 3,
+    "longlive_only_correct": 2,
+    "both_incorrect": 40,
+    "longlive_minus_wan": -0.0125,
+    "exploratory_motion_group_cluster_bootstrap_95ci": [
+      -0.08333333333333333,
+      0.047619047619047616
+    ],
+    "clusters": 8
+  },
+  "human_paired": {
+    "complete_judgeable_pairs": 0,
+    "both_correct": 0,
+    "wan_only_correct": 0,
+    "longlive_only_correct": 0,
+    "both_incorrect": 0
+  }
+}

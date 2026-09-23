@@ -1,0 +1,79 @@
+[
+  {
+    "seconds": 89.19184970855713,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 23.120071411132812,
+    "peak_reserved_gib": 23.265625,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "1",
+    "model": "longlive"
+  },
+  {
+    "seconds": 90.62611722946167,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 23.120071411132812,
+    "peak_reserved_gib": 23.265625,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "1",
+    "model": "longlive"
+  },
+  {
+    "seconds": 78.6552062034607,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 5.780070781707764,
+    "peak_reserved_gib": 6.107421875,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "0",
+    "model": "wan"
+  },
+  {
+    "seconds": 75.6705710887909,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 5.780070781707764,
+    "peak_reserved_gib": 6.107421875,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "1",
+    "model": "wan"
+  },
+  {
+    "seconds": 78.21700596809387,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 5.780070781707764,
+    "peak_reserved_gib": 6.107421875,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "2",
+    "model": "wan"
+  },
+  {
+    "seconds": 78.61838030815125,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 5.780070781707764,
+    "peak_reserved_gib": 6.107421875,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "2",
+    "model": "wan"
+  },
+  {
+    "seconds": 78.76568508148193,
+    "device": "NVIDIA GeForce RTX 3090",
+    "torch": "2.5.1+cu124",
+    "cuda": "12.4",
+    "peak_allocated_gib": 5.780070781707764,
+    "peak_reserved_gib": 6.107421875,
+    "plan_id": "1a1bf229e02bb18a8a9edf0218adf8a60dcaca80cceac1bad15266a65d52ea37",
+    "gpu": "3",
+    "model": "wan"
+  }
+]

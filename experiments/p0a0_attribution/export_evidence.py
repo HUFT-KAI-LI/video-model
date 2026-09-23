@@ -14,7 +14,12 @@ def main():
     manifests=[json.loads(p.read_text()) for p in sorted(run.glob('outputs/*/complete.json'))]
     if {x['job']['video_id'] for x in manifests}!=expected:raise ValueError('Need every planned output')
     validation=json.loads((run/'evaluation/validation.json').read_text())
-    if {x['video_id'] for x in validation}!=expected:raise ValueError('Need complete frame validation')
+    videos = validation['videos']
+    if (validation['completed'] != len(expected) or validation['expected'] != len(expected)
+            or len(videos) != len(expected)
+            or {x['video_id'] for x in videos} != expected
+            or any(not x['pts_verified'] or x['frames'] != 80 for x in videos)):
+        raise ValueError('Need complete frame validation')
     summary=json.loads((run/'evaluation/summary.json').read_text())
     if summary['completed_videos']!=160:raise ValueError('Need complete scores')
     out.mkdir(exist_ok=True)
