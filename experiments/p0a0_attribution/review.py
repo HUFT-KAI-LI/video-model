@@ -30,8 +30,8 @@ def main():
             blank.append(dict(blind_id=blind_id,initial_attribute='',initial_failure_type='',later_change='',notes=''))
         if pair:items.append(dict(pair_number=index+1,prompt=j['prompt'],target=j['target_attribute'],clips=pair))
     write_json(out/'unblinding.json',unblind)
-    if not (out/'labels_template.csv').exists():
-        write_csv(out/'labels_template.csv',blank,fields=['blind_id','initial_attribute','initial_failure_type','later_change','notes'])
+    # This is a generated blank template, never a file containing reviewer annotations.
+    write_csv(out/'labels_template.csv',blank,fields=['blind_id','initial_attribute','initial_failure_type','later_change','notes'])
     data=json.dumps(items,ensure_ascii=False).replace('<','\\u003c')
     fingerprint=hashlib.sha256((run/'plan.json').read_bytes()).hexdigest()[:16]
     html=HTML.replace('__DATA__',data).replace('__KEY__',fingerprint)

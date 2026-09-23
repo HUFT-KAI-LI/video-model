@@ -2,3 +2,6 @@
 vendor/** -text -whitespace
 # CSV evidence keeps the csv module's original CRLF bytes.
 evidence/*.csv -text whitespace=cr-at-eol
+
+# Keep raw CSV checksums stable on every platform.
+*.csv -text whitespace=cr-at-eol
