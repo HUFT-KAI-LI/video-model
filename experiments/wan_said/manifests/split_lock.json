@@ -1,0 +1,26 @@
+{
+  "seed": 42,
+  "counts": {
+    "train": 32,
+    "val": 6,
+    "test": 6
+  },
+  "near_duplicate_pairs": [],
+  "manifest_sha256": {
+    "train": "5dfd7bde86c9e3704d6cb22ecdf3ab937b7b52cd568c4494e3c8b60d51f2f2f3",
+    "val": "5010e45f110f1dcd5510e5ee5dad2d57b766671bfddc3dc79c45d50a846e5633",
+    "test": "1ccfe229287dbf81def61a560190292c771795c40e8c246f61b63c6d9bea81b6"
+  },
+  "source_manifest_sha256": {
+    "train": "76a27a4e65c16b91594e988e98bf2382dcc835b32036e6c74419e74666e083eb",
+    "val": "4bc4bba71dfcbd175d6966bbe878cee8af566e282ab238bae040d5c037107449"
+  },
+  "policy": "Previous train stays train; remaining duplicate groups split val/test 1:1",
+  "limitations": [
+    "Source IDs do not identify shared shows/episodes.",
+    "Eight-frame pHash detects aligned near duplicates, not all edited copies.",
+    "Normalized captions are grouped; semantic paraphrases require human review.",
+    "Previous validation exposure means this is not a pristine external benchmark.",
+    "Clip captions and visual quality have not been manually verified."
+  ]
+}

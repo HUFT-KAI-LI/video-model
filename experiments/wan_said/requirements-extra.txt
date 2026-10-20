@@ -1,0 +1,5 @@
+# Install in the isolated venv with --system-site-packages; do not upgrade the existing training env.
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+timm==0.9.16
+remotezip==0.12.3

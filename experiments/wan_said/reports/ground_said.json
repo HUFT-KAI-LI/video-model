@@ -1,0 +1,69 @@
+{
+  "mode": "said",
+  "steps": 200,
+  "batch": 32,
+  "train_count": 32,
+  "val_count": 6,
+  "seconds": 1.3175282630254515,
+  "before": {
+    "said": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.3333333432674408,
+      "diagonal_similarity": -0.016113596856594088
+    },
+    "full": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.3333333432674408,
+      "diagonal_similarity": -0.0144798082113266
+    },
+    "random": {
+      "v2t_r1": 0.0,
+      "t2v_r1": 0.3333333432674408,
+      "diagonal_similarity": -0.00702075481414795
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.3333333432674408,
+      "diagonal_similarity": -0.01609482243657112
+    },
+    "soft_keep": 0.5005856156349182,
+    "hard_keep": 0.5143229365348816,
+    "prompt_delta_l1": 0.00120445154607296,
+    "video_delta_l1": 0.005363223142921925,
+    "channel_std": 0.004562915302813053,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "after": {
+    "said": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.1666666716337204,
+      "diagonal_similarity": -0.007967856973409654
+    },
+    "full": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.1666666716337204,
+      "diagonal_similarity": -0.01047008901834488
+    },
+    "random": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.1666666716337204,
+      "diagonal_similarity": -0.04765227138996125
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.1666666716337204,
+      "t2v_r1": 0.1666666716337204,
+      "diagonal_similarity": -0.007640189677476884
+    },
+    "soft_keep": 0.462287038564682,
+    "hard_keep": 0.064453125,
+    "prompt_delta_l1": 0.0025060204789042473,
+    "video_delta_l1": 0.00918171089142561,
+    "channel_std": 0.007087744772434235,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "peak_allocated_gib": 0.05053901672363281,
+  "scheme": "Grounding pretraining only; no DiT, no test features, no gradient accumulation negatives",
+  "cost_note": "These preprocessing/optimization costs are additional to DiT training."
+}

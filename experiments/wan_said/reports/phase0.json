@@ -1,0 +1,63 @@
+{
+  "gpus": "0, NVIDIA GeForce RTX 3090, 24576 MiB, 560.35.03\n1, NVIDIA GeForce RTX 3090, 24576 MiB, 560.35.03\n2, NVIDIA GeForce RTX 3090, 24576 MiB, 560.35.03\n3, NVIDIA GeForce RTX 3090, 24576 MiB, 560.35.03\n",
+  "packages": {
+    "torch": "2.5.1+cu124",
+    "torchvision": "0.20.1+cu124",
+    "transformers": "4.49.0",
+    "diffusers": "0.31.0",
+    "peft": "0.14.0",
+    "av": "18.1.0",
+    "timm": "0.9.16",
+    "remotezip": "0.12.3",
+    "imageio": "2.37.0",
+    "imageio-ffmpeg": "0.6.0",
+    "safetensors": "0.8.0",
+    "huggingface-hub": "0.30.2"
+  },
+  "weights": {
+    "diffusion_pytorch_model.safetensors": {
+      "path": "/data/lk/深度学习/video-model/restream_mvp/models/Wan2.1-T2V-1.3B/diffusion_pytorch_model.safetensors",
+      "bytes": 5676070424,
+      "sha256": "96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f"
+    },
+    "models_t5_umt5-xxl-enc-bf16.pth": {
+      "path": "/data/lk/深度学习/video-model/restream_mvp/models/Wan2.1-T2V-1.3B/models_t5_umt5-xxl-enc-bf16.pth",
+      "bytes": 11361920418,
+      "sha256": "7cace0da2b446bbbbc57d031ab6cf163a3d59b366da94e5afe36745b746fd81d"
+    },
+    "Wan2.1_VAE.pth": {
+      "path": "/data/lk/深度学习/video-model/restream_mvp/models/Wan2.1-T2V-1.3B/Wan2.1_VAE.pth",
+      "bytes": 507609880,
+      "sha256": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981"
+    }
+  },
+  "cwd": "/data/lk/深度学习/video-model-said-exp1",
+  "branch": "codex/wan-said-exp1",
+  "upstream": {
+    "DiffSynth-Studio": {
+      "url": "https://github.com/modelscope/DiffSynth-Studio.git",
+      "commit": "b34c83793f783b8bf0c7e82142e06dda01f98d27"
+    },
+    "VideoMAEv2": {
+      "url": "https://github.com/OpenGVLab/VideoMAEv2.git",
+      "commit": "29eab1e8a588d1b3ec0cdec7b03a86cca491b74b"
+    },
+    "SAID_joint_reference": {
+      "url": "https://github.com/reyuyu/SAID",
+      "commit": "835852aa4a420b8701fe8c1adbc6114b84d4ce94",
+      "files": [
+        "model/nested_fusion_mask.py",
+        "model/balanced_hparam_search.py"
+      ]
+    },
+    "teacher": {
+      "repo": "OpenGVLab/VideoMAE2",
+      "revision": "706cc172d65ebd4dedbee3f9c0183a93df9fa125",
+      "file": "distill/vit_s_k710_dl_from_giant.pth",
+      "sha256": "24fb71687fa3671b8387cadfbcbab0f72af695692e93cf1ecc82caa888626172",
+      "variant": "VideoMAEv2 ViT-small distilled from K710 giant (not a language-aligned encoder)"
+    }
+  },
+  "isolation": "Separate worktree, own venv, read-only shared Wan weights and smoke videos; no LongLive patches",
+  "disk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1    3.5T  2.8T  505G  85% /data\n/dev/sdb         15T   14T  273G  99% /data1\n"
+}

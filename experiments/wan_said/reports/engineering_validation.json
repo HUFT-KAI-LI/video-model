@@ -1,0 +1,27 @@
+{
+  "unit_tests_passed": true,
+  "matched_initialization": true,
+  "matched_sample_noise_order": true,
+  "matched_initial_fm": true,
+  "teacher_wan_sampling_matches": 38,
+  "cached_splits": [
+    "train",
+    "val"
+  ],
+  "cached_test_count": 0,
+  "native_generation_videos": 12,
+  "peak_allocated_gib": {
+    "A": 3.015377998352051,
+    "B": 3.030972480773926,
+    "C": 3.030972480773926
+  },
+  "seconds": {
+    "A": 3.759184018999804,
+    "B": 3.946384589013178,
+    "C": 3.9590659459936433
+  },
+  "phase2": "passed technical smoke only",
+  "phase3": "not run",
+  "hypothesis": "Not established: validation retrieval near chance and no generation improvement evidence",
+  "unsaid": "Do not add before validating Said selectivity and native video quality"
+}

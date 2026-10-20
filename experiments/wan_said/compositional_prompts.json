@@ -1,0 +1,14 @@
+[
+  {"id": "red_walk", "category": "subject_attribute_action", "prompt": "A man in a red shirt walks across a park."},
+  {"id": "blue_walk", "category": "attribute_counterfactual", "prompt": "A man in a blue shirt walks across a park."},
+  {"id": "red_run", "category": "action_counterfactual", "prompt": "A man in a red shirt runs across a park."},
+  {"id": "yellow_jump", "category": "subject_attribute_action", "prompt": "A woman in a yellow jacket jumps on a path."},
+  {"id": "two_people", "category": "multi_object_attribute_binding", "prompt": "A man in a red shirt and a woman in a blue shirt walk side by side."},
+  {"id": "two_people_swap", "category": "multi_object_attribute_binding", "prompt": "A man in a blue shirt and a woman in a red shirt walk side by side."},
+  {"id": "actor_binding", "category": "action_subject_binding", "prompt": "A man in a green shirt runs while a woman in a white shirt stands still."},
+  {"id": "actor_binding_swap", "category": "action_subject_binding", "prompt": "A woman in a white shirt runs while a man in a green shirt stands still."},
+  {"id": "dog_short", "category": "short_prompt", "prompt": "A black dog runs."},
+  {"id": "dog_detailed", "category": "detailed_prompt", "prompt": "A black dog with a red collar runs from left to right across a grassy field in daylight. The camera remains stationary."},
+  {"id": "pour", "category": "object_action", "prompt": "A person pours water from a clear bottle into a red cup."},
+  {"id": "ride", "category": "object_action", "prompt": "A woman wearing a blue helmet rides a bicycle along a road."}
+]

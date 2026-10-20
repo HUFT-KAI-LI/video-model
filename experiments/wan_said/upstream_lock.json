@@ -1,0 +1,6 @@
+{
+  "DiffSynth-Studio": {"url": "https://github.com/modelscope/DiffSynth-Studio.git", "commit": "b34c83793f783b8bf0c7e82142e06dda01f98d27"},
+  "VideoMAEv2": {"url": "https://github.com/OpenGVLab/VideoMAEv2.git", "commit": "29eab1e8a588d1b3ec0cdec7b03a86cca491b74b"},
+  "SAID_joint_reference": {"url": "https://github.com/reyuyu/SAID", "commit": "835852aa4a420b8701fe8c1adbc6114b84d4ce94", "files": ["model/nested_fusion_mask.py", "model/balanced_hparam_search.py"]},
+  "teacher": {"repo": "OpenGVLab/VideoMAE2", "revision": "706cc172d65ebd4dedbee3f9c0183a93df9fa125", "file": "distill/vit_s_k710_dl_from_giant.pth", "sha256": "24fb71687fa3671b8387cadfbcbab0f72af695692e93cf1ecc82caa888626172", "variant": "VideoMAEv2 ViT-small distilled from K710 giant (not a language-aligned encoder)"}
+}

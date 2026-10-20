@@ -1,0 +1,9 @@
+vendor/
+.venv/
+assets/
+cache/
+cache_openvid/
+datasets/
+runs/
+__pycache__/
+*.pyc

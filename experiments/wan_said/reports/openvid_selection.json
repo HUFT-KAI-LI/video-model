@@ -1,0 +1,34 @@
+{
+  "repo": "nkp37/OpenVid-1M",
+  "revision": "d8a63bd22989c80b5734ec2bb989f4e1b61a5807",
+  "mirror": "https://hf-mirror.com",
+  "samples_requested": 5000,
+  "seed": 42,
+  "parts": [
+    20,
+    45,
+    60,
+    70,
+    84,
+    100,
+    110,
+    130,
+    150,
+    170
+  ],
+  "raw_bytes": 13270085773,
+  "family_counts": {
+    "panda": 4000,
+    "pixabay": 1000
+  },
+  "plan_sha256": "de2c39725ba32d1727e24185b7577ffdcb813b18a711976f54736df5c2299fce",
+  "hard_budget_bytes": 100000000000,
+  "video_budget_bytes": 40000000000,
+  "policy": "Seeded source-unique subset; maximum 4 MB/clip; no official heldout split exists",
+  "license": "Dataset card: CC-BY-4.0, research/non-commercial intent; source licenses also apply",
+  "limitations": [
+    "Size cap may bias scene length, bitrate and resolution.",
+    "Selected archive IDs are a subset, not a representative million-video sample.",
+    "Captions are provided by OpenVid and require visual spot checks."
+  ]
+}

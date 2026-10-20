@@ -1,0 +1,380 @@
+{
+  "videos": [
+    {
+      "group": "A",
+      "prompt": {
+        "id": "red_walk",
+        "category": "subject_attribute_action",
+        "prompt": "A man in a red shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/A_red_walk_20261021.mp4",
+      "seconds": 7.43440853402717,
+      "pixel_std": 89.96040145372665,
+      "frame_change": 4.539813041687012,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "A",
+      "prompt": {
+        "id": "blue_walk",
+        "category": "attribute_counterfactual",
+        "prompt": "A man in a blue shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/A_blue_walk_20261021.mp4",
+      "seconds": 7.239421370031778,
+      "pixel_std": 85.65780221970934,
+      "frame_change": 10.951114972432455,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "A",
+      "prompt": {
+        "id": "red_run",
+        "category": "action_counterfactual",
+        "prompt": "A man in a red shirt runs across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/A_red_run_20261021.mp4",
+      "seconds": 7.263750139041804,
+      "pixel_std": 88.0036445780212,
+      "frame_change": 4.27504316965739,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "A",
+      "prompt": {
+        "id": "yellow_jump",
+        "category": "subject_attribute_action",
+        "prompt": "A woman in a yellow jacket jumps on a path."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/A_yellow_jump_20261021.mp4",
+      "seconds": 7.246691531036049,
+      "pixel_std": 79.91137318722768,
+      "frame_change": 17.399817784627277,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "B",
+      "prompt": {
+        "id": "red_walk",
+        "category": "subject_attribute_action",
+        "prompt": "A man in a red shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/B_red_walk_20261021.mp4",
+      "seconds": 7.241421197017189,
+      "pixel_std": 89.90193168657383,
+      "frame_change": 4.291016260782878,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "B",
+      "prompt": {
+        "id": "blue_walk",
+        "category": "attribute_counterfactual",
+        "prompt": "A man in a blue shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/B_blue_walk_20261021.mp4",
+      "seconds": 7.2501298249699175,
+      "pixel_std": 85.32895571500825,
+      "frame_change": 10.758319536844889,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "B",
+      "prompt": {
+        "id": "red_run",
+        "category": "action_counterfactual",
+        "prompt": "A man in a red shirt runs across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/B_red_run_20261021.mp4",
+      "seconds": 7.278662130993325,
+      "pixel_std": 88.09133342601264,
+      "frame_change": 4.163215637207031,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "B",
+      "prompt": {
+        "id": "yellow_jump",
+        "category": "subject_attribute_action",
+        "prompt": "A woman in a yellow jacket jumps on a path."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/B_yellow_jump_20261021.mp4",
+      "seconds": 7.273015355982352,
+      "pixel_std": 79.55597547169558,
+      "frame_change": 17.382654507954914,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "C",
+      "prompt": {
+        "id": "red_walk",
+        "category": "subject_attribute_action",
+        "prompt": "A man in a red shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/C_red_walk_20261021.mp4",
+      "seconds": 7.301326446002349,
+      "pixel_std": 89.76677918894477,
+      "frame_change": 4.070707639058431,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "C",
+      "prompt": {
+        "id": "blue_walk",
+        "category": "attribute_counterfactual",
+        "prompt": "A man in a blue shirt walks across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/C_blue_walk_20261021.mp4",
+      "seconds": 7.304275653033983,
+      "pixel_std": 84.86762325369625,
+      "frame_change": 10.0032745997111,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "C",
+      "prompt": {
+        "id": "red_run",
+        "category": "action_counterfactual",
+        "prompt": "A man in a red shirt runs across a park."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/C_red_run_20261021.mp4",
+      "seconds": 7.2996073350077495,
+      "pixel_std": 88.35314919181918,
+      "frame_change": 4.5342715581258135,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    },
+    {
+      "group": "C",
+      "prompt": {
+        "id": "yellow_jump",
+        "category": "subject_attribute_action",
+        "prompt": "A woman in a yellow jacket jumps on a path."
+      },
+      "seed": 20261021,
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/smoke_generation/C_yellow_jump_20261021.mp4",
+      "seconds": 7.304136456979904,
+      "pixel_std": 79.8321505127614,
+      "frame_change": 17.096391042073567,
+      "train_steps": 5,
+      "generation": {
+        "steps": 30,
+        "cfg": 5.0,
+        "shift": 5.0,
+        "seeds": [
+          20261021,
+          20261022
+        ]
+      },
+      "inference_modules": [
+        "umt5",
+        "Wan DiT + LoRA",
+        "native flow scheduler",
+        "Wan VAE"
+      ],
+      "teacher_used": false,
+      "auxiliary_modules_used": false
+    }
+  ],
+  "peak_allocated_gib": 4.092136383056641,
+  "peak_reserved_gib": 4.697265625,
+  "metric_status": "VBench/T2V-CompBench not run; human review fields intentionally unscored",
+  "efficacy_conclusion": "No efficacy claim from smoke checkpoints"
+}
