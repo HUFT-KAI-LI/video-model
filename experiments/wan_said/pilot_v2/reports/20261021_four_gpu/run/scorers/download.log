@@ -1,0 +1,531 @@
+urllib3.exceptions.SSLError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/util/retry.py", line 555, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='hf-mirror.com', port=443): Max retries exceeded with url: /api/models/videophysics/videophy_2_auto/revision/ca38370e1dcc79c99c7017dd8755d0a087299afc?blobs=True (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 19, in download
+    info = api.model_info(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, files_metadata=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 2591, in model_info
+    r = get_session().get(path, headers=headers, timeout=timeout, params=params)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/sessions.py", line 671, in get
+    return self.request("GET", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 96, in send
+    return super().send(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/adapters.py", line 727, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: (MaxRetryError("HTTPSConnectionPool(host='hf-mirror.com', port=443): Max retries exceeded with url: /api/models/videophysics/videophy_2_auto/revision/ca38370e1dcc79c99c7017dd8755d0a087299afc?blobs=True (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)')))"), '(Request ID: 9513c720-e0ec-43ce-926d-36ff80a8208e)')
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  25%|██▌       | 2/8 [00:01<00:04,  1.34it/s]Fetching 8 files:  50%|█████     | 4/8 [00:02<00:02,  1.99it/s]Fetching 8 files:  62%|██████▎   | 5/8 [00:02<00:01,  2.49it/s]Fetching 8 files:  75%|███████▌  | 6/8 [00:02<00:00,  2.98it/s]
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1506, in _get_metadata_or_catch_error
+    raise FileMetadataError(
+huggingface_hub.errors.FileMetadataError: Distant resource does not seem to be on huggingface.co. It is possible that a configuration issue prevents you from downloading resources from https://huggingface.co. Please check your firewall and proxy settings and make sure your SSL certificates are updated.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 33, in download
+    snapshot_download(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, endpoint=endpoint,
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 191, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 163, in _executor_map
+    return list(ex.map(
+           ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 941, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1194, in _hf_hub_download_to_local_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1599, in _raise_on_head_call_error
+    raise LocalEntryNotFoundError(
+huggingface_hub.errors.LocalEntryNotFoundError: An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  25%|██▌       | 2/8 [00:00<00:02,  2.21it/s]Fetching 8 files:  50%|█████     | 4/8 [00:01<00:01,  2.87it/s]Fetching 8 files:  75%|███████▌  | 6/8 [00:01<00:00,  4.31it/s]
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 409, in hf_raise_for_status
+    response.raise_for_status()
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://hf-mirror.com/videophysics/videophy_2_auto/resolve/ca38370e1dcc79c99c7017dd8755d0a087299afc/config.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1484, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1401, in get_hf_file_metadata
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 285, in _request_wrapper
+    response = _request_wrapper(
+               ^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 309, in _request_wrapper
+    hf_raise_for_status(response)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 482, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://hf-mirror.com/videophysics/videophy_2_auto/resolve/ca38370e1dcc79c99c7017dd8755d0a087299afc/config.json (Request ID: Root=1-6ad888db-0566c4123a88df1d4c5fb899;e4467d08-1a5d-4459-b6cc-ec697ab25712)
+
+We had to rate limit you, you hit the quota of 100000 resolvers requests per 5 minutes period. Enable "Higher Hub rate limits" in your organization's Network Security settings (https://huggingface.co/organizations/ci-org/settings/network-security) to get higher limits. See https://huggingface.co/docs/hub/rate-limits
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 33, in download
+    snapshot_download(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, endpoint=endpoint,
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 191, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 163, in _executor_map
+    return list(ex.map(
+           ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 941, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1194, in _hf_hub_download_to_local_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1599, in _raise_on_head_call_error
+    raise LocalEntryNotFoundError(
+huggingface_hub.errors.LocalEntryNotFoundError: An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  25%|██▌       | 2/8 [00:01<00:04,  1.28it/s]Fetching 8 files:  38%|███▊      | 3/8 [00:20<00:33,  6.67s/it]Fetching 8 files:  50%|█████     | 4/8 [14:09<14:09, 212.41s/it]Fetching 8 files:  62%|██████▎   | 5/8 [14:13<08:32, 170.80s/it]Fetching 8 files:  75%|███████▌  | 6/8 [14:17<04:45, 142.89s/it]Fetching 8 files:  88%|████████▊ | 7/8 [14:18<02:02, 122.58s/it]Error while downloading from https://cas-bridge.xethub.hf.co/xet-bridge-us/67ee0d32b60e30eac9af86c9/321c22be2989a4e1c74012d4c856f9ef3577c8c40884de6d18f4f1afbf83237e?Expires=1792579432&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jYXMtYnJpZGdlLnhldGh1Yi5oZi5jby94ZXQtYnJpZGdlLXVzLzY3ZWUwZDMyYjYwZTMwZWFjOWFmODZjOS8zMjFjMjJiZTI5ODlhNGUxYzc0MDEyZDRjODU2ZjllZjM1NzdjOGM0MDg4NGRlNmQxOGY0ZjFhZmJmODMyMzdlKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5MjU3OTQzMn19fV19&Signature=MEUCICUf2GZl%7EFBHkvys3BDFmgUuUEmi%7E1QJis6yC%7EFRQG-XAiEA-GOsLo6aecch7tvC1KmLoBpj9v%7ESo%7EOYHC2QBPir4bQ_&Key-Pair-Id=K3EPXBYC3CKDRZ&response-content-type=application%2Foctet-stream&xip=5HRBQJvxxbs&X-Xet-Cas-Uid=62171e3b6a99db28e0b3159d&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model-00001-of-00002.bin%3B+filename%3D%22pytorch_model-00001-of-00002.bin%22%3B&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cas%2F20261021%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261021T094352Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=75e556da59264b5747d01704419e5cdd278b100e6cfd9f484dc9b62504ced14a: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+Trying to resume download...
+Error while downloading from https://cas-bridge.xethub.hf.co/xet-bridge-us/67ee0d32b60e30eac9af86c9/321c22be2989a4e1c74012d4c856f9ef3577c8c40884de6d18f4f1afbf83237e?Expires=1792579432&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jYXMtYnJpZGdlLnhldGh1Yi5oZi5jby94ZXQtYnJpZGdlLXVzLzY3ZWUwZDMyYjYwZTMwZWFjOWFmODZjOS8zMjFjMjJiZTI5ODlhNGUxYzc0MDEyZDRjODU2ZjllZjM1NzdjOGM0MDg4NGRlNmQxOGY0ZjFhZmJmODMyMzdlKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5MjU3OTQzMn19fV19&Signature=MEUCICUf2GZl%7EFBHkvys3BDFmgUuUEmi%7E1QJis6yC%7EFRQG-XAiEA-GOsLo6aecch7tvC1KmLoBpj9v%7ESo%7EOYHC2QBPir4bQ_&Key-Pair-Id=K3EPXBYC3CKDRZ&response-content-type=application%2Foctet-stream&xip=5HRBQJvxxbs&X-Xet-Cas-Uid=62171e3b6a99db28e0b3159d&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model-00001-of-00002.bin%3B+filename%3D%22pytorch_model-00001-of-00002.bin%22%3B&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cas%2F20261021%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261021T094352Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=75e556da59264b5747d01704419e5cdd278b100e6cfd9f484dc9b62504ced14a: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+Trying to resume download...
+Fetching 8 files: 100%|██████████| 8/8 [1:31:46<00:00, 688.34s/it]Fetching 8 files: 100%|██████████| 8/8 [1:31:46<00:00, 688.34s/it]
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 929, in _error_catcher
+    yield
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1046, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1029, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/http/client.py", line 488, in read
+    s = self.fp.read(amt)
+        ^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/ssl.py", line 1314, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/ssl.py", line 1166, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 937, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1291, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1134, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1045, in _raw_read
+    with self._error_catcher():
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 934, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 449, in http_get
+    for chunk in r.iter_content(chunk_size=constants.DOWNLOAD_CHUNK_SIZE):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 943, in generate
+    raise ConnectionError(e)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 929, in _error_catcher
+    yield
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1046, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1029, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/http/client.py", line 488, in read
+    s = self.fp.read(amt)
+        ^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/ssl.py", line 1314, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/ssl.py", line 1166, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 937, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1291, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1134, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1045, in _raw_read
+    with self._error_catcher():
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 934, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 449, in http_get
+    for chunk in r.iter_content(chunk_size=constants.DOWNLOAD_CHUNK_SIZE):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 943, in generate
+    raise ConnectionError(e)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 409, in hf_raise_for_status
+    response.raise_for_status()
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://cas-bridge.xethub.hf.co/xet-bridge-us/67ee0d32b60e30eac9af86c9/321c22be2989a4e1c74012d4c856f9ef3577c8c40884de6d18f4f1afbf83237e?Expires=1792579432&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jYXMtYnJpZGdlLnhldGh1Yi5oZi5jby94ZXQtYnJpZGdlLXVzLzY3ZWUwZDMyYjYwZTMwZWFjOWFmODZjOS8zMjFjMjJiZTI5ODlhNGUxYzc0MDEyZDRjODU2ZjllZjM1NzdjOGM0MDg4NGRlNmQxOGY0ZjFhZmJmODMyMzdlKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5MjU3OTQzMn19fV19&Signature=MEUCICUf2GZl~FBHkvys3BDFmgUuUEmi~1QJis6yC~FRQG-XAiEA-GOsLo6aecch7tvC1KmLoBpj9v~So~OYHC2QBPir4bQ_&Key-Pair-Id=K3EPXBYC3CKDRZ&response-content-type=application%2Foctet-stream&xip=5HRBQJvxxbs&X-Xet-Cas-Uid=62171e3b6a99db28e0b3159d&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model-00001-of-00002.bin%3B+filename%3D%22pytorch_model-00001-of-00002.bin%22%3B&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cas%2F20261021%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261021T094352Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=75e556da59264b5747d01704419e5cdd278b100e6cfd9f484dc9b62504ced14a
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 33, in download
+    snapshot_download(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, endpoint=endpoint,
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 191, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 163, in _executor_map
+    return list(ex.map(
+           ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 941, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1241, in _hf_hub_download_to_local_dir
+    _download_to_tmp_and_move(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1675, in _download_to_tmp_and_move
+    http_get(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 466, in http_get
+    return http_get(
+           ^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 466, in http_get
+    return http_get(
+           ^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 376, in http_get
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 309, in _request_wrapper
+    hf_raise_for_status(response)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 473, in hf_raise_for_status
+    raise _format(HfHubHTTPError, message, response) from e
+huggingface_hub.errors.HfHubHTTPError: 403 Forbidden: None.
+Cannot access content at: https://cas-bridge.xethub.hf.co/xet-bridge-us/67ee0d32b60e30eac9af86c9/321c22be2989a4e1c74012d4c856f9ef3577c8c40884de6d18f4f1afbf83237e?Expires=1792579432&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jYXMtYnJpZGdlLnhldGh1Yi5oZi5jby94ZXQtYnJpZGdlLXVzLzY3ZWUwZDMyYjYwZTMwZWFjOWFmODZjOS8zMjFjMjJiZTI5ODlhNGUxYzc0MDEyZDRjODU2ZjllZjM1NzdjOGM0MDg4NGRlNmQxOGY0ZjFhZmJmODMyMzdlKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5MjU3OTQzMn19fV19&Signature=MEUCICUf2GZl~FBHkvys3BDFmgUuUEmi~1QJis6yC~FRQG-XAiEA-GOsLo6aecch7tvC1KmLoBpj9v~So~OYHC2QBPir4bQ_&Key-Pair-Id=K3EPXBYC3CKDRZ&response-content-type=application%2Foctet-stream&xip=5HRBQJvxxbs&X-Xet-Cas-Uid=62171e3b6a99db28e0b3159d&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model-00001-of-00002.bin%3B+filename%3D%22pytorch_model-00001-of-00002.bin%22%3B&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cas%2F20261021%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261021T094352Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=75e556da59264b5747d01704419e5cdd278b100e6cfd9f484dc9b62504ced14a.
+Make sure your token has the correct permissions.
+<?xml version="1.0" encoding="UTF-8"?><Error><Code>AccessDenied</Code><Message>Access denied</Message></Error>
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  38%|███▊      | 3/8 [00:20<00:33,  6.67s/it]Fetching 8 files:  50%|█████     | 4/8 [30:33<30:33, 458.28s/it]Fetching 8 files: 100%|██████████| 8/8 [41:15<00:00, 309.42s/it]Fetching 8 files: 100%|██████████| 8/8 [41:15<00:00, 309.42s/it]
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 929, in _error_catcher
+    yield
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1067, in _raw_read
+    raise IncompleteRead(self._fp_bytes_read, self.length_remaining)
+urllib3.exceptions.IncompleteRead: IncompleteRead(2338171140 bytes read, 3337448055 more expected)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 937, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1291, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1179, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1045, in _raw_read
+    with self._error_catcher():
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 949, in _error_catcher
+    raise ProtocolError(arg, e) from e
+urllib3.exceptions.ProtocolError: ('Connection broken: IncompleteRead(2338171140 bytes read, 3337448055 more expected)', IncompleteRead(2338171140 bytes read, 3337448055 more expected))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 33, in download
+    snapshot_download(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, endpoint=endpoint,
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 191, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 163, in _executor_map
+    return list(ex.map(
+           ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 941, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1241, in _hf_hub_download_to_local_dir
+    _download_to_tmp_and_move(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1675, in _download_to_tmp_and_move
+    http_get(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 449, in http_get
+    for chunk in r.iter_content(chunk_size=constants.DOWNLOAD_CHUNK_SIZE):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 939, in generate
+    raise ChunkedEncodingError(e)
+requests.exceptions.ChunkedEncodingError: ('Connection broken: IncompleteRead(2338171140 bytes read, 3337448055 more expected)', IncompleteRead(2338171140 bytes read, 3337448055 more expected))
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  38%|███▊      | 3/8 [00:20<00:33,  6.67s/it]Error while downloading from https://cas-bridge.xethub.hf.co/xet-bridge-us/67ee0d32b60e30eac9af86c9/321c22be2989a4e1c74012d4c856f9ef3577c8c40884de6d18f4f1afbf83237e?Expires=1792587659&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jYXMtYnJpZGdlLnhldGh1Yi5oZi5jby94ZXQtYnJpZGdlLXVzLzY3ZWUwZDMyYjYwZTMwZWFjOWFmODZjOS8zMjFjMjJiZTI5ODlhNGUxYzc0MDEyZDRjODU2ZjllZjM1NzdjOGM0MDg4NGRlNmQxOGY0ZjFhZmJmODMyMzdlKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5MjU4NzY1OX19fV19&Signature=MEUCIQDUrQCZJzyfW742KpmJ5aha3jN3lPucDsiH-yUDT%7E%7EQTgIgbjshUMFsrsMNg1a244wbC%7E7RV8-SafzAfBC53mcROJM_&Key-Pair-Id=K3EPXBYC3CKDRZ&X-Xet-Cas-Uid=62171e3b6a99db28e0b3159d&xip=_4MbHnvJL8Q&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27pytorch_model-00001-of-00002.bin%3B+filename%3D%22pytorch_model-00001-of-00002.bin%22%3B&response-content-type=application%2Foctet-stream&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cas%2F20261021%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261021T120059Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=a7e3a6f2e2336c1dd7ac9be550e5762037cca43c20d6332686e44c982219fa3f: HTTPSConnectionPool(host='cas-bridge.xethub.hf.co', port=443): Read timed out.
+Trying to resume download...
+Fetching 8 files:  50%|█████     | 4/8 [52:30<52:30, 787.55s/it]Fetching 8 files: 100%|██████████| 8/8 [53:31<00:00, 401.49s/it]Fetching 8 files: 100%|██████████| 8/8 [53:31<00:00, 401.49s/it]
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 929, in _error_catcher
+    yield
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1067, in _raw_read
+    raise IncompleteRead(self._fp_bytes_read, self.length_remaining)
+urllib3.exceptions.IncompleteRead: IncompleteRead(2518944098 bytes read, 1623140718 more expected)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 937, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1291, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1179, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 1045, in _raw_read
+    with self._error_catcher():
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/urllib3/response.py", line 949, in _error_catcher
+    raise ProtocolError(arg, e) from e
+urllib3.exceptions.ProtocolError: ('Connection broken: IncompleteRead(2518944098 bytes read, 1623140718 more expected)', IncompleteRead(2518944098 bytes read, 1623140718 more expected))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 55, in <module>
+    download(args.output, args.interpreter)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_setup.py", line 33, in download
+    snapshot_download(VIDEOPHY_REPO, revision=VIDEOPHY_REVISION, endpoint=endpoint,
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 191, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/tqdm/contrib/concurrent.py", line 163, in _executor_map
+    return list(ex.map(
+           ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 941, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1241, in _hf_hub_download_to_local_dir
+    _download_to_tmp_and_move(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1675, in _download_to_tmp_and_move
+    http_get(
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 449, in http_get
+    for chunk in r.iter_content(chunk_size=constants.DOWNLOAD_CHUNK_SIZE):
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/site-packages/requests/models.py", line 939, in generate
+    raise ChunkedEncodingError(e)
+requests.exceptions.ChunkedEncodingError: ('Connection broken: IncompleteRead(2518944098 bytes read, 1623140718 more expected)', IncompleteRead(2518944098 bytes read, 1623140718 more expected))
+{'repo': 'videophysics/videophy_2_auto', 'revision': 'ca38370e1dcc79c99c7017dd8755d0a087299afc', 'endpoint': 'https://hf-mirror.com', 'files': [{'name': 'config.json', 'bytes': 7036, 'lfs_sha256': None}, {'name': 'generation_config.json', 'bytes': 179, 'lfs_sha256': None}, {'name': 'preprocessor_config.json', 'bytes': 163, 'lfs_sha256': None}, {'name': 'pytorch_model-00001-of-00002.bin', 'bytes': 9995752315, 'lfs_sha256': '466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138'}, {'name': 'pytorch_model-00002-of-00002.bin', 'bytes': 4309856976, 'lfs_sha256': 'e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a'}, {'name': 'pytorch_model.bin.index.json', 'bytes': 92527, 'lfs_sha256': None}, {'name': 'tokenizer.model', 'bytes': 499723, 'lfs_sha256': '9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347'}, {'name': 'tokenizer_config.json', 'bytes': 176, 'lfs_sha256': None}], 'total_bytes': 14306209095, 'max_workers': 2, 'feature_cache_bytes': 0}
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files:  88%|████████▊ | 7/8 [00:20<00:02,  2.86s/it]

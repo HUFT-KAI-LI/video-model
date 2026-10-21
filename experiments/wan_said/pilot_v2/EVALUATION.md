@@ -73,11 +73,18 @@ audited scorer run, not filling zero or reducing a denominator.
 ## C Training And Validation
 
 The current user request is a preliminary 5K pilot, not a 64K paper experiment.
-Training uses all 3,995 train videos once (3,995 optimizer steps, batch 1), fixed
+Training uses all 3,995 train videos once, fixed
 seed 42, 49x480x720 full-timeline samples, native FM + 0.05 Said. Existing shared
 FM/SAID/Grounding math and original projects are unchanged. Encoders remain
-frozen and feature caches remain disabled. Four GPUs retain the existing
-placement: student/Grounding 0, VAE 1, ViT-Base 2, umT5 3, not four-way DDP.
+frozen and feature caches remain disabled. The original serial entry point used
+3,995 optimizer steps, batch 1, with separate encoder/student GPU placement.
+On October 21 the user requested actual four-GPU parallel training: the current
+run uses `run_c --workers 4`, local batch 1/global batch 4, and **999 optimizer
+updates** for the same single pass. A zero-weight fourth rank in the final batch
+preserves exactly 3,995 supervised examples. Learning rate remains 1e-4; this
+batch change is explicitly a different optimizer protocol, not an assertion of
+equivalence to serial batch 1. Comparison arms must match it. See
+`parallel/README.md` for memory policy, preserved gates and real preflight checks.
 
 Grounding first receives 1,000 registered contrastive optimizer steps, batch 8,
 from the entire 3,995-video training pool. Sampling is with replacement across

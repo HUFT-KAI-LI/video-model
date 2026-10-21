@@ -57,3 +57,25 @@ Grounding validation and human-review/publication gates are unchanged.
 Validation remains the registered full 498-video paired base/C diagnostic stage.
 Full VideoPhy-2/VBench generation remains deferred under the existing budget
 decision; a training loss is not a generation-quality benchmark score.
+
+## October 21 Measurements
+
+- Grounding resumed step 850 through 1000 in 702.02 seconds for 150 new steps
+  (4.68 s/update), versus 14.28 s/update for the saved original serial segment.
+  Final fixed 64-video retrieval passed: v2t R@1 0.21875, t2v R@1 0.28125.
+- The real C preflight ran four GPUs at 49x480x720. All ranks passed the native
+  FM 30-block and Said 15-block gradient checks. LoRA and projector parameter
+  hashes matched across ranks after each saved update.
+- A one-update checkpoint resumed to update two matched uninterrupted two-update
+  training exactly for both LoRA and projector (maximum absolute difference 0).
+  Eight unique training videos were used; this is engineering evidence only.
+- PyTorch peak allocated memory was about 17.75 GiB on ranks 0/2/3; nvidia-smi
+  showed approximately 20,631 MiB occupied including allocator/context overhead.
+  Rank 1 used T5 CPU offload, peaking at 14.26 GiB allocated while sharing GPU 1
+  with another user's approximately 4.7 GiB job. Do not equate allocation with
+  useful throughput or deliberately fill unused memory.
+- One warm preflight update took 44.03 seconds for four videos. This is only a
+  short-run timing, affected by the shared GPU, not a guaranteed epoch time.
+- Full exploratory C training was launched at 21:09 Asia/Shanghai, with
+  full held-out validation queued afterward. Full training and official benchmark
+  scores are not yet complete; consult the newest progress snapshot.

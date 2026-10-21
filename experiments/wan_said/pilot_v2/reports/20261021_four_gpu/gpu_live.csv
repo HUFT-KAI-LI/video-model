@@ -1,0 +1,5 @@
+timestamp, index, name, memory.used [MiB], memory.total [MiB], utilization.gpu [%]
+2026/10/21 21:13:01.919, 0, NVIDIA GeForce RTX 3090, 20669 MiB, 24576 MiB, 100 %
+2026/10/21 21:13:01.922, 1, NVIDIA GeForce RTX 3090, 11576 MiB, 24576 MiB, 100 %
+2026/10/21 21:13:01.923, 2, NVIDIA GeForce RTX 3090, 20669 MiB, 24576 MiB, 100 %
+2026/10/21 21:13:01.925, 3, NVIDIA GeForce RTX 3090, 20669 MiB, 24576 MiB, 100 %

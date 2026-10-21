@@ -1,0 +1,132 @@
+{
+  "source_files_sha256": {
+    "vendor/T2V-CompBench/prompts/1_consistent_attr.txt": "4b8af1d791745e59f93d4464e81228c37ce3bd550f9ac3e08aa1a0b0e8131ca7",
+    "vendor/T2V-CompBench/meta_data/consistent_attribute_binding.json": "a07329de592a332d807030d2f90cb1410321fedc87e408b8375f7d6ef54cdad7",
+    "vendor/T2V-CompBench/prompts/2_dynamic_attr.txt": "c9be7ddd76f196ddc6b24510d4c4f6440cc11bb8cd68c5e71617d221482ce806",
+    "vendor/T2V-CompBench/meta_data/dynamic_attribute_binding.json": "eb671d189f8791ec753e9711a346fd6b0011b21aeac6504f6b1eaec4b5c2e05c",
+    "vendor/T2V-CompBench/prompts/3_spatial_relationship.txt": "fda338d7f4f0929bbc5345fbd0f03a086f0f8f9733d727d77e30fe3861b906ba",
+    "vendor/T2V-CompBench/meta_data/spatial_relationships.json": "479dfcad03527872acebf43a3a9b13d828da2bcf9d386927831dacb23fc562e7",
+    "vendor/T2V-CompBench/prompts/4_motion_binding.txt": "1aa4e95be06791d1ae9931805b0fece179ef33e14e3250c498980ba4791cd310",
+    "vendor/T2V-CompBench/meta_data/motion_binding.json": "52e9ee152e3fa069647643e92018752f209d182fda85bddcd66321ded52afcfe",
+    "vendor/T2V-CompBench/prompts/5_action_binding.txt": "f05a79c2ad38437d8f61a136e141cbc175283c0a4a9ab2ced432b5571596ff97",
+    "vendor/T2V-CompBench/meta_data/action_binding.json": "4efd19054a08fb642c8841d92acc94a945dc617569534f1cf254c7c4caca504b",
+    "vendor/T2V-CompBench/prompts/6_interaction.txt": "e263890b14f23847bc2d9d2cd6ed7407a585654462b40a78ae53cd85a77f1921",
+    "vendor/T2V-CompBench/meta_data/object_interactions.json": "00150b06894fc7b683a2b83b6d87672b2e0024031bff342bb43367754105d52f",
+    "vendor/T2V-CompBench/prompts/7_numeracy.txt": "0db38a0976bd4a7adfffad963c37f596215ac8d2d64419de27721a645f074536",
+    "vendor/T2V-CompBench/meta_data/generative_numeracy.json": "bd40fc97c2d45b7deaaf2fb65c9c46571f3e54051c496e435aeebf1fa1ba1975",
+    "vendor/VBench/vbench/VBench_full_info.json": "5dd2de80ee43cda750b2b72ea7023657c0b90d3702041c7e4608c65dbe50dccd",
+    "vendor/VideoREPA/evaluation/VIDEOPHY2/videophy2.csv": "c3a19c20a38cf8b64de1bfcbda0bf01ff1423c7f676d04d31685866a82c22fbb",
+    "vendor/VideoREPA/evaluation/VIDEOPHY2/prompt-upsampled-test.csv": "0b9be9fd8d19d855fdf240ecd169802c59549aa71a147da62a0021841715d49f"
+  },
+  "source_commits": {
+    "T2V-CompBench": "dd5eff7b93af0550b9efa2bdabbb21b3b017ceda",
+    "VBench": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+    "VideoREPA": "8d581dc301e18546a1808436c724f59d259d09f9"
+  },
+  "t2v_compbench": {
+    "count": 1400,
+    "categories": {
+      "consistent_attr": 200,
+      "dynamic_attr": 200,
+      "spatial_relationships": 200,
+      "motion_binding": 200,
+      "action_binding": 200,
+      "interaction": 200,
+      "generative_numeracy": 200
+    },
+    "normalized_prompt_metadata_differences": [
+      {
+        "category": "motion_binding",
+        "row": 195,
+        "generation_prompt": "A ceramic vase is lowered downward by a crane and a statue is lifed upwards from the pedestal",
+        "metadata_prompt": "A ceramic vase is lowered downward by a crane and a statue is lifted upwards from the pedestal."
+      },
+      {
+        "category": "action_binding",
+        "row": 159,
+        "generation_prompt": "A prince is riding through the forest on his horse, while a eagle is soaring above.",
+        "metadata_prompt": "A prince is riding through the forest on his horse, while an eagle is soaring above."
+      }
+    ],
+    "mapping_policy": "Preserve official original prompts and official metadata unchanged; record source wording discrepancies"
+  },
+  "vbench": {
+    "official_metadata_rows": 946,
+    "unique_generation_prompts": 944,
+    "dimensions": [
+      "aesthetic_quality",
+      "appearance_style",
+      "background_consistency",
+      "color",
+      "dynamic_degree",
+      "human_action",
+      "imaging_quality",
+      "motion_smoothness",
+      "multiple_objects",
+      "object_class",
+      "overall_consistency",
+      "scene",
+      "spatial_relationship",
+      "subject_consistency",
+      "temporal_flickering",
+      "temporal_style"
+    ]
+  },
+  "videophy2": {
+    "pinned_csv_rows": 590,
+    "alternate_csv_rows": 591,
+    "benchmark_version": "VideoPhy-2",
+    "expected_test_prompts": 590,
+    "rating_scale": [
+      1,
+      5
+    ],
+    "primary_metric": "joint_at_4",
+    "joint_condition": "SA >= 4 AND PC >= 4 on the same video",
+    "separate_early_benchmark": {
+      "name": "VideoPhy",
+      "test_prompts": 344,
+      "evaluator": "VideoCon-Physics",
+      "ratings": "binary SA/PC",
+      "comparable": false
+    },
+    "policy": "590 VideoPhy-2 prompts; never truncate or compare directly with early VideoPhy",
+    "default_prompt_variant": "original",
+    "main_table_ready": false
+  },
+  "plans": {
+    "t2v_compbench": {
+      "jobs": 1400,
+      "plan_sha256": "d92fa379a4c2a3692d80668a4f640822915ec56a33a7e87940013c23b5c42808"
+    },
+    "vbench": {
+      "jobs": 4720,
+      "plan_sha256": "db7a2ef529f6c75c976f25ff6002717c85ef7a09cb6f2b18d22bbf9208cec10c"
+    },
+    "videophy2": {
+      "jobs": 590,
+      "plan_sha256": "a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb"
+    }
+  },
+  "split_overlap": [],
+  "official_scorers_executed": false,
+  "no_proxy_metrics": true,
+  "formal_generation": {
+    "frames": 81,
+    "height": 480,
+    "width": 832,
+    "fps": 16,
+    "sampler": "official Wan FlowUniPCMultistepScheduler",
+    "steps": 50,
+    "cfg": 6,
+    "shift": 8,
+    "prompt_extension": false,
+    "seeds": [
+      20261021,
+      20261022,
+      20261023,
+      20261024,
+      20261025
+    ]
+  }
+}

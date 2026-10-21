@@ -1,0 +1,131 @@
+{
+  "recorded_at_utc": "2026-10-21T13:12:56.230666+00:00",
+  "branch": "codex/wan-said-c-eval",
+  "parent_commit": "109ca5c5b906d991a63c7f3942393ee06efe5c5a",
+  "copied": [
+    "run_lock.json",
+    "run_lock.serial_before_4gpu.json",
+    "run_lock.full_benchmarks_before_timing.json",
+    "status.json",
+    "budget_decision.json",
+    "resolved_config.json",
+    "pipeline.log",
+    "grounding.log",
+    "parallel_preflight.log",
+    "train_c.log",
+    "pipeline_parallel.log",
+    "grounding_parallel.log",
+    "nccl_4gpu.log",
+    "grounding/report.json",
+    "grounding/steps.jsonl",
+    "C/report.json",
+    "C/steps.jsonl",
+    "C/gradient_audit.json",
+    "plans/suite_lock.json",
+    "scorers/download_plan.json",
+    "scorers/download.log",
+    "base_timing/generation_lock.json",
+    "base_timing/progress.json",
+    "base_timing/records/fd3c0a2c0af299af01f502d3.json",
+    "ddp_smoke/report.json",
+    "ddp_smoke/steps.jsonl",
+    "ddp_smoke/gradient_audit.json",
+    "ddp_smoke_uninterrupted/report.json",
+    "parallel_execution.json"
+  ],
+  "tests": [
+    {
+      "name": "shared",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "download",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/protocol_v2/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "pilot",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/tests",
+        "-v"
+      ]
+    }
+  ],
+  "services": {
+    "wan-said-c-grounding-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-pipeline-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-grounding-4gpu-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-4gpu-20261021": [
+      "MainPID=3233373",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Wed 2026-10-21 20:59:05 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "wan-said-videophy2-weights-direct-20261021": [
+      "MainPID=3038267",
+      "Result=success",
+      "NRestarts=4",
+      "ExecMainStartTimestamp=Wed 2026-10-21 20:56:30 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ]
+  },
+  "official_scores_available": false,
+  "checkpoint_or_raw_video_uploaded": false,
+  "feature_cache_bytes": 0,
+  "note": "Point-in-time progress snapshot, not a completion claim; synthetic scoring tests are not real model scores"
+}
