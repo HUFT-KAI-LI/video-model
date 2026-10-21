@@ -19,11 +19,12 @@ def collect(run, output):
         raise FileExistsError('Keep earlier progress snapshots; choose a fresh report directory')
     output.mkdir(parents=True)
     copied = []
-    for pattern in ('run_lock.json', 'status.json', 'resolved_config.json', '*.log',
+    for pattern in ('run_lock.json', 'run_lock.*.json', 'status.json', 'budget_decision.json', 'resolved_config.json', '*.log',
                     'grounding/report.json', 'grounding/steps.jsonl', 'C/report.json', 'C/steps.jsonl',
                     'C/gradient_audit.json', 'validation/*.json', 'validation/*.jsonl', 'plans/suite_lock.json',
                     'scores/*/summary.*', 'scores/*/score_status.json', 'scorers/download_plan.json',
-                    'scorers/*environment.json', 'scorers/download.log'):
+                    'scorers/*environment.json', 'scorers/download.log', 'base_timing/generation_lock.json',
+                    'base_timing/progress.json', 'base_timing/records/*.json'):
         for source in run.glob(pattern):
             if source.stat().st_size > 20*2**20:
                 raise ValueError(f'Large evidence file needs explicit handling: {source}')
@@ -40,7 +41,7 @@ def collect(run, output):
             process = subprocess.run(command, env=environment, stdout=log, stderr=subprocess.STDOUT)
         tests.append(dict(name=name, returncode=process.returncode, command=command))
     services = {}
-    for name in ('wan-said-c-grounding-20261021', 'wan-said-c-pipeline-20261021',
+    for name in ('wan-said-c-grounding-20261021', 'wan-said-c-pipeline-20261021', 'wan-said-c-trainval-20261021',
                  'wan-said-videophy2-weights-direct-20261021'):
         process = subprocess.run(['systemctl', '--user', 'show', name, '--property=ActiveState',
                                   '--property=SubState', '--property=MainPID', '--property=Result',

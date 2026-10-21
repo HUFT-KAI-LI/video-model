@@ -1,0 +1,75 @@
+{
+  "mode": "said",
+  "steps": 150,
+  "new_steps": 150,
+  "train_manifest_count": 3995,
+  "effective_training_pool": 3995,
+  "unique_training_samples_seen": 1048,
+  "validation_count": 64,
+  "validation_chance_r1": 0.015625,
+  "before": {
+    "said": {
+      "v2t_r1": 0.015625,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": -0.035880314707756045
+    },
+    "full": {
+      "v2t_r1": 0.015625,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": -0.0370700490474701
+    },
+    "random": {
+      "v2t_r1": 0.015625,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": -0.024500867426395418
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.015625,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": -0.035876501202583316
+    },
+    "soft_keep": 0.5008982419967651,
+    "hard_keep": 0.52557373046875,
+    "prompt_delta_l1": 0.0006582437781617045,
+    "video_delta_l1": 0.004605784080922604,
+    "channel_std": 0.004290214739739895,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "after": {
+    "said": {
+      "v2t_r1": 0.171875,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": 0.3762349128723145
+    },
+    "full": {
+      "v2t_r1": 0.171875,
+      "t2v_r1": 0.015625,
+      "diagonal_similarity": 0.3746460247039795
+    },
+    "random": {
+      "v2t_r1": 0.109375,
+      "t2v_r1": 0.015625,
+      "diagonal_similarity": 0.26571599483489994
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.171875,
+      "t2v_r1": 0.03125,
+      "diagonal_similarity": 0.376254940032959
+    },
+    "soft_keep": 0.5005419254302979,
+    "hard_keep": 0.509521484375,
+    "prompt_delta_l1": 0.0009102118201553822,
+    "video_delta_l1": 0.005114465020596981,
+    "channel_std": 0.00486273318529129,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "grounding_validated": true,
+  "feature_cache_bytes": 0,
+  "raw_teacher_tokens_supported": true,
+  "seconds": 2134.377157078008,
+  "test_used": false,
+  "semantic_selectivity_proven": false,
+  "formal_efficacy_evidence": false
+}

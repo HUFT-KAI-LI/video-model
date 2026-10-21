@@ -104,7 +104,7 @@ diagnostics, not substitutes for VBench or VideoPhy-2 quality scores. Pooled
 validation features are held temporarily in RAM for retrieval, never disk-cached;
 raw tokens, latents and contexts are recomputed online.
 
-Next, benchmark generation uses unchanged native UniPC, 81 frames, 480x832,
+When explicitly enabled, benchmark generation uses unchanged native UniPC, 81 frames, 480x832,
 16 FPS, 50 steps, CFG 6, shift 8, original prompts and fixed plan seeds. It is
 resumable and checks existing file hashes and decoded geometry. Smoke adapters
 remain ineligible. VideoPhy-2 and VBench produce 590 and 4,720 videos respectively.
@@ -116,14 +116,15 @@ part of this C runner's two requested corrected benchmark suites.
 ## Execution And Audit
 
 The first Grounding service started on 2026-10-21 at 17:24:03 Asia/Shanghai:
-`wan-said-c-grounding-20261021.service`. The C pipeline waits for its successful
+`wan-said-c-grounding-20261021.service`. The C training/validation pipeline,
+`wan-said-c-trainval-20261021.service`, waits for its successful
 exit and validated final checkpoint before loading the student. Run root:
 `experiments/wan_said/runs/pilot_v2/c_validation_20261021`.
 
 Example commands, prefixed by the existing experiment venv Python:
 
 ```bash
--m experiments.wan_said.pilot_v2.run_c --output experiments/wan_said/runs/pilot_v2/c_validation_20261021 --grounding-service wan-said-c-grounding-20261021 --ground-steps 1000 --exploratory
+-m experiments.wan_said.pilot_v2.run_c --output experiments/wan_said/runs/pilot_v2/c_validation_20261021 --grounding-service wan-said-c-grounding-20261021 --ground-steps 1000 --exploratory --benchmarks
 -m experiments.wan_said.pilot_v2.score --suite videophy2 --jobs RUN/plans/videophy2.jsonl --videos RUN/generation/videophy2 --output RUN/scores/videophy2 --environments RUN/scorers/videophy2_environment.json
 -m experiments.wan_said.pilot_v2.score --suite vbench --jobs RUN/plans/vbench.jsonl --videos RUN/generation/vbench --output RUN/scores/vbench --environments RUN/scorers/vbench_environment.json --aggregate-only
 -m experiments.wan_said.pilot_v2.collect_c --run RUN --output NEW_REPORT_SNAPSHOT
@@ -135,6 +136,31 @@ selection. Code or data changes during the run cause a stop at the next stage.
 Reports are point-in-time snapshots, not future completion claims. Checkpoints,
 raw videos and evaluator weights are never uploaded to GitHub. Later full logs
 can be collected with `collect_c.py` into a fresh report directory for review.
+
+### Measured Generation Budget
+
+A real base-model video at the complete official generation geometry/settings
+finished in **489.028 seconds**. Its 81 frames decode at 480x832 and 16 FPS;
+pixel standard deviation is 49.91 and temporal pixel change is 9.807. This is
+one timing sample, not a C-model quality result. Model startup is outside the
+per-video timing. The complete 590-job base plan remains incomplete at 1/590;
+the process was intentionally interrupted after its first complete record.
+
+Extrapolating this single measurement at the current serial throughput gives
+about 3.34 days for VideoPhy-2, 26.72 days for VBench, or **30.05 days** together,
+before scorer inference. Prompt variation, adapters and contention change these
+estimates. This is not a measurement of an optimized four-worker implementation.
+
+To avoid silently committing the machine to a month-long benchmark, the initial
+waiting pipeline was stopped, its original run lock was preserved as
+`run_lock.full_benchmarks_before_timing.json`, and the C train/validation-only
+queue was relaunched with an explicit empty `--benchmarks` list. Grounding was
+not stopped or reset. The complete benchmark plans and corrected scorer code
+remain ready; full generation is deferred pending the user's budget decision.
+No reduced prompt set or lower-resolution output is relabeled as a full score.
+After C finishes, full inference/scoring can be invoked directly against its
+fixed checkpoint and the existing plans, without retraining or changing the
+training run lock.
 
 The official VideoPhy-2 evaluator uses repository `videophysics/videophy_2_auto`,
 revision `ca38370e1dcc79c99c7017dd8755d0a087299afc`. `scorer_setup.py` downloads via

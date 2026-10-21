@@ -1,0 +1,11 @@
+{
+  "lock_sha256": "09cf9eb076263f9929f73468706663b2f5ffe7c23bdc15f81f6efe10f1792e97",
+  "completed_stages": [],
+  "complete": false,
+  "official_scorers_executed": false,
+  "publication_eligible": false,
+  "feature_cache_bytes": 0,
+  "test_used": false,
+  "stage": "waiting_grounding",
+  "updated_at_utc": "2026-10-21T10:06:32.123013+00:00"
+}
