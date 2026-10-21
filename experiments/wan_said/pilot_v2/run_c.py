@@ -1,6 +1,7 @@
 """Durable C pilot: validated Grounding -> full train pass -> held-out validation -> benchmarks."""
 import argparse
 import json
+import math
 import subprocess
 import sys
 import time
@@ -15,16 +16,20 @@ MODULE = 'experiments.wan_said.pilot_v2.'
 
 
 def run(cfg, output, grounding_service, ground_steps=1000, exploratory=False, review=None,
-        environments=None, benchmarks=('videophy2', 'vbench')):
+        environments=None, benchmarks=('videophy2', 'vbench'), workers=1):
+    if workers not in (1, 4):
+        raise ValueError('Supported execution protocols are serial or four-rank DDP')
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     training_count = len(load_split(cfg['manifests'], 'train', training=True))
+    training_steps = math.ceil(training_count/workers)
     lock = dict(config=cfg, preprocessing_hash=signature(cfg),
                 split_lock_sha256=sha256(Path(cfg['manifests'])/'split_lock.json'),
                 source_sha256={str(p.relative_to(HERE)): sha256(p) for p in HERE.rglob('*.py')
                                if 'tests' not in p.parts and 'reports' not in p.parts},
                 grounding_service=grounding_service, ground_steps=ground_steps,
-                training_steps=training_count, training_epochs=1, validation_count=len(load_split(cfg['manifests'], 'val')),
+                training_steps=training_steps, training_epochs=1, training_samples=training_count,
+                workers=workers, global_batch=workers, validation_count=len(load_split(cfg['manifests'], 'val')),
                 exploratory=exploratory, approved_review=str(Path(review).resolve()) if review else None,
                 approved_review_sha256=sha256(review) if review else None,
                 environments=str(Path(environments).resolve()) if environments else None,
@@ -56,6 +61,9 @@ def run(cfg, output, grounding_service, ground_steps=1000, exploratory=False, re
         frozen()
         update(stage)
         command = [sys.executable, '-m', MODULE+module, '--config', str(config_path), *map(str, arguments)]
+        if module == 'parallel.train':
+            command = [sys.executable, '-m', 'torch.distributed.run', '--standalone', '--nproc_per_node=4',
+                       '-m', MODULE+module, '--config', str(config_path), *map(str, arguments)]
         with (output/(stage+'.log')).open('a') as log:
             log.write(json.dumps(dict(command=command, started_at_utc=datetime.now(timezone.utc).isoformat()))+'\n')
             log.flush()
@@ -87,8 +95,13 @@ def run(cfg, output, grounding_service, ground_steps=1000, exploratory=False, re
         status['completed_stages'].append('grounding')
         del ground
         checkpoint = output/'C/checkpoint.pt'
+        if workers == 4:
+            execute('parallel_preflight', 'parallel.probe',
+                    ['--grounding', grounding_path, '--output', output])
         arguments = ['--group', 'C', '--steps', str(training_count), '--grounding', grounding_path,
                      '--output', output/'C', '--gradient-audit']
+        if workers == 4:
+            arguments = ['--grounding', grounding_path, '--output', output/'C', '--gradient-audit']
         if exploratory:
             arguments.append('--exploratory')
         if review:
@@ -97,15 +110,16 @@ def run(cfg, output, grounding_service, ground_steps=1000, exploratory=False, re
             saved = torch.load(checkpoint, map_location='cpu', weights_only=True)
             if (saved['contract']['grounding_sha256'] != sha256(grounding_path) or
                     bool(saved['contract'].get('exploratory')) != exploratory or saved['contract']['smoke'] or
-                    saved['group'] != 'C' or saved['steps'] > training_count):
+                    saved['group'] != 'C' or saved['steps'] > training_steps or
+                    saved['contract'].get('parallel', {}).get('world_size', 1) != workers):
                 raise ValueError('Existing C checkpoint does not belong to this run')
-            if saved['steps'] < training_count:
+            if saved['steps'] < training_steps:
                 arguments += ['--resume', checkpoint]
             else:
                 arguments = None
             del saved
         if arguments:
-            execute('train_c', 'train', arguments)
+            execute('train_c', 'parallel.train' if workers == 4 else 'train', arguments)
         execute('validation', 'validate', ['--checkpoint', checkpoint, '--grounding', grounding_path,
                                            '--output', output/'validation'])
         execute('benchmark_plan', 'benchmarks', ['--output', output/'plans'])
@@ -152,7 +166,8 @@ if __name__ == '__main__':
     parser.add_argument('--exploratory', action='store_true')
     parser.add_argument('--approved-review')
     parser.add_argument('--environments')
+    parser.add_argument('--workers', type=int, choices=[1, 4], default=1)
     parser.add_argument('--benchmarks', nargs='*', choices=['videophy2', 'vbench'], default=['videophy2', 'vbench'])
     args = parser.parse_args()
     run(load_config(args.config), args.output, args.grounding_service, args.ground_steps,
-        args.exploratory, args.approved_review, args.environments, args.benchmarks)
+        args.exploratory, args.approved_review, args.environments, args.benchmarks, args.workers)

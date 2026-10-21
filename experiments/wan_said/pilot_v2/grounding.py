@@ -16,6 +16,8 @@ from .online import OnlineFeatures, experiment_identity
 
 
 def encode_batch(provider, rows, device):
+    if hasattr(provider, 'encode_batch'):
+        return provider.encode_batch(rows, device)
     features = [provider(row, ('text', 'teacher')) for row in rows]
     return (torch.cat([r['text']['pooled'] for r in features]).to(device),
             torch.cat([r['teacher']['pooled'] for r in features]).to(device))

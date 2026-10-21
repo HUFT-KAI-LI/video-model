@@ -24,7 +24,9 @@ def collect(run, output):
                     'C/gradient_audit.json', 'validation/*.json', 'validation/*.jsonl', 'plans/suite_lock.json',
                     'scores/*/summary.*', 'scores/*/score_status.json', 'scorers/download_plan.json',
                     'scorers/*environment.json', 'scorers/download.log', 'base_timing/generation_lock.json',
-                    'base_timing/progress.json', 'base_timing/records/*.json'):
+                    'base_timing/progress.json', 'base_timing/records/*.json',
+                    'ddp_smoke/report.json', 'ddp_smoke/steps.jsonl', 'ddp_smoke/gradient_audit.json',
+                    'ddp_smoke_uninterrupted/report.json', 'parallel_execution.json'):
         for source in run.glob(pattern):
             if source.stat().st_size > 20*2**20:
                 raise ValueError(f'Large evidence file needs explicit handling: {source}')
@@ -42,6 +44,7 @@ def collect(run, output):
         tests.append(dict(name=name, returncode=process.returncode, command=command))
     services = {}
     for name in ('wan-said-c-grounding-20261021', 'wan-said-c-pipeline-20261021', 'wan-said-c-trainval-20261021',
+                 'wan-said-c-grounding-4gpu-20261021', 'wan-said-c-trainval-4gpu-20261021',
                  'wan-said-videophy2-weights-direct-20261021'):
         process = subprocess.run(['systemctl', '--user', 'show', name, '--property=ActiveState',
                                   '--property=SubState', '--property=MainPID', '--property=Result',

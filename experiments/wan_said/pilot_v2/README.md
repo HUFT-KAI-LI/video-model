@@ -86,9 +86,12 @@ not imply every token reaches the model; no silent caption rewriting is used.
 
 ## Execution And Resume
 
-Default four-GPU placement is student/LoRA on GPU 0, VAE on GPU 1, Teacher on GPU 2,
-and umT5 on GPU 3. Grounding runs on GPU 0 before student training. This is model
-placement, not four-way DDP; student effective batch size is one video per step.
+The original entry point places student/LoRA on GPU 0, VAE on GPU 1, Teacher on
+GPU 2, and umT5 on GPU 3. That is model placement, not four-way DDP.
+The October 21 execution upgrade adds four parallel Grounding encoder workers
+and `run_c --workers 4` for actual four-rank student DDP. See `parallel/README.md`.
+DDP uses local batch 1/global batch 4 and 999 updates for one 3995-video pass;
+the serial entry point remains available and its resume protocol is separate.
 No full epoch is implied by a short smoke test.
 
 All arms use the same LoRA initialization, epoch-seeded data permutations, and
