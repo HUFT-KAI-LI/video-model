@@ -1,0 +1,58 @@
+{
+  "protocol_version": "wan-said-pilot-v2",
+  "seed": 42,
+  "wan_weights": "/data/lk/深度学习/video-model/restream_mvp/models/Wan2.1-T2V-1.3B",
+  "teacher_weights": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/assets/vit_b_k710_dl_from_giant.pth",
+  "parent_manifests": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/manifests_openvid",
+  "manifests": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/datasets/pilot_v2/manifests",
+  "frames": 49,
+  "height": 480,
+  "width": 720,
+  "teacher_model": "videomaev2_vit_base",
+  "teacher_dim": 768,
+  "teacher_height": 160,
+  "teacher_width": 240,
+  "teacher_source": "VideoREPA-compatible VideoMAEv2",
+  "teacher_position_embedding": "bicubic_spatial_then_trilinear_temporal",
+  "temporal_sampling_policy": "uniform_full_decoded_pts_nearest",
+  "spatial_crop_policy": "shared_aspect_ratio_center_crop_then_resize",
+  "normalization_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "normalization_std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "feature_cache_enabled": false,
+  "vae_tiled": true,
+  "dim": 256,
+  "lora_rank": 8,
+  "lora_alpha": 8,
+  "lora_targets": [
+    "q",
+    "k",
+    "v",
+    "o"
+  ],
+  "lr": 0.0001,
+  "ground_lr": 0.0001,
+  "ground_batch": 8,
+  "sparse_weight": 0.01,
+  "distill_weight": 0.05,
+  "distill_max_sigma": 1.0,
+  "gradient_checkpointing": true,
+  "deterministic_attention": true,
+  "gradient_clip": 1.0,
+  "weight_decay": 0.01,
+  "checkpoint_every": 50,
+  "devices": {
+    "student": "cuda:0",
+    "vae": "cuda:1",
+    "teacher": "cuda:2",
+    "text": "cuda:3",
+    "grounding": "cuda:0"
+  }
+}

@@ -70,7 +70,7 @@ def verify_video(path, protocol):
 
 @torch.no_grad()
 def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, smoke=False,
-             smoke_frames=17, smoke_steps=4):
+             smoke_frames=17, smoke_steps=4, exploratory=False):
     if group not in ('base', 'A', 'B', 'C') or (group == 'base') != (checkpoint is None):
         raise ValueError('Base uses no adapter; A/B/C require their corresponding checkpoint')
     if limit is not None and not smoke:
@@ -97,6 +97,8 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
             raise ValueError('Inference adapter belongs to a different arm/teacher protocol/split')
         if checkpoint_state['contract']['smoke'] and not smoke:
             raise ValueError('A smoke adapter cannot be presented as a formal benchmark model')
+        if bool(checkpoint_state['contract'].get('exploratory')) != exploratory:
+            raise ValueError('Exploratory checkpoints require explicit --exploratory inference; no relabeling')
     training_captions = {r['caption_group'] for r in load_split(cfg['manifests'], 'train')}
     if any(caption_key(job['prompt']) in training_captions for job in jobs):
         raise ValueError('Benchmark prompt overlaps training captions')
@@ -104,6 +106,9 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
     output.mkdir(parents=True, exist_ok=True)
     contract = dict(group=group, checkpoint_sha256=sha256(checkpoint) if checkpoint else None,
                     jobs_sha256=sha256(jobs_path), protocol=protocol, smoke=smoke, base_weights=base_weights)
+    if exploratory:
+        contract.update(exploratory=True, publication_eligible=False,
+                        training_review_status=checkpoint_state['contract']['review_status'] if checkpoint_state else None)
     if (output/'generation_lock.json').exists() and json.loads((output/'generation_lock.json').read_text()) != contract:
         raise ValueError('Generation directory belongs to another model/seed/protocol/plan')
     write_json(output/'generation_lock.json', contract)
@@ -192,6 +197,7 @@ if __name__ == '__main__':
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--smoke-frames', type=int, default=17)
     parser.add_argument('--smoke-steps', type=int, default=4)
+    parser.add_argument('--exploratory', action='store_true')
     args = parser.parse_args()
     generate(load_config(args.config), args.jobs, args.output, args.group, args.checkpoint,
-             args.limit, args.smoke, args.smoke_frames, args.smoke_steps)
+             args.limit, args.smoke, args.smoke_frames, args.smoke_steps, args.exploratory)

@@ -43,19 +43,35 @@ def require_review(path, identity, allowed_ids):
         raise ValueError('Human review is absent or belongs to another dataset/preprocessing protocol')
 
 
+def review_policy(smoke, exploratory, review, identity, allowed_ids):
+    if smoke and exploratory:
+        raise ValueError('Exploratory full-pilot training is distinct from an engineering smoke run')
+    if not smoke and (not exploratory or review is not None):
+        require_review(review, identity, allowed_ids)
+    return dict(human_review_approved=review is not None and not smoke,
+                human_review_pending=bool(exploratory and review is None),
+                publication_eligible=not smoke and not exploratory)
+
+
+def require_grounding(state, group, identity, smoke):
+    if state['mode'] != ('full' if group == 'B' else 'said') or state['contract']['identity'] != identity:
+        raise ValueError('Rejecting wrong arm, stale ViT-Small, teacher/preprocessing/split mismatch')
+    if not smoke and not state['grounding_validated']:
+        raise ValueError('Grounding is unvalidated/near random; only an explicitly marked smoke run is allowed')
+
+
 @deterministic_training
 def train(cfg, group, output, steps, grounding_path=None, resume=None, smoke=False,
-          review=None, gradient_audit=False, provider=None):
+          review=None, gradient_audit=False, provider=None, exploratory=False):
     if group not in ('A', 'B', 'C') or steps < 1:
         raise ValueError('Invalid arm or optimizer step count')
     upstream()
     from diffsynth.diffusion.flow_match import FlowMatchScheduler
     from diffsynth.diffusion.loss import FlowMatchSFTLoss
     identity = experiment_identity(cfg)
-    if not smoke:
-        allowed_ids = {r['sample_id'] for split in ('train', 'val')
-                       for r in load_split(cfg['manifests'], split)}
-        require_review(review, identity, allowed_ids)
+    allowed_ids = {r['sample_id'] for split in ('train', 'val')
+                   for r in load_split(cfg['manifests'], split)}
+    review_status = review_policy(smoke, exploratory, review, identity, allowed_ids)
     output = Path(output)
     if output.exists() and not resume:
         raise FileExistsError('Use a fresh output or an explicit resume checkpoint')
@@ -73,10 +89,7 @@ def train(cfg, group, output, steps, grounding_path=None, resume=None, smoke=Fal
         if grounding_path is None:
             raise ValueError('B/C require a freshly trained ViT-Base Grounding checkpoint')
         ground_state = torch.load(grounding_path, map_location='cpu', weights_only=True)
-        if ground_state['mode'] != ('full' if group == 'B' else 'said') or ground_state['contract']['identity'] != identity:
-            raise ValueError('Rejecting wrong arm, stale ViT-Small, teacher/preprocessing/split mismatch')
-        if not smoke and not ground_state['grounding_validated']:
-            raise ValueError('Grounding is unvalidated/near random; only an explicitly marked smoke run is allowed')
+        require_grounding(ground_state, group, identity, smoke)
         ground = Grounding(video_dim=768, dim=cfg['dim']).to(device)
         ground.load_state_dict(ground_state['model'], strict=True)
         ground.eval().requires_grad_(False)
@@ -86,6 +99,8 @@ def train(cfg, group, output, steps, grounding_path=None, resume=None, smoke=Fal
     initial_hash = state_hash(trainable_state(model))
     contract = dict(identity=identity, group=group, smoke=smoke,
                     grounding_sha256=sha256(grounding_path) if grounding_path else None)
+    if exploratory:
+        contract.update(exploratory=True, review_status=review_status)
     start_step, records, audits = 0, [], {}
     if resume:
         previous = torch.load(resume, map_location='cpu', weights_only=True)
@@ -135,6 +150,7 @@ def train(cfg, group, output, steps, grounding_path=None, resume=None, smoke=Fal
                    smoke=smoke, test_used=False, formal_efficacy_evidence=False,
                    effective_loss='FM' if group == 'A' else f'FM + {cfg["distill_weight"]} * {"Full" if group == "B" else "Said"}',
                    native_fm_function='diffsynth.diffusion.loss.FlowMatchSFTLoss (unchanged)',
+                   exploratory=exploratory, review_status=review_status,
                    grounding_frozen=True, teacher_frozen=True, raw_teacher_tokens_supported=True))
         return payload
 
@@ -213,6 +229,8 @@ if __name__ == '__main__':
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--approved-review')
     parser.add_argument('--gradient-audit', action='store_true')
+    parser.add_argument('--exploratory', action='store_true', help='Explicit non-publication pilot; human review may be pending, Grounding validation still required')
     args = parser.parse_args()
     train(load_config(args.config), args.group, args.output, args.steps, args.grounding,
-          args.resume, args.smoke, args.approved_review, args.gradient_audit)
+          args.resume, args.smoke, args.approved_review, args.gradient_audit,
+          exploratory=args.exploratory)

@@ -1,0 +1,87 @@
+{
+  "recorded_at_utc": "2026-10-21T09:49:01.460279+00:00",
+  "branch": "codex/wan-said-c-eval",
+  "parent_commit": "9be6ab0e19f8c04aeb010012c1d2bb94fa00530e",
+  "copied": [
+    "run_lock.json",
+    "status.json",
+    "resolved_config.json",
+    "pipeline.log",
+    "grounding.log",
+    "grounding/report.json",
+    "grounding/steps.jsonl",
+    "scorers/download_plan.json",
+    "scorers/download.log"
+  ],
+  "tests": [
+    {
+      "name": "shared",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "download",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/protocol_v2/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "pilot",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/tests",
+        "-v"
+      ]
+    }
+  ],
+  "services": {
+    "wan-said-c-grounding-20261021": [
+      "MainPID=1712628",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Wed 2026-10-21 17:24:03 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "wan-said-c-pipeline-20261021": [
+      "MainPID=2310799",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Wed 2026-10-21 17:47:45 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "wan-said-videophy2-weights-direct-20261021": [
+      "MainPID=2208300",
+      "Result=success",
+      "NRestarts=1",
+      "ExecMainStartTimestamp=Wed 2026-10-21 17:43:48 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ]
+  },
+  "official_scores_available": false,
+  "checkpoint_or_raw_video_uploaded": false,
+  "feature_cache_bytes": 0,
+  "note": "Point-in-time progress snapshot, not a completion claim; synthetic scoring tests are not real model scores"
+}

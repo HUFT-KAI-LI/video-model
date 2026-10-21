@@ -1,0 +1,16 @@
+{
+  "shared_tests.log": "487fab7bc638071112a11d560f52af98d1ed1782156e5517a7f35174e110295c",
+  "download_tests.log": "4b07e222d370d81c686d6a96c1f61b8e75c0ebffa49340181238a5a7422c09b8",
+  "source_sha256.json": "5714ed7eb03e03a45ef59a2f0b6842f45d28a571da2a0b2fb74f487450be54f6",
+  "snapshot.json": "b3aabb2e03edfaa3e019ed276ba0cb550b822ddd51bed210a3460557f658c168",
+  "pilot_tests.log": "165d834c619ebd1a8268b1b2446b205d00303cd11a141c1af683963b75f9aac7",
+  "run/pipeline.log": "8e23966591d7dc2981c0dc05d730c898abb59221c17bbb0019152ab5f2e0c5c8",
+  "run/status.json": "b5c101188ec8e0cbfa43e84e9d5f0f9caedf137e826779810534e630b0882976",
+  "run/grounding.log": "d63cd29289d02dc42b903fd305b6a1bca359ee6c9b0090ceb6983ed6cdc0cb2c",
+  "run/resolved_config.json": "d4643c97e5bca485de0b22c5500d4f5d714bc9f603e85ab21d0a2c6a51d0d34d",
+  "run/run_lock.json": "1e62feabc85a442158df7507bb9e33eb633e1b486de27539737bdfccc177994f",
+  "run/grounding/report.json": "4b622061296895f7969f08b95b4ac27058ffe502004912f5a1d3745476cb1fa8",
+  "run/grounding/steps.jsonl": "722c4a64202ba46e41c2cfde3b27ba6340aafe8de4198426804b39c98c2987c9",
+  "run/scorers/download_plan.json": "b5ab0b6a52ed85427ad6230adbc421c80eb6f91f0952f56857f849215f2a9766",
+  "run/scorers/download.log": "067e62f6f62fc3407f9de99dba7db239f7e05af09a857ad9119de45975b6f927"
+}

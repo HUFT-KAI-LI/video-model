@@ -17,12 +17,44 @@ from experiments.wan_said.pilot_v2.execution import deterministic_attention
 from experiments.wan_said.pilot_v2.inference import native_generation_protocol, solver
 from experiments.wan_said.pilot_v2.online import OnlineFeatures
 from experiments.wan_said.pilot_v2.review import approve
-from experiments.wan_said.pilot_v2.train import require_review, sample_index, state_hash
+from experiments.wan_said.pilot_v2.train import require_grounding, require_review, review_policy, sample_index, state_hash
+from experiments.wan_said.pilot_v2.validate import paired_summary
 from experiments.wan_said.pilot_v2.teacher import interpolate_positions, source_module
 from experiments.wan_said.runtime import ROOT
 
 
 class AlgorithmTests(unittest.TestCase):
+    def test_exploratory_does_not_invent_review_or_relax_formal_gate(self):
+        identity = dict(preprocessing_hash='p', split_lock_sha256='s')
+        with self.assertRaises(ValueError):
+            review_policy(False, False, None, identity, {'train-id'})
+        status = review_policy(False, True, None, identity, {'train-id'})
+        self.assertFalse(status['human_review_approved'])
+        self.assertTrue(status['human_review_pending'])
+        self.assertFalse(status['publication_eligible'])
+        with self.assertRaises(ValueError):
+            review_policy(True, True, None, identity, {'train-id'})
+        ground = dict(mode='said', contract=dict(identity=identity), grounding_validated=False)
+        with self.assertRaisesRegex(ValueError, 'unvalidated'):
+            require_grounding(ground, 'C', identity, smoke=False)
+        require_grounding(ground, 'C', identity, smoke=True)
+        ground['grounding_validated'] = True
+        require_grounding(ground, 'C', identity, smoke=False)
+        for mode, changed_identity in [('full', identity), ('said', {'old': True})]:
+            with self.assertRaises(ValueError):
+                require_grounding(dict(ground, mode=mode, contract=dict(identity=changed_identity)),
+                                  'C', identity, smoke=False)
+
+    def test_paired_validation_preserves_denominator_and_rejects_nonfinite(self):
+        rows = [dict(sample_id='a', base_fm=2., c_fm=1., c_said=.1),
+                dict(sample_id='b', base_fm=4., c_fm=3., c_said=.3)]
+        result = paired_summary(rows, 2)
+        self.assertEqual(result['paired_fm_delta_mean'], -1.)
+        self.assertEqual(result['paired_fm_delta_standard_error'], 0.)
+        for changed in (rows[:1], rows+[rows[0]], [dict(rows[0], c_fm=float('nan')), rows[1]]):
+            with self.assertRaises(ValueError):
+                paired_summary(changed, 2)
+
     def test_vit_base_grounding_and_frozen_target_contract(self):
         torch.manual_seed(42)
         ground = Grounding(video_dim=768, dim=256).eval().requires_grad_(False)
@@ -190,7 +222,7 @@ class BenchmarkTests(unittest.TestCase):
     def setUpClass(cls):
         cls.sets, cls.audit = suites()
 
-    def test_official_prompt_counts_and_version_discrepancy(self):
+    def test_official_prompt_counts_and_separate_benchmark_versions(self):
         self.assertEqual(len(self.sets['t2v_compbench']), 1400)
         self.assertEqual(set(self.audit['t2v_compbench']['categories'].values()), {200})
         self.assertEqual([(r['category'], r['row']) for r in
@@ -201,7 +233,10 @@ class BenchmarkTests(unittest.TestCase):
         self.assertEqual(len(self.audit['vbench']['dimensions']), 16)
         self.assertEqual(self.audit['videophy2']['pinned_csv_rows'], 590)
         self.assertEqual(self.audit['videophy2']['alternate_csv_rows'], 591)
-        self.assertFalse(self.audit['videophy2']['requested_344_protocol_verified'])
+        self.assertEqual(self.audit['videophy2']['expected_test_prompts'], 590)
+        self.assertEqual(self.audit['videophy2']['primary_metric'], 'joint_at_4')
+        self.assertEqual(self.audit['videophy2']['separate_early_benchmark']['test_prompts'], 344)
+        self.assertFalse(self.audit['videophy2']['separate_early_benchmark']['comparable'])
 
     def test_job_mapping_and_official_filenames(self):
         for suite, rows in self.sets.items():

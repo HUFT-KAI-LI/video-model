@@ -1,5 +1,9 @@
 # Review Record: 2026-10-21
 
+This is the historical `9be6ab0` smoke-test review. The subsequent C-run and
+benchmark correction are documented in `EVALUATION.md` and the separately dated
+C progress snapshots. Historical numerical evidence below is not rewritten.
+
 Review branch: `codex/wan-said-pilot-v2`, based on `37ab1bb`.
 All new tracked changes are confined to this `pilot_v2` directory. Shared
 alignment/FM/runtime files, old reports, and the user's dirty LongLive/Reality
@@ -76,8 +80,10 @@ algorithm was not changed to accommodate them. Final transcripts are authoritati
 - VBench's pinned standard file has 946 metadata rows but 944 distinct generation
   prompts. Five outputs per unique prompt gives 4,720 jobs without dropping any
   official metadata dimensions.
-- Pinned VideoPhy2 files have 590/591 rows, not the requested 344. No arbitrary
-  344-row subset is substituted; the discrepancy needs explicit resolution.
+- Correction: the pinned main VideoPhy-2 CSV has 590 rows; the alternate has
+  591. The 344-prompt benchmark is early VideoPhy, with a different evaluator
+  and binary protocol. They are now explicitly separated; no truncation or
+  direct score comparison is permitted.
 
 ## Still Outstanding
 
@@ -86,9 +92,12 @@ R@1 is 0.25 video-to-text / 0.50 text-to-video on four samples, versus chance
 0.25. Neither this tiny diagnostic nor the loss reduction proves semantic
 selectivity. Formal B/C training rejects this checkpoint without `--smoke`.
 
-Full Grounding pretraining, human caption/event/crop approval, formal A/B/C
-training, official evaluator environments/weight locks, official scoring and
-aggregation integration, and complete benchmark results remain unexecuted.
+At this historical smoke snapshot, full Grounding pretraining, human
+caption/event/crop approval, formal A/B/C training, official evaluator
+environments/weight locks, scoring/aggregation integration, and complete
+benchmark results had not been executed. Aggregation is now implemented and
+unit-tested; Grounding for the exploratory C pilot has started. See the new
+progress snapshots for exact status, not a completion claim.
 The scorer file is a pinned recipe/preflight interface, not a claim that all
 three official scoring stacks are installed or successfully tested. No paper
 score, improvement claim, or cross-benchmark proxy metric is produced.

@@ -21,7 +21,9 @@ Memory, the shared alignment implementation, or upstream FM code.
   diagnostic retrieval use train/val only. Sealed test metadata is used solely for
   split integrity and benchmark-caption leakage checks.
 - Short real-model tests are engineering evidence, not evidence of better generation
-  quality or semantic selection. Full training and official scoring are not run.
+  quality or semantic selection. The C pilot is now being launched in stages;
+  see `EVALUATION.md` and the dated progress snapshots, not the older smoke report,
+  for its actual status. Official scoring has not yet produced real scores.
 
 ## Algorithm Kept Intact
 
@@ -154,11 +156,16 @@ scored as formal models, and missing videos cannot reduce the denominator.
 | --- | --- |
 | T2V-CompBench | 1,400 original prompts; all seven categories x 200 |
 | VBench | 946 metadata entries / 944 unique prompts; five videos each = 4,720; all 16 dimensions |
-| VideoPhy2 | Pinned `videophy2.csv` has 590 rows, alternate CSV 591; NOT 344 |
+| VideoPhy-2 | 590 original test prompts; AutoEval SA/PC 1-5; primary Joint@4 |
+| VideoPhy (separate, not run here) | 344 test prompts; VideoCon-Physics binary SA/PC |
 
-The 344-row VideoPhy2 statement in the task is unverified. No arbitrary truncation
-is performed. Original prompts are fixed for the default plan. Formal scoring of
-the named 590-row version requires explicit `--accept-videophy-590` approval.
+The 344-prompt early VideoPhy and 590-prompt VideoPhy-2 are different benchmarks,
+not alternative regular sizes of one benchmark. Do not directly compare their
+scores, including early VideoPhy results reported by VideoREPA. Such a comparison
+requires a separate early-VideoPhy reproduction. Do not truncate VideoPhy-2.
+The pinned alternate upsampled CSV has 591 rows and is not the default protocol.
+Original captions in `videophy2.csv` remain fixed. `--accept-videophy-590` is now
+only a backward-compatible no-op, not a scientific approval gate.
 The pinned T2V source also has two prompt/metadata wording discrepancies: motion
 row 195 (`lifed` / `lifted`) and action row 159 (`a eagle` / `an eagle`). Both source
 files are hash-locked and preserved unchanged, with the differences recorded in
@@ -180,15 +187,22 @@ execution, `--environments` takes a JSON file with interpreter paths and an expl
 `llava_checkpoint`, and `videophy_checkpoint`. Detection/depth/tracking dependencies
 must also follow their official repo layout. Offline flags prevent accidental HF
 weight downloads; other backend setup remains the operator's responsibility.
-Do not interpret recipe creation as successful metric execution. Official
-aggregation/model installation and complete benchmark runs remain outstanding.
+Do not interpret recipe creation as successful metric execution. `score.py` now
+automatically invokes strict aggregation after successful official scoring:
+VideoPhy-2 identity-joined SA/PC means and Joint@4; VBench all 16 raw dimensions,
+official normalization, quality, semantic and total scores. It writes auditable
+`summary.json` and a comparison-ready `summary.csv` only on complete valid results.
+`--aggregate-only` rechecks generation/weight/script/result hashes before reuse.
+Model installation and complete real benchmark runs remain outstanding. Details,
+including conditional upstream exclusions, are in `EVALUATION.md`.
 
 ## Review Map
 
 - Input/Teacher: `video.py`, `teacher.py`, `config.py`, `manifests.py`.
 - Algorithm wiring: `online.py`, `grounding.py`, `train.py`, `execution.py`.
-- Validation: `audit.py`, `review.py`, `smoke.py`, `verify_runs.py`, `tests/`.
-- Evaluation interfaces: `benchmarks.py`, `inference.py`, `score.py`.
+- Validation: `audit.py`, `review.py`, `validate.py`, `smoke.py`, `verify_runs.py`, `tests/`.
+- Evaluation: `benchmarks.py`, `inference.py`, `score.py`, `aggregate.py`.
+- C workflow/progress: `run_c.py`, `collect_c.py`, `EVALUATION.md`.
 - Actual executed commands, machine-readable checks, limitations: `reports/`.
 
 Raw MP4s, model weights, optimizer checkpoints, full manifests containing local

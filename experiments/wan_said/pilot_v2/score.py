@@ -10,6 +10,7 @@ from ..io_utils import read_jsonl, sha256, write_json
 from ..runtime import ROOT
 from .benchmarks import check_vendor, require_complete, source_hash, suites, validate_official_plan
 from .inference import native_generation_protocol, verify_video
+from .aggregate import save_summary, vbench, videophy2
 
 
 def recipes(suite, videos, output):
@@ -68,7 +69,8 @@ def recipes(suite, videos, output):
     return tasks
 
 
-def run(suite, jobs_path, videos, output, environments=None, plan_only=False, accept_videophy_590=False):
+def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
+        accept_videophy_590=False, aggregate_only=False):
     jobs = read_jsonl(jobs_path)
     if not jobs or any(j['suite'] != suite for j in jobs):
         raise ValueError('Scorer jobs do not belong to the requested benchmark')
@@ -77,18 +79,22 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False, ac
     tasks = recipes(suite, videos, output)
     status = dict(suite=suite, expected_videos=len(jobs), denominator=len(jobs), tasks=tasks,
                   official_scorers_executed=False, scores=None, proxy_metrics_used=False,
-                  videophy_344_protocol_verified=False)
+                  benchmark_version='VideoPhy-2' if suite == 'videophy2' else suite,
+                  jobs_sha256=sha256(jobs_path), main_table_ready=False)
     write_json(output/'score_plan.json', status)
     if plan_only:
         return status
+    previous = json.loads((output/'score_status.json').read_text()) if aggregate_only else None
+    (output/'summary.csv').unlink(missing_ok=True)
+    (output/'summary.json').unlink(missing_ok=True)
+    write_json(output/'score_status.json', status)
     validate_official_plan(jobs)
-    if suite == 'videophy2' and not accept_videophy_590:
-        raise ValueError('Pinned VideoREPA CSV has 590 rows, not 344; explicitly approve the named 590 protocol first')
     require_complete(jobs, videos)
     generation = json.loads((Path(videos)/'generation_lock.json').read_text())
     if (generation['smoke'] or generation['jobs_sha256'] != sha256(jobs_path) or
             generation['protocol'] != native_generation_protocol()):
         raise ValueError('Smoke or mismatched generation cannot be scored as a complete official benchmark')
+    status['generation_lock_sha256'] = sha256(Path(videos)/'generation_lock.json')
     for job in jobs:
         path = Path(videos)/job['relative_path']
         saved = json.loads((Path(videos)/'records'/(job['job_id']+'.json')).read_text())
@@ -118,18 +124,57 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False, ac
             writer.writeheader()
             writer.writerows(dict(videopath=str((Path(videos)/j['relative_path']).resolve()),
                                   caption=j['original_prompt']) for j in jobs)
-    environment = dict(os.environ, HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1')
-    for task in tasks:
-        with (output/(task['name']+'.log')).open('w') as log:
-            process = subprocess.run(task['argv'], cwd=task['cwd'], env=environment,
-                                     stdout=log, stderr=subprocess.STDOUT)
-        task['returncode'] = process.returncode
-        write_json(output/'score_status.json', status)
-        if process.returncode:
-            raise RuntimeError(f'Official scorer {task["name"]} failed; inspect its preserved log')
+    if aggregate_only:
+        for key in ('suite', 'jobs_sha256', 'generation_lock_sha256', 'weight_lock_sha256'):
+            if previous.get(key) != status[key]:
+                raise ValueError(f'Cannot reuse official scores from another {key}')
+        if (not previous['official_scorers_executed'] or
+                len(previous['tasks']) != len(tasks) or
+                any(old.get('returncode') != 0 or old['script_sha256'] != new['script_sha256'] or
+                    old['argv'] != new['argv'] for old, new in zip(previous['tasks'], tasks))):
+            raise ValueError('Aggregation requires all pinned official scoring tasks to have succeeded')
+        status['tasks'] = previous['tasks']
+    else:
+        environment = dict(os.environ, HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1')
+        for task in tasks:
+            with (output/(task['name']+'.log')).open('w') as log:
+                process = subprocess.run(task['argv'], cwd=task['cwd'], env=environment,
+                                         stdout=log, stderr=subprocess.STDOUT)
+            task['returncode'] = process.returncode
+            write_json(output/'score_status.json', status)
+            if process.returncode:
+                raise RuntimeError(f'Official scorer {task["name"]} failed; inspect its preserved log')
     status.update(official_scorers_executed=True, raw_results_directory=str(output),
-                  aggregation='Use pinned official per-category/dimension/SA/PC results; no invented cross-benchmark mean',
                   main_table_ready=False)
+    write_json(output/'score_status.json', status)
+    try:
+        paths = ([output/'videophy2_sa.csv', output/'videophy2_pc.csv'] if suite == 'videophy2' else
+                 sorted((output/'vbench').glob('*_eval_results.json')) if suite == 'vbench' else [])
+        raw_hashes = {str(p.relative_to(output)): sha256(p) for p in paths}
+        if aggregate_only and previous.get('raw_result_sha256') != raw_hashes:
+            raise ValueError('Official raw scoring results changed; rerun the evaluator, not only aggregation')
+        status['raw_result_sha256'] = raw_hashes
+        write_json(output/'score_status.json', status)
+        if suite == 'videophy2':
+            summary = videophy2(jobs, videos, output/'videophy2_sa.csv', output/'videophy2_pc.csv')
+        elif suite == 'vbench':
+            summary = vbench(jobs, videos, paths)
+        else:
+            status['aggregation'] = 'T2V-CompBench category aggregation is not implemented; raw results only'
+            write_json(output/'score_status.json', status)
+            return status
+        summary.update(jobs_sha256=status['jobs_sha256'], generation=generation,
+                       weight_lock_sha256=status['weight_lock_sha256'],
+                       generation_lock_sha256=status['generation_lock_sha256'],
+                       exploratory=bool(generation.get('exploratory')),
+                       publication_eligible=not generation.get('exploratory', False))
+        save_summary(summary, output, generation['group'])
+        status.update(scores=summary['scores'], main_table_ready=summary['main_table_ready'],
+                      summary_sha256=sha256(output/'summary.json'))
+    except Exception as error:
+        status.update(main_table_ready=False, aggregation_error=repr(error))
+        write_json(output/'score_status.json', status)
+        raise
     write_json(output/'score_status.json', status)
     return status
 
@@ -142,7 +187,8 @@ if __name__ == '__main__':
     parser.add_argument('--output', required=True)
     parser.add_argument('--environments')
     parser.add_argument('--plan-only', action='store_true')
-    parser.add_argument('--accept-videophy-590', action='store_true')
+    parser.add_argument('--accept-videophy-590', action='store_true', help='Deprecated compatibility flag; VideoPhy-2 is 590 prompts')
+    parser.add_argument('--aggregate-only', action='store_true', help='Recheck and aggregate an already successful official scoring run')
     args = parser.parse_args()
     print(json.dumps(run(args.suite, args.jobs, args.videos, args.output, args.environments,
-                         args.plan_only, args.accept_videophy_590), indent=2))
+                         args.plan_only, args.accept_videophy_590, args.aggregate_only), indent=2))

@@ -1,0 +1,57 @@
+test_boolean_ratings_are_valid_and_aggregates_must_be_finite (test_aggregate.VBenchTests.test_boolean_ratings_are_valid_and_aggregates_must_be_finite) ... ok
+test_color_exclusions_are_visible_not_zero_imputed (test_aggregate.VBenchTests.test_color_exclusions_are_visible_not_zero_imputed) ... ok
+test_duplicate_result_files_are_not_silently_overwritten (test_aggregate.VBenchTests.test_duplicate_result_files_are_not_silently_overwritten) ... ok
+test_each_missing_or_extra_dimension_invalidates_total (test_aggregate.VBenchTests.test_each_missing_or_extra_dimension_invalidates_total) ... ok
+test_missing_duplicate_unexpected_per_video_rows_invalidates_total (test_aggregate.VBenchTests.test_missing_duplicate_unexpected_per_video_rows_invalidates_total) ... ok
+test_official_normalization_is_not_clipped (test_aggregate.VBenchTests.test_official_normalization_is_not_clipped) ... ok
+test_uses_upstream_aggregate_not_video_mean_and_exact_official_functions (test_aggregate.VBenchTests.test_uses_upstream_aggregate_not_video_mean_and_exact_official_functions) ... ok
+test_failed_summary_removes_stale_comparison_csv (test_aggregate.VideoPhyTests.test_failed_summary_removes_stale_comparison_csv) ... ok
+test_joint_joins_video_identity_not_csv_position (test_aggregate.VideoPhyTests.test_joint_joins_video_identity_not_csv_position) ... ok
+test_missing_duplicate_unexpected_or_caption_mismatch_withhold_scores (test_aggregate.VideoPhyTests.test_missing_duplicate_unexpected_or_caption_mismatch_withhold_scores) ... ok
+test_zero_noninteger_nan_infinite_out_of_range_are_failures (test_aggregate.VideoPhyTests.test_zero_noninteger_nan_infinite_out_of_range_are_failures) ... ok
+test_feature_identity_roundtrip_and_old_small_cache_rejected (test_preprocessing.PreprocessingTests.test_feature_identity_roundtrip_and_old_small_cache_rejected) ... ok
+test_invalid_wan_frames_aspect_small_teacher_and_cache_rejected (test_preprocessing.PreprocessingTests.test_invalid_wan_frames_aspect_small_teacher_and_cache_rejected) ... ok
+test_irregular_pts_endpoint_coverage_and_duplicates_explicit (test_preprocessing.PreprocessingTests.test_irregular_pts_endpoint_coverage_and_duplicates_explicit) ... ok
+test_position_identity_and_parameterized_rectangular_time (test_preprocessing.PreprocessingTests.test_position_identity_and_parameterized_rectangular_time) ... ok
+test_real_fixture_full_clip_ignores_old_middle_window (test_preprocessing.PreprocessingTests.test_real_fixture_full_clip_ignores_old_middle_window) ... ok
+test_shared_crop_not_stretch_and_teacher_uses_same_pixels (test_preprocessing.PreprocessingTests.test_shared_crop_not_stretch_and_teacher_uses_same_pixels) ... ok
+test_exploratory_does_not_invent_review_or_relax_formal_gate (test_protocol.AlgorithmTests.test_exploratory_does_not_invent_review_or_relax_formal_gate) ... ok
+test_human_review_cannot_approve_unknown_test_or_rejected_samples (test_protocol.AlgorithmTests.test_human_review_cannot_approve_unknown_test_or_rejected_samples) ... ok
+test_paired_validation_preserves_denominator_and_rejects_nonfinite (test_protocol.AlgorithmTests.test_paired_validation_preserves_denominator_and_rejects_nonfinite) ... ok
+test_state_roundtrip_hash_changes_after_optimizer_step (test_protocol.AlgorithmTests.test_state_roundtrip_hash_changes_after_optimizer_step) ... ok
+test_stateless_shuffle_has_full_coverage_and_resume_order (test_protocol.AlgorithmTests.test_stateless_shuffle_has_full_coverage_and_resume_order) ... ok
+test_vit_base_grounding_and_frozen_target_contract (test_protocol.AlgorithmTests.test_vit_base_grounding_and_frozen_target_contract) ... ok
+test_duplicate_and_unsafe_mappings_rejected (test_protocol.BenchmarkTests.test_duplicate_and_unsafe_mappings_rejected) ... ok
+test_incomplete_or_modified_plan_rejected_for_formal_scoring (test_protocol.BenchmarkTests.test_incomplete_or_modified_plan_rejected_for_formal_scoring) ... ok
+test_job_mapping_and_official_filenames (test_protocol.BenchmarkTests.test_job_mapping_and_official_filenames) ... ok
+test_missing_videos_never_reduce_denominator (test_protocol.BenchmarkTests.test_missing_videos_never_reduce_denominator) ... ok
+test_official_prompt_counts_and_separate_benchmark_versions (test_protocol.BenchmarkTests.test_official_prompt_counts_and_separate_benchmark_versions) ... ok
+test_online_encoders_reject_sealed_test_or_edited_caption_before_loading (test_protocol.FrozenPilotTests.test_online_encoders_reject_sealed_test_or_edited_caption_before_loading) ... ok
+test_parent_membership_preserved_new_ids_and_no_local_window (test_protocol.FrozenPilotTests.test_parent_membership_preserved_new_ids_and_no_local_window) ... ok
+test_review_requires_completed_named_decisions_and_records_rejection (test_protocol.FrozenPilotTests.test_review_requires_completed_named_decisions_and_records_rejection) ... ok
+test_deterministic_backend_scope_restores_native_reference_on_error (test_protocol.OfficialSolverTests.test_deterministic_backend_scope_restores_native_reference_on_error) ... ok
+test_parameterized_positions_match_official_48_frame_interpolator_exactly (test_protocol.OfficialSolverTests.test_parameterized_positions_match_official_48_frame_interpolator_exactly) ... /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/lib/python3.11/site-packages/timm/models/layers/__init__.py:49: DeprecationWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", DeprecationWarning)
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/lib/python3.11/site-packages/timm/models/registry.py:4: DeprecationWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", DeprecationWarning)
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:532: UserWarning: Overwriting vit_small_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_small_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:547: UserWarning: Overwriting vit_base_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_base_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:562: UserWarning: Overwriting vit_large_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_large_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:592: UserWarning: Overwriting vit_giant_patch14_224 in registry with wan_said_pilot_v2_videomaev2.vit_giant_patch14_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+ok
+test_pinned_native_unipc_is_finite_and_reproducible (test_protocol.OfficialSolverTests.test_pinned_native_unipc_is_finite_and_reproducible) ... ok
+test_aggregate_only_rejects_changed_generation_lock (test_scoring_workflow.ScoringWorkflowTests.test_aggregate_only_rejects_changed_generation_lock) ... ok
+test_aggregate_only_rejects_edited_raw_scores_and_clears_old_table (test_scoring_workflow.ScoringWorkflowTests.test_aggregate_only_rejects_edited_raw_scores_and_clears_old_table) ... ok
+test_failed_official_task_does_not_aggregate (test_scoring_workflow.ScoringWorkflowTests.test_failed_official_task_does_not_aggregate) ... ok
+test_incomplete_results_preserve_audit_and_withhold_total (test_scoring_workflow.ScoringWorkflowTests.test_incomplete_results_preserve_audit_and_withhold_total) ... ok
+test_scoring_automatically_aggregates_and_can_reaggregate (test_scoring_workflow.ScoringWorkflowTests.test_scoring_automatically_aggregates_and_can_reaggregate) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 18.475s
+
+OK
+pos_embed shape: torch.Size([1, 24, 10, 15, 12])

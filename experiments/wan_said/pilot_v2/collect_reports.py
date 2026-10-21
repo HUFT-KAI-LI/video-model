@@ -89,8 +89,8 @@ def collect(cfg, audit, smoke, resume, inference, benchmark, output):
                               'pinned native UniPC reduced-size real generation', 'official prompt plans/leakage checks'],
                    pending=['named human caption/crop/event review', 'validated non-smoke Grounding pretraining',
                             'formal A/B/C training', 'official evaluator environments and weights',
-                            'official scorer integration/aggregation and complete benchmark runs',
-                            'approval/correction of the VideoPhy2 344 vs 590/591 discrepancy'],
+                            'real official evaluator integration and complete benchmark runs',
+                            'separate early VideoPhy reproduction if a 344-prompt paper comparison is needed'],
                    feature_cache_bytes=0, full_dataset_ready=False, formal_efficacy_evidence=False,
                    raw_videos_or_weights_copied=False, official_scorers_executed=False)
     write_json(output/'operations.json', journal)

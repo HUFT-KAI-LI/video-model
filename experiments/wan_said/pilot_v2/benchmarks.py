@@ -98,8 +98,12 @@ def suites():
                  vbench=dict(official_metadata_rows=len(metadata), unique_generation_prompts=len(merged),
                              dimensions=sorted({d for r in metadata for d in r['dimension']})),
                  videophy2=dict(pinned_csv_rows=len(phy), alternate_csv_rows=len(phy_alternate),
-                                requested_344_protocol_verified=False,
-                                policy='Do not truncate to 344 or silently equate the two source CSVs',
+                                benchmark_version='VideoPhy-2', expected_test_prompts=590,
+                                rating_scale=[1, 5], primary_metric='joint_at_4',
+                                joint_condition='SA >= 4 AND PC >= 4 on the same video',
+                                separate_early_benchmark=dict(name='VideoPhy', test_prompts=344,
+                                    evaluator='VideoCon-Physics', ratings='binary SA/PC', comparable=False),
+                                policy='590 VideoPhy-2 prompts; never truncate or compare directly with early VideoPhy',
                                 default_prompt_variant='original', main_table_ready=False))
     return sets, audit
 
