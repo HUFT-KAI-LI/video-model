@@ -1,0 +1,48 @@
+{
+  "seed": 42,
+  "counts": {
+    "train": 3995,
+    "val": 498,
+    "test": 500
+  },
+  "repo": "nkp37/OpenVid-1M",
+  "revision": "d8a63bd22989c80b5734ec2bb989f4e1b61a5807",
+  "selection_sha256": "0d89e85b5cf1709b41dc2979853a86df8c9064dec2522a39059c977b07660649",
+  "near_duplicates_removed": [
+    "gfRxf7_ilCo_24_0to261.mp4",
+    "pixabay_forests_videos_200882_001.mp4",
+    "pixabay_forests_videos_1225_000.mp4",
+    "AXukVA6eDvk_52_0to117.mp4",
+    "h0i92Oc73M4_350_32to146.mp4",
+    "QxM5M3bxQQ4_295_144to253.mp4",
+    "pixabay_Aurora_Borealis_90875_005.mp4"
+  ],
+  "quality_rejections": [],
+  "manifest_sha256": {
+    "train": "0baf1fc319e0437924513088cf4c36ae93f38a3d7b4397d5ff0340f81f721df0",
+    "val": "fa02ac677c744c4932d938cda6415c2091e35eeffba0d08d057b2c6aa9ada214",
+    "test": "c778f965abe17070da54d48d16216e89635ebf8c5c92bd1501b04eba038ac966"
+  },
+  "family_counts": {
+    "train": {
+      "panda": 3197,
+      "pixabay": 798
+    },
+    "val": {
+      "panda": 399,
+      "pixabay": 99
+    },
+    "test": {
+      "panda": 400,
+      "pixabay": 100
+    }
+  },
+  "policy": "One clip/original source, dedup before split, family-stratified 80/10/10",
+  "test_usage": "Sealed; no training, hyperparameter selection, mask pretraining or negative pools",
+  "limitations": [
+    "pHash does not prove semantic deduplication.",
+    "YouTube source IDs do not prove episode/channel independence.",
+    "Base Wan pretraining overlap is unknown.",
+    "Captions and generated-video attributes require manual review."
+  ]
+}
