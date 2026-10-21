@@ -1,0 +1,57 @@
+{
+  "parent_split_lock_sha256": "6bc52599402b7b53ddd6efe34cd22985eec9766b9617c4f63d8bea4b462fea49",
+  "preprocessing_hash": "2ce2158d327d01685f7d4e584ad1afc33b841075f8cc28b2a0bb4bfbd085b0ad",
+  "counts": {
+    "train": 3995,
+    "val": 498,
+    "test": 500
+  },
+  "seed": 42,
+  "preprocessing": {
+    "protocol_version": "wan-said-pilot-v2",
+    "frames": 49,
+    "height": 480,
+    "width": 720,
+    "teacher_model": "videomaev2_vit_base",
+    "teacher_dim": 768,
+    "teacher_height": 160,
+    "teacher_width": 240,
+    "teacher_position_embedding": "bicubic_spatial_then_trilinear_temporal",
+    "temporal_sampling_policy": "uniform_full_decoded_pts_nearest",
+    "spatial_crop_policy": "shared_aspect_ratio_center_crop_then_resize",
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "vae_tiled": true,
+    "teacher_checkpoint_sha256": "8141a6955e0700d11bf15928fe6d61e5cfe482606fed8cfdddb1b922c0fd88ec",
+    "teacher_source_commit": "8d581dc301e18546a1808436c724f59d259d09f9",
+    "teacher_patch_size": 16,
+    "teacher_tubelet_size": 2,
+    "implementation_sha256": {
+      "video.py": "aeaec198d33fb45d43076f399a6b391087325a6861b32037bcb665b9651630c7",
+      "teacher.py": "e0e8bea360219fea7fe72882d5fb1f6740e09326c3d03a4506441eb84075d0f8"
+    }
+  },
+  "manifest_sha256": {
+    "train": "8e10394b7ccd094c6d507fd1286089a5d54c851b88c6f9ae40e641532292bbcc",
+    "val": "7ff699a5bc08c7283928862fbbda96e7fb837b2163206e062512b880215789a7",
+    "test": "6c7fb25c6f835addfd41b23d4ef0c54c03d2d707182b13913672172802348808"
+  },
+  "policy": "Preserve parent train/val/test membership; replace local-window sampling only",
+  "dataset_scope": "Existing size-capped 5K pilot, NOT the official VideoREPA 64K training set",
+  "full_dataset_ready": false,
+  "pilot_dataset_ready": true,
+  "test_usage": "Sealed; never training, Grounding, negative pools, tuning, or preview audit",
+  "limitations": [
+    "Original pilot has a <=4MB file selection bias.",
+    "Uniform PTS endpoint coverage does not prove all action semantics are retained.",
+    "Shared center crop can remove caption-relevant content; human review pending."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "suite": "vbench",
+  "expected_videos": 4720,
+  "denominator": 4720,
+  "tasks": [
+    {
+      "name": "vbench_all_16_dimensions",
+      "environment": "vbench_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VBench",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VBench/evaluate.py",
+      "script_sha256": "ba202dcfc15237e5b556a41efdf2cf3aaa13f94f6e62c6d9308d59f2e6649ff6",
+      "argv": [
+        "{vbench_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VBench/evaluate.py",
+        "--videos_path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/vbench",
+        "--full_json_dir",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VBench/vbench/VBench_full_info.json",
+        "--output_path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/vbench/vbench",
+        "--mode",
+        "vbench_standard",
+        "--load_ckpt_from_local",
+        "True",
+        "--dimension",
+        "aesthetic_quality",
+        "appearance_style",
+        "background_consistency",
+        "color",
+        "dynamic_degree",
+        "human_action",
+        "imaging_quality",
+        "motion_smoothness",
+        "multiple_objects",
+        "object_class",
+        "overall_consistency",
+        "scene",
+        "spatial_relationship",
+        "subject_consistency",
+        "temporal_flickering",
+        "temporal_style"
+      ]
+    }
+  ],
+  "official_scorers_executed": false,
+  "scores": null,
+  "proxy_metrics_used": false,
+  "videophy_344_protocol_verified": false
+}

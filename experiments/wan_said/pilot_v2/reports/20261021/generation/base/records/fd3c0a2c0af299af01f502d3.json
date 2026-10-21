@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "fd3c0a2c0af299af01f502d3",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0001",
+    "seed": 20261021,
+    "prompt": "A yo-yo is tossed against a brick wall; it bounces back without sustaining visible damage.",
+    "original_prompt": "A yo-yo is tossed against a brick wall; it bounces back without sustaining visible damage.",
+    "relative_path": "videophy2/0001.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "fa108c790626385fd113c415ae0699dd5d99d351975825579c3e2ed9a6b24fab",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/base/videophy2/0001.mp4",
+  "seconds": 2.2680784290423617,
+  "pixel_std": 99.1068972470394,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.220218658447266,
+  "formal_efficacy_evidence": false
+}

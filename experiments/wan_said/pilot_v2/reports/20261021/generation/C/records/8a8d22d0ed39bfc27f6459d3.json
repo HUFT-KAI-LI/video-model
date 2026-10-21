@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "8a8d22d0ed39bfc27f6459d3",
+    "suite": "vbench",
+    "prompt_id": "8faf3318636d6660a01b",
+    "seed": 20261021,
+    "prompt": "In a still frame, a stop sign",
+    "original_prompt": "In a still frame, a stop sign",
+    "relative_path": "vbench/In a still frame, a stop sign-0.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "bf4b4455902a8bc2c39e174598b33a64b9b859ef3518778c3569700a395f606b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/vbench/In a still frame, a stop sign-0.mp4",
+  "seconds": 2.4955510199652053,
+  "pixel_std": 60.53567403742559,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 1.3212740421295166,
+  "formal_efficacy_evidence": false
+}

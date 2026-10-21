@@ -1,0 +1,10 @@
+{
+  "a_resume_matches_uninterrupted_exactly": true,
+  "a_step3_lora_sha256": "5b48bab5583cf90e4c2e106cca9acabc221f7280f99f362a1f6c5dec27716eaf",
+  "c_resume_total_steps": 3,
+  "grounding_resume_total_steps": 4,
+  "source_checkpoints_unchanged": true,
+  "optimizer_restored": true,
+  "feature_cache_bytes": 0,
+  "formal_efficacy_evidence": false
+}

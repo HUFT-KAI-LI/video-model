@@ -1,0 +1,49 @@
+{
+  "suite": "videophy2",
+  "expected_videos": 590,
+  "denominator": 590,
+  "tasks": [
+    {
+      "name": "videophy2_sa",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "{videophy_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/videophy2/videophy2_inputs.csv",
+        "--checkpoint",
+        "{videophy_checkpoint}",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/videophy2/videophy2_sa.csv",
+        "--task",
+        "sa"
+      ]
+    },
+    {
+      "name": "videophy2_pc",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "{videophy_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/videophy2/videophy2_inputs.csv",
+        "--checkpoint",
+        "{videophy_checkpoint}",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/videophy2/videophy2_pc.csv",
+        "--task",
+        "pc"
+      ]
+    }
+  ],
+  "official_scorers_executed": false,
+  "scores": null,
+  "proxy_metrics_used": false,
+  "videophy_344_protocol_verified": false
+}

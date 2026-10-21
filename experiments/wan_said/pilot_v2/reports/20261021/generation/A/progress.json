@@ -1,0 +1,9 @@
+{
+  "expected": 3,
+  "requested_this_run": 3,
+  "completed_this_run": 3,
+  "failures": [],
+  "smoke": true,
+  "complete": true,
+  "denominator": 3
+}

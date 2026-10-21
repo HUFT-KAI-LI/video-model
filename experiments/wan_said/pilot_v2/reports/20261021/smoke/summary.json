@@ -1,0 +1,588 @@
+{
+  "groups": [
+    "A",
+    "B",
+    "C"
+  ],
+  "real_model_steps_per_group": 2,
+  "grounding_steps_per_mode": 3,
+  "common_initial_lora_sha256": "24d90fe3642a6b12b927b561b7e1e7a6f53cd6c72ac6cc58d8da3c5cce8c28a7",
+  "data_and_noise_identical": true,
+  "teacher_frozen": true,
+  "full_and_said_share_teacher": true,
+  "feature_cache_bytes": 0,
+  "frames": 49,
+  "height": 480,
+  "width": 720,
+  "teacher_dim": 768,
+  "teacher_input": [
+    48,
+    160,
+    240
+  ],
+  "online_calls": [
+    {
+      "sample_id": "3367b05cef98b310a1bcf192",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 9.603219956043176
+    },
+    {
+      "sample_id": "121ce33c570e78083bb5e7f9",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.084802999976091
+    },
+    {
+      "sample_id": "b05bd43e1a437b1a369bd19c",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4593427959480323
+    },
+    {
+      "sample_id": "4a7baf29e598016b1b073ac3",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4779085500049405
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3982476110104471
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3451200560084544
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.192916638974566
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2077375520020723
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1346844030194916
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0175070369732566
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0872566429898143
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.5352449800120667
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3550227360101417
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2061725240200758
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1815521340467967
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4135177309508435
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.5414727019960992
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1056424879934639
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1457565370365046
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0234862079960294
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0069159800186753
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.066347287967801
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1208284849999472
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3247022849973291
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3826518980204128
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4949323600158095
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.189462631009519
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2271814350388013
+    },
+    {
+      "sample_id": "3367b05cef98b310a1bcf192",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.455107306013815
+    },
+    {
+      "sample_id": "121ce33c570e78083bb5e7f9",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0667263300274499
+    },
+    {
+      "sample_id": "b05bd43e1a437b1a369bd19c",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4627537550404668
+    },
+    {
+      "sample_id": "4a7baf29e598016b1b073ac3",
+      "split": "val",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4574786580051295
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3957360759959556
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3231556870159693
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1708049260196276
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.205113454023376
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1296632990124635
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0255467710085213
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0709324449999258
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.513482719019521
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3360094910021871
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2088426789850928
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1703879099804908
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3917912829783745
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.5096112010069191
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0611761309555732
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1251391859841533
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0231469969730824
+    },
+    {
+      "sample_id": "919d9132d63b36f5682b6b1d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0085177659639157
+    },
+    {
+      "sample_id": "d3002e578bd6c327960cb5d7",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.0600944579928182
+    },
+    {
+      "sample_id": "2dda9efe08838a1139304673",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.1109746969887055
+    },
+    {
+      "sample_id": "6df957c0d8748169d6651b59",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.3444771930226125
+    },
+    {
+      "sample_id": "2e7839a12bd83f2d29287bc0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.4012624039896764
+    },
+    {
+      "sample_id": "6c45ace444023a4ea49bb020",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.5214851879864
+    },
+    {
+      "sample_id": "d21549dc61a905c69d042c8d",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2044954089797102
+    },
+    {
+      "sample_id": "6510fc3cea67846fe566e4e0",
+      "split": "train",
+      "kinds": [
+        "text",
+        "teacher"
+      ],
+      "seconds": 1.2146541170077398
+    },
+    {
+      "sample_id": "214d9bd02eb93eee43c3b77c",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae"
+      ],
+      "seconds": 11.372083642985672
+    },
+    {
+      "sample_id": "e0161c6eee5e2616fbd6692f",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae"
+      ],
+      "seconds": 10.258934059005696
+    },
+    {
+      "sample_id": "214d9bd02eb93eee43c3b77c",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae",
+        "teacher"
+      ],
+      "seconds": 10.592542259022593
+    },
+    {
+      "sample_id": "e0161c6eee5e2616fbd6692f",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae",
+        "teacher"
+      ],
+      "seconds": 10.555650365946349
+    },
+    {
+      "sample_id": "214d9bd02eb93eee43c3b77c",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae",
+        "teacher"
+      ],
+      "seconds": 10.644733594032004
+    },
+    {
+      "sample_id": "e0161c6eee5e2616fbd6692f",
+      "split": "train",
+      "kinds": [
+        "text",
+        "vae",
+        "teacher"
+      ],
+      "seconds": 10.537356692948379
+    }
+  ],
+  "formal_efficacy_evidence": false
+}

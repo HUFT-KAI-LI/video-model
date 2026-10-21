@@ -1,0 +1,23 @@
+{
+  "python": "3.11.16 (main, Aug 27 2026, 14:44:21) [GCC 14.3.0]",
+  "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31",
+  "packages": {
+    "torch": "2.5.1+cu124",
+    "transformers": "4.49.0",
+    "peft": "0.14.0",
+    "timm": "0.9.16",
+    "av": "18.1.0",
+    "diffusers": "0.31.0",
+    "flash-attn": "2.8.3.post1",
+    "imageio": "2.37.0",
+    "numpy": "1.26.4"
+  },
+  "devices": {
+    "student": "cuda:0",
+    "vae": "cuda:1",
+    "teacher": "cuda:2",
+    "text": "cuda:3",
+    "grounding": "cuda:0"
+  },
+  "gpu": "0, NVIDIA GeForce RTX 3090, 560.35.03, 24576 MiB\n1, NVIDIA GeForce RTX 3090, 560.35.03, 24576 MiB\n2, NVIDIA GeForce RTX 3090, 560.35.03, 24576 MiB\n3, NVIDIA GeForce RTX 3090, 560.35.03, 24576 MiB\n"
+}

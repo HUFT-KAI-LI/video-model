@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "23a6b988c580f0db8849e935",
+    "suite": "t2v_compbench",
+    "prompt_id": "consistent_attr_0001",
+    "seed": 20261021,
+    "prompt": "A blue car drives past a white picket fence on a sunny day",
+    "original_prompt": "A blue car drives past a white picket fence on a sunny day",
+    "relative_path": "t2v_compbench/consistent_attr/0001.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "8c86adbc46c325b4df67a3712fb7155e1a3046cd39b2e4bc56c8ec6647840703",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/base/t2v_compbench/consistent_attr/0001.mp4",
+  "seconds": 3.187241018982604,
+  "pixel_std": 53.27143473231192,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.993239402770996,
+  "formal_efficacy_evidence": false
+}

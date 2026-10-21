@@ -1,0 +1,185 @@
+{
+  "suite": "t2v_compbench",
+  "expected_videos": 1400,
+  "denominator": 1400,
+  "tasks": [
+    {
+      "name": "consistent_attr",
+      "environment": "llava_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_consistent_attr.py",
+      "script_sha256": "17312f1576067a3552e38766524f18a731fd45ea13fd99110d1ea366fd15ffc0",
+      "argv": [
+        "{llava_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_consistent_attr.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/consistent_attr",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/consistent_attr",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/consistent_attribute_binding.json",
+        "--t2v-model",
+        "wan_said",
+        "--model-path",
+        "{llava_checkpoint}"
+      ]
+    },
+    {
+      "name": "dynamic_attr",
+      "environment": "llava_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_dynamic_attr.py",
+      "script_sha256": "151d371085c5654e5e13d30eb42be5a7820c2c678f286a03140425c8c645a4d1",
+      "argv": [
+        "{llava_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_dynamic_attr.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/dynamic_attr",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/dynamic_attr",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/dynamic_attribute_binding.json",
+        "--t2v-model",
+        "wan_said",
+        "--model-path",
+        "{llava_checkpoint}"
+      ]
+    },
+    {
+      "name": "action_binding",
+      "environment": "llava_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_action_binding.py",
+      "script_sha256": "473356ad7acb8e7cbab95abe5eee2a289cf5d72cf5e7bd01be095af44940c850",
+      "argv": [
+        "{llava_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_action_binding.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/action_binding",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/action_binding",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/action_binding.json",
+        "--t2v-model",
+        "wan_said",
+        "--model-path",
+        "{llava_checkpoint}"
+      ]
+    },
+    {
+      "name": "interaction",
+      "environment": "llava_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_interaction.py",
+      "script_sha256": "1b41b8d37d211844cab8c4eef9bce024d0d3ccce22db82b606e58a2e40a48a0c",
+      "argv": [
+        "{llava_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/LLaVA/llava/eval/compbench_eval_interaction.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/interaction",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/interaction",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/object_interactions.json",
+        "--t2v-model",
+        "wan_said",
+        "--model-path",
+        "{llava_checkpoint}"
+      ]
+    },
+    {
+      "name": "spatial_relationships",
+      "environment": "detector_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/compbench_eval_spatial_relationships.py",
+      "script_sha256": "c63a956b9d6bb462f7cc7fb17b3295758a6862574964c0a8e0faea3465bda032",
+      "argv": [
+        "{detector_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/compbench_eval_spatial_relationships.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/spatial_relationships",
+        "--depth_folder",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/depth",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/spatial_relationships",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/spatial_relationships.json",
+        "--t2v-model",
+        "wan_said",
+        "--output_dir",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/spatial"
+      ]
+    },
+    {
+      "name": "generative_numeracy",
+      "environment": "detector_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/GroundingDINO/demo/compbench_eval_numeracy.py",
+      "script_sha256": "b1b77eee3f82af0320f2c1c2abddace1c0b5acc461a9fa35dd3ec05bbe7b6412",
+      "argv": [
+        "{detector_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/GroundingDINO/demo/compbench_eval_numeracy.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/generative_numeracy",
+        "--output-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/generative_numeracy",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/generative_numeracy.json",
+        "--t2v-model",
+        "wan_said",
+        "--output_dir",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/numeracy"
+      ]
+    },
+    {
+      "name": "motion_segmentation",
+      "environment": "detector_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/compbench_motion_binding_seg.py",
+      "script_sha256": "f0c9f8cfb1807db5f789de88721037ca2fcddacaf2ec315d82d287abceed0a46",
+      "argv": [
+        "{detector_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/Grounded-Segment-Anything/compbench_motion_binding_seg.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/motion_binding",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/motion_binding.json",
+        "--t2v-model",
+        "wan_said",
+        "--total_frame",
+        "16",
+        "--fps",
+        "8",
+        "--output_dir",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/motion_masks"
+      ]
+    },
+    {
+      "name": "motion_tracking",
+      "environment": "dot_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/dot",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/dot/compbench_eval_motion_binding.py",
+      "script_sha256": "27081762184238cf0aec58555cd981eef65e3e8f1cc09200456e0ff10c6dde40",
+      "argv": [
+        "{dot_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/dot/compbench_eval_motion_binding.py",
+        "--video-path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/inference_20261021/C/t2v_compbench/video_standard/motion_binding",
+        "--mask_folder",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/motion_masks",
+        "--read-prompt-file",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/T2V-CompBench/meta_data/motion_binding.json",
+        "--t2v_model",
+        "wan_said",
+        "--output_path",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/motion_binding",
+        "--output_dir",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scoring_plans/t2v_compbench/motion_tracks"
+      ]
+    }
+  ],
+  "official_scorers_executed": false,
+  "scores": null,
+  "proxy_metrics_used": false,
+  "videophy_344_protocol_verified": false
+}

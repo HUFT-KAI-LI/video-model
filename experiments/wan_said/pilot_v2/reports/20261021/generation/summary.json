@@ -1,0 +1,143 @@
+{
+  "groups": {
+    "base": [
+      {
+        "job_id": "23a6b988c580f0db8849e935",
+        "suite": "t2v_compbench",
+        "pixel_std": 53.27143473231192,
+        "temporal_pixel_delta": 4.993239402770996,
+        "sha256": "8c86adbc46c325b4df67a3712fb7155e1a3046cd39b2e4bc56c8ec6647840703",
+        "seconds": 3.187241018982604,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "8a8d22d0ed39bfc27f6459d3",
+        "suite": "vbench",
+        "pixel_std": 61.331691402360356,
+        "temporal_pixel_delta": 1.2781096696853638,
+        "sha256": "9d9f14bb5317e7aa397a465408a3368307fe8ce28a7c1867159c8c2a104c8557",
+        "seconds": 2.2290442009689286,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "fd3c0a2c0af299af01f502d3",
+        "suite": "videophy2",
+        "pixel_std": 99.1068972470394,
+        "temporal_pixel_delta": 14.220218658447266,
+        "sha256": "fa108c790626385fd113c415ae0699dd5d99d351975825579c3e2ed9a6b24fab",
+        "seconds": 2.2680784290423617,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      }
+    ],
+    "A": [
+      {
+        "job_id": "23a6b988c580f0db8849e935",
+        "suite": "t2v_compbench",
+        "pixel_std": 54.0600342795779,
+        "temporal_pixel_delta": 5.066213607788086,
+        "sha256": "072ad1992d892dc4d44423fe8832da91a7c3b10545ad453965fecec2e3ffba70",
+        "seconds": 2.497334374987986,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "8a8d22d0ed39bfc27f6459d3",
+        "suite": "vbench",
+        "pixel_std": 59.54283319752379,
+        "temporal_pixel_delta": 1.2373957633972168,
+        "sha256": "8a07a08493b4534f2e1acda5011197b68a723a3fda87eae550437a5a626a817b",
+        "seconds": 2.447994929039851,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "fd3c0a2c0af299af01f502d3",
+        "suite": "videophy2",
+        "pixel_std": 98.8586617200803,
+        "temporal_pixel_delta": 13.655102729797363,
+        "sha256": "65bbe4bb947528579cceeb983abbbdfde99c6b8f69d0409f89a9de01f8cbc34c",
+        "seconds": 2.4723706649965607,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      }
+    ],
+    "B": [
+      {
+        "job_id": "23a6b988c580f0db8849e935",
+        "suite": "t2v_compbench",
+        "pixel_std": 53.34201270398236,
+        "temporal_pixel_delta": 4.778104782104492,
+        "sha256": "e5a92f874f878233bdec6124ec8f7801f55938652973c6e93692649715b34ccc",
+        "seconds": 2.6027455370058306,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "8a8d22d0ed39bfc27f6459d3",
+        "suite": "vbench",
+        "pixel_std": 60.41456967704139,
+        "temporal_pixel_delta": 1.304405689239502,
+        "sha256": "619669ed7e526e2e34412516dc9a0f1a76be55f5e1b06f9444e00b9f842617a3",
+        "seconds": 2.481716645997949,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "fd3c0a2c0af299af01f502d3",
+        "suite": "videophy2",
+        "pixel_std": 99.03670829884751,
+        "temporal_pixel_delta": 13.635327339172363,
+        "sha256": "57b1aebcc7584a9f16fd466242c54d23d3d1e0cedb6e74a1bd4f48b38c1fd287",
+        "seconds": 2.5508267550030723,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      }
+    ],
+    "C": [
+      {
+        "job_id": "23a6b988c580f0db8849e935",
+        "suite": "t2v_compbench",
+        "pixel_std": 53.210356690695605,
+        "temporal_pixel_delta": 5.048743724822998,
+        "sha256": "3bb7c064d985e93c9875850d398f5557dcbf16ecb2131eaf3014422eb618f609",
+        "seconds": 2.494904543971643,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "8a8d22d0ed39bfc27f6459d3",
+        "suite": "vbench",
+        "pixel_std": 60.53567403742559,
+        "temporal_pixel_delta": 1.3212740421295166,
+        "sha256": "bf4b4455902a8bc2c39e174598b33a64b9b859ef3518778c3569700a395f606b",
+        "seconds": 2.4955510199652053,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      },
+      {
+        "job_id": "fd3c0a2c0af299af01f502d3",
+        "suite": "videophy2",
+        "pixel_std": 99.34591840489759,
+        "temporal_pixel_delta": 13.744949340820312,
+        "sha256": "7aaa693143188e0683ddf724572329b0b37b3a2cac5e0dd9bd11fb1c05a8179a",
+        "seconds": 2.5229463719879277,
+        "teacher_used": false,
+        "auxiliary_modules_used": false
+      }
+    ]
+  },
+  "frames": 17,
+  "height": 256,
+  "width": 384,
+  "steps": 4,
+  "sampler": "pinned official Wan UniPC",
+  "fps": 16,
+  "cfg": 6,
+  "shift": 8,
+  "official_scorers_executed": false,
+  "formal_efficacy_evidence": false,
+  "note": "One original prompt per suite per model; reduced geometry/steps, NOT formal 480P/81-frame evaluation"
+}

@@ -1,0 +1,82 @@
+{
+  "recorded_at_utc": "2026-10-21T08:07:09.365115+00:00",
+  "branch": "codex/wan-said-pilot-v2",
+  "base_commit_before_this_change": "37ab1bb3b13017cd941506faa0b54c81aa2c5e50",
+  "evidence_inputs": {
+    "experiments/wan_said/runs/pilot_v2/audit_final_20261021/audit.json": "2df5f2d0a2a0d1c6ed33e1582cc833cc90d4ed1688c077e68b8b18de2f50a2e9",
+    "experiments/wan_said/runs/pilot_v2/smoke_deterministic_20261021/summary.json": "8557f91ddb97087ed5c46d270b1d11b35f4406241e26f2bf8f8fe0aed66131d5",
+    "experiments/wan_said/runs/pilot_v2/resume_deterministic_20261021/verification.json": "dbf92089507b71e5b349dd422cdc164336feac907416e0333c79ead3a5291ba7",
+    "experiments/wan_said/runs/pilot_v2/inference_20261021/summary.json": "3971c99c46fc7e783ad5ecd75b7b26ade9e55780204108df800760ad825261a4",
+    "experiments/wan_said/runs/pilot_v2/benchmark_plan_20261021/suite_lock.json": "997a373340d756760c11fbaa2525c6edd51de44d61b87aa55576d4b98ba39cc3"
+  },
+  "tests": [
+    {
+      "name": "shared",
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/tests",
+        "-v"
+      ],
+      "returncode": 0,
+      "real_video_integration_enabled": true,
+      "log": "shared_tests.log"
+    },
+    {
+      "name": "download",
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/protocol_v2/tests",
+        "-v"
+      ],
+      "returncode": 0,
+      "real_video_integration_enabled": true,
+      "log": "download_tests.log"
+    },
+    {
+      "name": "pilot",
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/tests",
+        "-v"
+      ],
+      "returncode": 0,
+      "real_video_integration_enabled": true,
+      "log": "pilot_tests.log"
+    }
+  ],
+  "task_scope": "Existing 5K pilot, prioritize Experiment 1 algorithm adaptation; no full formal training",
+  "completed": [
+    "strict ViT-Base migration",
+    "full-PTS shared video crop",
+    "online-only frozen encoders",
+    "real 49x480x720 A/B/C training and separate gradient audits",
+    "resume verification",
+    "pinned native UniPC reduced-size real generation",
+    "official prompt plans/leakage checks"
+  ],
+  "pending": [
+    "named human caption/crop/event review",
+    "validated non-smoke Grounding pretraining",
+    "formal A/B/C training",
+    "official evaluator environments and weights",
+    "official scorer integration/aggregation and complete benchmark runs",
+    "approval/correction of the VideoPhy2 344 vs 590/591 discrepancy"
+  ],
+  "feature_cache_bytes": 0,
+  "full_dataset_ready": false,
+  "formal_efficacy_evidence": false,
+  "raw_videos_or_weights_copied": false,
+  "official_scorers_executed": false
+}

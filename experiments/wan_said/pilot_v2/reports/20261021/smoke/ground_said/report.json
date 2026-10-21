@@ -1,0 +1,75 @@
+{
+  "mode": "said",
+  "steps": 3,
+  "new_steps": 3,
+  "train_manifest_count": 3995,
+  "effective_training_pool": 8,
+  "unique_training_samples_seen": 8,
+  "validation_count": 4,
+  "validation_chance_r1": 0.25,
+  "before": {
+    "said": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.25,
+      "diagonal_similarity": -0.017273265421390537
+    },
+    "full": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.25,
+      "diagonal_similarity": -0.01933607339859009
+    },
+    "random": {
+      "v2t_r1": 0.0,
+      "t2v_r1": 0.0,
+      "diagonal_similarity": -0.020330672264099122
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.25,
+      "diagonal_similarity": -0.017228223085403446
+    },
+    "soft_keep": 0.500752329826355,
+    "hard_keep": 0.5126953125,
+    "prompt_delta_l1": 0.0008741843048483133,
+    "video_delta_l1": 0.004655882716178894,
+    "channel_std": 0.003667800221592188,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "after": {
+    "said": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.5,
+      "diagonal_similarity": 0.0176029646396637
+    },
+    "full": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.5,
+      "diagonal_similarity": 0.01624090075492859
+    },
+    "random": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.25,
+      "diagonal_similarity": -0.04259661078453064
+    },
+    "shuffled_text": {
+      "v2t_r1": 0.25,
+      "t2v_r1": 0.5,
+      "diagonal_similarity": 0.01769818753004074
+    },
+    "soft_keep": 0.5007415413856506,
+    "hard_keep": 0.5078125,
+    "prompt_delta_l1": 0.0009902510792016983,
+    "video_delta_l1": 0.004776608198881149,
+    "channel_std": 0.0037287240847945213,
+    "degenerate": false,
+    "semantic_selectivity_proven": false
+  },
+  "grounding_validated": false,
+  "feature_cache_bytes": 0,
+  "raw_teacher_tokens_supported": true,
+  "seconds": 30.26530873501906,
+  "test_used": false,
+  "semantic_selectivity_proven": false,
+  "formal_efficacy_evidence": false
+}

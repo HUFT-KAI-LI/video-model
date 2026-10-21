@@ -1,0 +1,23 @@
+{
+  "group": "B",
+  "steps": 2,
+  "new_steps": 2,
+  "train_manifest_count": 3995,
+  "unique_training_samples_seen": 2,
+  "sample_presentations": 2,
+  "complete_data_passes": 0,
+  "equivalent_epochs": 0.0005006257822277847,
+  "initial_lora_sha256": "24d90fe3642a6b12b927b561b7e1e7a6f53cd6c72ac6cc58d8da3c5cce8c28a7",
+  "seconds": 54.41457983595319,
+  "peak_allocated_gib": 6.597009658813477,
+  "preprocessing_hash": "2ce2158d327d01685f7d4e584ad1afc33b841075f8cc28b2a0bb4bfbd085b0ad",
+  "feature_cache_bytes": 0,
+  "smoke": true,
+  "test_used": false,
+  "formal_efficacy_evidence": false,
+  "effective_loss": "FM + 0.05 * Full",
+  "native_fm_function": "diffsynth.diffusion.loss.FlowMatchSFTLoss (unchanged)",
+  "grounding_frozen": true,
+  "teacher_frozen": true,
+  "raw_teacher_tokens_supported": true
+}
