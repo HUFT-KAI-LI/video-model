@@ -5,9 +5,14 @@ The original dirty `video-model` worktree and LongLive/Reality Memory logic are 
 Branch: `codex/wan-said-exp1`. New worktree:
 `/data/lk/深度学习/video-model-said-exp1`.
 
+Algorithm, parameter ownership, shared upstream components and experiment boundaries:
+[DESIGN.md](DESIGN.md). This is the staged FM + SAID implementation of Experiment 1,
+not a modification to the existing baseline algorithms.
+
 ## Current Evidence
 
-- Fifteen unit tests pass, including three independent gradient objectives and split isolation.
+- Seventeen unit tests cover three independent gradient objectives, split isolation, and exact
+  native-FM loss/gradient invariance with and without H15 capture and checkpointing.
   An additional opt-in integration test checks QC/splitting on 40 real downloaded OpenVid clips.
 - A/B/C each completed a matched 5-step real Wan smoke test on the old 32-training-video subset.
 - FM updates LoRA in all 30 blocks. H15 distillation updates blocks 1-15 and the student projector,
@@ -26,8 +31,10 @@ Source: `nkp37/OpenVid-1M`, via **https://hf-mirror.com**, pinned revision
 `d8a63bd22989c80b5734ec2bb989f4e1b61a5807`.
 Selected: **5,000** distinct original sources, 4,000 Panda clips and 1,000 Pixabay clips.
 Raw videos total **13,270,085,773 bytes**; caption CSV is **856,907,992 bytes**.
-Do not confuse a fixed selection with completed downloads: consult
-`datasets/openvid/pipeline_status.json` and `download_progress.json` for live status.
+Download and QC completed on 2026-10-21. Seven near duplicates were removed; the frozen
+manifests contain **3,995 train / 498 validation / 500 test** clips. Expanded-data feature
+caching and training have not been run. Consult `datasets/openvid/pipeline_status.json`
+and `manifests_openvid/split_lock.json` for the recorded preparation result.
 
 ZIP members are read with HTTP Range and the established `remotezip` library. Servers that
 ignore Range are rejected; there is no full-archive fallback. CRC is checked during extraction,

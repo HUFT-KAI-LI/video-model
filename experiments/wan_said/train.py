@@ -175,7 +175,9 @@ def train(cfg, group, output, steps, device, grounding_path=None, gradient_audit
                peak_reserved_gib=torch.cuda.max_memory_reserved(device) / 2 ** 30,
                serialization_prediction_max_error=maximum_error, lora_parameters=sum(p.numel() for p in lora_params),
                student_projector_parameters=sum(p.numel() for p in head_params),
-               grounding_frozen=True, effective_loss='FM' if group == 'A' else 'FM + 0.05 * Distill',
+               grounding_frozen=True,
+               effective_loss='FM' if group == 'A' else f'FM + {cfg["distill_weight"]:g} * Distill',
+               distill_max_sigma=cfg['distill_max_sigma'],
                scheme='Staged frozen Grounding; no Grounding loss in DiT optimizer',
                noise_buckets={b: [r['distill'] for r in records if r['noise_bucket'] == b]
                               for b in ('low', 'mid', 'high')},
