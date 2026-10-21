@@ -1,0 +1,28 @@
+{
+  "VideoREPA": {
+    "url": "https://github.com/aHapBean/VideoREPA",
+    "commit": "8d581dc301e18546a1808436c724f59d259d09f9",
+    "teacher_source_sha256": "2a162b1a8f99ebbd7ff4a7bc116ff30c992cc57015a02a4387c0843b1de51029",
+    "spatial_source_sha256": "5f4f27900fb58f31dc87dd7abc8aa36ab9cd755b96afeda314538b06b76f9e34",
+    "dataset_source_sha256": "5c61b031bd2711058e040872d0d3fb04cce0c2d8431e24361c01eeeba42e992e"
+  },
+  "T2V-CompBench": {
+    "url": "https://github.com/KaiyueSun98/T2V-CompBench",
+    "commit": "dd5eff7b93af0550b9efa2bdabbb21b3b017ceda"
+  },
+  "VBench": {
+    "url": "https://github.com/Vchitect/VBench",
+    "commit": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490"
+  },
+  "teacher": {
+    "repo": "OpenGVLab/VideoMAE2",
+    "revision": "706cc172d65ebd4dedbee3f9c0183a93df9fa125",
+    "file": "distill/vit_b_k710_dl_from_giant.pth",
+    "bytes": 173574417,
+    "sha256": "8141a6955e0700d11bf15928fe6d61e5cfe482606fed8cfdddb1b922c0fd88ec"
+  },
+  "openvid": {
+    "repo": "nkp37/OpenVid-1M",
+    "revision": "d8a63bd22989c80b5734ec2bb989f4e1b61a5807"
+  }
+}

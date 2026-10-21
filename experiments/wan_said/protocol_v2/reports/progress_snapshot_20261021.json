@@ -1,0 +1,29 @@
+{
+  "official_csv_rows": {
+    "32k": 32000,
+    "64k": 64000
+  },
+  "unique_video_count": 64000,
+  "downloaded_count": 2450,
+  "verified_count": 2450,
+  "failed_count": 0,
+  "missing_count": 61550,
+  "corrupted_count": 0,
+  "total_raw_bytes": 14104193631,
+  "total_cache_bytes": 0,
+  "estimated_training_storage": {
+    "text_uncompressed": 268435456000,
+    "vae_latents": 143769600000,
+    "teacher_tokens_bf16": 353894400000,
+    "teacher_pooled_fp32": 196608000
+  },
+  "full_dataset_ready": false,
+  "elapsed_seconds": 94.93259113299428,
+  "stage": "raw_download_and_full_decode",
+  "feature_cache_enabled": false,
+  "training_enabled": false,
+  "download_source": "https://hf-mirror.com",
+  "download_workers": 6,
+  "status": "in_progress",
+  "note": "Only completed files count; restart verifies SHA256 before reuse. No automatic training."
+}

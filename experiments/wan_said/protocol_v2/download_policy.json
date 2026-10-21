@@ -1,0 +1,22 @@
+{
+  "mode": "download_only",
+  "download_source": "https://hf-mirror.com",
+  "official_source_fallback_enabled": false,
+  "download_workers": 6,
+  "request_spacing_seconds": 0.5,
+  "http_429_policy": "Shared process-wide cooldown, honor Retry-After seconds or HTTP date, minimum 60s, exponential fallback 60-900s",
+  "official_target": "VideoREPA openvid_6w4.csv (all 64000 unique files)",
+  "feature_cache_enabled": false,
+  "text_context_cache": false,
+  "text_pooled_cache": false,
+  "vae_latent_cache": false,
+  "teacher_token_cache": false,
+  "teacher_pooled_cache": false,
+  "training_enabled": false,
+  "benchmark_generation_enabled": false,
+  "raw_data_limit_bytes": null,
+  "disk_safety_reserve_bytes": 50000000000,
+  "partial_file_resume": "Completed files verified by SHA256 and metadata; incomplete member restarted individually",
+  "allowed_outputs": ["original MP4", "official CSV", "ZIP directory mapping", "checksums", "CPU decode audit", "download logs"],
+  "preserve_existing_experiment_artifacts": true
+}

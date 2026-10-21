@@ -1,0 +1,6 @@
+Restart=on-failure
+RestartUSec=5min
+ExecStart={ path=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python ; argv[]=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python -u -m experiments.wan_said.protocol_v2.official_data download --workers 6 ; ignore_errors=no ; start_time=[Wed 2026-10-21 14:47:34 CST] ; stop_time=[n/a] ; pid=1477924 ; code=(null) ; status=0/0 }
+MemoryMax=8589934592
+ActiveState=active
+SubState=running
