@@ -51,10 +51,15 @@ def generate_suite(args, suite, state, persist):
         try:
             for index, device in enumerate(args.devices):
                 log = stack.enter_context((videos/f'worker_{index}.log').open('a'))
+                group = getattr(args, 'group', 'C')
                 argv = [sys.executable, '-u', '-m', MODULE+'.inference', '--jobs', str(plan),
-                        '--output', str(videos), '--group', 'C', '--checkpoint', args.checkpoint,
-                        '--exploratory', '--worker-index', str(index), '--worker-count', str(len(args.devices)),
+                        '--output', str(videos), '--group', group,
+                        '--worker-index', str(index), '--worker-count', str(len(args.devices)),
                         '--device', device, '--minimum-free-gib', str(args.minimum_free_gib)]
+                if group != 'base':
+                    argv.extend(['--checkpoint', args.checkpoint])
+                if getattr(args, 'exploratory', group != 'base'):
+                    argv.append('--exploratory')
                 if args.config:
                     argv.extend(['--config', args.config])
                 if getattr(args, 'subset_lock', None):
@@ -106,6 +111,8 @@ def score_suite(args, suite, state, persist):
             '--output', str(root/'scores'), '--environments', str(environment)]
     if getattr(args, 'subset_lock', None):
         argv.extend(['--subset-lock', str(args.subset_lock)])
+    if getattr(args, 'score_devices', None):
+        argv.extend(['--score-devices']+list(args.score_devices))
     previous = root/'scores/score_status.json'
     ready_key = 'subset_table_ready' if getattr(args, 'subset_lock', None) else 'main_table_ready'
     if previous.exists() and json.loads(previous.read_text()).get(ready_key):

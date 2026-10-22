@@ -1,9 +1,13 @@
 """Run pinned official scoring entry points without changing the expected denominator."""
 import argparse
+import contextlib
 import csv
 import json
 import os
+import shutil
 import subprocess
+import time
+import uuid
 from pathlib import Path
 
 from ..io_utils import read_jsonl, sha256, write_json
@@ -11,6 +15,56 @@ from ..runtime import ROOT
 from .benchmarks import check_vendor, require_complete, source_hash, suites, validate_official_plan
 from .inference import native_generation_protocol, verify_video
 from .aggregate import save_summary, vbench, videophy2
+
+
+def execute_tasks(tasks, output, environment, devices, persist):
+    if not devices:
+        for task in tasks:
+            with (output/(task['name']+'.log')).open('w') as log:
+                process = subprocess.run(task['argv'], cwd=task['cwd'], env=environment,
+                                         stdout=log, stderr=subprocess.STDOUT)
+            task['returncode'] = process.returncode
+            persist()
+            if process.returncode:
+                raise RuntimeError(f'Official scorer {task["name"]} failed; inspect its preserved log')
+        return
+    if len(set(devices)) != len(devices):
+        raise ValueError('Each parallel scorer must have a distinct physical GPU')
+    pending, active = list(tasks), []
+    with contextlib.ExitStack() as stack:
+        try:
+            while pending or active:
+                used = {device for _, _, device in active}
+                for device in devices:
+                    if not pending or device in used:
+                        continue
+                    task = pending.pop(0)
+                    log = stack.enter_context((output/(task['name']+'.log')).open('w'))
+                    task['cuda_visible_devices'] = device
+                    process = subprocess.Popen(task['argv'], cwd=task['cwd'],
+                        env=dict(environment, CUDA_VISIBLE_DEVICES=device), stdout=log, stderr=subprocess.STDOUT)
+                    active.append((process, task, device))
+                for process, task, device in active[:]:
+                    code = process.poll()
+                    if code is None:
+                        continue
+                    task['returncode'] = code
+                    active.remove((process, task, device))
+                    persist()
+                    if code:
+                        raise RuntimeError(f'Official scorer {task["name"]} failed; inspect its preserved log')
+                if active:
+                    time.sleep(2)
+        finally:
+            for process, _, _ in active:
+                if process.poll() is None:
+                    process.terminate()
+            for process, _, _ in active:
+                try:
+                    process.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait()
 
 
 def recipes(suite, videos, output):
@@ -70,12 +124,12 @@ def recipes(suite, videos, output):
 
 
 def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
-        accept_videophy_590=False, aggregate_only=False, subset_lock=None):
+        accept_videophy_590=False, aggregate_only=False, subset_lock=None, score_devices=None):
     full_jobs = read_jsonl(jobs_path)
     jobs = full_jobs
     if subset_lock:
-        if suite != 'videophy2':
-            raise ValueError('Subset scoring is implemented only for the VideoPhy-2 pilot')
+        if suite not in ('videophy2', 'vbench'):
+            raise ValueError('Unsupported subset benchmark')
         from .subset import select
         jobs = select(full_jobs, jobs_path, subset_lock)
     if not jobs or any(j['suite'] != suite for j in jobs):
@@ -83,6 +137,22 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     tasks = recipes(suite, videos, output)
+    metadata = None
+    if subset_lock and suite == 'vbench':
+        from .subset import vbench_metadata
+        metadata = vbench_metadata(jobs)
+        metadata_path = output/'vbench_subset_metadata.json'
+        write_json(metadata_path, metadata)
+        template = tasks[0]
+        dimensions = template['argv'][template['argv'].index('--dimension')+1:]
+        tasks = []
+        for dimension in dimensions:
+            task = dict(template, name='vbench_'+dimension)
+            argv = template['argv'][:template['argv'].index('--dimension')]+['--dimension', dimension]
+            argv[argv.index('--full_json_dir')+1] = str(metadata_path)
+            argv[argv.index('--output_path')+1] = str(output/'vbench'/dimension)
+            task['argv'] = argv
+            tasks.append(task)
     status = dict(suite=suite, expected_videos=len(jobs), denominator=len(jobs), tasks=tasks,
                   official_scorers_executed=False, scores=None, proxy_metrics_used=False,
                   benchmark_version='VideoPhy-2' if suite == 'videophy2' else suite,
@@ -93,6 +163,9 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
         status.update(evaluation_scope='subset_pilot', subset_lock_sha256=selected_sha,
                       full_benchmark_denominator=len(full_jobs), formal_benchmark_complete=False,
                       subset_table_ready=False)
+        if suite == 'vbench':
+            status.update(prompt_count=len({j['prompt_id'] for j in jobs}), samples_per_prompt=5,
+                          subset_metadata_sha256=sha256(metadata_path))
     write_json(output/'score_plan.json', status)
     if plan_only:
         return status
@@ -150,20 +223,20 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
         status['tasks'] = previous['tasks']
     else:
         environment = dict(os.environ, HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1')
-        for task in tasks:
-            with (output/(task['name']+'.log')).open('w') as log:
-                process = subprocess.run(task['argv'], cwd=task['cwd'], env=environment,
-                                         stdout=log, stderr=subprocess.STDOUT)
-            task['returncode'] = process.returncode
-            write_json(output/'score_status.json', status)
-            if process.returncode:
-                raise RuntimeError(f'Official scorer {task["name"]} failed; inspect its preserved log')
+        if suite == 'vbench' and (output/'vbench').exists():
+            archive = output/'prior_attempts'/uuid.uuid4().hex
+            archive.mkdir(parents=True)
+            shutil.move(output/'vbench', archive/'vbench')
+            for path in output.glob('vbench_*.log'):
+                shutil.move(path, archive/path.name)
+        execute_tasks(tasks, output, environment, score_devices,
+                      lambda: write_json(output/'score_status.json', status))
     status.update(official_scorers_executed=True, raw_results_directory=str(output),
                   main_table_ready=False)
     write_json(output/'score_status.json', status)
     try:
         paths = ([output/'videophy2_sa.csv', output/'videophy2_pc.csv'] if suite == 'videophy2' else
-                 sorted((output/'vbench').glob('*_eval_results.json')) if suite == 'vbench' else [])
+                 sorted((output/'vbench').rglob('*_eval_results.json')) if suite == 'vbench' else [])
         raw_hashes = {str(p.relative_to(output)): sha256(p) for p in paths}
         if aggregate_only and previous.get('raw_result_sha256') != raw_hashes:
             raise ValueError('Official raw scoring results changed; rerun the evaluator, not only aggregation')
@@ -172,7 +245,8 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
         if suite == 'videophy2':
             summary = videophy2(jobs, videos, output/'videophy2_sa.csv', output/'videophy2_pc.csv')
         elif suite == 'vbench':
-            summary = vbench(jobs, videos, paths)
+            summary = vbench(jobs, videos, paths, metadata=metadata,
+                             allow_official_color_exclusions=bool(subset_lock))
         else:
             status['aggregation'] = 'T2V-CompBench category aggregation is not implemented; raw results only'
             write_json(output/'score_status.json', status)
@@ -187,6 +261,9 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
                            full_benchmark_denominator=len(full_jobs), formal_benchmark_complete=False,
                            publication_eligible=False, main_table_ready=False,
                            subset_table_ready=summary['complete'])
+            if suite == 'vbench':
+                summary.update(prompt_count=status['prompt_count'], samples_per_prompt=5,
+                               subset_metadata_sha256=status['subset_metadata_sha256'])
         save_summary(summary, output, generation['group'])
         status.update(scores=summary['scores'], main_table_ready=summary['main_table_ready'],
                       summary_sha256=sha256(output/'summary.json'))
@@ -211,6 +288,8 @@ if __name__ == '__main__':
     parser.add_argument('--accept-videophy-590', action='store_true', help='Deprecated compatibility flag; VideoPhy-2 is 590 prompts')
     parser.add_argument('--aggregate-only', action='store_true', help='Recheck and aggregate an already successful official scoring run')
     parser.add_argument('--subset-lock', help='Explicit pilot subset; cannot produce a full benchmark table')
+    parser.add_argument('--score-devices', nargs='+', help='Physical CUDA indices for parallel official scorer tasks')
     args = parser.parse_args()
     print(json.dumps(run(args.suite, args.jobs, args.videos, args.output, args.environments,
-                         args.plan_only, args.accept_videophy_590, args.aggregate_only, args.subset_lock), indent=2))
+                         args.plan_only, args.accept_videophy_590, args.aggregate_only, args.subset_lock,
+                         args.score_devices), indent=2))

@@ -94,13 +94,14 @@ def official_vbench():
     return functions, provenance
 
 
-def vbench(jobs, videos, result_paths):
+def vbench(jobs, videos, result_paths, metadata=None, allow_official_color_exclusions=False):
     expected_paths(jobs, videos)
     official, sources = official_vbench()
     repo = check_vendor('VBench')
     metadata_path = repo/'vbench/VBench_full_info.json'
     sources['vbench/VBench_full_info.json'] = source_hash(repo, metadata_path)
-    metadata = json.loads(metadata_path.read_text())
+    if metadata is None:
+        metadata = json.loads(metadata_path.read_text())
     dimensions = {d.replace(' ', '_') for d in official['TASK_INFO']}
     # Derive each dimension's own denominator, retaining upstream row multiplicity.
     expected = {d: Counter(str((Path(videos)/'vbench'/f'{r["prompt_en"]}-{i}.mp4').resolve())
@@ -148,10 +149,25 @@ def vbench(jobs, videos, result_paths):
     missing_dimensions = sorted(dimensions-set(coverage))
     complete = (not errors and not missing_dimensions and set(raw) == dimensions and
                 all(c['complete'] for c in coverage.values()))
+    strict_coverage_complete = complete
+    exclusions = {}
+    if allow_official_color_exclusions and not errors and not missing_dimensions and set(raw) == dimensions:
+        color = coverage.get('color', {})
+        exclusions = dict(color=color.get('missing_or_invalid', []))
+        # The pinned color evaluator omits no-object detections by design. Preserve
+        # the scheduled denominator and expose exclusions, never zero-impute them.
+        complete = all(c['complete'] or (d == 'color' and c['scored'] > 0 and
+                       not c['unexpected_or_duplicate'] and not c['invalid'])
+                       for d, c in coverage.items())
     report = dict(suite='vbench', benchmark_version='VBench standard', denominator=len(jobs),
                   coverage=coverage, errors=errors, missing_dimensions=missing_dimensions,
                   complete=complete, main_table_ready=complete, scores=None,
                   raw_dimensions=raw, source_sha256=sources, result_sha256=provenance)
+    if allow_official_color_exclusions:
+        report.update(strict_coverage_complete=strict_coverage_complete,
+                      official_conditional_exclusions=exclusions,
+                      exclusion_policy='Pinned official color omits videos with no detected target object; '
+                          'official conditional score retained with explicit counts; no imputation')
     if complete:
         normalized = official['get_nomalized_score']({d.replace('_', ' '): v for d, v in raw.items()})
         quality = official['get_quality_score'](normalized)

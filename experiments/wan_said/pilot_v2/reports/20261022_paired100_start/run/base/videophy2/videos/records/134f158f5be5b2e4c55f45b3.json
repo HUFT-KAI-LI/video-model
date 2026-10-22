@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "134f158f5be5b2e4c55f45b3",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0006",
+    "seed": 20261021,
+    "prompt": "A bowler's run-up, followed by the delivery of the ball.",
+    "original_prompt": "A bowler's run-up, followed by the delivery of the ball.",
+    "relative_path": "videophy2/0006.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "987293c3083d73c8313f5fa18e86c5e6175fb6b7b6d091ed1095f3abf157fc28",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/paired100_20261022/base/videophy2/videos/videophy2/0006.mp4",
+  "seconds": 488.4958486111136,
+  "pixel_std": 63.03504975356754,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.229913711547852,
+  "formal_efficacy_evidence": false
+}

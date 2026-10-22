@@ -1,6 +1,24 @@
 # C Official Benchmark Queue
 
-## Active Request: 100-Video Pilot
+## Active Request: Matched Base/C, Both Benchmarks
+
+The subsequent request adds the untouched Wan base model and completes VBench
+on matched prompt subsets. The four-GPU service
+`wan-said-paired100-20261022.service` started on 2026-10-22 at 15:20 CST.
+VideoPhy-2 uses the same original 100 prompts for both models and reuses C's
+verified completed result. VBench uses 100 official annotated prompt groups,
+all sixteen dimensions, and five seeds/group: 500 videos per model.
+Thus 1100 new generations are required, not 100 videos total. Full native
+generation settings and official weighted scoring are retained.
+
+See `paired_eval/README.md` for the scope, execution, exclusions and paired
+comparison gates. Live progress is `runs/pilot_v2/paired100_20261022/status.json`.
+No completed base/C comparison is claimed at launch. The final comparison will
+include both official scorer protocols, all sixteen VBench dimensions, quality/
+semantic/total scores, deltas and explicit coverage/exclusion counts. It remains
+a matched subset experiment, not the full benchmark or an FM-only A control.
+
+## Completed C-Only 100-Video Pilot
 
 Completed on 2026-10-22 at approximately 14:48 CST. All 100 paired scores are
 valid: SA 3.16/5, PC 3.78/5, SA@4 35%, PC@4 67%, Joint@4 32%.

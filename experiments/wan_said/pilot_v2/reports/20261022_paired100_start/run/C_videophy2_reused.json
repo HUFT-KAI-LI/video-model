@@ -1,0 +1,14 @@
+{
+  "source_summary": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/scores/summary.json",
+  "sha256": "db4d0e2de54219d59f84282d91551664dbedfb19fb3a00d6724b16b9726313ac",
+  "generated_videos": 100,
+  "scores": {
+    "sa_mean": 3.16,
+    "pc_mean": 3.78,
+    "sa_at_4": 0.35,
+    "pc_at_4": 0.67,
+    "joint_at_4": 0.32
+  },
+  "raw_videos_copied": false,
+  "note": "Previously verified identical 100-prompt C pilot reused"
+}

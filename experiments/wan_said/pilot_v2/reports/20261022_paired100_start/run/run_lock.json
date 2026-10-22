@@ -1,0 +1,84 @@
+{
+  "evaluation_scope": "matched_100_prompt_subset",
+  "publication_eligible": false,
+  "formal_benchmark_complete": false,
+  "arms": [
+    "base",
+    "C"
+  ],
+  "checkpoint_C_sha256": "cadf8a40f5c51885fffc8affc37cd8953313ee1f93332e785791e93af97610af",
+  "native_protocol": {
+    "frames": 81,
+    "height": 480,
+    "width": 832,
+    "fps": 16,
+    "steps": 50,
+    "cfg": 6.0,
+    "shift": 8.0,
+    "sampler": "official_wan_unipc",
+    "prompt_extension": false,
+    "negative_prompt": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+    "wan_source_commit": "9737cba9c1c3c4d04b33fcad41c111989865d315",
+    "solver_sha256": "0dec8c7ed17f6f2049275c6848113314da6ccec1c8db5bdc89df43c05c6038d9",
+    "negative_source_sha256": "a942b6f0a1d1a4ec9a7893c17a6218651ce272953b90d012ce5cdd19d15e45f7"
+  },
+  "feature_cache_enabled": false,
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2",
+    "cuda:3"
+  ],
+  "plans_sha256": {
+    "videophy2": "a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb",
+    "vbench": "db7a2ef529f6c75c976f25ff6002717c85ef7a09cb6f2b18d22bbf9208cec10c"
+  },
+  "subset_sha256": {
+    "videophy2": "70db92344d43fa473e2fd37960c6cb70e9a650241654321078d8d8f42b0a9629",
+    "vbench": "4e279a0700ad697936089d03a79a4685b226d98a2a4e8081cd91f0ba091dd6e8"
+  },
+  "videos_per_model": {
+    "videophy2": 100,
+    "vbench": 500
+  },
+  "prompt_count_per_suite": 100,
+  "videophy2_environment_sha256": "4f915cd72ea28c7ff38d5854683c98f651ad8d1348f72a2e9d294948873a8888",
+  "vbench_environment_path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorers/vbench_environment.json",
+  "source_sha256": {
+    "verify_runs.py": "93f024f61e24e4e444cf43f53bd8f3d3c48d3e122a89e021de01ba088dc2c989",
+    "inference.py": "857e082fa05155aa20b24dcfec07a543fcd8fe5c9fd1134e94ec325bc63ab460",
+    "__init__.py": "a6e90abdd0baadb6f8438ced19ad829803c344b7eeda3904c78c96b7ae2f05e3",
+    "collect_reports.py": "2d2fc93867e3eeb321f2119e0fe69ff296abbcc94dcfa717db1e4abd93651612",
+    "evaluate_c.py": "1fef032b654c8a4e74ad917a083bd91986d64cccb8824ebb53a01ce63fe2e402",
+    "smoke.py": "160e3f8537fbc0213eecd728a9edcd7f41fbab3bc2dc5c1b2603790232653e6f",
+    "aggregate.py": "a8162ff45b117e0aa72d6fabb8c26b26ba0f325cca8b4beba5f042414227de9c",
+    "audit.py": "aa7e0499900d2c54461b3c4eeca6aef04db95a9b5d414369e813efc4cdd145e6",
+    "benchmarks.py": "c286750a17e89b49dab63cb6cb5402acdee3e26458c30e0d6f6f0d8d2e0e4cc5",
+    "run_c.py": "b6bea633a8a6b1a48354ff9bd7b0a84a8336ddde3931c76f10e4ef3e961f4c56",
+    "train.py": "2182581b29ea3910a3a2c64714d755dcb9a2e48e115cc61f18e2cb7ab0a7e460",
+    "online.py": "657ee08f6a824be0bf48a4abf11e66026b817e9e3b38cfbefe1bd89f6f7f78b2",
+    "collect_c.py": "9cc37d0afc0d001594ef7027ba3f7a84836b1e6c2bb0d01325fc31f5a6f1e26c",
+    "manifests.py": "6538fe3c1ab1a9fe8e0734b36b52ff2b59462c78d3c19c7d6003dc3265b13732",
+    "grounding.py": "bf0d85bf660b339d95e592f24c404750a4a1608cf3a076caaae32e914156d51c",
+    "validate.py": "4e796850fe42923ec5e3cd97fd76f38a07b45e28415b8cf47de72c4f2b99cccc",
+    "config.py": "29f66c389903161fa7976bfbc482596e4d144872f5ab58150bb1ca0e0fd31952",
+    "teacher.py": "e0e8bea360219fea7fe72882d5fb1f6740e09326c3d03a4506441eb84075d0f8",
+    "execution.py": "dd090c9a525c86c5af664284c304265a517d9bf4984d1daa3211adb0b40c7976",
+    "score.py": "3fe966b11caf2cd46ca405c2292a36dea7466f3f4e2ea18f5062d08bc241d22c",
+    "scorer_probe.py": "42364aff9a44aa939ae7c29af8cf983cb68b5e75333f45b3d81e0acb703778e3",
+    "subset.py": "95b46e2650313a5a09083e281f7d8bc10239b9ca2de74b64c0ccece52825839c",
+    "review.py": "0bd11aa055db6b5574c4eebe39dcdf13909b8c191bc66bcf1261346117aabe18",
+    "smoke_inference.py": "a68f736aa7beb80d61f1c3b5f1d9e01409d59ecff01b82e65e44a1058ca9e1f7",
+    "scorer_setup.py": "69936ef5f2e37d6e8897a7b4bd7a75b49fe720e15024028bc2973deb1318dfae",
+    "evaluate_subset.py": "5a559592187d0ca2dec7ae8b99c11573f4b632fb8c5105b6ef1c49eeaf9ded31",
+    "video.py": "aeaec198d33fb45d43076f399a6b391087325a6861b32037bcb665b9651630c7",
+    "parallel/__init__.py": "a9e43bbadec32cc93d16d2729233cce2b7cea3e7599576fbb0f3e2be244abaec",
+    "parallel/train.py": "0958e2bc6a6885bca2d62baf427cd2497ad98c8b86eaf56e17d64ca4be320fee",
+    "parallel/grounding.py": "98efab051a0919b2028e81f393e14e47a7b085e252d3bb1b429e4fd727cb16ae",
+    "parallel/probe.py": "48b42c5213efee84694b29160e83988e5dd76fc43d4ff4d2c4312d34697c4303",
+    "paired_eval/__init__.py": "037153cf479bd982efc733298afe7f4e51e8624babcb40fafed83c21f2f92c02",
+    "paired_eval/audit.py": "25c1902b9cffa445d72a807aa32b607a12297fd9129c53a7531c54adeddefb23",
+    "paired_eval/compare.py": "8edb7e57729a469b0e9440babdd710d3f524c9e72d515586193717950bc2645b",
+    "paired_eval/run.py": "002dc9c1f4211e67e973fdda8c343fc6b7e5c0a1302b593b46bf172791d2eacf"
+  }
+}

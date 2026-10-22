@@ -1,0 +1,13 @@
+[Unit]
+Description=Preserve verified VBench environment and preparation logs for paired evaluation audit
+
+[Service]
+Type=simple
+WorkingDirectory=/data/lk/深度学习/video-model-said-exp1
+ExecStart=/usr/bin/bash /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/paired_eval/collect_vbench_evidence.sh \
+ /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorers \
+ /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/paired100_20261022/evidence
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

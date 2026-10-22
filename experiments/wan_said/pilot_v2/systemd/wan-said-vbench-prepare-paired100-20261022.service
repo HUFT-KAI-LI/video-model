@@ -1,0 +1,23 @@
+[Unit]
+Description=Prepare hash-locked VBench GPU scorer environment through HF domestic mirror
+StartLimitIntervalSec=3600
+StartLimitBurst=6
+
+[Service]
+Type=simple
+WorkingDirectory=/data/lk/深度学习/video-model-said-exp1
+Environment=PYTHONUNBUFFERED=1
+Environment=HF_ENDPOINT=https://hf-mirror.com
+Environment=HF_HUB_DOWNLOAD_TIMEOUT=180
+Environment=HF_HUB_ETAG_TIMEOUT=60
+Environment=HF_HUB_DISABLE_XET=1
+ExecStart=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python -u -m experiments.wan_said.pilot_v2.vbench_setup \
+ --output /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorers \
+ --environment /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/vbench
+Restart=on-failure
+RestartSec=180
+KillMode=control-group
+TimeoutStopSec=90
+
+[Install]
+WantedBy=default.target

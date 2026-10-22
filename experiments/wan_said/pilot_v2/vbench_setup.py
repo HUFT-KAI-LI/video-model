@@ -27,8 +27,9 @@ def prepare(output, environment):
     sources = []
     runtime = dict(os.environ, VBENCH_CACHE_DIR=str(cache), HF_HOME=str(hfhome),
                    HF_ENDPOINT='https://hf-mirror.com', HF_HUB_OFFLINE='0', TRANSFORMERS_OFFLINE='0',
-                   MAX_JOBS='4', CUDA_VISIBLE_DEVICES='', FORCE_CUDA='0')
-    # CPU-only extension compilation does not compete with the generation workers.
+                   MAX_JOBS='4', CUDA_VISIBLE_DEVICES='', FORCE_CUDA='1',
+                   CUDA_HOME='/usr/local/cuda', TORCH_CUDA_ARCH_LIST='8.6')
+    # Force compilation of CUDA operators even with GPUs hidden from the builder.
     subprocess.run([sys.executable, '-m', 'venv', '--system-site-packages', str(environment)], check=True)
     python = environment/'bin/python'
     constraints = output/'dependency_constraints.txt'
@@ -67,8 +68,16 @@ def prepare(output, environment):
 
     detectron = output/'detectron2'
     clone('detectron2', 'https://github.com/facebookresearch/detectron2.git', detectron)
+    subprocess.run([str(python), 'setup.py', 'build_ext', '--inplace', '--force'],
+                   cwd=detectron, env=runtime, check=True)
     subprocess.run([str(python), '-m', 'pip', 'install', '--no-cache-dir', '--no-build-isolation',
                     '--no-deps', str(detectron)], env=runtime, check=True)
+    cuda_version = subprocess.check_output([str(python), '-c',
+        'import detectron2._C as C; print(C.get_cuda_version())'], env=runtime, text=True).strip()
+    if 'not available' in cuda_version.lower():
+        raise RuntimeError('Detectron2 CUDA operators are absent; refusing a CPU-only evaluator build')
+    sources.append(dict(name='detectron2 CUDA extension', cuda_version=cuda_version,
+                        cuda_architectures=runtime['TORCH_CUDA_ARCH_LIST']))
     clone('dino', 'https://github.com/facebookresearch/dino.git', cache/'dino_model/facebookresearch_dino_main')
     vocab = cache/'ViCLIP/bpe_simple_vocab_16e6.txt.gz'
     vocab.parent.mkdir(parents=True, exist_ok=True)
@@ -87,6 +96,8 @@ def prepare(output, environment):
         destination.parent.mkdir(parents=True, exist_ok=True)
         print('weight', repo, info.sha, filename, entry.size, flush=True)
         if not (destination.exists() and entry.lfs and sha256(destination) == entry.lfs.sha256):
+            if shutil.disk_usage(output).free-entry.size < 50*1024**3:
+                raise OSError('VBench download would violate the 50 GiB disk reserve')
             source = hf_hub_download(repo, filename, repo_type=repo_type, revision=info.sha,
                                      endpoint=runtime['HF_ENDPOINT'], local_dir=destination.parent)
             if Path(source) != destination:
@@ -103,11 +114,29 @@ def prepare(output, environment):
                               ('ViClip-InternVid-10M-FLT.pth', 'ViCLIP')]:
         hf(used, filename, cache/folder/filename)
     hf('lalala125/AMT', 'amt-s.pth', cache/'amt_model/amt-s.pth')
-    hf('xinyu1205/recognize-anything', 'tag2text_swin_14m.pth',
-       cache/'caption_model/tag2text_swin_14m.pth', 'space')
+    hf('dc-ai/vbench_pretrained_models', 'caption_model/tag2text_swin_14m.pth',
+       cache/'caption_model/tag2text_swin_14m.pth',
+       revision='d6ddad44430e861088ae49409dac073d04dc7e12',
+       expected_sha256='4ce96f0ce98f940a6680d567f66a38ccc9ca8c4e638e5f5c5c2e881a0e3502ac')
+    sources[-1].update(original_publisher_url='https://huggingface.co/spaces/xinyu1205/recognize-anything/'
+                       'resolve/main/tag2text_swin_14m.pth', publisher_checksum_available=False,
+                       mirror_reason='Domestic mirror does not implement the upstream space-info API')
 
     def url_download(url, destination, expected=None):
         destination.parent.mkdir(parents=True, exist_ok=True)
+        mirror_name = str(destination.relative_to(cache))
+        mirror = api.model_info('dc-ai/vbench_pretrained_models',
+                                revision='d6ddad44430e861088ae49409dac073d04dc7e12',
+                                files_metadata=True, timeout=60)
+        entry = next((s for s in mirror.siblings if s.rfilename == mirror_name), None)
+        if entry is not None:
+            if expected and entry.lfs.sha256 != expected:
+                raise ValueError('Mirror differs from the official URL content checksum')
+            hf('dc-ai/vbench_pretrained_models', mirror_name, destination,
+               revision=mirror.sha, expected_sha256=expected or entry.lfs.sha256)
+            sources[-1].update(original_publisher_url=url,
+                               publisher_checksum_available=bool(expected))
+            return
         if not destination.exists():
             temporary = destination.with_suffix(destination.suffix+'.partial')
             for attempt in range(5):
