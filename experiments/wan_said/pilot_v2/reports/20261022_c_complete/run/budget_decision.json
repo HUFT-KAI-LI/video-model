@@ -1,0 +1,15 @@
+{
+  "decision_by": "Codex",
+  "user_approval_invented": false,
+  "grounding_continues_unchanged": true,
+  "c_training_and_498_video_validation_queued": true,
+  "full_benchmark_generation_deferred": true,
+  "reason": "A real full-protocol base video took 489.028 seconds; 5310 serial videos extrapolate to roughly 30 days before scoring. Ask the user to confirm this budget before launching full benchmark generation.",
+  "timing_source": "base_timing/records/fd3c0a2c0af299af01f502d3.json",
+  "seconds_per_video_single_sample": 489.02838064404204,
+  "expected_videophy2_videos": 590,
+  "expected_vbench_videos": 4720,
+  "full_plans_preserved": true,
+  "lower_fidelity_substitution": false,
+  "benchmark_scores_available": false
+}

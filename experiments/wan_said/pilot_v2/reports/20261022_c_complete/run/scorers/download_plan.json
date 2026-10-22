@@ -1,0 +1,50 @@
+{
+  "repo": "videophysics/videophy_2_auto",
+  "revision": "ca38370e1dcc79c99c7017dd8755d0a087299afc",
+  "endpoint": "https://hf-mirror.com",
+  "files": [
+    {
+      "name": "config.json",
+      "bytes": 7036,
+      "lfs_sha256": null
+    },
+    {
+      "name": "generation_config.json",
+      "bytes": 179,
+      "lfs_sha256": null
+    },
+    {
+      "name": "preprocessor_config.json",
+      "bytes": 163,
+      "lfs_sha256": null
+    },
+    {
+      "name": "pytorch_model-00001-of-00002.bin",
+      "bytes": 9995752315,
+      "lfs_sha256": "466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138"
+    },
+    {
+      "name": "pytorch_model-00002-of-00002.bin",
+      "bytes": 4309856976,
+      "lfs_sha256": "e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a"
+    },
+    {
+      "name": "pytorch_model.bin.index.json",
+      "bytes": 92527,
+      "lfs_sha256": null
+    },
+    {
+      "name": "tokenizer.model",
+      "bytes": 499723,
+      "lfs_sha256": "9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 176,
+      "lfs_sha256": null
+    }
+  ],
+  "total_bytes": 14306209095,
+  "max_workers": 2,
+  "feature_cache_bytes": 0
+}

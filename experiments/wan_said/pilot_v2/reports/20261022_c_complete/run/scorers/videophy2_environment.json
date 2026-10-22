@@ -1,0 +1,97 @@
+{
+  "videophy_python": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/bin/python",
+  "videophy_checkpoint": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto",
+  "weights": [
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/config.json",
+      "sha256": "330bba7097a2492dcf8d933868a723f54e4d00e496e4cb0b7c166db9c85a7e68",
+      "bytes": 7036
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/generation_config.json",
+      "sha256": "5378ca80011970050dfbfd071e8768003eabccd2df71e905d5e8a4d2cd24493e",
+      "bytes": 179
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/preprocessor_config.json",
+      "sha256": "226472d7571964d3a8ade3e2d27ad439433907807a9684c9b98535afb7623379",
+      "bytes": 163
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/pytorch_model-00001-of-00002.bin",
+      "sha256": "466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138",
+      "bytes": 9995752315
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/pytorch_model-00002-of-00002.bin",
+      "sha256": "e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a",
+      "bytes": 4309856976
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/pytorch_model.bin.index.json",
+      "sha256": "eb99fb7a3fa8781d39a58af07fc48c6b7018a5c0ed0f21614af6a03bae983b2b",
+      "bytes": 92527
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/tokenizer.model",
+      "sha256": "9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347",
+      "bytes": 499723
+    },
+    {
+      "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto/tokenizer_config.json",
+      "sha256": "e49ac46a164d698474af96c1df5137d39d43f18164e2a6e3f8e61762d3869664",
+      "bytes": 176
+    }
+  ],
+  "checkpoint_source": {
+    "repo": "videophysics/videophy_2_auto",
+    "revision": "ca38370e1dcc79c99c7017dd8755d0a087299afc",
+    "endpoint": "https://hf-mirror.com",
+    "files": [
+      {
+        "name": "config.json",
+        "bytes": 7036,
+        "lfs_sha256": null
+      },
+      {
+        "name": "generation_config.json",
+        "bytes": 179,
+        "lfs_sha256": null
+      },
+      {
+        "name": "preprocessor_config.json",
+        "bytes": 163,
+        "lfs_sha256": null
+      },
+      {
+        "name": "pytorch_model-00001-of-00002.bin",
+        "bytes": 9995752315,
+        "lfs_sha256": "466479884912c43c11d06f85fc9cdca9ad5080cb18297fd11fb3fef753037138"
+      },
+      {
+        "name": "pytorch_model-00002-of-00002.bin",
+        "bytes": 4309856976,
+        "lfs_sha256": "e08ad83c91e5d7978988ab6263c0b294ad04ba2baa564340a3eaede10a11127a"
+      },
+      {
+        "name": "pytorch_model.bin.index.json",
+        "bytes": 92527,
+        "lfs_sha256": null
+      },
+      {
+        "name": "tokenizer.model",
+        "bytes": 499723,
+        "lfs_sha256": "9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347"
+      },
+      {
+        "name": "tokenizer_config.json",
+        "bytes": 176,
+        "lfs_sha256": null
+      }
+    ],
+    "total_bytes": 14306209095,
+    "max_workers": 2,
+    "feature_cache_bytes": 0
+  },
+  "integration_status": "weights verified and imports checked; real video scoring still required"
+}

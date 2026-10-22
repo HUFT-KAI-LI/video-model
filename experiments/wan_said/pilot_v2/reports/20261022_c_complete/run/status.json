@@ -1,0 +1,19 @@
+{
+  "lock_sha256": "4992128f3a22cfc77c6e40dffa14eb2fea45ade06822cb312da052cdf05c0e45",
+  "completed_stages": [
+    "grounding",
+    "parallel_preflight",
+    "train_c",
+    "validation",
+    "benchmark_plan"
+  ],
+  "complete": true,
+  "official_scorers_executed": false,
+  "publication_eligible": false,
+  "feature_cache_bytes": 0,
+  "test_used": false,
+  "stage": "complete",
+  "updated_at_utc": "2026-10-22T00:21:11.405675+00:00",
+  "training_complete": true,
+  "validation_complete": true
+}
