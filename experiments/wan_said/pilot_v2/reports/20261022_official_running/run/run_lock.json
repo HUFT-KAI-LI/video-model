@@ -1,0 +1,38 @@
+{
+  "checkpoint_sha256": "cadf8a40f5c51885fffc8affc37cd8953313ee1f93332e785791e93af97610af",
+  "plans_sha256": {
+    "videophy2": "a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb",
+    "vbench": "db7a2ef529f6c75c976f25ff6002717c85ef7a09cb6f2b18d22bbf9208cec10c"
+  },
+  "protocol": {
+    "frames": 81,
+    "height": 480,
+    "width": 832,
+    "fps": 16,
+    "steps": 50,
+    "cfg": 6.0,
+    "shift": 8.0,
+    "sampler": "official_wan_unipc",
+    "prompt_extension": false,
+    "negative_prompt": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+    "wan_source_commit": "9737cba9c1c3c4d04b33fcad41c111989865d315",
+    "solver_sha256": "0dec8c7ed17f6f2049275c6848113314da6ccec1c8db5bdc89df43c05c6038d9",
+    "negative_source_sha256": "a942b6f0a1d1a4ec9a7893c17a6218651ce272953b90d012ce5cdd19d15e45f7"
+  },
+  "group": "C",
+  "exploratory": true,
+  "publication_eligible": false,
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2",
+    "cuda:3"
+  ],
+  "feature_cache_enabled": false,
+  "source_sha256": {
+    "evaluate_c.py": "c2febbe2624d47eff56875c950548799b064aca9718d0194b4b0818365175492",
+    "inference.py": "d5091231bfb633f7adf33217629e7b137264f2d4efe976ff14d664e2a26083a1",
+    "score.py": "546d1c97f8eef210535bbc74427e94254d7d516e67ce4ba1894be01447e673e6",
+    "aggregate.py": "783715d06e717ef5d1865199ba0cc64986a794b5df2f0ee46f0e200f7cfd2160"
+  }
+}

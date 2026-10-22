@@ -1,0 +1,25 @@
+[Unit]
+Description=Wan SAID C full VideoPhy-2 and VBench evaluation
+
+[Service]
+Type=simple
+WorkingDirectory=/data/lk/深度学习/video-model-said-exp1
+Environment=PYTHONUNBUFFERED=1
+Environment=OMP_NUM_THREADS=6
+Environment=TOKENIZERS_PARALLELISM=false
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+ExecStart=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python -u -m experiments.wan_said.pilot_v2.evaluate_c \
+ --checkpoint /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/C/checkpoint.pt \
+ --plans /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/plans \
+ --output /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022 \
+ --videophy2-environment /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorers/videophy2_environment.json \
+ --vbench-environment /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorers/vbench_environment.json
+StandardOutput=append:/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/queue.log
+StandardError=inherit
+KillMode=control-group
+TimeoutStopSec=90
+
+[Install]
+WantedBy=default.target

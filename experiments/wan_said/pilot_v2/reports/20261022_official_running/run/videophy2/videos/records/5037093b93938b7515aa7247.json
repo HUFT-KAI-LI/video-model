@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "5037093b93938b7515aa7247",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0009",
+    "seed": 20261021,
+    "prompt": "Two hula hoops are stacked and spun simultaneously around a person's waist, one inside the other.",
+    "original_prompt": "Two hula hoops are stacked and spun simultaneously around a person's waist, one inside the other.",
+    "relative_path": "videophy2/0009.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "fd3518081008e98f345909fd9ed7c953e519deda55eb6b6927df109eb9cc9336",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0009.mp4",
+  "seconds": 507.3648342200322,
+  "pixel_std": 68.68945848205786,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.926467895507812,
+  "formal_efficacy_evidence": false
+}

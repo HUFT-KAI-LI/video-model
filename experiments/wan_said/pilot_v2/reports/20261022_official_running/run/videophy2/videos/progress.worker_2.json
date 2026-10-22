@@ -1,0 +1,12 @@
+{
+  "expected": 590,
+  "requested_this_run": 147,
+  "completed_this_run": 3,
+  "failures": [],
+  "smoke": false,
+  "complete": false,
+  "denominator": 590,
+  "worker_index": 2,
+  "worker_count": 4,
+  "worker_complete": false
+}

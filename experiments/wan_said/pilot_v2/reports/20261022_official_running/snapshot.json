@@ -1,0 +1,159 @@
+{
+  "recorded_at_utc": "2026-10-22T02:50:52.402979+00:00",
+  "branch": "codex/wan-said-c-eval",
+  "parent_commit": "3aa394042ceb006c1ed4d6a4b667e5715f2f1c4e",
+  "copied": [
+    "run_lock.json",
+    "status.json",
+    "scorer_probe_driver.log",
+    "queue.log",
+    "vbench_setup.log",
+    "scorers/videophy2_environment.json",
+    "videophy2/videos/generation_lock.json",
+    "videophy2/videos/progress.worker_2.json",
+    "videophy2/videos/progress.worker_0.json",
+    "videophy2/videos/progress.worker_1.json",
+    "videophy2/videos/progress.worker_3.json",
+    "videophy2/videos/worker_1.log",
+    "videophy2/videos/worker_2.log",
+    "videophy2/videos/worker_3.log",
+    "videophy2/videos/worker_0.log",
+    "videophy2/videos/records/aa1a7d503bec25ee707ad376.json",
+    "videophy2/videos/records/a0d9a12cd7173109e20641b3.json",
+    "videophy2/videos/records/2844d7cf8a814a5c151887dc.json",
+    "videophy2/videos/records/14590b812a9705077f7f81d1.json",
+    "videophy2/videos/records/e8c6cdda074afa662a6a088f.json",
+    "videophy2/videos/records/5037093b93938b7515aa7247.json",
+    "videophy2/videos/records/d80ab82c5eef8d43c9f2fc3f.json",
+    "videophy2/videos/records/1124cfabf6326152907b2ccf.json",
+    "videophy2/videos/records/134f158f5be5b2e4c55f45b3.json",
+    "videophy2/videos/records/505ef60277a6980655891cef.json",
+    "videophy2/videos/records/4cf907b680a846a5e8a0802f.json",
+    "videophy2/videos/records/038aba8bd06a2a7fb2dfa2ec.json",
+    "videophy2/videos/records/fd3c0a2c0af299af01f502d3.json",
+    "scorers/dependency_constraints.txt",
+    "scorer_probe/probe_status.json",
+    "scorer_probe_failed_4310/probe_status.json",
+    "scorer_probe/videophy2_sa.csv",
+    "scorer_probe/videophy2_pc.csv",
+    "scorer_probe/videophy2_inputs.csv",
+    "scorer_probe_failed_4310/videophy2_inputs.csv",
+    "scorer_probe/videophy2_pc.log",
+    "scorer_probe/videophy2_sa.log",
+    "scorer_probe_failed_4310/videophy2_sa.log",
+    "scorers/videophy2_pip_freeze.txt",
+    "scorers/detectron2_source.json",
+    "scorers/dino_source.json"
+  ],
+  "tests": [
+    {
+      "name": "shared",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "download",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/protocol_v2/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "pilot",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/tests",
+        "-v"
+      ]
+    }
+  ],
+  "services": {
+    "wan-said-c-grounding-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-pipeline-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-grounding-4gpu-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-4gpu-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-videophy2-weights-direct-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-official-20261022": [
+      "MainPID=2877788",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Thu 2026-10-22 10:24:18 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "wan-said-vbench-setup-20261022": [
+      "MainPID=2883757",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Thu 2026-10-22 10:47:30 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ]
+  },
+  "official_scores_available": false,
+  "checkpoint_or_raw_video_uploaded": false,
+  "feature_cache_bytes": 0,
+  "note": "Point-in-time progress snapshot, not a completion claim; synthetic scoring tests are not real model scores"
+}

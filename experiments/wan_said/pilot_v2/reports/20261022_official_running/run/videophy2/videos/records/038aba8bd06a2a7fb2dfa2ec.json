@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "038aba8bd06a2a7fb2dfa2ec",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0011",
+    "seed": 20261021,
+    "prompt": "A hand holds a bottle of beer upright, pouring it into a mug until it's full.",
+    "original_prompt": "A hand holds a bottle of beer upright, pouring it into a mug until it's full.",
+    "relative_path": "videophy2/0011.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f60da55ec9236281e4ce6f0052bfe7e1b4c879a87b8482999566d6791e3759a1",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0011.mp4",
+  "seconds": 525.3910535699688,
+  "pixel_std": 78.27151213829548,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.808244705200195,
+  "formal_efficacy_evidence": false
+}

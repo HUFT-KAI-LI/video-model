@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "2844d7cf8a814a5c151887dc",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0004",
+    "seed": 20261021,
+    "prompt": "An ice hockey player checks another player, causing the second player to fall to the ice.",
+    "original_prompt": "An ice hockey player checks another player, causing the second player to fall to the ice.",
+    "relative_path": "videophy2/0004.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "e259ef6e13bde4209bda5b887a54eca64233faf4341e6bee69de2cd28f1afe1a",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0004.mp4",
+  "seconds": 514.3835197580047,
+  "pixel_std": 86.5295225301475,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 24.493562698364258,
+  "formal_efficacy_evidence": false
+}

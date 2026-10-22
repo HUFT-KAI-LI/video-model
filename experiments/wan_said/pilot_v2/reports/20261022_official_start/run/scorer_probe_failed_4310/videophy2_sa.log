@@ -1,0 +1,39 @@
+install flash-attn first.
+You are using the legacy behaviour of the <class 'transformers.models.llama.tokenization_llama.LlamaTokenizer'>. This means that tokens that come after special tokens will not be properly handled. We recommend you to read the related pull request available at https://github.com/huggingface/transformers/pull/24565
+Traceback (most recent call last):
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py", line 142, in <module>
+    main()
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py", line 109, in main
+    model = MplugOwlForConditionalGeneration.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/lib/python3.11/site-packages/transformers/modeling_utils.py", line 2325, in from_pretrained
+    config, model_kwargs = cls.config_class.from_pretrained(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/lib/python3.11/site-packages/transformers/configuration_utils.py", line 597, in from_pretrained
+    return cls.from_dict(config_dict, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/lib/python3.11/site-packages/transformers/configuration_utils.py", line 768, in from_dict
+    logger.info(f"Model config {config}")
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/lib/python3.11/site-packages/transformers/configuration_utils.py", line 800, in __repr__
+    return f"{self.__class__.__name__} {self.to_json_string()}"
+                                        ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/lib/python3.11/site-packages/transformers/configuration_utils.py", line 886, in to_json_string
+    return json.dumps(config_dict, indent=2, sort_keys=True) + "\n"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/data/lk/深度学习/.envs/video-model/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type method is not JSON serializable

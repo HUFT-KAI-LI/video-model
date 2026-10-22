@@ -26,7 +26,16 @@ def collect(run, output):
                     'scorers/*environment.json', 'scorers/download.log', 'base_timing/generation_lock.json',
                     'base_timing/progress.json', 'base_timing/records/*.json',
                     'ddp_smoke/report.json', 'ddp_smoke/steps.jsonl', 'ddp_smoke/gradient_audit.json',
-                    'ddp_smoke_uninterrupted/report.json', 'parallel_execution.json'):
+                    'ddp_smoke_uninterrupted/report.json', 'parallel_execution.json',
+                    'videophy2/videos/generation_lock.json', 'videophy2/videos/progress*.json',
+                    'videophy2/videos/worker_*.log', 'videophy2/videos/records/*.json',
+                    'vbench/videos/generation_lock.json', 'vbench/videos/progress*.json',
+                    'vbench/videos/worker_*.log', 'vbench/videos/records/*.json',
+                    '*/score_driver.log', '*/scores/summary.*', '*/scores/score_status.json',
+                    '*/scores/videophy2_*.csv', '*/scores/*.log', '*/scores/vbench/*_eval_results.json',
+                    'scorers/vbench_pip_freeze.txt', 'scorers/dependency_constraints.txt',
+                    'scorer_probe*/*.json', 'scorer_probe*/*.csv', 'scorer_probe*/*.log',
+                    'scorers/videophy2_pip_freeze.txt', 'scorers/*_source.json'):
         for source in run.glob(pattern):
             if source.stat().st_size > 20*2**20:
                 raise ValueError(f'Large evidence file needs explicit handling: {source}')
@@ -45,7 +54,8 @@ def collect(run, output):
     services = {}
     for name in ('wan-said-c-grounding-20261021', 'wan-said-c-pipeline-20261021', 'wan-said-c-trainval-20261021',
                  'wan-said-c-grounding-4gpu-20261021', 'wan-said-c-trainval-4gpu-20261021',
-                 'wan-said-videophy2-weights-direct-20261021'):
+                 'wan-said-videophy2-weights-direct-20261021', 'wan-said-c-official-20261022',
+                 'wan-said-vbench-setup-20261022'):
         process = subprocess.run(['systemctl', '--user', 'show', name, '--property=ActiveState',
                                   '--property=SubState', '--property=MainPID', '--property=Result',
                                   '--property=ExecMainStartTimestamp', '--property=NRestarts'],
@@ -57,7 +67,9 @@ def collect(run, output):
                branch=subprocess.check_output(['git', 'branch', '--show-current'], text=True).strip(),
                parent_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
                copied=copied, tests=tests, services=services,
-               official_scores_available=(run/'scores/videophy2/summary.csv').exists() or (run/'scores/vbench/summary.csv').exists(),
+               official_scores_available=any((run/p).exists() for p in
+                   ('scores/videophy2/summary.csv', 'scores/vbench/summary.csv',
+                    'videophy2/scores/summary.csv', 'vbench/scores/summary.csv')),
                checkpoint_or_raw_video_uploaded=False, feature_cache_bytes=0,
                note='Point-in-time progress snapshot, not a completion claim; synthetic scoring tests are not real model scores'))
     write_json(output/'artifact_sha256.json', {str(p.relative_to(output)): sha256(p)

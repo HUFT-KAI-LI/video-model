@@ -1,0 +1,26 @@
+{
+  "complete": false,
+  "stage": "videophy2_generation",
+  "pid": 2877788,
+  "suites": {
+    "videophy2": {
+      "expected_videos": 590,
+      "completed_videos": 12,
+      "generation_complete": false,
+      "scoring_complete": false,
+      "worker_pids": [
+        2877835,
+        2877836,
+        2877837,
+        2877838
+      ]
+    },
+    "vbench": {
+      "expected_videos": 4720,
+      "completed_videos": 0,
+      "generation_complete": false,
+      "scoring_complete": false
+    }
+  },
+  "updated_unix": 1792637406.6357167
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "4cf907b680a846a5e8a0802f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0005",
+    "seed": 20261021,
+    "prompt": "A robotic arm uses a shovel to clear snow from a large parking lot.",
+    "original_prompt": "A robotic arm uses a shovel to clear snow from a large parking lot.",
+    "relative_path": "videophy2/0005.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ca5d6f4134bfc87d9ec702995be5fb2c67a0636ed2a479c06fa841a024055c71",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0005.mp4",
+  "seconds": 507.12835901009385,
+  "pixel_std": 72.65802655399473,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.255029678344727,
+  "formal_efficacy_evidence": false
+}

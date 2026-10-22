@@ -1,5 +1,6 @@
 """Download the public official VideoPhy-2 evaluator via HF mirror, with a weight lock."""
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -11,6 +12,28 @@ from ..io_utils import sha256, write_json
 
 VIDEOPHY_REPO = 'videophysics/videophy_2_auto'
 VIDEOPHY_REVISION = 'ca38370e1dcc79c99c7017dd8755d0a087299afc'
+
+
+def verify_existing(source, output, interpreter):
+    env = json.loads(Path(source).read_text())
+    for item in env['weights']:
+        if sha256(item['path']) != item['sha256']:
+            raise ValueError('Existing official evaluator weight checksum mismatch')
+    output = Path(output).resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    cwd = Path(__file__).resolve().parents[1]/'vendor/VideoREPA/evaluation/VIDEOPHY2'
+    command = ('import transformers; from mplug_owl_video.configuration_mplug_owl import MplugOwlConfig; '
+               'assert transformers.__version__ == "4.28.1", "Use the checkpoint training Transformers version"; '
+               'MplugOwlConfig.from_pretrained('+repr(env['videophy_checkpoint'])+').to_json_string()')
+    subprocess.run([str(interpreter), '-c', command], cwd=cwd, check=True)
+    freeze = output/'videophy2_pip_freeze.txt'
+    freeze.write_text(subprocess.check_output([str(interpreter), '-m', 'pip', 'freeze'], text=True))
+    env.update(videophy_python=str(Path(interpreter).absolute()),
+               dependency_note='Checkpoint nested configs specify transformers 4.28.1; 4.31 copies a bound method into config and fails JSON serialization',
+               transformers_version='4.28.1', source_environment_sha256=sha256(source),
+               integration_status='weights and config serialization verified; see separate real-video scorer_probe/probe_status.json')
+    env['weights'].append(dict(path=str(freeze), sha256=sha256(freeze), bytes=freeze.stat().st_size))
+    write_json(output/'videophy2_environment.json', env)
 
 
 def download(output, interpreter):
@@ -51,5 +74,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', required=True)
     parser.add_argument('--interpreter', required=True)
+    parser.add_argument('--verify-existing', help='Verify an existing weight lock and freeze the compatible scorer environment')
     args = parser.parse_args()
-    download(args.output, args.interpreter)
+    if args.verify_existing:
+        verify_existing(args.verify_existing, args.output, args.interpreter)
+    else:
+        download(args.output, args.interpreter)

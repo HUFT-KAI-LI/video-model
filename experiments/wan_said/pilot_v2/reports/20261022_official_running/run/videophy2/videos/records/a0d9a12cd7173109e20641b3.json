@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "a0d9a12cd7173109e20641b3",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0007",
+    "seed": 20261021,
+    "prompt": "An outside hitter hits a line shot, the ball bouncing sharply off the side line.",
+    "original_prompt": "An outside hitter hits a line shot, the ball bouncing sharply off the side line.",
+    "relative_path": "videophy2/0007.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "53f07d07d6920871c191da1d1252b9ed924ff90f22940418fd5a6316968181ed",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0007.mp4",
+  "seconds": 524.2802873050096,
+  "pixel_std": 62.67340316221745,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.1583890914917,
+  "formal_efficacy_evidence": false
+}

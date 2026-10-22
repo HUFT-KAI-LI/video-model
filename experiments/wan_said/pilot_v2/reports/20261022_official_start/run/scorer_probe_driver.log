@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_probe.py", line 63, in <module>
+    probe(args.record, args.environment, args.output)
+  File "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/scorer_probe.py", line 45, in probe
+    raise RuntimeError('Real official scorer integration probe failed; inspect its log')
+RuntimeError: Real official scorer integration probe failed; inspect its log
+Failed to start wan-said-c-official-20261022.service: Unit wan-said-c-official-20261022.service not found.

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "e8c6cdda074afa662a6a088f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0012",
+    "seed": 20261021,
+    "prompt": "Two people tie each other's neckties, showing the hands interacting with the fabric.",
+    "original_prompt": "Two people tie each other's neckties, showing the hands interacting with the fabric.",
+    "relative_path": "videophy2/0012.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "a433ee4322e8dd0a1afa46fe8b74f92f26a74c4db76248b00bf27680bcf59b82",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0012.mp4",
+  "seconds": 515.223754671053,
+  "pixel_std": 73.39193451327972,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 12.584442138671875,
+  "formal_efficacy_evidence": false
+}

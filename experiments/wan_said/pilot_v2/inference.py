@@ -1,9 +1,11 @@
 """Native Wan inference plus a pinned official Wan UniPC solver; no auxiliary teacher."""
 import argparse
 import ast
+import fcntl
 import importlib.util
 import json
 import subprocess
+import shutil
 import time
 from pathlib import Path
 
@@ -68,9 +70,28 @@ def verify_video(path, protocol):
             raise ValueError('Generated frame count differs from the protocol')
 
 
+def worker_jobs(jobs, index, count):
+    if count < 1 or not 0 <= index < count:
+        raise ValueError('Invalid generation worker index/count')
+    return jobs[index::count]
+
+
+def lock_generation(output, contract):
+    # Four independent generators share a contract, but never a temporary JSON file.
+    with (output/'generation.lock').open('a') as stream:
+        fcntl.flock(stream, fcntl.LOCK_EX)
+        path = output/'generation_lock.json'
+        if path.exists():
+            if json.loads(path.read_text()) != contract:
+                raise ValueError('Generation directory belongs to another model/seed/protocol/plan')
+        else:
+            write_json(path, contract)
+
+
 @torch.no_grad()
 def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, smoke=False,
-             smoke_frames=17, smoke_steps=4, exploratory=False):
+             smoke_frames=17, smoke_steps=4, exploratory=False, worker_index=0, worker_count=1,
+             minimum_free_gib=50):
     if group not in ('base', 'A', 'B', 'C') or (group == 'base') != (checkpoint is None):
         raise ValueError('Base uses no adapter; A/B/C require their corresponding checkpoint')
     if limit is not None and not smoke:
@@ -81,6 +102,7 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
     validate_job_paths(jobs)
     if not smoke:
         validate_official_plan(jobs)
+    selected = worker_jobs(jobs[:limit] if limit is not None else jobs, worker_index, worker_count)
     protocol = native_generation_protocol()
     if smoke:
         if smoke_frames < 5 or (smoke_frames-1) % 4 or smoke_steps < 2:
@@ -109,9 +131,7 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
     if exploratory:
         contract.update(exploratory=True, publication_eligible=False,
                         training_review_status=checkpoint_state['contract']['review_status'] if checkpoint_state else None)
-    if (output/'generation_lock.json').exists() and json.loads((output/'generation_lock.json').read_text()) != contract:
-        raise ValueError('Generation directory belongs to another model/seed/protocol/plan')
-    write_json(output/'generation_lock.json', contract)
+    lock_generation(output, contract)
     device = cfg['devices']['student']
     text_device = cfg['devices']['text']
     text, tokenizer = load_text(cfg, text_device)
@@ -128,13 +148,15 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
         return (hidden*valid.to(text_device)[..., None]).to(device)
 
     negative = context(protocol['negative_prompt'])
-    selected = jobs[:limit] if limit is not None else jobs
     completed, failures = [], []
 
     def progress():
-        write_json(output/'progress.json', dict(expected=len(jobs), requested_this_run=len(selected),
+        name = 'progress.json' if worker_count == 1 else f'progress.worker_{worker_index}.json'
+        write_json(output/name, dict(expected=len(jobs), requested_this_run=len(selected),
                    completed_this_run=len(completed), failures=failures, smoke=smoke,
-                   complete=(len(completed) == len(jobs) and not failures), denominator=len(jobs)))
+                   complete=(len(completed) == len(jobs) and not failures), denominator=len(jobs),
+                   worker_index=worker_index, worker_count=worker_count,
+                   worker_complete=(len(completed) == len(selected) and not failures)))
 
     for job in selected:
         path = output/job['relative_path']
@@ -151,6 +173,8 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
             continue
         start = time.monotonic()
         try:
+            if shutil.disk_usage(output).free < minimum_free_gib*1024**3:
+                raise OSError(f'Generation stopped to retain {minimum_free_gib} GiB free disk')
             generator = torch.Generator(device=device).manual_seed(job['seed'])
             shape = (1, 16, (protocol['frames']-1)//4+1, protocol['height']//8, protocol['width']//8)
             latent = torch.randn(shape, generator=generator, device=device, dtype=torch.float32)
@@ -178,8 +202,11 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
             print(group, job['job_id'], saved['seconds'], flush=True)
         except Exception as error:
             failures.append(dict(job_id=job['job_id'], error=repr(error)))
+            print(group, job['job_id'], repr(error), flush=True)
             if path.exists():
                 path.rename(path.with_suffix(f'.failed.{time.time_ns()}.mp4'))
+            progress()
+            raise RuntimeError('Generation failed; resume only after fixing the recorded error') from error
         progress()
     if failures:
         raise RuntimeError(f'{len(failures)} generations failed; expected denominator is unchanged')
@@ -198,6 +225,14 @@ if __name__ == '__main__':
     parser.add_argument('--smoke-frames', type=int, default=17)
     parser.add_argument('--smoke-steps', type=int, default=4)
     parser.add_argument('--exploratory', action='store_true')
+    parser.add_argument('--worker-index', type=int, default=0)
+    parser.add_argument('--worker-count', type=int, default=1)
+    parser.add_argument('--device', help='Place this independent generator on one CUDA device')
+    parser.add_argument('--minimum-free-gib', type=float, default=50)
     args = parser.parse_args()
-    generate(load_config(args.config), args.jobs, args.output, args.group, args.checkpoint,
-             args.limit, args.smoke, args.smoke_frames, args.smoke_steps, args.exploratory)
+    cfg = load_config(args.config)
+    if args.device:
+        cfg['devices'] = dict.fromkeys(cfg['devices'], args.device)
+    generate(cfg, args.jobs, args.output, args.group, args.checkpoint,
+             args.limit, args.smoke, args.smoke_frames, args.smoke_steps, args.exploratory,
+             args.worker_index, args.worker_count, args.minimum_free_gib)

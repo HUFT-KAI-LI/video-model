@@ -1,0 +1,52 @@
+{
+  "integration_probe_only": true,
+  "formal_benchmark_complete": false,
+  "benchmark_denominator": 590,
+  "probe_videos": 1,
+  "scores_are_benchmark_results": false,
+  "video_sha256": "df2c2a2a8ac6c4706348b6233550a93c1fe696a74327dce47544f279bc33d983",
+  "checkpoint_environment_sha256": "f01e987b21a999e8770d018133d2688a4c9d8b352f36f91649e165bcf060366d",
+  "tasks": [
+    {
+      "name": "videophy2_sa",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/bin/python",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorer_probe/videophy2_inputs.csv",
+        "--checkpoint",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorer_probe/videophy2_sa.csv",
+        "--task",
+        "sa"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "videophy2_pc",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/scorer_envs/videophy2/bin/python",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorer_probe/videophy2_inputs.csv",
+        "--checkpoint",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_validation_20261021/scorers/videophy2_auto",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/scorer_probe/videophy2_pc.csv",
+        "--task",
+        "pc"
+      ],
+      "returncode": 0
+    }
+  ],
+  "integration_succeeded": true
+}

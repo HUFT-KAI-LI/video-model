@@ -1,0 +1,7 @@
+{
+  "name": "detectron2",
+  "url": "https://github.com/facebookresearch/detectron2.git",
+  "revision": "b0fe2f0a5bb6496f65246ef35687a386a9f19202",
+  "archive_url": "https://codeload.github.com/facebookresearch/detectron2/zip/b0fe2f0a5bb6496f65246ef35687a386a9f19202",
+  "archive_sha256": "28e4a8040cb85b56063bed32d1d502d0c221f98804a622bf639ca987b533dba4"
+}
