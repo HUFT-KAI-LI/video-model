@@ -1,0 +1,21 @@
+[Unit]
+Description=Matched Wan FM-only A training and three-arm 100-prompt evaluation
+
+[Service]
+Type=simple
+WorkingDirectory=/data/lk/深度学习/video-model-said-exp1
+Environment=PYTHONUNBUFFERED=1
+Environment=OMP_NUM_THREADS=6
+Environment=TOKENIZERS_PARALLELISM=false
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+ExecStart=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python -u -m experiments.wan_fm_control.run --output /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022 --publish
+ExecStopPost=/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python -u -m experiments.wan_fm_control.run --output /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022 --recover-only
+KillMode=control-group
+TimeoutStopSec=90
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=default.target
