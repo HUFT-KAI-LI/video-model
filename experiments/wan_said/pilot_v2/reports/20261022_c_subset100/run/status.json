@@ -1,0 +1,28 @@
+{
+  "complete": false,
+  "subset_complete": false,
+  "stage": "videophy2_generation",
+  "pid": 2893002,
+  "evaluation_scope": "subset_pilot",
+  "denominator": 100,
+  "full_benchmark_denominator": 590,
+  "formal_benchmark_complete": false,
+  "publication_eligible": false,
+  "vbench_queued": false,
+  "selection_seed": 20261022,
+  "suites": {
+    "videophy2": {
+      "expected_videos": 100,
+      "completed_videos": 4,
+      "generation_complete": false,
+      "scoring_complete": false,
+      "worker_pids": [
+        2893162,
+        2893163,
+        2893164,
+        2893165
+      ]
+    }
+  },
+  "updated_unix": 1792638639.3745127
+}

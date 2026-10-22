@@ -39,6 +39,9 @@ def generate_suite(args, suite, state, persist):
     plan = Path(args.plans)/f'{suite}.jsonl'
     jobs = read_jsonl(plan)
     validate_official_plan(jobs)
+    if getattr(args, 'subset_lock', None):
+        from .subset import select
+        jobs = select(jobs, plan, args.subset_lock)
     videos = Path(args.output)/suite/'videos'
     videos.mkdir(parents=True, exist_ok=True)
     state['stage'] = f'{suite}_generation'
@@ -54,6 +57,8 @@ def generate_suite(args, suite, state, persist):
                         '--device', device, '--minimum-free-gib', str(args.minimum_free_gib)]
                 if args.config:
                     argv.extend(['--config', args.config])
+                if getattr(args, 'subset_lock', None):
+                    argv.extend(['--subset-lock', str(args.subset_lock)])
                 processes.append(subprocess.Popen(argv, cwd=REPO, stdout=log, stderr=subprocess.STDOUT))
             stage['worker_pids'] = [p.pid for p in processes]
             while True:
@@ -99,13 +104,16 @@ def score_suite(args, suite, state, persist):
     argv = [sys.executable, '-u', '-m', MODULE+'.score', '--suite', suite,
             '--jobs', str(Path(args.plans)/f'{suite}.jsonl'), '--videos', str(root/'videos'),
             '--output', str(root/'scores'), '--environments', str(environment)]
+    if getattr(args, 'subset_lock', None):
+        argv.extend(['--subset-lock', str(args.subset_lock)])
     previous = root/'scores/score_status.json'
-    if previous.exists() and json.loads(previous.read_text()).get('main_table_ready'):
+    ready_key = 'subset_table_ready' if getattr(args, 'subset_lock', None) else 'main_table_ready'
+    if previous.exists() and json.loads(previous.read_text()).get(ready_key):
         argv.append('--aggregate-only')
     with (root/'score_driver.log').open('a') as log:
         subprocess.run(argv, cwd=REPO, stdout=log, stderr=subprocess.STDOUT, check=True)
     result = json.loads((root/'scores/score_status.json').read_text())
-    if not result['main_table_ready']:
+    if not result.get(ready_key):
         raise RuntimeError('Official scorer did not produce a complete comparable summary')
     state['suites'][suite].update(scoring_complete=True, scores=result['scores'])
     persist()

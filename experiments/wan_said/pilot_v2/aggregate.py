@@ -176,6 +176,9 @@ def save_summary(report, output, model):
         table.unlink(missing_ok=True)
         raise ValueError('Incomplete/invalid official scores; summary.json preserves the full audit, total withheld')
     row = dict(model=model, suite=report['suite'], denominator=report['denominator'],
+               evaluation_scope=report.get('evaluation_scope', 'full_benchmark'),
+               full_benchmark_denominator=report.get('full_benchmark_denominator', report['denominator']),
+               formal_benchmark_complete=report.get('formal_benchmark_complete', report['complete']),
                checkpoint_sha256=report.get('generation', {}).get('checkpoint_sha256'),
                jobs_sha256=report.get('jobs_sha256'), exploratory=report.get('exploratory'),
                publication_eligible=report.get('publication_eligible'), **report['scores'])

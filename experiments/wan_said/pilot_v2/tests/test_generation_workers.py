@@ -16,7 +16,7 @@ def acquire(root):
 
 class GenerationWorkerTests(unittest.TestCase):
     def test_full_590_and_4720_have_disjoint_complete_four_way_coverage(self):
-        for count in (590, 4720):
+        for count in (100, 590, 4720):
             jobs = list(range(count))
             parts = [worker_jobs(jobs, rank, 4) for rank in range(4)]
             self.assertEqual(sorted(sum(parts, [])), jobs)

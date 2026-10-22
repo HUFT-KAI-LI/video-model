@@ -1,5 +1,49 @@
 # C Official Benchmark Queue
 
+## Active Request: 100-Video Pilot
+
+On 2026-10-22 the user reduced the run to 100 groups. The full-generation service
+and VBench weight-preparation service were stopped. Do not restart either of them
+for this pilot. Their earlier snapshots below remain historical evidence.
+
+The active service is `wan-said-c-subset100-20261022.service`, defined in
+`systemd/`. Its output is `runs/pilot_v2/c_subset100_20261022/`.
+This is C only: exactly 100 prompts and 100 videos from VideoPhy-2, no VBench.
+The 100 prompts are sampled without replacement using seed 20261022 from the
+original 590-job plan, sorted into original plan order. The frozen
+`subset_lock.json` includes every selected job ID and the full plan checksum.
+Neither existing videos nor scores affect selection. Matching already-generated
+C videos are checksum/geometry verified and hardlinked, with reuse provenance.
+
+Four independent GPU workers use the unchanged full generation protocol below,
+not smoke settings. Their combined expected coverage is 100; all 100 must pass
+identity, checksum and geometry checks before official AutoEval SA/PC scoring.
+The summaries report SA mean, PC mean, SA@4, PC@4 and Joint@4 with denominator 100.
+Missing, duplicate or invalid scores block publication of the subset table.
+The table and JSON explicitly retain `evaluation_scope=subset_pilot`,
+`full_benchmark_denominator=590`, `formal_benchmark_complete=false`,
+`main_table_ready=false` and `publication_eligible=false`.
+`subset_table_ready=true` means only this 100-video pilot completed.
+It is not a complete VideoPhy-2 or VBench benchmark result.
+
+At the measured approximately 515 seconds/video on each of four RTX 3090s,
+generation is approximately 3.6 hours before reuse, followed by scoring.
+Budget roughly 3-4 hours under similar load, not a guaranteed finish time.
+The completed training and sealed 500-video dataset test split are unchanged.
+
+```bash
+systemctl --user status wan-said-c-subset100-20261022.service
+# Resume only the requested pilot, not the historical full queue:
+systemctl --user start wan-said-c-subset100-20261022.service
+```
+
+Live status is `runs/pilot_v2/c_subset100_20261022/status.json`.
+Final pilot scores appear in that run's `videophy2/scores/summary.json` and CSV
+only after complete, valid scoring. Code, selection, worker logs and test output
+are snapshotted in `reports/20261022_c_subset100/`; MP4s and weights remain local.
+
+## Historical Full Queue
+
 The completed training/validation queue did not execute the requested benchmarks.
 This separate queue corrects that omission. Training diagnostics are not benchmark
 scores, and a successful one-video evaluator probe is not a 590-video result.
@@ -24,13 +68,13 @@ contract creation; worker progress and video records have disjoint names.
 
 ## Execution And Recovery
 
-The installed user service is `wan-said-c-official-20261022.service`; its complete
+The stopped historical user service is `wan-said-c-official-20261022.service`; its complete
 machine-specific definition is versioned in `systemd/`. It survives closing this
-chat, but is not configured to start after reboot. Inspect or restart it with:
+chat, but is not configured to start after reboot. Do not restart it for the
+current 100-video request. Inspect its historical state with:
 
 ```bash
 systemctl --user status wan-said-c-official-20261022.service
-systemctl --user start wan-said-c-official-20261022.service
 ```
 
 The queue generates all VideoPhy-2 videos, verifies each record, checksum and

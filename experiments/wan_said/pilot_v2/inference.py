@@ -91,7 +91,7 @@ def lock_generation(output, contract):
 @torch.no_grad()
 def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, smoke=False,
              smoke_frames=17, smoke_steps=4, exploratory=False, worker_index=0, worker_count=1,
-             minimum_free_gib=50):
+             minimum_free_gib=50, subset_lock=None):
     if group not in ('base', 'A', 'B', 'C') or (group == 'base') != (checkpoint is None):
         raise ValueError('Base uses no adapter; A/B/C require their corresponding checkpoint')
     if limit is not None and not smoke:
@@ -102,6 +102,11 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
     validate_job_paths(jobs)
     if not smoke:
         validate_official_plan(jobs)
+    if subset_lock:
+        if smoke:
+            raise ValueError('A subset pilot uses the full generation protocol, not smoke settings')
+        from .subset import select
+        jobs = select(jobs, jobs_path, subset_lock)
     selected = worker_jobs(jobs[:limit] if limit is not None else jobs, worker_index, worker_count)
     protocol = native_generation_protocol()
     if smoke:
@@ -128,6 +133,9 @@ def generate(cfg, jobs_path, output, group='base', checkpoint=None, limit=None, 
     output.mkdir(parents=True, exist_ok=True)
     contract = dict(group=group, checkpoint_sha256=sha256(checkpoint) if checkpoint else None,
                     jobs_sha256=sha256(jobs_path), protocol=protocol, smoke=smoke, base_weights=base_weights)
+    if subset_lock:
+        contract.update(subset_lock_sha256=sha256(subset_lock), evaluation_scope='subset_pilot',
+                        denominator=len(jobs), formal_benchmark_complete=False, publication_eligible=False)
     if exploratory:
         contract.update(exploratory=True, publication_eligible=False,
                         training_review_status=checkpoint_state['contract']['review_status'] if checkpoint_state else None)
@@ -229,10 +237,11 @@ if __name__ == '__main__':
     parser.add_argument('--worker-count', type=int, default=1)
     parser.add_argument('--device', help='Place this independent generator on one CUDA device')
     parser.add_argument('--minimum-free-gib', type=float, default=50)
+    parser.add_argument('--subset-lock', help='Explicit locked pilot selection; not a full official benchmark')
     args = parser.parse_args()
     cfg = load_config(args.config)
     if args.device:
         cfg['devices'] = dict.fromkeys(cfg['devices'], args.device)
     generate(cfg, args.jobs, args.output, args.group, args.checkpoint,
              args.limit, args.smoke, args.smoke_frames, args.smoke_steps, args.exploratory,
-             args.worker_index, args.worker_count, args.minimum_free_gib)
+             args.worker_index, args.worker_count, args.minimum_free_gib, args.subset_lock)

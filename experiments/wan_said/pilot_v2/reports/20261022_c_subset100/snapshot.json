@@ -1,0 +1,138 @@
+{
+  "recorded_at_utc": "2026-10-22T03:11:30.788800+00:00",
+  "branch": "codex/wan-said-c-eval",
+  "parent_commit": "a2c9b90fe0d5613b4c524f811d36bc02c2c249c6",
+  "copied": [
+    "run_lock.json",
+    "status.json",
+    "subset_lock.json",
+    "reuse_report.json",
+    "videophy2/videos/worker_1.log",
+    "videophy2/videos/worker_2.log",
+    "videophy2/videos/worker_3.log",
+    "videophy2/videos/worker_0.log",
+    "videophy2/videos/records/9906f9b896204aef638324e5.json",
+    "videophy2/videos/records/d80ab82c5eef8d43c9f2fc3f.json",
+    "videophy2/videos/records/134f158f5be5b2e4c55f45b3.json",
+    "videophy2/videos/records/505ef60277a6980655891cef.json"
+  ],
+  "tests": [
+    {
+      "name": "shared",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "download",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/protocol_v2/tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "pilot",
+      "returncode": 0,
+      "command": [
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/pilot_v2/tests",
+        "-v"
+      ]
+    }
+  ],
+  "services": {
+    "wan-said-c-grounding-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-pipeline-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-grounding-4gpu-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-trainval-4gpu-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-videophy2-weights-direct-20261021": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-official-20261022": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-vbench-setup-20261022": [
+      "MainPID=0",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "wan-said-c-subset100-20261022": [
+      "MainPID=2893002",
+      "Result=success",
+      "NRestarts=0",
+      "ExecMainStartTimestamp=Thu 2026-10-22 11:10:35 CST",
+      "ActiveState=active",
+      "SubState=running"
+    ]
+  },
+  "official_scores_available": false,
+  "checkpoint_or_raw_video_uploaded": false,
+  "feature_cache_bytes": 0,
+  "note": "Point-in-time progress snapshot, not a completion claim; synthetic scoring tests are not real model scores"
+}

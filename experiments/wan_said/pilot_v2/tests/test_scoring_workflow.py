@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from experiments.wan_said.io_utils import sha256, write_json, write_jsonl
 from experiments.wan_said.pilot_v2.benchmarks import make_jobs
-from experiments.wan_said.pilot_v2 import score
+from experiments.wan_said.pilot_v2 import score, subset
 
 
 class ScoringWorkflowTests(unittest.TestCase):
@@ -98,6 +98,30 @@ class ScoringWorkflowTests(unittest.TestCase):
             self.execute(aggregate_only=True)
         self.assertFalse((self.output/'summary.csv').exists())
         self.assertFalse(json.loads((self.output/'score_status.json').read_text())['main_table_ready'])
+
+    def test_subset_aggregates_without_claiming_full_benchmark_or_allowing_relabelling(self):
+        lock = self.root/'subset.json'
+        write_json(lock, subset.selection(self.jobs, sha256(self.jobs_path), count=1, seed=42))
+        self.jobs = subset.select(self.jobs, self.jobs_path, lock)
+        generation = json.loads((self.videos/'generation_lock.json').read_text())
+        write_json(self.videos/'generation_lock.json', dict(generation, subset_lock_sha256=sha256(lock)))
+        self.write_results()
+        status = self.execute(subset_lock=lock)
+        self.assertTrue(status['official_scorers_executed'])
+        self.assertFalse(status['main_table_ready'])
+        self.assertTrue(status['subset_table_ready'])
+        self.assertFalse(status['formal_benchmark_complete'])
+        report = json.loads((self.output/'summary.json').read_text())
+        self.assertEqual(report['denominator'], 1)
+        self.assertEqual(report['full_benchmark_denominator'], 2)
+        self.assertFalse(report['publication_eligible'])
+        with (self.output/'summary.csv').open() as stream:
+            row = next(csv.DictReader(stream))
+        self.assertEqual(row['evaluation_scope'], 'subset_pilot')
+        self.assertEqual(row['formal_benchmark_complete'], 'False')
+        self.assertTrue(self.execute(subset_lock=lock, aggregate_only=True)['subset_table_ready'])
+        with self.assertRaises(ValueError):
+            self.execute()
 
     def test_aggregate_only_rejects_edited_raw_scores_and_clears_old_table(self):
         self.write_results()

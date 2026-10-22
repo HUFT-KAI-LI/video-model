@@ -70,8 +70,14 @@ def recipes(suite, videos, output):
 
 
 def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
-        accept_videophy_590=False, aggregate_only=False):
-    jobs = read_jsonl(jobs_path)
+        accept_videophy_590=False, aggregate_only=False, subset_lock=None):
+    full_jobs = read_jsonl(jobs_path)
+    jobs = full_jobs
+    if subset_lock:
+        if suite != 'videophy2':
+            raise ValueError('Subset scoring is implemented only for the VideoPhy-2 pilot')
+        from .subset import select
+        jobs = select(full_jobs, jobs_path, subset_lock)
     if not jobs or any(j['suite'] != suite for j in jobs):
         raise ValueError('Scorer jobs do not belong to the requested benchmark')
     output = Path(output).resolve()
@@ -81,6 +87,12 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
                   official_scorers_executed=False, scores=None, proxy_metrics_used=False,
                   benchmark_version='VideoPhy-2' if suite == 'videophy2' else suite,
                   jobs_sha256=sha256(jobs_path), main_table_ready=False)
+    selected_sha = sha256(subset_lock) if subset_lock else None
+    status['subset_lock_sha256'] = selected_sha
+    if subset_lock:
+        status.update(evaluation_scope='subset_pilot', subset_lock_sha256=selected_sha,
+                      full_benchmark_denominator=len(full_jobs), formal_benchmark_complete=False,
+                      subset_table_ready=False)
     write_json(output/'score_plan.json', status)
     if plan_only:
         return status
@@ -88,9 +100,11 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
     (output/'summary.csv').unlink(missing_ok=True)
     (output/'summary.json').unlink(missing_ok=True)
     write_json(output/'score_status.json', status)
-    validate_official_plan(jobs)
+    validate_official_plan(full_jobs)
     require_complete(jobs, videos)
     generation = json.loads((Path(videos)/'generation_lock.json').read_text())
+    if generation.get('subset_lock_sha256') != selected_sha:
+        raise ValueError('Subset generation cannot be relabeled as a full benchmark or another subset')
     if (generation['smoke'] or generation['jobs_sha256'] != sha256(jobs_path) or
             generation['protocol'] != native_generation_protocol()):
         raise ValueError('Smoke or mismatched generation cannot be scored as a complete official benchmark')
@@ -125,7 +139,7 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
             writer.writerows(dict(videopath=str((Path(videos)/j['relative_path']).resolve()),
                                   caption=j['original_prompt']) for j in jobs)
     if aggregate_only:
-        for key in ('suite', 'jobs_sha256', 'generation_lock_sha256', 'weight_lock_sha256'):
+        for key in ('suite', 'jobs_sha256', 'generation_lock_sha256', 'weight_lock_sha256', 'subset_lock_sha256'):
             if previous.get(key) != status[key]:
                 raise ValueError(f'Cannot reuse official scores from another {key}')
         if (not previous['official_scorers_executed'] or
@@ -168,9 +182,16 @@ def run(suite, jobs_path, videos, output, environments=None, plan_only=False,
                        generation_lock_sha256=status['generation_lock_sha256'],
                        exploratory=bool(generation.get('exploratory')),
                        publication_eligible=not generation.get('exploratory', False))
+        if subset_lock:
+            summary.update(evaluation_scope='subset_pilot', subset_lock_sha256=selected_sha,
+                           full_benchmark_denominator=len(full_jobs), formal_benchmark_complete=False,
+                           publication_eligible=False, main_table_ready=False,
+                           subset_table_ready=summary['complete'])
         save_summary(summary, output, generation['group'])
         status.update(scores=summary['scores'], main_table_ready=summary['main_table_ready'],
                       summary_sha256=sha256(output/'summary.json'))
+        if subset_lock:
+            status['subset_table_ready'] = summary['subset_table_ready']
     except Exception as error:
         status.update(main_table_ready=False, aggregation_error=repr(error))
         write_json(output/'score_status.json', status)
@@ -189,6 +210,7 @@ if __name__ == '__main__':
     parser.add_argument('--plan-only', action='store_true')
     parser.add_argument('--accept-videophy-590', action='store_true', help='Deprecated compatibility flag; VideoPhy-2 is 590 prompts')
     parser.add_argument('--aggregate-only', action='store_true', help='Recheck and aggregate an already successful official scoring run')
+    parser.add_argument('--subset-lock', help='Explicit pilot subset; cannot produce a full benchmark table')
     args = parser.parse_args()
     print(json.dumps(run(args.suite, args.jobs, args.videos, args.output, args.environments,
-                         args.plan_only, args.accept_videophy_590, args.aggregate_only), indent=2))
+                         args.plan_only, args.accept_videophy_590, args.aggregate_only, args.subset_lock), indent=2))
