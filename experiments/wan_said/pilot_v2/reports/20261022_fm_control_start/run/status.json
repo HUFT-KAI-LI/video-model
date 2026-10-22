@@ -1,0 +1,20 @@
+{
+  "complete": false,
+  "stage": "training_A",
+  "started_unix": 1792675639.5810623,
+  "training_complete": false,
+  "validation_complete": false,
+  "suites": {
+    "videophy2": {
+      "expected_videos": 100,
+      "completed_videos": 0,
+      "scoring_complete": false
+    },
+    "vbench": {
+      "expected_videos": 500,
+      "completed_videos": 0,
+      "scoring_complete": false
+    }
+  },
+  "updated_unix": 1792675662.5232184
+}

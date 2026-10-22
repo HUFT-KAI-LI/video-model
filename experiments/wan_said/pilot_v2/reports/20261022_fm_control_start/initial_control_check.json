@@ -1,0 +1,82 @@
+{
+  "recorded_unix": 1792675950.562541,
+  "initial_lora_sha256": "24d90fe3642a6b12b927b561b7e1e7a6f53cd6c72ac6cc58d8da3c5cce8c28a7",
+  "same_initial_lora": true,
+  "first_batch_native_fm_exact": true,
+  "A": [
+    {
+      "sample_id": "214d9bd02eb93eee43c3b77c",
+      "step": 1,
+      "rank": 0,
+      "noise_seed": 10042,
+      "timestep": 968.0,
+      "sigma": 0.9679602384567261,
+      "fm": 0.05416082218289375
+    },
+    {
+      "sample_id": "e0161c6eee5e2616fbd6692f",
+      "step": 1,
+      "rank": 1,
+      "noise_seed": 10043,
+      "timestep": 568.0,
+      "sigma": 0.5676855444908142,
+      "fm": 0.13153456151485443
+    },
+    {
+      "sample_id": "c547cb5625032049d3b37472",
+      "step": 1,
+      "rank": 2,
+      "noise_seed": 10044,
+      "timestep": 984.0,
+      "sigma": 0.9840425848960876,
+      "fm": 0.04313657432794571
+    },
+    {
+      "sample_id": "980bf614c61dfb43596ddb5f",
+      "step": 1,
+      "rank": 3,
+      "noise_seed": 10045,
+      "timestep": 422.0,
+      "sigma": 0.4210875332355499,
+      "fm": 0.22184376418590546
+    }
+  ],
+  "C": [
+    {
+      "sample_id": "214d9bd02eb93eee43c3b77c",
+      "step": 1,
+      "rank": 0,
+      "noise_seed": 10042,
+      "timestep": 968.0,
+      "sigma": 0.9679602384567261,
+      "fm": 0.05416082218289375
+    },
+    {
+      "sample_id": "e0161c6eee5e2616fbd6692f",
+      "step": 1,
+      "rank": 1,
+      "noise_seed": 10043,
+      "timestep": 568.0,
+      "sigma": 0.5676855444908142,
+      "fm": 0.13153456151485443
+    },
+    {
+      "sample_id": "c547cb5625032049d3b37472",
+      "step": 1,
+      "rank": 2,
+      "noise_seed": 10044,
+      "timestep": 984.0,
+      "sigma": 0.9840425848960876,
+      "fm": 0.04313657432794571
+    },
+    {
+      "sample_id": "980bf614c61dfb43596ddb5f",
+      "step": 1,
+      "rank": 3,
+      "noise_seed": 10045,
+      "timestep": 422.0,
+      "sigma": 0.4210875332355499,
+      "fm": 0.22184376418590546
+    }
+  ]
+}

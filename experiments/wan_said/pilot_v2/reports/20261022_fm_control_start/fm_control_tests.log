@@ -1,0 +1,30 @@
+test_complete_report_requires_both_suites_and_has_40_metrics (test_control.ComparisonTests.test_complete_report_requires_both_suites_and_has_40_metrics) ... ok
+test_failed_revalidation_removes_stale_table (test_control.ComparisonTests.test_failed_revalidation_removes_stale_table) ... ok
+test_mismatched_scoring_or_generation_rejected (test_control.ComparisonTests.test_mismatched_scoring_or_generation_rejected) ... ok
+test_missing_dimension_rejected (test_control.ComparisonTests.test_missing_dimension_rejected) ... ok
+test_partial_videophy_report_does_not_claim_all_protocols_complete (test_control.ComparisonTests.test_partial_videophy_report_does_not_claim_all_protocols_complete) ... ok
+test_scored_checkpoints_must_match_the_registered_training (test_control.ComparisonTests.test_scored_checkpoints_must_match_the_registered_training) ... ok
+test_three_arm_deltas (test_control.ComparisonTests.test_three_arm_deltas) ... ok
+test_vbench_five_seeds_and_metadata_required (test_control.ComparisonTests.test_vbench_five_seeds_and_metadata_required) ... ok
+test_vbench_keeps_all_official_dimensions_and_aggregates (test_control.ComparisonTests.test_vbench_keeps_all_official_dimensions_and_aggregates) ... ok
+test_completed_queue_is_not_restarted (test_control.RecoveryTests.test_completed_queue_is_not_restarted) ... ok
+test_failure_restores_incomplete_previously_active_queue (test_control.RecoveryTests.test_failure_restores_incomplete_previously_active_queue) ... ok
+test_no_receipt_never_starts_service (test_control.RecoveryTests.test_no_receipt_never_starts_service) ... ok
+test_previously_inactive_queue_is_not_started (test_control.RecoveryTests.test_previously_inactive_queue_is_not_started) ... ok
+test_recovery_rejects_unrelated_service (test_control.RecoveryTests.test_recovery_rejects_unrelated_service) ... ok
+test_matched_training_accepts_same_schedule (test_control.TrainingTests.test_matched_training_accepts_same_schedule) ... ok
+test_matched_training_rejects_initial_weights (test_control.TrainingTests.test_matched_training_rejects_initial_weights) ... ok
+test_matched_training_rejects_noise_sample_crop_or_time_change (test_control.TrainingTests.test_matched_training_rejects_noise_sample_crop_or_time_change) ... ok
+test_numerical_resume_records_tiny_rounding_not_bitwise_identity (test_control.TrainingTests.test_numerical_resume_records_tiny_rounding_not_bitwise_identity) ... ok
+test_numerical_resume_rejects_different_losses (test_control.TrainingTests.test_numerical_resume_rejects_different_losses) ... ok
+test_objective_calls_only_native_fm_no_teacher_or_projection (test_control.TrainingTests.test_objective_calls_only_native_fm_no_teacher_or_projection) ... ok
+test_reference_rejects_different_batch (test_control.TrainingTests.test_reference_rejects_different_batch) ... ok
+test_reference_rejects_different_noise_order (test_control.TrainingTests.test_reference_rejects_different_noise_order) ... ok
+test_reference_requires_full_matching_c_epoch (test_control.TrainingTests.test_reference_requires_full_matching_c_epoch) ... ok
+test_tail_padding_preserves_exact_three_example_average (test_control.TrainingTests.test_tail_padding_preserves_exact_three_example_average) ... ok
+test_full_validation_uses_only_val_and_text_vae_with_paired_noise_and_resume (test_control.ValidationTests.test_full_validation_uses_only_val_and_text_vae_with_paired_noise_and_resume) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 2.573s
+
+OK

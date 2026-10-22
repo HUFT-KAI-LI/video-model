@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-10-22T13:29:56.975579+00:00",
+  "parent_commit": "c0e9cd24cb6f61e16eeff28db90dc1212388b6cf",
+  "tests": [
+    {
+      "name": "shared",
+      "returncode": 0
+    },
+    {
+      "name": "download",
+      "returncode": 0
+    },
+    {
+      "name": "pilot",
+      "returncode": 0
+    }
+  ],
+  "services": {
+    "wan-said-paired100-20261022": "MainPID=0\nResult=success\nActiveState=inactive\nSubState=dead\n",
+    "wan-said-vbench-prepare-paired100-20261022": "MainPID=0\nResult=success\nActiveState=inactive\nSubState=dead\n"
+  },
+  "checkpoints_or_raw_videos_uploaded": false,
+  "feature_cache_enabled": false
+}
