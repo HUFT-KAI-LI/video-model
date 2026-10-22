@@ -1,0 +1,23 @@
+{
+  "job": {
+    "job_id": "9906f9b896204aef638324e5",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0016",
+    "seed": 20261021,
+    "prompt": "A player performs a forearm pass, propelling the volleyball high over the net.",
+    "original_prompt": "A player performs a forearm pass, propelling the volleyball high over the net.",
+    "relative_path": "videophy2/0016.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0de41150362d0a9405d2e571d70b7dc2e8eb29095e1fd7aa4e2038e08656faa9",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0016.mp4",
+  "seconds": 515.0803883470362,
+  "pixel_std": 76.2061436837251,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.82978630065918,
+  "formal_efficacy_evidence": false,
+  "reused_from": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos/videophy2/0016.mp4",
+  "source_record_sha256": "dfb7f617fa42c6ce6defb191d305bf705c8c98d36713bfeaf5058ed3a1078ccd",
+  "source_generation_lock_sha256": "185a3e5000db2a4a59636834a1143256053d0e20d8219fda5475e9dc8614e57c"
+}

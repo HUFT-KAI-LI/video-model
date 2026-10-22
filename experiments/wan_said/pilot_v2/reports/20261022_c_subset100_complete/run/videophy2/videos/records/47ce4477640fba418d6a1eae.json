@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "47ce4477640fba418d6a1eae",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0177",
+    "seed": 20261021,
+    "prompt": "A climber adjusts their harness and gear at the base of a frozen glacier.",
+    "original_prompt": "A climber adjusts their harness and gear at the base of a frozen glacier.",
+    "relative_path": "videophy2/0177.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "16e343b4594f169c427afacc2abca38e93d8a4c904c363a6013e9e77244daf91",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0177.mp4",
+  "seconds": 512.3048383409623,
+  "pixel_std": 92.94379852722834,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 13.21148681640625,
+  "formal_efficacy_evidence": false
+}

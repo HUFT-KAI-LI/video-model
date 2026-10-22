@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "2f1926ae4e5dd2d69e67d27d",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0577",
+    "seed": 20261021,
+    "prompt": "A single scull rower uses one oar to propel a boat along a river, creating a small wave pattern behind the boat.",
+    "original_prompt": "A single scull rower uses one oar to propel a boat along a river, creating a small wave pattern behind the boat.",
+    "relative_path": "videophy2/0577.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "2ca025cd3de2a2f16abe36a5dc77d940b44a388102a219900e76554ce457d0c7",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0577.mp4",
+  "seconds": 523.3617378739873,
+  "pixel_std": 60.25300847302098,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.500070571899414,
+  "formal_efficacy_evidence": false
+}

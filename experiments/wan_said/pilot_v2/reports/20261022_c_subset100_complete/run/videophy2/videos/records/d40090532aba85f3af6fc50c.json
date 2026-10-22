@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d40090532aba85f3af6fc50c",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0043",
+    "seed": 20261021,
+    "prompt": "An athlete throws a hammer, the rotation of the hammer head clearly visible against the sky.",
+    "original_prompt": "An athlete throws a hammer, the rotation of the hammer head clearly visible against the sky.",
+    "relative_path": "videophy2/0043.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "c59ec43d8ba5ca60a840dc9f743b7a3f787d6df3687772fa7311d4d80c01bb44",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0043.mp4",
+  "seconds": 506.90545775496867,
+  "pixel_std": 57.26206774440568,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 13.851189613342285,
+  "formal_efficacy_evidence": false
+}

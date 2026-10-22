@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "48006d205ff34a498318fa48",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0316",
+    "seed": 20261021,
+    "prompt": "A series of hammers are thrown onto a pile of scrap metal, the impacts causing the metal to shift.",
+    "original_prompt": "A series of hammers are thrown onto a pile of scrap metal, the impacts causing the metal to shift.",
+    "relative_path": "videophy2/0316.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "35b51c0403c225b648b1b62c84af8b920fdee8be2f33be407eb03c2275cdcffb",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0316.mp4",
+  "seconds": 516.3555493459571,
+  "pixel_std": 61.90571145168268,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 11.267520904541016,
+  "formal_efficacy_evidence": false
+}

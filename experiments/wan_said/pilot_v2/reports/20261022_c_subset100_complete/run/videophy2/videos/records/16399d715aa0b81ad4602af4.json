@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "16399d715aa0b81ad4602af4",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0099",
+    "seed": 20261021,
+    "prompt": "Someone inflates a water balloon until it is taut and about to burst, the rubber stretching visibly.",
+    "original_prompt": "Someone inflates a water balloon until it is taut and about to burst, the rubber stretching visibly.",
+    "relative_path": "videophy2/0099.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "451555cbdcb045441cebff8b7127ffaa21869c706afa70f8195acd01b8ad1519",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0099.mp4",
+  "seconds": 524.1206163059687,
+  "pixel_std": 74.17503879252828,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.845954418182373,
+  "formal_efficacy_evidence": false
+}

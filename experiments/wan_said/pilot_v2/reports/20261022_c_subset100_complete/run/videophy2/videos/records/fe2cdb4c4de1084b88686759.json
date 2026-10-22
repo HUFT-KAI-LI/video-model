@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "fe2cdb4c4de1084b88686759",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0240",
+    "seed": 20261021,
+    "prompt": "A person blows a bubble gum bubble while sitting on a park bench, the bubble floating away.",
+    "original_prompt": "A person blows a bubble gum bubble while sitting on a park bench, the bubble floating away.",
+    "relative_path": "videophy2/0240.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f15688ac9b725291440ab7f41f2f075e9381d99448c3f638326f6e050252af09",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0240.mp4",
+  "seconds": 506.27556606696453,
+  "pixel_std": 62.92283401570275,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.039000988006592,
+  "formal_efficacy_evidence": false
+}

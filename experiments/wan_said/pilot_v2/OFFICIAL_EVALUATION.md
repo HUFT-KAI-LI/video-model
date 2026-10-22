@@ -2,6 +2,11 @@
 
 ## Active Request: 100-Video Pilot
 
+Completed on 2026-10-22 at approximately 14:48 CST. All 100 paired scores are
+valid: SA 3.16/5, PC 3.78/5, SA@4 35%, PC@4 67%, Joint@4 32%.
+Final audit evidence is in `reports/20261022_c_subset100_complete/`.
+This is still a C-only subset pilot, not evidence of improvement over a baseline.
+
 On 2026-10-22 the user reduced the run to 100 groups. The full-generation service
 and VBench weight-preparation service were stopped. Do not restart either of them
 for this pilot. Their earlier snapshots below remain historical evidence.

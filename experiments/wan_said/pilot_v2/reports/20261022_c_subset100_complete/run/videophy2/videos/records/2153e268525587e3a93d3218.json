@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "2153e268525587e3a93d3218",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0427",
+    "seed": 20261021,
+    "prompt": "A series of hurdles are successfully cleared by a hurdler running from left to right, the motion seamless.",
+    "original_prompt": "A series of hurdles are successfully cleared by a hurdler running from left to right, the motion seamless.",
+    "relative_path": "videophy2/0427.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "d02c23b8b32a59dfcee8ca1208246867ba9bdcba02aaf9823f97a9b33abd2f3d",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0427.mp4",
+  "seconds": 506.28725648100954,
+  "pixel_std": 55.204032165053015,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 17.760347366333008,
+  "formal_efficacy_evidence": false
+}

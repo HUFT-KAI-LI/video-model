@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "069772529c555d7200417f25",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0560",
+    "seed": 20261021,
+    "prompt": "A person spins a hula hoop around their ankle, the hoop following a circular path around their leg.",
+    "original_prompt": "A person spins a hula hoop around their ankle, the hoop following a circular path around their leg.",
+    "relative_path": "videophy2/0560.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "fc6f628992cf9ee1a1c60b08e5154d588574123f5466a8a8b27cf3f0e1be6b79",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0560.mp4",
+  "seconds": 524.8122119769687,
+  "pixel_std": 61.8177002406505,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 18.17902374267578,
+  "formal_efficacy_evidence": false
+}

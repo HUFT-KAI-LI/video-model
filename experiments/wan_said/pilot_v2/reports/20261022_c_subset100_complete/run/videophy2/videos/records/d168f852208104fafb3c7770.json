@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d168f852208104fafb3c7770",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0570",
+    "seed": 20261021,
+    "prompt": "A pizza cutter slices a pizza into eight even pieces, the wheel rolling across the surface.",
+    "original_prompt": "A pizza cutter slices a pizza into eight even pieces, the wheel rolling across the surface.",
+    "relative_path": "videophy2/0570.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "aea0bb0bdc8e05eeaf1a2de14bb10a63adc30177f1ef583010bfcca65c9e9a79",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0570.mp4",
+  "seconds": 507.85515592293814,
+  "pixel_std": 78.3237262924155,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.1773786544799805,
+  "formal_efficacy_evidence": false
+}

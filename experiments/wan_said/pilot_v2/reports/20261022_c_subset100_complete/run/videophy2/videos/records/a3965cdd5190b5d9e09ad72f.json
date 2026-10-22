@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "a3965cdd5190b5d9e09ad72f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0226",
+    "seed": 20261021,
+    "prompt": "A chef pushes a pizza spinning on a tray with their hand before placing it in the oven.",
+    "original_prompt": "A chef pushes a pizza spinning on a tray with their hand before placing it in the oven.",
+    "relative_path": "videophy2/0226.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "4d6a4de5c069d93a037f5fde82ff09096bafd45e2f0f3f1b1380e062a5528e5e",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0226.mp4",
+  "seconds": 513.1560568059795,
+  "pixel_std": 81.87095882821322,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 10.878134727478027,
+  "formal_efficacy_evidence": false
+}

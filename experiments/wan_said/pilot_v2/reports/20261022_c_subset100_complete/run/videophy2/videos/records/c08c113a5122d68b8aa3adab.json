@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "c08c113a5122d68b8aa3adab",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0062",
+    "seed": 20261021,
+    "prompt": "A person uses a long stick to poke a can off a shelf, causing it to fall to the ground.",
+    "original_prompt": "A person uses a long stick to poke a can off a shelf, causing it to fall to the ground.",
+    "relative_path": "videophy2/0062.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "cacb488021d08167f345307f89f3dfd1844eff367f3d2ee6b172c20e9ffe8ab6",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0062.mp4",
+  "seconds": 516.3241744210245,
+  "pixel_std": 74.41883906597435,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.085134506225586,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "912bba5afef30a8c9b86b5a0",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0555",
+    "seed": 20261021,
+    "prompt": "Poi are spun with one hand, using a single rope attached to a single ball.",
+    "original_prompt": "Poi are spun with one hand, using a single rope attached to a single ball.",
+    "relative_path": "videophy2/0555.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "d383f71ead2edf7cdd854670b9289eb2278db2b510057d53c8334554bdde1cd2",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0555.mp4",
+  "seconds": 512.9112422659528,
+  "pixel_std": 66.52404641006608,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.688630104064941,
+  "formal_efficacy_evidence": false
+}

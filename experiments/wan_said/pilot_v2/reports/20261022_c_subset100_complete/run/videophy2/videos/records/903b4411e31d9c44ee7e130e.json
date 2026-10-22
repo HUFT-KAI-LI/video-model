@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "903b4411e31d9c44ee7e130e",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0397",
+    "seed": 20261021,
+    "prompt": "A pinball hits the metal side of the machine, creating a distinct clang and ricocheting back into play.",
+    "original_prompt": "A pinball hits the metal side of the machine, creating a distinct clang and ricocheting back into play.",
+    "relative_path": "videophy2/0397.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "2816181bf934b8b24ede2b6fb795bbb115b4652e4dffe652c8f0ebbc6c52b61f",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0397.mp4",
+  "seconds": 524.803517694003,
+  "pixel_std": 73.02661550140776,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 13.020345687866211,
+  "formal_efficacy_evidence": false
+}

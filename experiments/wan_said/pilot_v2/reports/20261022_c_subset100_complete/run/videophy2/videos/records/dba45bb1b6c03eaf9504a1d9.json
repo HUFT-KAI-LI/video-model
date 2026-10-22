@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "dba45bb1b6c03eaf9504a1d9",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0030",
+    "seed": 20261021,
+    "prompt": "A crane gently lifts a pallet of bricks, the bricks remain stacked.",
+    "original_prompt": "A crane gently lifts a pallet of bricks, the bricks remain stacked.",
+    "relative_path": "videophy2/0030.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "07172df0bcaad87de171c09d8e809c89980dcc341f938dd16ba064f8abd73b8d",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0030.mp4",
+  "seconds": 523.6241176069016,
+  "pixel_std": 60.5439462491203,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 0.8994899988174438,
+  "formal_efficacy_evidence": false
+}

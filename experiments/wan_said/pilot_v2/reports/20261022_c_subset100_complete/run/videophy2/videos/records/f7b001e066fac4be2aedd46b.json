@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f7b001e066fac4be2aedd46b",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0305",
+    "seed": 20261021,
+    "prompt": "A person uses a small knife to dig a small groove into a piece of wood.",
+    "original_prompt": "A person uses a small knife to dig a small groove into a piece of wood.",
+    "relative_path": "videophy2/0305.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "72ff52651826c7ed992bc2530b704f702b13c2524fd76033ab98918047b21cd0",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0305.mp4",
+  "seconds": 513.2260937340325,
+  "pixel_std": 70.95606988535889,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.328594207763672,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "14d1020567c96ae5c9b5af92",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0468",
+    "seed": 20261021,
+    "prompt": "Someone pours gasoline from a gas can into a lawnmower's fuel tank. The fuel level rises visibly inside the tank.",
+    "original_prompt": "Someone pours gasoline from a gas can into a lawnmower's fuel tank. The fuel level rises visibly inside the tank.",
+    "relative_path": "videophy2/0468.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "da2d84503b5293d52f85bed07d2904156fe871735c3b87483ba90d73faa14e6b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0468.mp4",
+  "seconds": 525.18252054404,
+  "pixel_std": 69.77291388871589,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.56978702545166,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "62acfa4cc1b97c22d650d0a3",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0578",
+    "seed": 20261021,
+    "prompt": "An overhead shot shows the cue ball striking the target ball dead center and continuing to a different pocket.",
+    "original_prompt": "An overhead shot shows the cue ball striking the target ball dead center and continuing to a different pocket.",
+    "relative_path": "videophy2/0578.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ac67744f7ab352363ec23f4e1e42826dd99c15cafd0b7205a58d774e11d9bf69",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0578.mp4",
+  "seconds": 515.694215010968,
+  "pixel_std": 69.64056743502832,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.411695957183838,
+  "formal_efficacy_evidence": false
+}

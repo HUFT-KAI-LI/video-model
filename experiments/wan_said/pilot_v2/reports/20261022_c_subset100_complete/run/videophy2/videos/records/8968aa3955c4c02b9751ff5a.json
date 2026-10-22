@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "8968aa3955c4c02b9751ff5a",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0290",
+    "seed": 20261021,
+    "prompt": "A long jumper demonstrates a flawed technique, resulting in a short distance and an unbalanced landing.",
+    "original_prompt": "A long jumper demonstrates a flawed technique, resulting in a short distance and an unbalanced landing.",
+    "relative_path": "videophy2/0290.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "b27a58f4c4555807df60dc7963f2646f17cd91cb7100d98292d8365d4acf926b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0290.mp4",
+  "seconds": 524.4581082770601,
+  "pixel_std": 48.21292492414316,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.2427778244018555,
+  "formal_efficacy_evidence": false
+}

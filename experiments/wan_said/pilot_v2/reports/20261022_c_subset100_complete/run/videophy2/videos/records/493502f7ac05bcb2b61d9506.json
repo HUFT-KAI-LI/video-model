@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "493502f7ac05bcb2b61d9506",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0213",
+    "seed": 20261021,
+    "prompt": "Nunchucks are used to chop through a stack of bamboo poles.",
+    "original_prompt": "Nunchucks are used to chop through a stack of bamboo poles.",
+    "relative_path": "videophy2/0213.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "4982bff9dc6c326d2b3c0e5c1a10697e07395172e8616b991f37d1c70de4fb21",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0213.mp4",
+  "seconds": 515.4405435640365,
+  "pixel_std": 66.14197595802968,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.9784626960754395,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "6f8963ca11f8980d9422e81c",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0047",
+    "seed": 20261021,
+    "prompt": "A person uses a jab to strike a punching bag, followed by a hook, showing both impacts.",
+    "original_prompt": "A person uses a jab to strike a punching bag, followed by a hook, showing both impacts.",
+    "relative_path": "videophy2/0047.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "64cd353e90ae6abf336889eec9830efa293229e2a2ba469686c669d214d3f52f",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0047.mp4",
+  "seconds": 524.3486017400865,
+  "pixel_std": 88.69700752880408,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 22.75766372680664,
+  "formal_efficacy_evidence": false
+}

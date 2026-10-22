@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "da5a23d3c99c695cb30cab07",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0433",
+    "seed": 20261021,
+    "prompt": "Someone throws a water balloon at a car windshield; the balloon bursts, leaving water residue.",
+    "original_prompt": "Someone throws a water balloon at a car windshield; the balloon bursts, leaving water residue.",
+    "relative_path": "videophy2/0433.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "04cb7348bdfb6582d58d69f93187125a341321a2b7a1367b7377df174fead558",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0433.mp4",
+  "seconds": 512.6651157640154,
+  "pixel_std": 88.35478483852928,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 12.011832237243652,
+  "formal_efficacy_evidence": false
+}

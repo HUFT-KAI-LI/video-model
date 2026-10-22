@@ -1,0 +1,13 @@
+{
+  "newly_reused_job_ids": [
+    "d80ab82c5eef8d43c9f2fc3f",
+    "134f158f5be5b2e4c55f45b3",
+    "505ef60277a6980655891cef",
+    "9906f9b896204aef638324e5"
+  ],
+  "hardlinks": true,
+  "selection_independent_of_existing_videos": true,
+  "subset_size": 100,
+  "full_benchmark_denominator": 590,
+  "source_videos": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_official_20261022/videophy2/videos"
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "ee1e7ea567cd2de8de2d8319",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0469",
+    "seed": 20261021,
+    "prompt": "A baker pats a dough ball flat in a bowl, before using a spoon to press in edges and make a pie crust.",
+    "original_prompt": "A baker pats a dough ball flat in a bowl, before using a spoon to press in edges and make a pie crust.",
+    "relative_path": "videophy2/0469.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "25c0cb1c0fa0334481788b2492b57f7115cd749e69bc4ff1a07ec02a389cdbfe",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0469.mp4",
+  "seconds": 515.9862000830472,
+  "pixel_std": 90.90381903307915,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.768020629882812,
+  "formal_efficacy_evidence": false
+}

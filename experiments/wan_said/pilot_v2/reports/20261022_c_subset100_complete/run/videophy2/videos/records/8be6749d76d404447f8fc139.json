@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "8be6749d76d404447f8fc139",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0362",
+    "seed": 20261021,
+    "prompt": "A person twists a piece of fabric tightly, creating a tourniquet around their arm.",
+    "original_prompt": "A person twists a piece of fabric tightly, creating a tourniquet around their arm.",
+    "relative_path": "videophy2/0362.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "2909ba6131ead57b15e1297e5193d475474c37c0bf3ad8fba27ecc95ba2b446c",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0362.mp4",
+  "seconds": 524.6442065220326,
+  "pixel_std": 72.99231679070887,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 15.37366008758545,
+  "formal_efficacy_evidence": false
+}

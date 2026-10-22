@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "9433460d73470f4565aae0a0",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0526",
+    "seed": 20261021,
+    "prompt": "A roulette wheel is spun forcefully, the ball bouncing before settling in a slot.",
+    "original_prompt": "A roulette wheel is spun forcefully, the ball bouncing before settling in a slot.",
+    "relative_path": "videophy2/0526.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "5fd500cad60446684df8fc8a24a6c86599da9f4c7b0f71fd9ef73b1772e1a4e7",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0526.mp4",
+  "seconds": 506.1211899140617,
+  "pixel_std": 69.08522225498733,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 26.744094848632812,
+  "formal_efficacy_evidence": false
+}

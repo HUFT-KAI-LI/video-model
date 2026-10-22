@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "a9103c03aac33e3ec26e557f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0264",
+    "seed": 20261021,
+    "prompt": "A softball is thrown from the outfield, arcing towards home plate, and dropped by the catcher.",
+    "original_prompt": "A softball is thrown from the outfield, arcing towards home plate, and dropped by the catcher.",
+    "relative_path": "videophy2/0264.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "d439c64c9c59722bdc392c4220d8770bf49fa10572e323eb08c9c9fe6f5090f3",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0264.mp4",
+  "seconds": 513.0627377330093,
+  "pixel_std": 65.01924100947248,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.245417594909668,
+  "formal_efficacy_evidence": false
+}

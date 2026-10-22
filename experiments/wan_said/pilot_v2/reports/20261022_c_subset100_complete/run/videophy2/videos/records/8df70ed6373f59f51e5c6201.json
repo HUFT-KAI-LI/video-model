@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "8df70ed6373f59f51e5c6201",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0145",
+    "seed": 20261021,
+    "prompt": "A baseball is struck by a bat, causing a visible scuff mark on the ball's surface.",
+    "original_prompt": "A baseball is struck by a bat, causing a visible scuff mark on the ball's surface.",
+    "relative_path": "videophy2/0145.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "fd09e6c9369529614de63d61963346749d2744268e84db0d9d938c9b7dbc3a07",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0145.mp4",
+  "seconds": 516.1267479149392,
+  "pixel_std": 63.55827158028373,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.889963626861572,
+  "formal_efficacy_evidence": false
+}

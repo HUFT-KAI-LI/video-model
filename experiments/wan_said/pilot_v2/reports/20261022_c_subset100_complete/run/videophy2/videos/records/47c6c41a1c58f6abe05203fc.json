@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "47c6c41a1c58f6abe05203fc",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0061",
+    "seed": 20261021,
+    "prompt": "A steel ball bearing rolls across a flat surface and collides with another ball bearing, both ceasing motion.",
+    "original_prompt": "A steel ball bearing rolls across a flat surface and collides with another ball bearing, both ceasing motion.",
+    "relative_path": "videophy2/0061.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "b913d510ac199476b2374af36d1309468d6cf62e6e164d534a3e23109693deed",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0061.mp4",
+  "seconds": 525.1068534769583,
+  "pixel_std": 62.0693786384434,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.328888893127441,
+  "formal_efficacy_evidence": false
+}

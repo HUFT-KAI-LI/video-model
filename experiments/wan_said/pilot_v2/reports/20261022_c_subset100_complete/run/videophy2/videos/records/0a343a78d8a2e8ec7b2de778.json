@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "0a343a78d8a2e8ec7b2de778",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0487",
+    "seed": 20261021,
+    "prompt": "A person cleans mud off their boots with a brush, removing visible clumps of mud.",
+    "original_prompt": "A person cleans mud off their boots with a brush, removing visible clumps of mud.",
+    "relative_path": "videophy2/0487.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "199f4be52cd50af0734efb89d12315b4618b8c23e0c439656c54ba8db95ba16c",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0487.mp4",
+  "seconds": 508.58059551299084,
+  "pixel_std": 63.85916804349151,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.935654640197754,
+  "formal_efficacy_evidence": false
+}

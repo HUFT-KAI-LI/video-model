@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "ab54c0c0c506a422f172a22b",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0166",
+    "seed": 20261021,
+    "prompt": "A hunter draws a bow, aiming at a three-dimensional deer target, the arrow penetrating the foam body.",
+    "original_prompt": "A hunter draws a bow, aiming at a three-dimensional deer target, the arrow penetrating the foam body.",
+    "relative_path": "videophy2/0166.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f62d956e83502740c25c04de8b7b56921376f9d046c348b38ec1ce4c2f17f03d",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0166.mp4",
+  "seconds": 507.01425646501593,
+  "pixel_std": 47.38831413543162,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.54282283782959,
+  "formal_efficacy_evidence": false
+}

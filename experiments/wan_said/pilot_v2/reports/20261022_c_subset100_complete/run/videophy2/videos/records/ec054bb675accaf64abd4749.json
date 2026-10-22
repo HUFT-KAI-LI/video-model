@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "ec054bb675accaf64abd4749",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0050",
+    "seed": 20261021,
+    "prompt": "A person uses a stick to test the depth of the mud before stepping into a muddy area.",
+    "original_prompt": "A person uses a stick to test the depth of the mud before stepping into a muddy area.",
+    "relative_path": "videophy2/0050.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "c5e0425347d492b307f0eb154245acc9be90ee6556fea1e8561ea4fe7f9a9b17",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0050.mp4",
+  "seconds": 515.0397758270847,
+  "pixel_std": 58.99554767065635,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.496774673461914,
+  "formal_efficacy_evidence": false
+}

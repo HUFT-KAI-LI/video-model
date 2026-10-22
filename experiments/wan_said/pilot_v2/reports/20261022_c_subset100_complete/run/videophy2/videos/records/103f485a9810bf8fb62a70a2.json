@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "103f485a9810bf8fb62a70a2",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0144",
+    "seed": 20261021,
+    "prompt": "A student attaches a poster to a corkboard with pushpins.",
+    "original_prompt": "A student attaches a poster to a corkboard with pushpins.",
+    "relative_path": "videophy2/0144.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "882083e3d43582f07c7aec708f058ed16db3bdb6ce71a7ec2d536841ae71c69a",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0144.mp4",
+  "seconds": 525.0590217330027,
+  "pixel_std": 83.19141376041689,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.055084705352783,
+  "formal_efficacy_evidence": false
+}

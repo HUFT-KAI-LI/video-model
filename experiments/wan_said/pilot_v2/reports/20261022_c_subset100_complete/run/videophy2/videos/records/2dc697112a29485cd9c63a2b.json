@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "2dc697112a29485cd9c63a2b",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0377",
+    "seed": 20261021,
+    "prompt": "The pole vaulter's pole impacts the box, the pole flexing dramatically as they rotate over the bar.",
+    "original_prompt": "The pole vaulter's pole impacts the box, the pole flexing dramatically as they rotate over the bar.",
+    "relative_path": "videophy2/0377.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "5e563a30bed5bfc792a9a756746184c1b0f5d6c0bc8b0b416a85ed9cc0a4191b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0377.mp4",
+  "seconds": 512.7087640831014,
+  "pixel_std": 57.90251634075713,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.924707412719727,
+  "formal_efficacy_evidence": false
+}

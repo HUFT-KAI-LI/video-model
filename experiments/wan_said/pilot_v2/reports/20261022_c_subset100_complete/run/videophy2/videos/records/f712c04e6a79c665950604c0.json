@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f712c04e6a79c665950604c0",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0466",
+    "seed": 20261021,
+    "prompt": "A thick copper wire is bent using pliers until it breaks, displaying a clean metallic fracture.",
+    "original_prompt": "A thick copper wire is bent using pliers until it breaks, displaying a clean metallic fracture.",
+    "relative_path": "videophy2/0466.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "df0fe8ffee5f0d41ab0e6df91f63adc2c33f0f2804871e978c2cb835f492692d",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0466.mp4",
+  "seconds": 512.8031256420072,
+  "pixel_std": 69.12339083039387,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.13120174407959,
+  "formal_efficacy_evidence": false
+}

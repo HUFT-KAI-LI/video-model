@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "5394ab1546b31261263e5f24",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0462",
+    "seed": 20261021,
+    "prompt": "A close-up shows a javelin thrower's hand releasing the javelin, then tracking the javelin's flight.",
+    "original_prompt": "A close-up shows a javelin thrower's hand releasing the javelin, then tracking the javelin's flight.",
+    "relative_path": "videophy2/0462.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "edf9dbf7d3ff3e9c01fe72848eadd8bef239ae773b063bb931e0428a432e303b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0462.mp4",
+  "seconds": 507.44584657403175,
+  "pixel_std": 77.71421545069337,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 12.188913345336914,
+  "formal_efficacy_evidence": false
+}

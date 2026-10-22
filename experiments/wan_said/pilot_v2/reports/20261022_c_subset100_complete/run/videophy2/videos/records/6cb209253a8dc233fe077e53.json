@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "6cb209253a8dc233fe077e53",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0059",
+    "seed": 20261021,
+    "prompt": "A small hole is punched into a piece of leather, making a slight tear at the perimeter.",
+    "original_prompt": "A small hole is punched into a piece of leather, making a slight tear at the perimeter.",
+    "relative_path": "videophy2/0059.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "565c4017b6d0b68d052fde05c28eebaf1c3ccb959cf9483cb6155e51b3646915",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0059.mp4",
+  "seconds": 508.271531997947,
+  "pixel_std": 44.40060068502674,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 1.3369312286376953,
+  "formal_efficacy_evidence": false
+}

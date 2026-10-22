@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "5e29c008d376fda08360e41e",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0064",
+    "seed": 20261021,
+    "prompt": "A curler releases a stone without a sweep, showing a direct path and velocity.",
+    "original_prompt": "A curler releases a stone without a sweep, showing a direct path and velocity.",
+    "relative_path": "videophy2/0064.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0cd4c4b21942d4967243b4bfe369b4d94a12d68c748e15f7144d2b8d7de352c9",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0064.mp4",
+  "seconds": 506.9030346450163,
+  "pixel_std": 48.18248535505066,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.136815071105957,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "1ca25372b2ab6faed0c5d85d",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0342",
+    "seed": 20261021,
+    "prompt": "A large, wet canvas is twisted to remove excess paint, leaving drips down the side.",
+    "original_prompt": "A large, wet canvas is twisted to remove excess paint, leaving drips down the side.",
+    "relative_path": "videophy2/0342.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "cbd75977fb2587fc52a6b28da21ad42d0b3c862b2f4115a804515f8bacc16d42",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0342.mp4",
+  "seconds": 507.41788914694916,
+  "pixel_std": 58.1494457628337,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 3.9189462661743164,
+  "formal_efficacy_evidence": false
+}

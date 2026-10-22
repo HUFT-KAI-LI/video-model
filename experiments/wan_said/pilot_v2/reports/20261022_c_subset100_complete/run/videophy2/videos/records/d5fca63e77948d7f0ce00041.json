@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d5fca63e77948d7f0ce00041",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0198",
+    "seed": 20261021,
+    "prompt": "A large stack of papers is pushed near the edge of a desk, almost tumbling to the floor but remaining standing.",
+    "original_prompt": "A large stack of papers is pushed near the edge of a desk, almost tumbling to the floor but remaining standing.",
+    "relative_path": "videophy2/0198.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "3615076eeb503e926296ad76d4832934d1f74d038ab978da7a36485e1e25fb6e",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0198.mp4",
+  "seconds": 506.94842131703626,
+  "pixel_std": 69.7192028495235,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.110981941223145,
+  "formal_efficacy_evidence": false
+}

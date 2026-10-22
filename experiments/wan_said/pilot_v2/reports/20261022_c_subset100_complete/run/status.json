@@ -1,0 +1,37 @@
+{
+  "complete": true,
+  "subset_complete": true,
+  "stage": "subset_complete",
+  "pid": 2893002,
+  "evaluation_scope": "subset_pilot",
+  "denominator": 100,
+  "full_benchmark_denominator": 590,
+  "formal_benchmark_complete": false,
+  "publication_eligible": false,
+  "vbench_queued": false,
+  "selection_seed": 20261022,
+  "suites": {
+    "videophy2": {
+      "expected_videos": 100,
+      "completed_videos": 100,
+      "generation_complete": true,
+      "scoring_complete": true,
+      "worker_pids": [
+        2893162,
+        2893163,
+        2893164,
+        2893165
+      ],
+      "mean_generation_seconds": 515.053399062996,
+      "scorer_environment_sha256": "4f915cd72ea28c7ff38d5854683c98f651ad8d1348f72a2e9d294948873a8888",
+      "scores": {
+        "sa_mean": 3.16,
+        "pc_mean": 3.78,
+        "sa_at_4": 0.35,
+        "pc_at_4": 0.67,
+        "joint_at_4": 0.32
+      }
+    }
+  },
+  "updated_unix": 1792651681.454908
+}

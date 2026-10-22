@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "4b7fb39ee806080cb089db15",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0569",
+    "seed": 20261021,
+    "prompt": "A potter gently pokes a lump of clay with a tool, causing a small indentation to form.",
+    "original_prompt": "A potter gently pokes a lump of clay with a tool, causing a small indentation to form.",
+    "relative_path": "videophy2/0569.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "56d45ed0e7fbd6bd04c48cddfd0c76721f2926bfa889e139508693f9443efc42",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0569.mp4",
+  "seconds": 515.4207168690627,
+  "pixel_std": 65.64592600308711,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.757394790649414,
+  "formal_efficacy_evidence": false
+}

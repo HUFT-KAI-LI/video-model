@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "cd8b8f6fb9e8a4594f386adb",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0541",
+    "seed": 20261021,
+    "prompt": "A plate is spun rapidly on a turntable, its movement creating a slight blur.",
+    "original_prompt": "A plate is spun rapidly on a turntable, its movement creating a slight blur.",
+    "relative_path": "videophy2/0541.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f884e4684398481119ac3d49553c340aaddaf834c375dbc12a8e26b6d86598c7",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/videos/videophy2/0541.mp4",
+  "seconds": 505.58675233402755,
+  "pixel_std": 60.68568312285929,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.6435322761535645,
+  "formal_efficacy_evidence": false
+}

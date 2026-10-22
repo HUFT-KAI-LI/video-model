@@ -1,0 +1,37 @@
+{
+  "group": "C",
+  "checkpoint_sha256": "cadf8a40f5c51885fffc8affc37cd8953313ee1f93332e785791e93af97610af",
+  "jobs_sha256": "a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb",
+  "protocol": {
+    "frames": 81,
+    "height": 480,
+    "width": 832,
+    "fps": 16,
+    "steps": 50,
+    "cfg": 6.0,
+    "shift": 8.0,
+    "sampler": "official_wan_unipc",
+    "prompt_extension": false,
+    "negative_prompt": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+    "wan_source_commit": "9737cba9c1c3c4d04b33fcad41c111989865d315",
+    "solver_sha256": "0dec8c7ed17f6f2049275c6848113314da6ccec1c8db5bdc89df43c05c6038d9",
+    "negative_source_sha256": "a942b6f0a1d1a4ec9a7893c17a6218651ce272953b90d012ce5cdd19d15e45f7"
+  },
+  "smoke": false,
+  "base_weights": {
+    "diffusion_pytorch_model.safetensors": "96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f",
+    "models_t5_umt5-xxl-enc-bf16.pth": "7cace0da2b446bbbbc57d031ab6cf163a3d59b366da94e5afe36745b746fd81d",
+    "Wan2.1_VAE.pth": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981"
+  },
+  "subset_lock_sha256": "70db92344d43fa473e2fd37960c6cb70e9a650241654321078d8d8f42b0a9629",
+  "evaluation_scope": "subset_pilot",
+  "denominator": 100,
+  "formal_benchmark_complete": false,
+  "publication_eligible": false,
+  "exploratory": true,
+  "training_review_status": {
+    "human_review_approved": false,
+    "human_review_pending": true,
+    "publication_eligible": false
+  }
+}
