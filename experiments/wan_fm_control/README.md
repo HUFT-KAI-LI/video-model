@@ -38,6 +38,10 @@ Other users' jobs are never stopped.
 
 A real native-geometry four-GPU preflight compares one update resumed to two
 against uninterrupted two-update training and audits all 30 FM gradient blocks.
+Samples, crops, noise, time steps and FM losses must match exactly. FP32 LoRA
+states must match at rtol 1e-7/atol 1e-10, and optimizer states at rtol 1e-7/atol
+1e-12 (step counters exact). Bitwise equality and maximum differences are
+reported separately; negligible DDP reduction rounding is not mislabeled exact.
 Smoke checkpoints are separate and cannot be used as final benchmark adapters.
 The full A run starts from the original model, not the smoke or C adapter.
 
@@ -76,3 +80,13 @@ Run focused CPU tests with:
 ```bash
 experiments/wan_said/.venv/bin/python -m unittest discover -s experiments/wan_fm_control/tests -v
 ```
+
+## Initial Preflight Correction
+
+The first October 22 preflight blocked full training because its byte-hash test
+was overly strict: all eight sample losses/noise/timesteps matched exactly, but
+3/480 LoRA tensors differed by at most 1.0914e-11 and optimizer state by at most
+1.4156e-15. No full A training or benchmark score was produced by that attempt.
+The original lock/status, both smoke checkpoints and raw logs are retained in
+the run; an explicit migration receipt records the numerical-check correction.
+The native objective, trainer, C protocol and datasets were not changed.

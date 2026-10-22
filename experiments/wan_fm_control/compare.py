@@ -42,7 +42,7 @@ def metric_rows(reports, suite):
     return rows
 
 
-def compare(sources, plans, locks, output, suites=('videophy2', 'vbench')):
+def compare(sources, plans, locks, output, suites=('videophy2', 'vbench'), expected_checkpoints=None):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     for suffix in ('json', 'csv', 'md'):
@@ -51,6 +51,9 @@ def compare(sources, plans, locks, output, suites=('videophy2', 'vbench')):
     for suite in suites:
         jobs = select(read_jsonl(plans[suite]), plans[suite], locks[suite])
         reports[suite] = {a: verified_summary(sources[suite][a], a, suite, jobs, locks[suite]) for a in ARMS}
+        if expected_checkpoints is not None:
+            if any(reports[suite][a]['generation']['checkpoint_sha256'] != expected_checkpoints[a] for a in ARMS):
+                raise ValueError('Scored adapter does not match the registered training checkpoint')
         matched(reports[suite], suite)
         metrics.extend(metric_rows(reports[suite], suite))
         provenance[suite] = {a: dict(path=str(Path(sources[suite][a]).resolve()),

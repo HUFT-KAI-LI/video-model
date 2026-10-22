@@ -12,6 +12,9 @@ import torch
 from experiments.wan_fm_control.compare import compare, matched, metric_rows
 from experiments.wan_fm_control.run import matching_training, recover
 from experiments.wan_fm_control.train import Objective, check_reference
+from experiments.wan_fm_control.preflight import resume_equivalence
+from experiments.wan_fm_control import validate as validation
+from experiments.wan_said.pilot_v2.config import load_config
 from experiments.wan_said.pilot_v2.parallel.train import assignment
 from experiments.wan_said.pilot_v2.train import sample_index
 
@@ -40,6 +43,31 @@ def summaries(suite='videophy2'):
 
 
 class TrainingTests(unittest.TestCase):
+    def test_numerical_resume_records_tiny_rounding_not_bitwise_identity(self):
+        a, b = training(), training()
+        for state in (a, b):
+            state.update(config={}, group='A', lora={'w': torch.tensor([0.], dtype=torch.float32)},
+                         optimizer=dict(param_groups=[], state={}), final_lora_sha256='same')
+            state['records'][0]['fm'] = .1
+        b['lora']['w'][0] = 1e-11
+        b['final_lora_sha256'] = 'different'
+        result = resume_equivalence(a, b)
+        self.assertTrue(result['resume_numerically_equivalent'])
+        self.assertFalse(result['resume_exact'])
+        self.assertLess(result['lora_max_abs_difference'], 1e-10)
+        b['lora']['w'][0] = 1e-3
+        with self.assertRaises(AssertionError):
+            resume_equivalence(a, b)
+
+    def test_numerical_resume_rejects_different_losses(self):
+        a, b = training(), training()
+        for state in (a, b):
+            state.update(config={}, group='A')
+            state['records'][0]['fm'] = .1
+        b['records'][0]['fm'] = .10001
+        with self.assertRaises(AssertionError):
+            resume_equivalence(a, b)
+
     def test_matched_training_accepts_same_schedule(self):
         report = matching_training(training(), training())
         self.assertTrue(report['ordered_samples_noise_timesteps_crops_equal'])
@@ -189,6 +217,22 @@ class ComparisonTests(unittest.TestCase):
                 compare({}, {}, {}, tmp)
             self.assertFalse((Path(tmp)/'comparison.csv').exists())
 
+    def test_scored_checkpoints_must_match_the_registered_training(self):
+        reports = summaries()
+        for arm, report in reports.items():
+            report['generation']['checkpoint_sha256'] = arm
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'source.json'
+            path.write_text('{}')
+            with patch('experiments.wan_fm_control.compare.read_jsonl', return_value=[]), \
+                    patch('experiments.wan_fm_control.compare.select', return_value=[]), \
+                    patch('experiments.wan_fm_control.compare.verified_summary',
+                          side_effect=lambda path, arm, *rest: reports[arm]):
+                with self.assertRaisesRegex(ValueError, 'registered training checkpoint'):
+                    compare(dict(videophy2={a: str(path) for a in reports}),
+                        dict(videophy2=path), dict(videophy2=path), Path(tmp)/'report',
+                        ('videophy2',), dict(base=None, A='different', C='C'))
+
     def test_complete_report_requires_both_suites_and_has_40_metrics(self):
         reports = {s: summaries(s) for s in ('videophy2', 'vbench')}
         with tempfile.TemporaryDirectory() as tmp:
@@ -237,6 +281,64 @@ class RecoveryTests(unittest.TestCase):
             (Path(tmp)/'paused_queue.json').write_text(json.dumps(dict(service='other.service')))
             with self.assertRaises(ValueError):
                 recover(tmp, 'paired.service')
+
+
+class ValidationTests(unittest.TestCase):
+    def test_full_validation_uses_only_val_and_text_vae_with_paired_noise_and_resume(self):
+        cfg = load_config()
+        cfg['devices'] = {k: 'cpu' for k in cfg['devices']}
+        rows = [dict(sample_id=f'val_{i}') for i in range(3)]
+        identity, calls, splits, noisy = {'fixture': True}, [], [], []
+
+        class Model(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.factor = 1.
+
+        class Provider:
+            def __init__(self, cfg):
+                self.calls = []
+
+            def __call__(self, row, kinds):
+                calls.append((row['sample_id'], kinds))
+                return dict(text=dict(context=torch.ones(1, 2, 4)),
+                            vae=dict(latents=torch.ones(1, 16, 2, 4, 4)))
+
+        def split(manifests, name):
+            splits.append(name)
+            self.assertEqual(name, 'val')
+            return rows
+
+        def load_adapter(model, state):
+            model.factor = 2.
+
+        def forward(dit, latents, timestep, **kwargs):
+            noisy.append((latents.clone(), timestep.clone()))
+            return latents*dit.factor
+
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp)/'A.pt'
+            torch.save(dict(group='A', lora={}, contract=dict(identity=identity, smoke=False,
+                exploratory=True, effective_loss='FM')), checkpoint)
+            with patch.object(validation, 'load_split', split), \
+                    patch.object(validation, 'experiment_identity', return_value=identity), \
+                    patch.object(validation, 'load_dit', side_effect=lambda *a, **kw: Model()), \
+                    patch.object(validation, 'load_trainable', load_adapter), \
+                    patch.object(validation, 'OnlineFeatures', Provider), \
+                    patch.object(validation, 'forward_fn', return_value=forward):
+                first = validation.validate(cfg, checkpoint, Path(tmp)/'validation')
+                second = validation.validate(cfg, checkpoint, Path(tmp)/'validation')
+            self.assertEqual(first['scores'], second['scores'])
+            self.assertEqual(first['valid'], 3)
+            self.assertEqual(splits, ['val', 'val'])
+            self.assertEqual(len(calls), 3)
+            self.assertTrue(all(kinds == ('text', 'vae') for _, kinds in calls))
+            self.assertFalse(first['teacher_used'])
+            self.assertFalse(first['test_used'])
+            self.assertFalse(first['official_scorers_executed'])
+            for i in range(0, 6, 2):
+                self.assertTrue(torch.equal(noisy[i][0], noisy[i+1][0]))
+                self.assertTrue(torch.equal(noisy[i][1], noisy[i+1][1]))
 
 
 if __name__ == '__main__':

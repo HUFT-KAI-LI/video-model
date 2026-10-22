@@ -19,6 +19,7 @@ from ..wan_said.pilot_v2.evaluate_c import generate_suite, score_suite
 from ..wan_said.pilot_v2.subset import select
 from .audit import archive
 from .compare import compare
+from .preflight import resume_equivalence
 from .train import check_reference
 
 MODULE = 'experiments.wan_fm_control.'
@@ -72,6 +73,7 @@ def run(args):
         files = {**shared, **own, str(reference): sha256(reference),
                  str(reference_root/'resolved_config.json'): sha256(reference_root/'resolved_config.json')}
         for p in [*plans.values(), *locks.values(), *environments.values(),
+                  Path(args.c_existing).resolve()/'videophy2/scores/summary.json',
                   Path(cfg['manifests'])/'split_lock.json']:
             files[str(p)] = sha256(p)
         contract = dict(arm='A', loss='native FM only', training_samples=len(load_split(cfg['manifests'], 'train', True)),
@@ -173,7 +175,7 @@ def run(args):
                     destination = output/('preflight_one' if label == 'resumed' else 'preflight_'+label)
                     if (destination/'checkpoint.pt').exists():
                         saved = torch.load(destination/'checkpoint.pt', map_location='cpu', weights_only=True)
-                        done = saved['steps'] == steps
+                        done = steps <= saved['steps'] <= 2 and saved['contract']['smoke']
                         del saved
                         if done:
                             continue
@@ -183,11 +185,12 @@ def run(args):
                     execute('preflight_'+label, 'train', command, True)
                 resumed = torch.load(output/'preflight_one/checkpoint.pt', map_location='cpu', weights_only=True)
                 fresh = torch.load(output/'preflight_fresh/checkpoint.pt', map_location='cpu', weights_only=True)
-                if (resumed['final_lora_sha256'] != fresh['final_lora_sha256'] or
-                        resumed['records'] and [r['fm'] for r in resumed['records']] != [r['fm'] for r in fresh['records']]):
-                    raise AssertionError('Resumed FM-only training differs from uninterrupted training')
+                if any(s['steps'] != 2 or not s['contract']['smoke'] or s['group'] != 'A' or
+                       s['contract']['reference_C_sha256'] != files[str(reference)] for s in (resumed, fresh)):
+                    raise ValueError('Preflight checkpoints are not two-update smoke runs from this reference')
+                equivalence = resume_equivalence(resumed, fresh)
                 write_json(proof, dict(complete=True, native_geometry=[cfg['frames'], cfg['height'], cfg['width']],
-                    real_four_gpu_updates=2, resume_exact=True,
+                    real_four_gpu_updates=2, **equivalence,
                     final_lora_sha256=fresh['final_lora_sha256'], gradient_audit=fresh['gradient_audit'],
                     teacher_used=False, feature_cache_bytes=0))
                 del resumed, fresh
@@ -210,7 +213,8 @@ def run(args):
             state['validation_complete'] = True
             persist()
             evaluate('videophy2')
-            compare(sources, plans, locks, output/'videophy2_comparison', ('videophy2',))
+            expected = dict(base=None, A=sha256(checkpoint), C=sha256(reference))
+            compare(sources, plans, locks, output/'videophy2_comparison', ('videophy2',), expected)
             if args.publish:
                 state['stage'] = 'archiving_videophy2'
                 persist()
@@ -229,7 +233,7 @@ def run(args):
                 time.sleep(60)
             evaluate('vbench')
             frozen()
-            compare(sources, plans, locks, output/'comparison')
+            compare(sources, plans, locks, output/'comparison', expected_checkpoints=expected)
             write_json(output/'result_sources.json', sources)
             state.update(complete=True, stage='comparison_complete', completed_unix=time.time())
             persist()
