@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "0d5040b173544bfe1aba4d91",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0499",
+    "seed": 20261021,
+    "prompt": "Players line up, one by one kicking the ball towards a designated area.",
+    "original_prompt": "Players line up, one by one kicking the ball towards a designated area.",
+    "relative_path": "videophy2/0499.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ec56cba7cb50316410b6ecae4ab0226145f04be56e0b3560d6549e2ef32cf80b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0499.mp4",
+  "seconds": 515.1678939299891,
+  "pixel_std": 61.0013089638976,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 17.365182876586914,
+  "formal_efficacy_evidence": false
+}

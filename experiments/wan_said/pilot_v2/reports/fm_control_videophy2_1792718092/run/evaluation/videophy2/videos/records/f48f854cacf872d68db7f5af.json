@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f48f854cacf872d68db7f5af",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0521",
+    "seed": 20261021,
+    "prompt": "A small, painted rock is rolled up a sandy incline, leaving a visible trail as it rolls back down.",
+    "original_prompt": "A small, painted rock is rolled up a sandy incline, leaving a visible trail as it rolls back down.",
+    "relative_path": "videophy2/0521.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0f8db63ae887db783478a381ac2990f23d2fd076fae80bf5f3caaf75e196ac76",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0521.mp4",
+  "seconds": 522.8835653170245,
+  "pixel_std": 53.196659270213644,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 2.5946290493011475,
+  "formal_efficacy_evidence": false
+}

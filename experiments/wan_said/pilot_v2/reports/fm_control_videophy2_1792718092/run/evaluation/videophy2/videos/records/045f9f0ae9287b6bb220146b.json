@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "045f9f0ae9287b6bb220146b",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0303",
+    "seed": 20261021,
+    "prompt": "A rolling pin flattens a sphere of cookie dough into a disc, with the edges of the disc thinning.",
+    "original_prompt": "A rolling pin flattens a sphere of cookie dough into a disc, with the edges of the disc thinning.",
+    "relative_path": "videophy2/0303.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "4adc9d174e1b375b266254880b001886efaa6cd35a567662ec2d51579047848a",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0303.mp4",
+  "seconds": 507.0242844350869,
+  "pixel_std": 77.71500851950435,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.933016300201416,
+  "formal_efficacy_evidence": false
+}

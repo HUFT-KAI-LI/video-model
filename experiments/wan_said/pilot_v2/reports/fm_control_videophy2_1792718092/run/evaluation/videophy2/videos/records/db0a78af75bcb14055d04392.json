@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "db0a78af75bcb14055d04392",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0533",
+    "seed": 20261021,
+    "prompt": "A skateboarder hits a small jump, the skateboard briefly leaving the ground.",
+    "original_prompt": "A skateboarder hits a small jump, the skateboard briefly leaving the ground.",
+    "relative_path": "videophy2/0533.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "b37b94f2211f077ad3b27568e8291e2cf12a5dbe18ea603375cd2ff88894e9ea",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0533.mp4",
+  "seconds": 515.2834658299107,
+  "pixel_std": 59.42720693698487,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 13.03113079071045,
+  "formal_efficacy_evidence": false
+}

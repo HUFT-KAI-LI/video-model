@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "1f554e41e4dad1be4d41e709",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0023",
+    "seed": 20261021,
+    "prompt": "A thick rope is bent into a loop, with the visible deformation of the fibers under tension.",
+    "original_prompt": "A thick rope is bent into a loop, with the visible deformation of the fibers under tension.",
+    "relative_path": "videophy2/0023.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "bfa8e8e852b952050acff6270267b598e481fe685c734a31e09023e395d6cf24",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0023.mp4",
+  "seconds": 506.7708873790689,
+  "pixel_std": 56.695826100694134,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.9885358810424805,
+  "formal_efficacy_evidence": false
+}

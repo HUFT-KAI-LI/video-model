@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "ba351e4cfda872d2944d35bb",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0525",
+    "seed": 20261021,
+    "prompt": "A person uses a wooden mallet to strike a piece of flint, generating a series of small flakes.",
+    "original_prompt": "A person uses a wooden mallet to strike a piece of flint, generating a series of small flakes.",
+    "relative_path": "videophy2/0525.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "fedaf3065c236185895558ffc76270d9c184d0e3e27db171096f5a99e4cda93b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0525.mp4",
+  "seconds": 515.3055623089895,
+  "pixel_std": 58.903139268341484,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.732287883758545,
+  "formal_efficacy_evidence": false
+}

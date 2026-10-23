@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "b49bd95dba79c86b9874c656",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0060",
+    "seed": 20261021,
+    "prompt": "A child runs and catches a brightly colored frisbee, stopping abruptly with the frisbee in hand.",
+    "original_prompt": "A child runs and catches a brightly colored frisbee, stopping abruptly with the frisbee in hand.",
+    "relative_path": "videophy2/0060.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ea67b42e6169ccf0b11b29c5b527b5f8576b3ef3a5bbca61b9b91eb957787434",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0060.mp4",
+  "seconds": 511.2726705109235,
+  "pixel_std": 58.232196343143166,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 18.56312370300293,
+  "formal_efficacy_evidence": false
+}

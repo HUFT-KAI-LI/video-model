@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "ad3d313076de28b811f14f7c",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0357",
+    "seed": 20261021,
+    "prompt": "A person mops up a puddle of water on a concrete floor, the water disappearing as the mop passes.",
+    "original_prompt": "A person mops up a puddle of water on a concrete floor, the water disappearing as the mop passes.",
+    "relative_path": "videophy2/0357.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "6963da19db600600969f2a12e9fde5d8edfdeedf1089aca558628cd87e2ad764",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0357.mp4",
+  "seconds": 511.9057527430123,
+  "pixel_std": 64.0697664635807,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.442126750946045,
+  "formal_efficacy_evidence": false
+}

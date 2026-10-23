@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "269066652c770ae72eecb876",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0098",
+    "seed": 20261021,
+    "prompt": "A round wooden bowl, positioned upright on a cloth-covered table, rolls and falls on its side.",
+    "original_prompt": "A round wooden bowl, positioned upright on a cloth-covered table, rolls and falls on its side.",
+    "relative_path": "videophy2/0098.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "42dcba58a284d88445539435f9925f424d63736afc615b7f18b409d96838c4f9",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0098.mp4",
+  "seconds": 510.9848088269355,
+  "pixel_std": 68.8085603148865,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 1.4719979763031006,
+  "formal_efficacy_evidence": false
+}

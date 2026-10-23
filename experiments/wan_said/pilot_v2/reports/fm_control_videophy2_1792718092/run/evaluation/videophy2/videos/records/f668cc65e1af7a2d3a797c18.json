@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f668cc65e1af7a2d3a797c18",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0067",
+    "seed": 20261021,
+    "prompt": "A finger pokes a hole in a soft clay sculpture, leaving a distinct indentation.",
+    "original_prompt": "A finger pokes a hole in a soft clay sculpture, leaving a distinct indentation.",
+    "relative_path": "videophy2/0067.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0e504e602b0c99e28daede09ce5159977afad90b102173ce1d0bdfe5feb062d7",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0067.mp4",
+  "seconds": 511.12902343296446,
+  "pixel_std": 54.170076069292115,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 2.388493537902832,
+  "formal_efficacy_evidence": false
+}

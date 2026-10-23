@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "3dc1cb0a3a292567c4e40c0c",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0517",
+    "seed": 20261021,
+    "prompt": "A person uses a low heat setting on the hairdryer to gently dry their fine hair.",
+    "original_prompt": "A person uses a low heat setting on the hairdryer to gently dry their fine hair.",
+    "relative_path": "videophy2/0517.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "5bcd99b9b51f50bbdaffa4daf427b9365635be7f5a4f5cf3a4bdfcd960175526",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0517.mp4",
+  "seconds": 512.7022558790632,
+  "pixel_std": 72.39543542461735,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.316002368927002,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f47dcef47c93f331e45b8246",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0244",
+    "seed": 20261021,
+    "prompt": "A straw pokes a stack of marshmallows, causing the top marshmallow to roll over slightly.",
+    "original_prompt": "A straw pokes a stack of marshmallows, causing the top marshmallow to roll over slightly.",
+    "relative_path": "videophy2/0244.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "924a7314cb3030a99da50fd303339f5baff84b1b408bac5fd397786cddf4f10f",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0244.mp4",
+  "seconds": 524.574485847028,
+  "pixel_std": 76.8120465035961,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.522551536560059,
+  "formal_efficacy_evidence": false
+}

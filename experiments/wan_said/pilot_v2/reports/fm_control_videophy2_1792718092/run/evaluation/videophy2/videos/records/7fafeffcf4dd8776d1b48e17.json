@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "7fafeffcf4dd8776d1b48e17",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0152",
+    "seed": 20261021,
+    "prompt": "A small kite, decorated with cartoon characters, is held by a child who runs in a circle to gain height.",
+    "original_prompt": "A small kite, decorated with cartoon characters, is held by a child who runs in a circle to gain height.",
+    "relative_path": "videophy2/0152.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "92fe7cd9e4ef3fc24bac7c24dad98b2fc12e765bd6b91b62f395e50469554020",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0152.mp4",
+  "seconds": 525.7523128460161,
+  "pixel_std": 68.55722194488463,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.76678466796875,
+  "formal_efficacy_evidence": false
+}

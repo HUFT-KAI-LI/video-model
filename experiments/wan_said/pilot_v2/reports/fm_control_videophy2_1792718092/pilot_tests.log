@@ -1,0 +1,119 @@
+test_boolean_ratings_are_valid_and_aggregates_must_be_finite (test_aggregate.VBenchTests.test_boolean_ratings_are_valid_and_aggregates_must_be_finite) ... ok
+test_color_exclusions_are_visible_not_zero_imputed (test_aggregate.VBenchTests.test_color_exclusions_are_visible_not_zero_imputed) ... ok
+test_duplicate_result_files_are_not_silently_overwritten (test_aggregate.VBenchTests.test_duplicate_result_files_are_not_silently_overwritten) ... ok
+test_each_missing_or_extra_dimension_invalidates_total (test_aggregate.VBenchTests.test_each_missing_or_extra_dimension_invalidates_total) ... ok
+test_missing_duplicate_unexpected_per_video_rows_invalidates_total (test_aggregate.VBenchTests.test_missing_duplicate_unexpected_per_video_rows_invalidates_total) ... ok
+test_official_normalization_is_not_clipped (test_aggregate.VBenchTests.test_official_normalization_is_not_clipped) ... ok
+test_uses_upstream_aggregate_not_video_mean_and_exact_official_functions (test_aggregate.VBenchTests.test_uses_upstream_aggregate_not_video_mean_and_exact_official_functions) ... ok
+test_failed_summary_removes_stale_comparison_csv (test_aggregate.VideoPhyTests.test_failed_summary_removes_stale_comparison_csv) ... ok
+test_joint_joins_video_identity_not_csv_position (test_aggregate.VideoPhyTests.test_joint_joins_video_identity_not_csv_position) ... ok
+test_missing_duplicate_unexpected_or_caption_mismatch_withhold_scores (test_aggregate.VideoPhyTests.test_missing_duplicate_unexpected_or_caption_mismatch_withhold_scores) ... ok
+test_zero_noninteger_nan_infinite_out_of_range_are_failures (test_aggregate.VideoPhyTests.test_zero_noninteger_nan_infinite_out_of_range_are_failures) ... ok
+test_four_gpu_queue_uses_torchrun_and_999_updates_not_3995_global_batches (test_c_queue.QueueTests.test_four_gpu_queue_uses_torchrun_and_999_updates_not_3995_global_batches) ... {"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": [], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "waiting_grounding", "updated_at_utc": "2026-10-23T01:15:15.499930+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "parallel_preflight", "updated_at_utc": "2026-10-23T01:15:15.501503+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "parallel_preflight_complete", "updated_at_utc": "2026-10-23T01:15:15.502068+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "train_c", "updated_at_utc": "2026-10-23T01:15:15.503116+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "train_c_complete", "updated_at_utc": "2026-10-23T01:15:15.503393+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "validation", "updated_at_utc": "2026-10-23T01:15:15.504415+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c", "validation"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "validation_complete", "updated_at_utc": "2026-10-23T01:15:15.504690+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c", "validation"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "benchmark_plan", "updated_at_utc": "2026-10-23T01:15:15.505716+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c", "validation", "benchmark_plan"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "benchmark_plan_complete", "updated_at_utc": "2026-10-23T01:15:15.505987+00:00"}
+{"lock_sha256": "7e3b25dff2b5698f1cfc55ca0077d0b9904bd20e8ba1830ac1d0548202756e1a", "completed_stages": ["grounding", "parallel_preflight", "train_c", "validation", "benchmark_plan"], "complete": true, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "complete", "updated_at_utc": "2026-10-23T01:15:15.506168+00:00", "training_complete": true, "validation_complete": true}
+ok
+test_validated_grounding_queues_full_train_then_full_val_not_smoke (test_c_queue.QueueTests.test_validated_grounding_queues_full_train_then_full_val_not_smoke) ... {"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": [], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "waiting_grounding", "updated_at_utc": "2026-10-23T01:15:15.777929+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "train_c", "updated_at_utc": "2026-10-23T01:15:15.779436+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "train_c_complete", "updated_at_utc": "2026-10-23T01:15:15.780008+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "validation", "updated_at_utc": "2026-10-23T01:15:15.781022+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c", "validation"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "validation_complete", "updated_at_utc": "2026-10-23T01:15:15.781301+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c", "validation"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "benchmark_plan", "updated_at_utc": "2026-10-23T01:15:15.782297+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c", "validation", "benchmark_plan"], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "benchmark_plan_complete", "updated_at_utc": "2026-10-23T01:15:15.782556+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": ["grounding", "train_c", "validation", "benchmark_plan"], "complete": true, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "complete", "updated_at_utc": "2026-10-23T01:15:15.782727+00:00", "training_complete": true, "validation_complete": true}
+ok
+test_weak_grounding_blocks_c_without_running_any_training_child (test_c_queue.QueueTests.test_weak_grounding_blocks_c_without_running_any_training_child) ... {"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": [], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "waiting_grounding", "updated_at_utc": "2026-10-23T01:15:16.046565+00:00"}
+{"lock_sha256": "58f8080e1ea2fe802420ebc2525849fb658187a1588ee6966c39890126ee8ea0", "completed_stages": [], "complete": false, "official_scorers_executed": false, "publication_eligible": false, "feature_cache_bytes": 0, "test_used": false, "stage": "failed", "updated_at_utc": "2026-10-23T01:15:16.047137+00:00", "error": "ValueError('Grounding did not complete the registered steps or pass held-out validation; C is blocked')"}
+ok
+test_four_process_contract_creation_is_race_free_and_rejects_drift (test_generation_workers.GenerationWorkerTests.test_four_process_contract_creation_is_race_free_and_rejects_drift) ... ok
+test_full_590_and_4720_have_disjoint_complete_four_way_coverage (test_generation_workers.GenerationWorkerTests.test_full_590_and_4720_have_disjoint_complete_four_way_coverage) ... ok
+test_invalid_worker_rejected (test_generation_workers.GenerationWorkerTests.test_invalid_worker_rejected) ... ok
+test_only_matching_recorded_videos_count_and_checksums_are_verified (test_generation_workers.GenerationWorkerTests.test_only_matching_recorded_videos_count_and_checksums_are_verified) ... ok
+test_completed_scores_are_revalidated_not_blindly_skipped (test_official_queue.OfficialQueueTests.test_completed_scores_are_revalidated_not_blindly_skipped) ... ok
+test_four_workers_receive_same_full_plan_and_distinct_devices (test_official_queue.OfficialQueueTests.test_four_workers_receive_same_full_plan_and_distinct_devices) ... ok
+test_scoring_failure_never_sets_complete (test_official_queue.OfficialQueueTests.test_scoring_failure_never_sets_complete) ... ok
+test_successful_exit_with_missing_videos_does_not_mark_generation_complete (test_official_queue.OfficialQueueTests.test_successful_exit_with_missing_videos_does_not_mark_generation_complete) ... ok
+test_worker_failure_terminates_and_reaps_other_workers (test_official_queue.OfficialQueueTests.test_worker_failure_terminates_and_reaps_other_workers) ... ok
+test_changed_protocol_environment_or_prompt_lock_invalidates_stale_table (test_paired_evaluation.PairedComparisonTests.test_changed_protocol_environment_or_prompt_lock_invalidates_stale_table) ... ok
+test_report_contains_5_physics_3_vbench_totals_and_all_16_raw_and_normalized_dimensions (test_paired_evaluation.PairedComparisonTests.test_report_contains_5_physics_3_vbench_totals_and_all_16_raw_and_normalized_dimensions) ... ok
+test_summary_requires_real_execution_receipt_and_unchanged_raw_scores (test_paired_evaluation.PairedComparisonTests.test_summary_requires_real_execution_receipt_and_unchanged_raw_scores) ... ok
+test_same_four_gpus_and_locked_prompts_cover_both_models_and_both_suites (test_paired_evaluation.PairedQueueTests.test_same_four_gpus_and_locked_prompts_cover_both_models_and_both_suites) ... ok
+test_scorer_failure_never_marks_comparison_complete_or_publishes_table (test_paired_evaluation.PairedQueueTests.test_scorer_failure_never_marks_comparison_complete_or_publishes_table) ... ok
+test_base_generators_have_no_adapter_or_exploratory_flag (test_paired_evaluation.PairedRuntimeTests.test_base_generators_have_no_adapter_or_exploratory_flag) ... ok
+test_failed_parallel_scorer_terminates_and_reaps_siblings (test_paired_evaluation.PairedRuntimeTests.test_failed_parallel_scorer_terminates_and_reaps_siblings) ... ok
+test_paired_bootstrap_joins_ids_and_rejects_unmatched_samples (test_paired_evaluation.PairedRuntimeTests.test_paired_bootstrap_joins_ids_and_rejects_unmatched_samples) ... ok
+test_parallel_scorers_receive_distinct_visible_devices (test_paired_evaluation.PairedRuntimeTests.test_parallel_scorers_receive_distinct_visible_devices) ... ok
+test_exact_100_prompt_groups_five_seeds_and_all_16_dimensions (test_paired_evaluation.VBenchSubsetTests.test_exact_100_prompt_groups_five_seeds_and_all_16_dimensions) ... ok
+test_metadata_keeps_original_auxiliary_targets_and_16_scoring_tasks (test_paired_evaluation.VBenchSubsetTests.test_metadata_keeps_original_auxiliary_targets_and_16_scoring_tasks) ... ok
+test_modified_group_selection_or_missing_seed_is_rejected (test_paired_evaluation.VBenchSubsetTests.test_modified_group_selection_or_missing_seed_is_rejected) ... ok
+test_official_color_exclusion_is_explicit_not_zero_imputed_or_coverage_complete (test_paired_evaluation.VBenchSubsetTests.test_official_color_exclusion_is_explicit_not_zero_imputed_or_coverage_complete) ... ok
+test_subset_uses_official_weighted_aggregation_without_relaxing_other_coverage (test_paired_evaluation.VBenchSubsetTests.test_subset_uses_official_weighted_aggregation_without_relaxing_other_coverage) ... ok
+test_encoder_failure_not_silently_dropped (test_parallel.ParallelTests.test_encoder_failure_not_silently_dropped) ... ok
+test_encoder_results_reordered_before_global_contrastive_loss (test_parallel.ParallelTests.test_encoder_results_reordered_before_global_contrastive_loss) ... ok
+test_encoder_shards_preserve_all_indices_including_short_batches (test_parallel.ParallelTests.test_encoder_shards_preserve_all_indices_including_short_batches) ... ok
+test_one_epoch_exact_3995_ids_without_sampler_padding_duplicates (test_parallel.ParallelTests.test_one_epoch_exact_3995_ids_without_sampler_padding_duplicates) ... ok
+test_real_four_process_ddp_tail_equals_three_sample_mean_gradient (test_parallel.ParallelTests.test_real_four_process_ddp_tail_equals_three_sample_mean_gradient) ... ok
+test_feature_identity_roundtrip_and_old_small_cache_rejected (test_preprocessing.PreprocessingTests.test_feature_identity_roundtrip_and_old_small_cache_rejected) ... ok
+test_invalid_wan_frames_aspect_small_teacher_and_cache_rejected (test_preprocessing.PreprocessingTests.test_invalid_wan_frames_aspect_small_teacher_and_cache_rejected) ... ok
+test_irregular_pts_endpoint_coverage_and_duplicates_explicit (test_preprocessing.PreprocessingTests.test_irregular_pts_endpoint_coverage_and_duplicates_explicit) ... ok
+test_position_identity_and_parameterized_rectangular_time (test_preprocessing.PreprocessingTests.test_position_identity_and_parameterized_rectangular_time) ... ok
+test_real_fixture_full_clip_ignores_old_middle_window (test_preprocessing.PreprocessingTests.test_real_fixture_full_clip_ignores_old_middle_window) ... ok
+test_shared_crop_not_stretch_and_teacher_uses_same_pixels (test_preprocessing.PreprocessingTests.test_shared_crop_not_stretch_and_teacher_uses_same_pixels) ... ok
+test_exploratory_does_not_invent_review_or_relax_formal_gate (test_protocol.AlgorithmTests.test_exploratory_does_not_invent_review_or_relax_formal_gate) ... ok
+test_human_review_cannot_approve_unknown_test_or_rejected_samples (test_protocol.AlgorithmTests.test_human_review_cannot_approve_unknown_test_or_rejected_samples) ... ok
+test_paired_validation_preserves_denominator_and_rejects_nonfinite (test_protocol.AlgorithmTests.test_paired_validation_preserves_denominator_and_rejects_nonfinite) ... ok
+test_state_roundtrip_hash_changes_after_optimizer_step (test_protocol.AlgorithmTests.test_state_roundtrip_hash_changes_after_optimizer_step) ... ok
+test_stateless_shuffle_has_full_coverage_and_resume_order (test_protocol.AlgorithmTests.test_stateless_shuffle_has_full_coverage_and_resume_order) ... ok
+test_vit_base_grounding_and_frozen_target_contract (test_protocol.AlgorithmTests.test_vit_base_grounding_and_frozen_target_contract) ... ok
+test_duplicate_and_unsafe_mappings_rejected (test_protocol.BenchmarkTests.test_duplicate_and_unsafe_mappings_rejected) ... ok
+test_incomplete_or_modified_plan_rejected_for_formal_scoring (test_protocol.BenchmarkTests.test_incomplete_or_modified_plan_rejected_for_formal_scoring) ... ok
+test_job_mapping_and_official_filenames (test_protocol.BenchmarkTests.test_job_mapping_and_official_filenames) ... ok
+test_missing_videos_never_reduce_denominator (test_protocol.BenchmarkTests.test_missing_videos_never_reduce_denominator) ... ok
+test_official_prompt_counts_and_separate_benchmark_versions (test_protocol.BenchmarkTests.test_official_prompt_counts_and_separate_benchmark_versions) ... ok
+test_online_encoders_reject_sealed_test_or_edited_caption_before_loading (test_protocol.FrozenPilotTests.test_online_encoders_reject_sealed_test_or_edited_caption_before_loading) ... ok
+test_parent_membership_preserved_new_ids_and_no_local_window (test_protocol.FrozenPilotTests.test_parent_membership_preserved_new_ids_and_no_local_window) ... ok
+test_review_requires_completed_named_decisions_and_records_rejection (test_protocol.FrozenPilotTests.test_review_requires_completed_named_decisions_and_records_rejection) ... ok
+test_deterministic_backend_scope_restores_native_reference_on_error (test_protocol.OfficialSolverTests.test_deterministic_backend_scope_restores_native_reference_on_error) ... ok
+test_parameterized_positions_match_official_48_frame_interpolator_exactly (test_protocol.OfficialSolverTests.test_parameterized_positions_match_official_48_frame_interpolator_exactly) ... /data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/lib/python3.11/site-packages/timm/models/layers/__init__.py:49: DeprecationWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", DeprecationWarning)
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/.venv/lib/python3.11/site-packages/timm/models/registry.py:4: DeprecationWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", DeprecationWarning)
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:532: UserWarning: Overwriting vit_small_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_small_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:547: UserWarning: Overwriting vit_base_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_base_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:562: UserWarning: Overwriting vit_large_patch16_224 in registry with wan_said_pilot_v2_videomaev2.vit_large_patch16_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/finetune/models/cogvideox_t2v_align/models/ssl/VideoMAEv2.py:592: UserWarning: Overwriting vit_giant_patch14_224 in registry with wan_said_pilot_v2_videomaev2.vit_giant_patch14_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  @register_model
+pos_embed shape: torch.Size([1, 24, 10, 15, 12])
+ok
+test_pinned_native_unipc_is_finite_and_reproducible (test_protocol.OfficialSolverTests.test_pinned_native_unipc_is_finite_and_reproducible) ... ok
+test_success_is_only_integration_evidence_not_a_benchmark_score (test_scorer_probe.ScorerProbeTests.test_success_is_only_integration_evidence_not_a_benchmark_score) ... ok
+test_zero_parse_failure_does_not_pass_integration (test_scorer_probe.ScorerProbeTests.test_zero_parse_failure_does_not_pass_integration) ... ok
+test_aggregate_only_rejects_changed_generation_lock (test_scoring_workflow.ScoringWorkflowTests.test_aggregate_only_rejects_changed_generation_lock) ... ok
+test_aggregate_only_rejects_edited_raw_scores_and_clears_old_table (test_scoring_workflow.ScoringWorkflowTests.test_aggregate_only_rejects_edited_raw_scores_and_clears_old_table) ... ok
+test_failed_official_task_does_not_aggregate (test_scoring_workflow.ScoringWorkflowTests.test_failed_official_task_does_not_aggregate) ... ok
+test_incomplete_results_preserve_audit_and_withhold_total (test_scoring_workflow.ScoringWorkflowTests.test_incomplete_results_preserve_audit_and_withhold_total) ... ok
+test_scoring_automatically_aggregates_and_can_reaggregate (test_scoring_workflow.ScoringWorkflowTests.test_scoring_automatically_aggregates_and_can_reaggregate) ... ok
+test_subset_aggregates_without_claiming_full_benchmark_or_allowing_relabelling (test_scoring_workflow.ScoringWorkflowTests.test_subset_aggregates_without_claiming_full_benchmark_or_allowing_relabelling) ... ok
+test_edited_selection_or_parent_plan_is_rejected (test_subset.SubsetTests.test_edited_selection_or_parent_plan_is_rejected) ... ok
+test_invalid_sizes_and_non_videophy_subsets_rejected (test_subset.SubsetTests.test_invalid_sizes_and_non_videophy_subsets_rejected) ... ok
+test_reproducible_exactly_100_distinct_samples_with_full_denominator (test_subset.SubsetTests.test_reproducible_exactly_100_distinct_samples_with_full_denominator) ... ok
+test_reuse_checks_identity_and_hardlinks_only_selected_videos (test_subset.SubsetTests.test_reuse_checks_identity_and_hardlinks_only_selected_videos) ... ok
+test_all_val_rows_paired_resumable_and_test_never_read (test_validation_workflow.ValidationWorkflowTests.test_all_val_rows_paired_resumable_and_test_never_read) ... validation {'sample_id': 'val_0', 'split': 'val', 'noise_seed': 30042, 'base_fm': 1.0813096761703491, 'c_fm': 1.1789984703063965, 'c_said': 0.9161519408226013, 'seconds': 0.09302613593172282}
+validation {'sample_id': 'val_1', 'split': 'val', 'noise_seed': 30043, 'base_fm': 11.368550300598145, 'c_fm': 22.984451293945312, 'c_said': 0.9161519408226013, 'seconds': 0.002383858896791935}
+validation {'sample_id': 'val_2', 'split': 'val', 'noise_seed': 30044, 'base_fm': 1.040022611618042, 'c_fm': 1.0146299600601196, 'c_said': 0.9161519408226013, 'seconds': 0.002281026914715767}
+ok
+
+----------------------------------------------------------------------
+Ran 78 tests in 34.762s
+
+OK

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "a74d6e615eab8e85479a4e61",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0241",
+    "seed": 20261021,
+    "prompt": "An athlete with a prosthetic arm throws a hammer, emphasizing the motion of the arm and the hammer's flight.",
+    "original_prompt": "An athlete with a prosthetic arm throws a hammer, emphasizing the motion of the arm and the hammer's flight.",
+    "relative_path": "videophy2/0241.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0f5123673ca627d6db871e6854d26464f51442e01cbe381e871edb381615eb58",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0241.mp4",
+  "seconds": 512.2467653920176,
+  "pixel_std": 61.65603369060543,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.290165901184082,
+  "formal_efficacy_evidence": false
+}

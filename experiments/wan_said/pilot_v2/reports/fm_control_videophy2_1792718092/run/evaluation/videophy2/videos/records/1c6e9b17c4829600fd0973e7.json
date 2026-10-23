@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "1c6e9b17c4829600fd0973e7",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0110",
+    "seed": 20261021,
+    "prompt": "A person trims a climbing rose, guiding the growth along a trellis using hand shears, shaping the plant against the trellis.",
+    "original_prompt": "A person trims a climbing rose, guiding the growth along a trellis using hand shears, shaping the plant against the trellis.",
+    "relative_path": "videophy2/0110.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "dbd168e280528cd0588ab9e8ae1598ffc5a120f32e448d2e21b73da068b46d01",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0110.mp4",
+  "seconds": 508.7032448470127,
+  "pixel_std": 66.0515663640348,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.343793869018555,
+  "formal_efficacy_evidence": false
+}

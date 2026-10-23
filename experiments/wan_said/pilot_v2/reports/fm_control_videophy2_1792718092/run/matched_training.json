@@ -1,0 +1,11 @@
+{
+  "complete": true,
+  "initial_lora_equal": true,
+  "training_identity_equal": true,
+  "ordered_samples_noise_timesteps_crops_equal": true,
+  "steps": 999,
+  "unique_training_samples": 3995,
+  "A_loss": "FM",
+  "C_loss": "FM + 0.05 * SAID",
+  "full_parameter_finetuning": false
+}

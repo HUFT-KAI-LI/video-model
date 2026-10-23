@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "72ae0840be5c13f5110246f1",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0038",
+    "seed": 20261021,
+    "prompt": "A box is wrapped with various pieces of patterned wrapping paper to create a patchwork effect.",
+    "original_prompt": "A box is wrapped with various pieces of patterned wrapping paper to create a patchwork effect.",
+    "relative_path": "videophy2/0038.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "4d0564bac515eb3bfa563fcdd3b486612f525435492f3b932443cc5d39b1c249",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0038.mp4",
+  "seconds": 515.2810490750708,
+  "pixel_std": 77.50081309460502,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 3.0716400146484375,
+  "formal_efficacy_evidence": false
+}

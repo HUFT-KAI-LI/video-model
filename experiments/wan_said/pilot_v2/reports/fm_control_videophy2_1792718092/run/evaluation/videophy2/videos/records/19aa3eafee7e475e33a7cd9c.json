@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "19aa3eafee7e475e33a7cd9c",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0312",
+    "seed": 20261021,
+    "prompt": "A person uses a post hole digger to create a hole and buries a fence post, packing the surrounding soil.",
+    "original_prompt": "A person uses a post hole digger to create a hole and buries a fence post, packing the surrounding soil.",
+    "relative_path": "videophy2/0312.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "e791d1e2a6d73c0e862bc7e6f5762cf689456bde1ac27fefbb0e55a1d430c32b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0312.mp4",
+  "seconds": 525.6929468879243,
+  "pixel_std": 59.327215315630006,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 7.896310806274414,
+  "formal_efficacy_evidence": false
+}

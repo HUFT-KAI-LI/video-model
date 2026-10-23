@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "e9a6d8e629ec269889e8ad0f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0375",
+    "seed": 20261021,
+    "prompt": "A person uses a long-handled fruit picker to reach and twist a peach from a tree.",
+    "original_prompt": "A person uses a long-handled fruit picker to reach and twist a peach from a tree.",
+    "relative_path": "videophy2/0375.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "986c92ba364980c17e7efa62bef21bdb66d0b059bcac3d465e34a07f365e1250",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0375.mp4",
+  "seconds": 508.63192070496734,
+  "pixel_std": 70.1602716970168,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.935380935668945,
+  "formal_efficacy_evidence": false
+}

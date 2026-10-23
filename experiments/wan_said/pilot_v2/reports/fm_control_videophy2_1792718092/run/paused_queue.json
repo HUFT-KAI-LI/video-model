@@ -1,0 +1,83 @@
+{
+  "service": "wan-said-paired100-20261022.service",
+  "was_active": true,
+  "status_path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/paired100_20261022/status.json",
+  "paused_unix": 1792674995.374561,
+  "original_status": {
+    "complete": false,
+    "paired_comparison_ready": false,
+    "stage": "C_vbench_generation",
+    "pid": 2947168,
+    "started_unix": 1792653686.4097035,
+    "evaluation_scope": "matched_100_prompt_subset",
+    "formal_benchmark_complete": false,
+    "publication_eligible": false,
+    "arms": {
+      "base": {
+        "suites": {
+          "videophy2": {
+            "expected_videos": 100,
+            "completed_videos": 100,
+            "generation_complete": true,
+            "scoring_complete": true,
+            "worker_pids": [
+              2949322,
+              2949323,
+              2949324,
+              2949325
+            ],
+            "mean_generation_seconds": 490.69718822614874,
+            "scorer_environment_sha256": "4f915cd72ea28c7ff38d5854683c98f651ad8d1348f72a2e9d294948873a8888",
+            "scores": {
+              "sa_mean": 3.13,
+              "pc_mean": 3.67,
+              "sa_at_4": 0.32,
+              "pc_at_4": 0.6,
+              "joint_at_4": 0.25
+            }
+          },
+          "vbench": {
+            "expected_videos": 500,
+            "completed_videos": 0,
+            "generation_complete": false,
+            "scoring_complete": false
+          }
+        },
+        "stage": "videophy2_scoring"
+      },
+      "C": {
+        "suites": {
+          "videophy2": {
+            "expected_videos": 100,
+            "completed_videos": 100,
+            "generation_complete": true,
+            "scoring_complete": true,
+            "reused": true,
+            "scores": {
+              "sa_mean": 3.16,
+              "pc_mean": 3.78,
+              "sa_at_4": 0.35,
+              "pc_at_4": 0.67,
+              "joint_at_4": 0.32
+            }
+          },
+          "vbench": {
+            "expected_videos": 500,
+            "completed_videos": 64,
+            "generation_complete": false,
+            "scoring_complete": false,
+            "worker_pids": [
+              3016180,
+              3016181,
+              3016182,
+              3016183
+            ]
+          }
+        },
+        "stage": "vbench_generation"
+      }
+    },
+    "updated_unix": 1792674981.8833055
+  },
+  "reason": "Temporary GPU handoff to matched FM-only training and VideoPhy-2; existing records retained"
+}

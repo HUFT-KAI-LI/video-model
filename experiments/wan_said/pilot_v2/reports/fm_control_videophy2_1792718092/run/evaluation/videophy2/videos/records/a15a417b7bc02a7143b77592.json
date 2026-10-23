@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "a15a417b7bc02a7143b77592",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0135",
+    "seed": 20261021,
+    "prompt": "A snowball is thrown and hits a wooden fence, leaving a small, wet indentation.",
+    "original_prompt": "A snowball is thrown and hits a wooden fence, leaving a small, wet indentation.",
+    "relative_path": "videophy2/0135.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f7270bfbb0366307266caae73b48a05bb9e2adc9823ffc088485a668e0052ab3",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0135.mp4",
+  "seconds": 510.9343757929746,
+  "pixel_std": 58.399813701166764,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 2.310027599334717,
+  "formal_efficacy_evidence": false
+}

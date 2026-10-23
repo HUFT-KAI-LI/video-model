@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d80ab82c5eef8d43c9f2fc3f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0003",
+    "seed": 20261021,
+    "prompt": "A pair of jeans are folded in half lengthwise, then folded again into thirds, creating a compact rectangle.",
+    "original_prompt": "A pair of jeans are folded in half lengthwise, then folded again into thirds, creating a compact rectangle.",
+    "relative_path": "videophy2/0003.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "1459f03f2ac62e23e430ab78fd93fdb7451844aef986a6dbf0fa29cd65e173e4",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0003.mp4",
+  "seconds": 509.38965122099034,
+  "pixel_std": 63.137175626730496,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 16.872682571411133,
+  "formal_efficacy_evidence": false
+}

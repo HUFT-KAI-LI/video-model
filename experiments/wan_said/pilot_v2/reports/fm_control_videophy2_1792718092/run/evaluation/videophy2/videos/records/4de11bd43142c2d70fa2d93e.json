@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "4de11bd43142c2d70fa2d93e",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0230",
+    "seed": 20261021,
+    "prompt": "A farmer harvests raspberries, gently picking them from the bushes and placing them into a container.",
+    "original_prompt": "A farmer harvests raspberries, gently picking them from the bushes and placing them into a container.",
+    "relative_path": "videophy2/0230.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "776cb320f07cadfb02db55eed9a93b9637e44064855ded1e56710631b84131d5",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0230.mp4",
+  "seconds": 525.3958446120378,
+  "pixel_std": 83.55794548769606,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 12.122570991516113,
+  "formal_efficacy_evidence": false
+}

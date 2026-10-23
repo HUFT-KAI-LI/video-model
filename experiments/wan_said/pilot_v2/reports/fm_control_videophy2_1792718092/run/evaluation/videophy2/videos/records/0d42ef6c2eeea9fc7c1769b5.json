@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "0d42ef6c2eeea9fc7c1769b5",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0222",
+    "seed": 20261021,
+    "prompt": "A person wearing a protective helmet performs a backflip on a concrete surface.",
+    "original_prompt": "A person wearing a protective helmet performs a backflip on a concrete surface.",
+    "relative_path": "videophy2/0222.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "0bff609de9b2a724c4e073bff52e77257653556ba30c2b2ef108e9f09085161b",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0222.mp4",
+  "seconds": 507.5183012279449,
+  "pixel_std": 58.89565850022599,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.398440837860107,
+  "formal_efficacy_evidence": false
+}

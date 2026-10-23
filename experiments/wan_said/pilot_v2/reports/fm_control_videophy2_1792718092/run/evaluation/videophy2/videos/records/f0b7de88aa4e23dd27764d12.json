@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f0b7de88aa4e23dd27764d12",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0204",
+    "seed": 20261021,
+    "prompt": "A person juggles a soccer ball in a tight space surrounded by cones, demonstrating precise control and maneuverability.",
+    "original_prompt": "A person juggles a soccer ball in a tight space surrounded by cones, demonstrating precise control and maneuverability.",
+    "relative_path": "videophy2/0204.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "89024a9c8ac2d50f01d10cce8e7b54a31b407adbd2a51cca2138f55e41b482e3",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0204.mp4",
+  "seconds": 523.7740775420098,
+  "pixel_std": 67.24582489189221,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.277481079101562,
+  "formal_efficacy_evidence": false
+}

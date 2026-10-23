@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "2b7527940393d50ef5dc6c48",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0379",
+    "seed": 20261021,
+    "prompt": "A person ties a bow tie while standing in front of a mirror, adjusting the knot's symmetry.",
+    "original_prompt": "A person ties a bow tie while standing in front of a mirror, adjusting the knot's symmetry.",
+    "relative_path": "videophy2/0379.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "3ccbccef3ab8d436bf6e7ccc8f0937047322582b42553cf6ab4c9a8bb21629a6",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0379.mp4",
+  "seconds": 525.367510771961,
+  "pixel_std": 72.8671083600447,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.534402847290039,
+  "formal_efficacy_evidence": false
+}

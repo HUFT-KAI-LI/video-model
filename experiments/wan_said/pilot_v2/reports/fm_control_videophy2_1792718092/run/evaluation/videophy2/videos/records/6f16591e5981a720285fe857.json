@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "6f16591e5981a720285fe857",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0104",
+    "seed": 20261021,
+    "prompt": "A basketball, slightly deflated, is dribbled, resulting in a lower and less consistent bounce.",
+    "original_prompt": "A basketball, slightly deflated, is dribbled, resulting in a lower and less consistent bounce.",
+    "relative_path": "videophy2/0104.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "a4849f4970241c1c1dcfd9118849d8eb55d367856d9335c1508360616d809df3",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0104.mp4",
+  "seconds": 514.8860186790116,
+  "pixel_std": 55.518279849685705,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.899454593658447,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,56 @@
+{
+  "suite": "videophy2",
+  "expected_videos": 100,
+  "denominator": 100,
+  "tasks": [
+    {
+      "name": "videophy2_sa",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "{videophy_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/scores/videophy2_inputs.csv",
+        "--checkpoint",
+        "{videophy_checkpoint}",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/scores/videophy2_sa.csv",
+        "--task",
+        "sa"
+      ]
+    },
+    {
+      "name": "videophy2_pc",
+      "environment": "videophy_python",
+      "cwd": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2",
+      "script": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+      "script_sha256": "9b3509443e82a6745c729696b7842bc36be0c3e9e43d1eec3e31bd83376d783a",
+      "argv": [
+        "{videophy_python}",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/vendor/VideoREPA/evaluation/VIDEOPHY2/inference.py",
+        "--input_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/scores/videophy2_inputs.csv",
+        "--checkpoint",
+        "{videophy_checkpoint}",
+        "--output_csv",
+        "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/scores/videophy2_pc.csv",
+        "--task",
+        "pc"
+      ]
+    }
+  ],
+  "official_scorers_executed": false,
+  "scores": null,
+  "proxy_metrics_used": false,
+  "benchmark_version": "VideoPhy-2",
+  "jobs_sha256": "a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb",
+  "main_table_ready": false,
+  "subset_lock_sha256": "70db92344d43fa473e2fd37960c6cb70e9a650241654321078d8d8f42b0a9629",
+  "evaluation_scope": "subset_pilot",
+  "full_benchmark_denominator": 590,
+  "formal_benchmark_complete": false,
+  "subset_table_ready": false
+}

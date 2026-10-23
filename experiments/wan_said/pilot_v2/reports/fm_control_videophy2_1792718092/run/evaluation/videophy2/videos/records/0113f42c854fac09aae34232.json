@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "0113f42c854fac09aae34232",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0151",
+    "seed": 20261021,
+    "prompt": "A person uses a rotary cutter to cut fabric, creating a straight line through multiple layers.",
+    "original_prompt": "A person uses a rotary cutter to cut fabric, creating a straight line through multiple layers.",
+    "relative_path": "videophy2/0151.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "7212b5fd8e3dcead02e9ab61ed1f0bba4d5c9fb380eb55aefbb547843bc6a3c8",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0151.mp4",
+  "seconds": 512.8986471151002,
+  "pixel_std": 74.98972157999702,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.704883098602295,
+  "formal_efficacy_evidence": false
+}

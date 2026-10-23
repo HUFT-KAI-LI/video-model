@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f7237e8adef41bbb7ec8c8b8",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0111",
+    "seed": 20261021,
+    "prompt": "A surfer dives underwater to avoid a breaking wave, resurfacing seconds later.",
+    "original_prompt": "A surfer dives underwater to avoid a breaking wave, resurfacing seconds later.",
+    "relative_path": "videophy2/0111.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "6b8af1e238f8d67ddb436e27885d568eff0c0d81f82e720c7b8677f56575f4fb",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0111.mp4",
+  "seconds": 511.30194243893493,
+  "pixel_std": 77.54492135099389,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 10.171332359313965,
+  "formal_efficacy_evidence": false
+}

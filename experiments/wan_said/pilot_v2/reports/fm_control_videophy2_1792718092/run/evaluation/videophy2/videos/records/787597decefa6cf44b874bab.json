@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "787597decefa6cf44b874bab",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0150",
+    "seed": 20261021,
+    "prompt": "A child throws a basketball underhand, showing the ball's low trajectory and impact with the floor.",
+    "original_prompt": "A child throws a basketball underhand, showing the ball's low trajectory and impact with the floor.",
+    "relative_path": "videophy2/0150.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "11cf1c693302bc6a47a6f1458c67151bb913ea69f176f5a0bcd90f2fad44c3ee",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0150.mp4",
+  "seconds": 508.3123474830063,
+  "pixel_std": 52.669170288452165,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.212996006011963,
+  "formal_efficacy_evidence": false
+}

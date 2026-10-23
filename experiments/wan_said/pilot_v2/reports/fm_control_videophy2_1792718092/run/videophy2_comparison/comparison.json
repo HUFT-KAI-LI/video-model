@@ -1,0 +1,253 @@
+{
+  "complete": false,
+  "completed_suites": [
+    "videophy2"
+  ],
+  "evaluation_scope": "matched_100_prompt_subset",
+  "formal_benchmark_complete": false,
+  "publication_eligible": false,
+  "metrics": [
+    {
+      "suite": "videophy2",
+      "family": "scores",
+      "metric": "joint_at_4",
+      "base": 0.25,
+      "A": 0.24,
+      "C": 0.32,
+      "A_minus_base": -0.010000000000000009,
+      "C_minus_A": 0.08000000000000002,
+      "C_minus_base": 0.07
+    },
+    {
+      "suite": "videophy2",
+      "family": "scores",
+      "metric": "pc_at_4",
+      "base": 0.6,
+      "A": 0.68,
+      "C": 0.67,
+      "A_minus_base": 0.08000000000000007,
+      "C_minus_A": -0.010000000000000009,
+      "C_minus_base": 0.07000000000000006
+    },
+    {
+      "suite": "videophy2",
+      "family": "scores",
+      "metric": "pc_mean",
+      "base": 3.67,
+      "A": 3.76,
+      "C": 3.78,
+      "A_minus_base": 0.08999999999999986,
+      "C_minus_A": 0.020000000000000018,
+      "C_minus_base": 0.10999999999999988
+    },
+    {
+      "suite": "videophy2",
+      "family": "scores",
+      "metric": "sa_at_4",
+      "base": 0.32,
+      "A": 0.29,
+      "C": 0.35,
+      "A_minus_base": -0.030000000000000027,
+      "C_minus_A": 0.06,
+      "C_minus_base": 0.02999999999999997
+    },
+    {
+      "suite": "videophy2",
+      "family": "scores",
+      "metric": "sa_mean",
+      "base": 3.13,
+      "A": 3.08,
+      "C": 3.16,
+      "A_minus_base": -0.04999999999999982,
+      "C_minus_A": 0.08000000000000007,
+      "C_minus_base": 0.03000000000000025
+    }
+  ],
+  "source_summaries": {
+    "videophy2": {
+      "base": {
+        "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/paired100_20261022/base/videophy2/scores/summary.json",
+        "sha256": "8bd3b7ae48b002e8cf79e92b5779bca42815f665c13a4710f26744d3e946c140"
+      },
+      "A": {
+        "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/scores/summary.json",
+        "sha256": "fabb8a6737319ca704a6943056cb75f0a62fb64719a71089796bb4282a0b5358"
+      },
+      "C": {
+        "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/c_subset100_20261022/videophy2/scores/summary.json",
+        "sha256": "db4d0e2de54219d59f84282d91551664dbedfb19fb3a00d6724b16b9726313ac"
+      }
+    }
+  },
+  "videophy2_paired_bootstrap": {
+    "seed": 20261022,
+    "resamples": 10000,
+    "intervals": {
+      "A_minus_base": {
+        "sa_mean": {
+          "delta": -0.05,
+          "ci95": [
+            -0.13,
+            0.03
+          ],
+          "c_better": 4,
+          "tied": 86,
+          "c_worse": 10
+        },
+        "pc_mean": {
+          "delta": 0.09,
+          "ci95": [
+            -0.03,
+            0.21
+          ],
+          "c_better": 21,
+          "tied": 66,
+          "c_worse": 13
+        },
+        "sa_at_4": {
+          "delta": -0.03,
+          "ci95": [
+            -0.08,
+            0.01
+          ],
+          "c_better": 1,
+          "tied": 95,
+          "c_worse": 4
+        },
+        "pc_at_4": {
+          "delta": 0.08,
+          "ci95": [
+            -0.02,
+            0.18
+          ],
+          "c_better": 18,
+          "tied": 72,
+          "c_worse": 10
+        },
+        "joint_at_4": {
+          "delta": -0.01,
+          "ci95": [
+            -0.06,
+            0.04
+          ],
+          "c_better": 3,
+          "tied": 93,
+          "c_worse": 4
+        }
+      },
+      "C_minus_A": {
+        "sa_mean": {
+          "delta": 0.08,
+          "ci95": [
+            -0.01,
+            0.17
+          ],
+          "c_better": 13,
+          "tied": 81,
+          "c_worse": 6
+        },
+        "pc_mean": {
+          "delta": 0.02,
+          "ci95": [
+            -0.1,
+            0.14
+          ],
+          "c_better": 19,
+          "tied": 65,
+          "c_worse": 16
+        },
+        "sa_at_4": {
+          "delta": 0.06,
+          "ci95": [
+            0.0,
+            0.13
+          ],
+          "c_better": 9,
+          "tied": 88,
+          "c_worse": 3
+        },
+        "pc_at_4": {
+          "delta": -0.01,
+          "ci95": [
+            -0.11,
+            0.09
+          ],
+          "c_better": 12,
+          "tied": 75,
+          "c_worse": 13
+        },
+        "joint_at_4": {
+          "delta": 0.08,
+          "ci95": [
+            0.02,
+            0.15
+          ],
+          "c_better": 10,
+          "tied": 88,
+          "c_worse": 2
+        }
+      },
+      "C_minus_base": {
+        "sa_mean": {
+          "delta": 0.03,
+          "ci95": [
+            -0.08,
+            0.14
+          ],
+          "c_better": 12,
+          "tied": 77,
+          "c_worse": 11
+        },
+        "pc_mean": {
+          "delta": 0.11,
+          "ci95": [
+            0.0,
+            0.22
+          ],
+          "c_better": 22,
+          "tied": 68,
+          "c_worse": 10
+        },
+        "sa_at_4": {
+          "delta": 0.03,
+          "ci95": [
+            -0.04,
+            0.1
+          ],
+          "c_better": 8,
+          "tied": 87,
+          "c_worse": 5
+        },
+        "pc_at_4": {
+          "delta": 0.07,
+          "ci95": [
+            -0.03,
+            0.17
+          ],
+          "c_better": 17,
+          "tied": 73,
+          "c_worse": 10
+        },
+        "joint_at_4": {
+          "delta": 0.07,
+          "ci95": [
+            0.0,
+            0.14
+          ],
+          "c_better": 10,
+          "tied": 87,
+          "c_worse": 3
+        }
+      }
+    }
+  },
+  "vbench_coverage": {},
+  "vbench_official_conditional_exclusions": {},
+  "limitations": [
+    "100-prompt pilot subsets, not full official benchmark results.",
+    "A is FM-only LoRA, not full-parameter fine-tuning; C is FM+SAID with the same LoRA protocol.",
+    "C minus A estimates the alignment effect under this single matched training seed, not universal significance.",
+    "Official color exclusions may change effective denominators; consult per-model coverage.",
+    "Caption/crop human review remains pending; the sealed 500-video dataset test split is not used."
+  ]
+}

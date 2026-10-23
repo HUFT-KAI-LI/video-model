@@ -1,0 +1,24 @@
+test_consistent_positive_negative_pair_mask (test_alignment.AlignmentTests.test_consistent_positive_negative_pair_mask) ... ok
+test_distill_stop_gradient_zero_mask (test_alignment.AlignmentTests.test_distill_stop_gradient_zero_mask) ... ok
+test_fm_and_distill_separate_gradient_sets (test_alignment.AlignmentTests.test_fm_and_distill_separate_gradient_sets) ... ok
+test_grounding_backward_parameter_set_teacher_frozen (test_alignment.AlignmentTests.test_grounding_backward_parameter_set_teacher_frozen) ... ok
+test_grounding_no_negative_rejected (test_alignment.AlignmentTests.test_grounding_no_negative_rejected) ... ok
+test_h15_gradient_checkpoint_capture (test_alignment.AlignmentTests.test_h15_gradient_checkpoint_capture) ... ok
+test_mask_pool_padding_dtype (test_alignment.AlignmentTests.test_mask_pool_padding_dtype) ... ok
+test_mask_shapes_range_text_condition (test_alignment.AlignmentTests.test_mask_shapes_range_text_condition) ... ok
+test_reentrant_checkpoint_rejected (test_alignment.AlignmentTests.test_reentrant_checkpoint_rejected) ... ok
+test_source_hash_caption_group_dedup_and_determinism (test_alignment.SplitTests.test_source_hash_caption_group_dedup_and_determinism) ... ok
+test_split_lock_and_test_optimizer_guard (test_alignment.SplitTests.test_split_lock_and_test_optimizer_guard) ... ok
+test_forward_is_unmodified_native_function (test_native_contract.NativeContractTests.test_forward_is_unmodified_native_function) ... ok
+test_h15_capture_preserves_native_fm_and_gradients (test_native_contract.NativeContractTests.test_h15_capture_preserves_native_fm_and_gradients) ... ok
+test_original_youtube_grouping_across_clips_and_sources (test_openvid.OpenVidTests.test_original_youtube_grouping_across_clips_and_sources) ... ok
+test_range_and_pinned_mirror_url (test_openvid.OpenVidTests.test_range_and_pinned_mirror_url) ... ok
+test_range_ignored_refuses_unbounded_archive (test_openvid.OpenVidTests.test_range_ignored_refuses_unbounded_archive) ... ok
+test_stock_parent_not_segment (test_openvid.OpenVidTests.test_stock_parent_not_segment) ... ok
+test_downloaded_video_qc_and_frozen_source_split (test_real_split.RealSplitTest.test_downloaded_video_qc_and_frozen_source_split) ... {"train": 32, "val": 4, "test": 4}
+ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 5.574s
+
+OK

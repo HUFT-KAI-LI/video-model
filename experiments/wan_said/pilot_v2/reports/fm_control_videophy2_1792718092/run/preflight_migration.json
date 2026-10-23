@@ -1,0 +1,17 @@
+{
+  "recorded_unix": 1792675595.0116944,
+  "reason": "Correct bytewise DDP resume gate to strict numerical equivalence; no native FM/trainer/data changes",
+  "full_training_started": false,
+  "original_lock_sha256": "34cb154e336a3bf1ac2d9f6a281fed744e6967e84f5857082f22b21be556b2e7",
+  "original_lock_path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/run_lock.rejected_exact_resume.json",
+  "changed_orchestration_files": [
+    "/data/lk/深度学习/video-model-said-exp1/experiments/wan_fm_control/compare.py",
+    "/data/lk/深度学习/video-model-said-exp1/experiments/wan_fm_control/run.py"
+  ],
+  "unchanged_native_trainer_sha256": "d5650a8cc631e447beaa488a1ec6f97b202a9b167c2f6566a1cc39fd40205cae",
+  "preflight_checkpoint_sha256": {
+    "preflight_fresh/checkpoint.pt": "24e7e1390285f45f0293868466a7d8d27978b0a6b2abe769575f54ff5bc702ef",
+    "preflight_one/checkpoint.pt": "3851ed607490a8a27371fb50852e084766ad2aa612702f013a81cbb18b962767"
+  },
+  "preserved_failed_status": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/status.rejected_exact_resume.json"
+}

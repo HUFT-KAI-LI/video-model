@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "1d7f3824349761485ff1fb7f",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0531",
+    "seed": 20261021,
+    "prompt": "Two people stand on a balance beam simultaneously, maintaining their stability.",
+    "original_prompt": "Two people stand on a balance beam simultaneously, maintaining their stability.",
+    "relative_path": "videophy2/0531.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "f9979c8fa8452594c89d8deb8616616363fb66352a080afa3345436196552c27",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0531.mp4",
+  "seconds": 525.7364770739805,
+  "pixel_std": 49.25631158275075,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.390532493591309,
+  "formal_efficacy_evidence": false
+}

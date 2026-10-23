@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "4cc0b60c2caf07c81003a95e",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0154",
+    "seed": 20261021,
+    "prompt": "Small twigs are stuck into the snowman's head as eyes and mouth.",
+    "original_prompt": "Small twigs are stuck into the snowman's head as eyes and mouth.",
+    "relative_path": "videophy2/0154.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "bce6fa59c6ed82687c655919bccb3b5685f74aa74f66446f4b66e6f1797b7eae",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0154.mp4",
+  "seconds": 515.9707040260546,
+  "pixel_std": 84.71260998966181,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 0.5055608749389648,
+  "formal_efficacy_evidence": false
+}

@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "6c73e86ecc2760d866cb7488",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0374",
+    "seed": 20261021,
+    "prompt": "A person on a unicycle stops abruptly, putting a foot down to maintain balance before continuing.",
+    "original_prompt": "A person on a unicycle stops abruptly, putting a foot down to maintain balance before continuing.",
+    "relative_path": "videophy2/0374.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "5fab142aa9ba756055a229751d14513c295f2ceac7bfca4a71f569b3bf85669f",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0374.mp4",
+  "seconds": 515.4263281701133,
+  "pixel_std": 50.11627801595721,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.685090065002441,
+  "formal_efficacy_evidence": false
+}

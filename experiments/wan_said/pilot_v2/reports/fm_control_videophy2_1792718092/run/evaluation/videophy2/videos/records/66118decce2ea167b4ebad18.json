@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "66118decce2ea167b4ebad18",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0448",
+    "seed": 20261021,
+    "prompt": "Parallel bars are shown from a side view with an athlete performing a series of dips.",
+    "original_prompt": "Parallel bars are shown from a side view with an athlete performing a series of dips.",
+    "relative_path": "videophy2/0448.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ec0ca6c5b23bbe6eddf400e4f6f42218582237c3e3c2c43cdcf9cc2b555a5f26",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0448.mp4",
+  "seconds": 514.9430596029852,
+  "pixel_std": 56.34649064631831,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 3.5970890522003174,
+  "formal_efficacy_evidence": false
+}

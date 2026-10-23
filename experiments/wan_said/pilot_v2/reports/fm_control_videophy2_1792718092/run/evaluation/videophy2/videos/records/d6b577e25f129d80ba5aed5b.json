@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d6b577e25f129d80ba5aed5b",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0298",
+    "seed": 20261021,
+    "prompt": "A baseball is thrown with great force; it hits a brick wall and leaves a visible mark.",
+    "original_prompt": "A baseball is thrown with great force; it hits a brick wall and leaves a visible mark.",
+    "relative_path": "videophy2/0298.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "8f6f5ecbed03bfa05923683447437f4e9cb71801dab12fdccd1dba78a1080606",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0298.mp4",
+  "seconds": 515.4180514729815,
+  "pixel_std": 72.45144731470359,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 10.256366729736328,
+  "formal_efficacy_evidence": false
+}

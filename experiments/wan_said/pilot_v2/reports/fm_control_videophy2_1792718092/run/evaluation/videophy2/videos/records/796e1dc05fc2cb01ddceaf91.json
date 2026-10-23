@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "796e1dc05fc2cb01ddceaf91",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0388",
+    "seed": 20261021,
+    "prompt": "A person inflates a balloon with air, then carefully pushes a small toy inside before tying it off.",
+    "original_prompt": "A person inflates a balloon with air, then carefully pushes a small toy inside before tying it off.",
+    "relative_path": "videophy2/0388.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "5934e2177e55b384e73f3694cfb3766bb32c6689b940ae675862f231cbb29d0e",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0388.mp4",
+  "seconds": 507.9797572729876,
+  "pixel_std": 78.54511520033432,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 8.176960945129395,
+  "formal_efficacy_evidence": false
+}

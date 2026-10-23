@@ -1,0 +1,2 @@
+model,suite,denominator,evaluation_scope,full_benchmark_denominator,formal_benchmark_complete,checkpoint_sha256,jobs_sha256,exploratory,publication_eligible,sa_mean,pc_mean,sa_at_4,pc_at_4,joint_at_4
+A,videophy2,100,subset_pilot,590,False,96fb4493fa8c22bd3bbb45b13f71b47829204cf97b21e77aa23d38d892d9363e,a3eb7febc386e43fe67bae2f25d2636e329a1386a20e15147bc033670472bbfb,True,False,3.08,3.76,0.29,0.68,0.24

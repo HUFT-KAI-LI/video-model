@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "d4d79e71d69f1000bb6b2f48",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0510",
+    "seed": 20261021,
+    "prompt": "A finger pokes a small stuffed animal hanging from a bedpost, causing it to fall to the floor.",
+    "original_prompt": "A finger pokes a small stuffed animal hanging from a bedpost, causing it to fall to the floor.",
+    "relative_path": "videophy2/0510.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "798c8487add001bc09e7d79ba4064cb00d2c2a6fc1797e3109bf631817c46b02",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0510.mp4",
+  "seconds": 508.3805577600142,
+  "pixel_std": 70.35189951149877,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 2.4855172634124756,
+  "formal_efficacy_evidence": false
+}

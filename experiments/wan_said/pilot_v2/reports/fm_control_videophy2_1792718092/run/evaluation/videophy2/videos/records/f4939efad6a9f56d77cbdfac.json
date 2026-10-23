@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f4939efad6a9f56d77cbdfac",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0396",
+    "seed": 20261021,
+    "prompt": "A hose sprays water onto a burning pile of tires, extinguishing the flames and creating steam.",
+    "original_prompt": "A hose sprays water onto a burning pile of tires, extinguishing the flames and creating steam.",
+    "relative_path": "videophy2/0396.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "08ea588287c79cf2637fef6ae3da88751d7b015542003bc3631ae3b148c64757",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0396.mp4",
+  "seconds": 512.570534722996,
+  "pixel_std": 69.35354338562433,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.520241737365723,
+  "formal_efficacy_evidence": false
+}

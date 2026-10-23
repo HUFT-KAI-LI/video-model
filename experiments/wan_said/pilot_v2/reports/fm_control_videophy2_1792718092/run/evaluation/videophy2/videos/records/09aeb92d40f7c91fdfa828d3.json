@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "09aeb92d40f7c91fdfa828d3",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0026",
+    "seed": 20261021,
+    "prompt": "A soccer ball is kicked and hits a person's leg, deflecting at a different angle.",
+    "original_prompt": "A soccer ball is kicked and hits a person's leg, deflecting at a different angle.",
+    "relative_path": "videophy2/0026.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "27016c2c744a678eb2cfef4bc6e210783e800fc9a83637100461358f4bd3fe37",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0026.mp4",
+  "seconds": 510.9492020480102,
+  "pixel_std": 57.808415830869116,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 4.281412124633789,
+  "formal_efficacy_evidence": false
+}

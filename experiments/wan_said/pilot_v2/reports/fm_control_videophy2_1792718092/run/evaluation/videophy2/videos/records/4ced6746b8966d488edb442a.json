@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "4ced6746b8966d488edb442a",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0074",
+    "seed": 20261021,
+    "prompt": "A person's finger pokes a stack of CDs, creating a small gap between the top two discs.",
+    "original_prompt": "A person's finger pokes a stack of CDs, creating a small gap between the top two discs.",
+    "relative_path": "videophy2/0074.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "93fa7833ce91c17acbcaf6e8135d51062ccb22018dda584586e64c05ec5af53d",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0074.mp4",
+  "seconds": 524.0225407060934,
+  "pixel_std": 69.05995553493624,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.256743431091309,
+  "formal_efficacy_evidence": false
+}

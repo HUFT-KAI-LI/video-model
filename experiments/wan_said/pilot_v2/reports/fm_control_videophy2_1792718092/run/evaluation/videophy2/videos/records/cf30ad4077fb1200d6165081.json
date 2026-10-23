@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "cf30ad4077fb1200d6165081",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0044",
+    "seed": 20261021,
+    "prompt": "An ice skater practices a spin, initially slow then gradually accelerating the rotations.",
+    "original_prompt": "An ice skater practices a spin, initially slow then gradually accelerating the rotations.",
+    "relative_path": "videophy2/0044.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "6fc5ba33d3e6b76a96f3925b057461b6bf50395b8bfd24121dc80acf6202b506",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0044.mp4",
+  "seconds": 511.11184147698805,
+  "pixel_std": 82.03385888597096,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 12.269257545471191,
+  "formal_efficacy_evidence": false
+}

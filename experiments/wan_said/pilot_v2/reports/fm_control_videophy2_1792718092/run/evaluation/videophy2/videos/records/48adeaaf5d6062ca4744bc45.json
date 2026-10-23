@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "48adeaaf5d6062ca4744bc45",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0199",
+    "seed": 20261021,
+    "prompt": "A cleaning agent is used on a dirty whiteboard, then wiped with a dry cloth, removing marker.",
+    "original_prompt": "A cleaning agent is used on a dirty whiteboard, then wiped with a dry cloth, removing marker.",
+    "relative_path": "videophy2/0199.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "ac33d1bc34b886c4016cf7613f221d3fbdcd2271b3b0bdfa4fdd968344f85546",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0199.mp4",
+  "seconds": 512.777041253983,
+  "pixel_std": 70.55325299080478,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 5.161224842071533,
+  "formal_efficacy_evidence": false
+}

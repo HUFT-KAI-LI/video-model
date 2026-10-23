@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "cffd152e3900c8122d23ff12",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0571",
+    "seed": 20261021,
+    "prompt": "A person kicks off the ground and starts riding a scooter across a smooth wooden surface.",
+    "original_prompt": "A person kicks off the ground and starts riding a scooter across a smooth wooden surface.",
+    "relative_path": "videophy2/0571.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "385e8eff16d10ce08341376a6835601cb6b8eac00b4857a2b947f7fd35f4484a",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0571.mp4",
+  "seconds": 511.3620070449542,
+  "pixel_std": 50.25512313592107,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 6.074827671051025,
+  "formal_efficacy_evidence": false
+}

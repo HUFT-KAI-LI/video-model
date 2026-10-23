@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "93284a25f72f8c52760a5419",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0236",
+    "seed": 20261021,
+    "prompt": "Close-up showing the process of creating a purl stitch, showing the movement of the yarn and needle.",
+    "original_prompt": "Close-up showing the process of creating a purl stitch, showing the movement of the yarn and needle.",
+    "relative_path": "videophy2/0236.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "cccfd1ee2234f9e7d0b30acc37eac8a742eab7d72910c85cce38d821ea42b6c1",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0236.mp4",
+  "seconds": 515.5013749940554,
+  "pixel_std": 62.81609064788403,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 9.402018547058105,
+  "formal_efficacy_evidence": false
+}

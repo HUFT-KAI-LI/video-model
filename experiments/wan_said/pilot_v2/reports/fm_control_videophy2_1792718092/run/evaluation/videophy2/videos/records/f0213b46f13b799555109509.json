@@ -1,0 +1,20 @@
+{
+  "job": {
+    "job_id": "f0213b46f13b799555109509",
+    "suite": "videophy2",
+    "prompt_id": "videophy2_0119",
+    "seed": 20261021,
+    "prompt": "Nunchucks are swung, striking a punching bag, creating a visible ripple effect.",
+    "original_prompt": "Nunchucks are swung, striking a punching bag, creating a visible ripple effect.",
+    "relative_path": "videophy2/0119.mp4",
+    "prompt_variant": "original"
+  },
+  "sha256": "a859f341118675e84342649834304515de4e069e81108c84e14f874c63304926",
+  "path": "/data/lk/深度学习/video-model-said-exp1/experiments/wan_said/runs/pilot_v2/fm_control_20261022/evaluation/videophy2/videos/videophy2/0119.mp4",
+  "seconds": 515.2985743050231,
+  "pixel_std": 67.6754538606332,
+  "teacher_used": false,
+  "auxiliary_modules_used": false,
+  "temporal_pixel_delta": 14.5663423538208,
+  "formal_efficacy_evidence": false
+}

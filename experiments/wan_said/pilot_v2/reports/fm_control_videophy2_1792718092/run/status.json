@@ -1,0 +1,36 @@
+{
+  "complete": false,
+  "stage": "archiving_videophy2",
+  "started_unix": 1792675639.5810623,
+  "training_complete": true,
+  "validation_complete": true,
+  "suites": {
+    "videophy2": {
+      "expected_videos": 100,
+      "completed_videos": 100,
+      "scoring_complete": true,
+      "worker_pids": [
+        2300141,
+        2300142,
+        2300143,
+        2300144
+      ],
+      "generation_complete": true,
+      "mean_generation_seconds": 514.8361914253724,
+      "scorer_environment_sha256": "4f915cd72ea28c7ff38d5854683c98f651ad8d1348f72a2e9d294948873a8888",
+      "scores": {
+        "sa_mean": 3.08,
+        "pc_mean": 3.76,
+        "sa_at_4": 0.29,
+        "pc_at_4": 0.68,
+        "joint_at_4": 0.24
+      }
+    },
+    "vbench": {
+      "expected_videos": 500,
+      "completed_videos": 0,
+      "scoring_complete": false
+    }
+  },
+  "updated_unix": 1792718092.4744673
+}
